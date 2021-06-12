@@ -43,7 +43,7 @@ class _SessionsState extends State<Sessions> {
                       ),
                     ),
                   },
-                  child: Expanded(
+                  child: Container(
                     child: Text(" ${items[index].theme}"),
                   ),
                 )
