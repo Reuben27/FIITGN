@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../Cardio/screens/YourRunsStatsScreen.dart';
 import '../Cardio/screens/yourCycleStatsScreen.dart';
+import '../../Notifications/Notifications.dart';
 
 class StatsScreen extends StatelessWidget {
   static const routeName = '\statsScreenRouteName';
@@ -93,6 +94,33 @@ class StatsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () =>
+                  Navigator.pushNamed(context, Notifications.routeName),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          image: ExactAssetImage("assets/yourRunsblur.jpg"),
+                          fit: BoxFit.cover),
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 4,
+                  ),
+                  Text('Runs',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.width / 6)),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 80,
+            ),
+            InkWell(
+              onTap: () =>
                   Navigator.pushNamed(context, YourCycleStats.routeName),
               child: Stack(alignment: Alignment.center, children: [
                 Container(
@@ -117,7 +145,7 @@ class StatsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                  //Navigator.pushNamed(context, WorkoutStatScreen.routeName),
+                //Navigator.pushNamed(context, WorkoutStatScreen.routeName),
               },
               child: Stack(
                 alignment: Alignment.center,
