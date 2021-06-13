@@ -139,7 +139,7 @@ class _MapScreenState extends State<MapScreen> {
       }
       // print("stream beginning");
       bLoc.BackgroundLocation.getLocationUpdates((location) {
-        print("code entered the stream");
+        print("code has entered the stream");
         if (_controller != null) {
           // print("stream going on");
           _controller.animateCamera(
