@@ -11,6 +11,9 @@ class Sessions extends StatefulWidget {
 
 class _SessionsState extends State<Sessions> {
   List<GuidedSessions> items = List<GuidedSessions>.empty();
+  List<GuidedSessions> upcoming = List<GuidedSessions>.empty();
+  List<GuidedSessions> ongoing = List<GuidedSessions>.empty();
+  List<GuidedSessions> completed = List<GuidedSessions>.empty();
 
   @override
   void initState() {
@@ -18,8 +21,11 @@ class _SessionsState extends State<Sessions> {
     getGuidedSessions().then((items) {
       setState(() {
         this.items = items;
+        this.upcoming = upcomingSessions(items);
+        this.ongoing = ongoingSessions(items);
+        this.completed = completedSessions(items);
       });
-    });
+    });      
   }
 
   @override
@@ -28,29 +34,90 @@ class _SessionsState extends State<Sessions> {
       appBar: AppBar(
         title: Text("Guided Sessions"),
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Row(
-              children: <Widget>[
-                Icon(Icons.run_circle),
-                GestureDetector(
-                  onTap: () => {
-                    Navigator.push(context, 
-                      MaterialPageRoute(
-                        builder: (context) => SessionInfo(exercises: items[index].exercises, benefits: items[index].benefits,),
-                      ),
-                    ),
-                  },
-                  child: Container(
-                    child: Text(" ${items[index].theme}"),
+      body: Column(
+        children: <Widget>[
+          Text('Ongoing Sessions'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: ongoing.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Icon(Icons.run_circle),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(context, 
+                            MaterialPageRoute(
+                              builder: (context) => SessionInfo(exercises: ongoing[index].exercises, benefits: ongoing[index].benefits,),
+                            ),
+                          ),
+                        },
+                        child: Container(
+                          child: Text(" ${ongoing[index].theme}"),
+                        ),
+                      )
+                    ],
                   ),
-                )
-              ],
+                );
+              },
             ),
-          );
-        },
+          ),
+          Text('Upcoming Sessions'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: upcoming.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Icon(Icons.run_circle),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(context, 
+                            MaterialPageRoute(
+                              builder: (context) => SessionInfo(exercises: upcoming[index].exercises, benefits: upcoming[index].benefits,),
+                            ),
+                          ),
+                        },
+                        child: Container(
+                          child: Text(" ${upcoming[index].theme}"),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          Text('Completed Sessions'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: completed.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      Icon(Icons.run_circle),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(context, 
+                            MaterialPageRoute(
+                              builder: (context) => SessionInfo(exercises: completed[index].exercises, benefits: completed[index].benefits,),
+                            ),
+                          ),
+                        },
+                        child: Container(
+                          child: Text(" ${completed[index].theme}"),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
