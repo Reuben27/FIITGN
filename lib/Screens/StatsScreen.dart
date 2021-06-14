@@ -117,7 +117,7 @@ class StatsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                  //Navigator.pushNamed(context, WorkoutStatScreen.routeName),
+                //Navigator.pushNamed(context, WorkoutStatScreen.routeName),
               },
               child: Stack(
                 alignment: Alignment.center,
