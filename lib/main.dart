@@ -1,4 +1,6 @@
 // import 'package:Fiitgn1/Providers/DataProvider.dart';
+import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
+
 import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -42,13 +44,14 @@ import 'Workouts/screens/workout_logging.dart';
 ////////Allocation
 import 'Allocation/screens/sports.dart';
 
-
 ///// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
 
 //// Nutrition
 import 'Nutrition/screens/nutritionScreen.dart';
 
+//// Activities
+import 'Sports-Activities/screens/activity_screens.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding
@@ -130,10 +133,13 @@ class MyApp extends StatelessWidget {
           Sports.routeName: (_) => Sports(),
 
           //// Guided Sessions
-           Sessions.routeName: (_) => Sessions(),
+          Sessions.routeName: (_) => Sessions(),
 
-           ///// Nutrition 
-          NutritionScreen.routeName:(_)=>NutritionScreen(),
+          ///// Nutrition
+          NutritionScreen.routeName: (_) => NutritionScreen(),
+
+          /// Activities
+          Activity_Screen.routeName: (_) => Activity_Screen(),
         },
       ),
     );

@@ -28,6 +28,9 @@ import '../Guided-Sessions/screens/sessions.dart';
 ///////// NUTRITION
 import '../Nutrition/screens/nutritionScreen.dart';
 
+//////// ACTIVITIES
+import '../Sports-Activities/screens/activity_screens.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   static const routeName = '\HomeScreen';
@@ -194,6 +197,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 10,
+    },
+    {
+      'title': 'Activities',
+      'url': 'assets/6569.png',
+      'routeName': Activity_Screen.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 11,
     },
   ];
 

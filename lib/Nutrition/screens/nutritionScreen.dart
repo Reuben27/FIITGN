@@ -11,7 +11,6 @@ class NutritionScreen extends StatefulWidget {
 
 class _NutritionScreenState extends State {
   List<NutritionData> items = List<NutritionData>.empty();
-
   @override
   void initState() {
     super.initState();
@@ -49,4 +48,3 @@ class _NutritionScreenState extends State {
     );
   }
 }
-
