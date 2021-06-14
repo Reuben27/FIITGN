@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/nutrition.dart';
 import '../widgets/day.dart';
-import '../widgets/now.dart';
 
 class NutritionScreen extends StatefulWidget {
   static const routeName = '\Nutrition_Screen';
@@ -35,13 +34,22 @@ class _NutritionScreenState extends State {
       ),
       body: ListView(
         children: [
-          Text("Now: "),
-          getNow(items),
           SizedBox(height: 26),
-          Text("Today: "),
+          Text(
+            "Today: ", 
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Gro",
+            )),
           getDay(items, DateTime.now().weekday),
           SizedBox(height: 26),
-          Text("Tomorrow: "),
+          Text(
+            "Tomorrow: ",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: "Gro",
+            )
+          ),
           getDay(items, DateTime.now().weekday + 1),
           SizedBox(height: 26),
         ],
