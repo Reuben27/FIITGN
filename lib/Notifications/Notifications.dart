@@ -121,6 +121,92 @@ class _NotificationsState extends State<Notifications> {
           Center(
             heightFactor: 2,
             child: RaisedButton(
+              onPressed: () async {
+                print("New 2 Minute");
+                print(selectedTime.hour);
+                print(selectedTime.minute);
+                await showNewTwoMinute(selectedTime.hour, selectedTime.minute);
+                showAlertDialog(context,selectedTime);
+                // Widget okButton = FlatButton(
+                //   child: Text("OK"),
+                //   onPressed: () {},
+                // );
+                // AlertDialog alert = AlertDialog(
+                //   title: Text("Notice"),
+                //   content: Text(
+                //       "Your New Two Minute is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+                //   actions: [
+                //     okButton,
+                //   ],
+                // );
+                // return alert;
+              },
+              child: Text(
+                'New 2 Minute',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          Center(
+            heightFactor: 2,
+            child: RaisedButton(
+              onPressed: () async {
+                // Widget okButton = FlatButton(
+                //   child: Text("OK"),
+                //   onPressed: () {},
+                // );
+                // AlertDialog alert = AlertDialog(
+                //   title: Text("Notice"),
+                //   content: Text(
+                //       "Your New Daily is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+                //   actions: [
+                //     okButton,
+                //   ],
+                // );
+                print("New Daily");
+                print(selectedTime.hour);
+                print(selectedTime.minute);
+                await showNewDaily(selectedTime.hour, selectedTime.minute);
+                showAlertDialog(context, selectedTime);
+              },
+              child: Text(
+                'New Daily',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          Center(
+            heightFactor: 2,
+            child: RaisedButton(
+              onPressed: () async {
+                print("Old Daily");
+                print(selectedTime.hour);
+                print(selectedTime.minute);
+                await showOldDaily(selectedTime.hour, selectedTime.minute);
+                showAlertDialog(context, selectedTime);
+                // Widget okButton = FlatButton(
+                //   child: Text("OK"),
+                //   onPressed: () {},
+                // );
+                // AlertDialog alert = AlertDialog(
+                //   title: Text("Notice"),
+                //   content: Text(
+                //       "Your Old Daily is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+                //   actions: [
+                //     okButton,
+                //   ],
+                // );
+                // return alert;
+              },
+              child: Text(
+                'Old Daily',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          Center(
+            heightFactor: 2,
+            child: RaisedButton(
               onPressed: () {
                 print("Showing Pending Notifications");
                 _checkPendingNotificationRequests();
@@ -133,21 +219,84 @@ class _NotificationsState extends State<Notifications> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          print(selectedTime.hour);
-          print(selectedTime.minute);
-          await showDailyAtTime(selectedTime.hour, selectedTime.minute);
-        },
-        tooltip: 'Show me the value!',
-        child: Text(
-          'OK',
-        ),
-      ),
     );
   }
 
-  Future<void> showDailyAtTime(hours, minute) async {
+  Future<void> showNewTwoMinute(hours, minute) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your new channel id',
+        'your new channel name',
+        'your new channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    // ignore: deprecated_member_use
+    await notificationsPlugin.zonedSchedule(
+        0,
+        'New Two Minute',
+        "Hurray",
+        // time,
+        _nextInstance(hours, minute),
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  tz.TZDateTime _nextInstance(hours, minute) {
+    var how = DateTime.now();
+    var scheduledTime = DateTime(how.year, how.month, how.day, hours, minute);
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(minutes: 2));
+    }
+    return scheduledDate;
+  }
+
+  Future<void> showNewDaily(hours, minute) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your new channel id',
+        'your new channel name',
+        'your new channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker');
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    // ignore: deprecated_member_use
+    await notificationsPlugin.zonedSchedule(
+        1,
+        'New Daily',
+        "Hurray",
+        // time,
+        _nextInstance2(hours, minute),
+        platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  tz.TZDateTime _nextInstance2(hours, minute) {
+    var how = DateTime.now();
+    var scheduledTime = DateTime(how.year, how.month, how.day, hours, minute);
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    return scheduledDate;
+  }
+
+  Future<void> showOldDaily(hours, minute) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your new channel id',
         'your new channel name',
@@ -162,52 +311,14 @@ class _NotificationsState extends State<Notifications> {
     var time = new Time(hours, minute, 0);
     // ignore: deprecated_member_use
     await notificationsPlugin.showDailyAtTime(
-      0,
-      'Finally Done',
-      "Let's GO",
+      2,
+      'Old Daily',
+      "Hurray",
       time,
       // _nextInstance(hours, minute),
       platformChannelSpecifics,
     );
   }
-
-  // Future<void> showDailyAtTime(hours, minute) async {
-  //   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-  //       'your new channel id',
-  //       'your new channel name',
-  //       'your new channel description',
-  //       importance: Importance.max,
-  //       priority: Priority.high,
-  //       ticker: 'ticker');
-  //   var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-  //   var platformChannelSpecifics = NotificationDetails(
-  //       android: androidPlatformChannelSpecifics,
-  //       iOS: iOSPlatformChannelSpecifics);
-  //   // ignore: deprecated_member_use
-  //   await notificationsPlugin.zonedSchedule(
-  //     0,
-  //     'Finally Done',
-  //     "Let's GO",
-  //     // time,
-  //     _nextInstance(hours, minute),
-  //     platformChannelSpecifics,
-  //     androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //           UILocalNotificationDateInterpretation.absoluteTime,
-  //       matchDateTimeComponents: DateTimeComponents.time
-  //   );
-  // }
-
-  // tz.TZDateTime _nextInstance(hours, minute) {
-  //   var how = DateTime.now();
-  //   var scheduledTime = DateTime(how.year, how.month, how.day, hours, minute);
-  //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-  //   tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
-  //   if (scheduledDate.isBefore(now)) {
-  //     scheduledDate = scheduledDate.add(const Duration(minutes: 2));
-  //   }
-  //   return scheduledDate;
-  // }
 
   Future<void> _checkPendingNotificationRequests() async {
     final List<PendingNotificationRequest> pendingNotificationRequests =
@@ -232,6 +343,36 @@ class _NotificationsState extends State<Notifications> {
   }
 }
 
+
+
+
+showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Notice"),
+    content: Text("Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 void initializeSetting() async {
   var initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -240,3 +381,5 @@ void initializeSetting() async {
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await notificationsPlugin.initialize(initializationSettings);
 }
+
+
