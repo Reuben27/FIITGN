@@ -108,7 +108,7 @@ class StatsScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 4,
                   ),
-                  Text('Runs',
+                  Text('Notifications',
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -20,9 +22,11 @@ class _NotificationsState extends State<Notifications> {
   String _hourEntry, _minuteEntry, _timeEntry;
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _timeController = TextEditingController();
+  String token;
 
   @override
   void initState() {
+    getToken();
     initializeSetting();
     tz.initializeTimeZones();
     _timeController.text = formatDate(
@@ -125,21 +129,9 @@ class _NotificationsState extends State<Notifications> {
                 print("New 2 Minute");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
+                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
                 await showNewTwoMinute(selectedTime.hour, selectedTime.minute);
-                showAlertDialog(context,selectedTime);
-                // Widget okButton = FlatButton(
-                //   child: Text("OK"),
-                //   onPressed: () {},
-                // );
-                // AlertDialog alert = AlertDialog(
-                //   title: Text("Notice"),
-                //   content: Text(
-                //       "Your New Two Minute is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-                //   actions: [
-                //     okButton,
-                //   ],
-                // );
-                // return alert;
+                showAlertDialog(context, selectedTime);
               },
               child: Text(
                 'New 2 Minute',
@@ -158,7 +150,7 @@ class _NotificationsState extends State<Notifications> {
                 // AlertDialog alert = AlertDialog(
                 //   title: Text("Notice"),
                 //   content: Text(
-                //       "Your New Daily is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+                //       "Your is set for ${selectedTime.hour} : ${selectedTime.minute}"),
                 //   actions: [
                 //     okButton,
                 //   ],
@@ -166,6 +158,7 @@ class _NotificationsState extends State<Notifications> {
                 print("New Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
+                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
                 await showNewDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
@@ -182,21 +175,10 @@ class _NotificationsState extends State<Notifications> {
                 print("Old Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
+                notiupdate(token, selectedTime.hour,
+                    selectedTime.minute, 5);
                 await showOldDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
-                // Widget okButton = FlatButton(
-                //   child: Text("OK"),
-                //   onPressed: () {},
-                // );
-                // AlertDialog alert = AlertDialog(
-                //   title: Text("Notice"),
-                //   content: Text(
-                //       "Your Old Daily is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-                //   actions: [
-                //     okButton,
-                //   ],
-                // );
-                // return alert;
               },
               child: Text(
                 'Old Daily',
@@ -341,10 +323,49 @@ class _NotificationsState extends State<Notifications> {
       ),
     );
   }
+
+  getToken() async {
+    String token = await FirebaseMessaging.instance.getToken();
+    print(token);
+  }
+
+  void notiupdate(String tokenid, int hour, int minute, int workoutid) async {
+    CollectionReference notify =
+        FirebaseFirestore.instance.collection("Notifications");
+    DocumentSnapshot documentSnapshot = await notify.doc(tokenid).get();
+    var timemap = {};
+    var numberofnoti;
+    if (documentSnapshot.exists) {
+      timemap = await documentSnapshot['TimeMap'];
+      print(timemap);
+      numberofnoti = await documentSnapshot['numberofnoti'];
+      numberofnoti += 1;
+      timemap[numberofnoti.toString()] = {
+        'time': {'hour': hour, 'minute': minute},
+        'workoutid': workoutid,
+      };
+      await notify.doc(tokenid).update({
+        'TimeMap': timemap,
+        'numberofnoti': numberofnoti,
+      });
+      print("Updated");
+    } else {
+      notify.doc(tokenid).set({
+        'TimeMap': {
+          '1': {
+            'time': {
+              'hour': hour,
+              'minute': minute,
+            },
+            'workoutid': workoutid,
+          },
+        },
+        'numberofnoti': 1,
+      });
+      print("New doc added");
+    }
+  }
 }
-
-
-
 
 showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
   // set up the button
@@ -358,7 +379,8 @@ showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("Notice"),
-    content: Text("Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+    content: Text(
+        "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
     actions: [
       okButton,
     ],
@@ -381,5 +403,3 @@ void initializeSetting() async {
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await notificationsPlugin.initialize(initializationSettings);
 }
-
-

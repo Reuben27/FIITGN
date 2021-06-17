@@ -16,10 +16,12 @@ admin.initializeApp();
 
 // Database se hour + minute + tokenID + workoutID
 
-exports.scheduledFunctionCrontab = functions.pubsub.schedule('5 11 * * *')
+// var noti = firebase.database("Notifications");
+
+exports.scheduledFunctionCrontab = functions.pubsub.schedule('* * * * *')
     .timeZone("Asia/Kolkata") // Users can choose timezone - default is America/Los_Angeles
     .onRun((context) => {
         // Cloud messaging
-        console.log('This will be run every day at 11:05 AM Eastern!');
+        console.log('This will be run every day at 11:05 AM !');
         return null;
     });
