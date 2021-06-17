@@ -4,6 +4,7 @@ import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
 import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'Allocation/screens/calender.dart';
 import 'Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter/material.dart';
 import 'Cardio/screens/CardioScreen.dart';
@@ -131,6 +132,7 @@ class MyApp extends StatelessWidget {
           Workout_Logging.routeName: (_) => Workout_Logging(),
           ///// Allocation Section
           Sports.routeName: (_) => Sports(),
+          Calender.routeName: (_) => Calender(),
 
           //// Guided Sessions
           Sessions.routeName: (_) => Sessions(),

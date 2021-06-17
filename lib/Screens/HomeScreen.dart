@@ -1,3 +1,5 @@
+import 'package:fiitgn/Allocation/screens/calender.dart';
+
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
 import '../Cardio/screens/RunScreen.dart';
@@ -137,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {
       'title': 'Your Activities',
       'url': 'assets/statLady.png',
-      'routeName': StatsScreen.routeName,
+      'routeName': Calender.routeName,
       'description':
           'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
       'heroID': 4,
