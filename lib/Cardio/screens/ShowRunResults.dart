@@ -86,170 +86,170 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        width: 70,
-                        height: 70,
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Theme.of(context).primaryColor.withAlpha(50),
-                        ),
-                        child: Image.asset(
-                          'assets/iitgnlogo-emblem.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 30),
-                      ),
-                      Text(
-                        "$distanceString kms",
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 80,
-                          // fontFamily: 'Bebas',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: <Widget>[
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: <Widget>[
-                            //     Text(
-                            //       '0 kms'.toUpperCase(),
-                            //       style: TextStyle(
-                            //         color: Colors.grey,
-                            //       ),
-                            //     ),
-                            //     Text(
-                            //       '10 kms'.toUpperCase(),
-                            //       style: TextStyle(
-                            //         color: Colors.grey,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // LinearPercentIndicator(
-                            //   lineHeight: 8.0,
-                            //   percent: percent,
-                            //   linearStrokeCap: LinearStrokeCap.roundAll,
-                            //   backgroundColor:
-                            //       Theme.of(context).accentColor.withAlpha(30),
-                            //   progressColor: Theme.of(context).primaryColor,
-                            // ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 30),
-                            ),
-                            Text(
-                              'Time of Run'.toUpperCase(),
-                              style: TextStyle(
-                                color: Theme.of(context).accentColor,
-                                // fontFamily: 'Bebas',
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '$timeMin min(s)',
-                              style: TextStyle(
-                                color: Theme.of(context).accentColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        height: 25,
-                        color: Colors.grey[300],
-                      ),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'AVG SPEED',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: '$avgSpeedString',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: ' m/s',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'CALORIES',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: 'Upcoming Feature!',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color:
-                                                Theme.of(context).accentColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   width: 70,
+                      //   height: 70,
+                      //   padding: EdgeInsets.all(15),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(100),
+                      //     color: Theme.of(context).primaryColor.withAlpha(50),
+                      //   ),
+                      //   child: Image.asset(
+                      //     'assets/iitgnlogo-emblem.png',
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 30),
+                      // ),
+                      // Text(
+                      //   "$distanceString kms",
+                      //   style: TextStyle(
+                      //     color: Theme.of(context).primaryColor,
+                      //     fontSize: 80,
+                      //     // fontFamily: 'Bebas',
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: 15),
+                      // ),
+                      // Container(
+                      //   padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                      //   width: MediaQuery.of(context).size.width,
+                      //   child: Column(
+                      //     children: <Widget>[
+                      //       // Row(
+                      //       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       //   children: <Widget>[
+                      //       //     Text(
+                      //       //       '0 kms'.toUpperCase(),
+                      //       //       style: TextStyle(
+                      //       //         color: Colors.grey,
+                      //       //       ),
+                      //       //     ),
+                      //       //     Text(
+                      //       //       '10 kms'.toUpperCase(),
+                      //       //       style: TextStyle(
+                      //       //         color: Colors.grey,
+                      //       //       ),
+                      //       //     ),
+                      //       //   ],
+                      //       // ),
+                      //       // LinearPercentIndicator(
+                      //       //   lineHeight: 8.0,
+                      //       //   percent: percent,
+                      //       //   linearStrokeCap: LinearStrokeCap.roundAll,
+                      //       //   backgroundColor:
+                      //       //       Theme.of(context).accentColor.withAlpha(30),
+                      //       //   progressColor: Theme.of(context).primaryColor,
+                      //       // ),
+                      //       Padding(
+                      //         padding: EdgeInsets.only(top: 30),
+                      //       ),
+                      //       Text(
+                      //         'Time of Run'.toUpperCase(),
+                      //         style: TextStyle(
+                      //           color: Theme.of(context).accentColor,
+                      //           // fontFamily: 'Bebas',
+                      //           fontSize: 24,
+                      //           fontWeight: FontWeight.bold,
+                      //         ),
+                      //       ),
+                      //       Text(
+                      //         '$timeMin min(s)',
+                      //         style: TextStyle(
+                      //           color: Theme.of(context).accentColor,
+                      //           fontSize: 16,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Divider(
+                      //   height: 25,
+                      //   color: Colors.grey[300],
+                      // ),
+                      // Container(
+                      //   child: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         flex: 2,
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: <Widget>[
+                      //             Text(
+                      //               'AVG SPEED',
+                      //               style: TextStyle(
+                      //                 color: Theme.of(context).primaryColor,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //             RichText(
+                      //               text: TextSpan(
+                      //                 children: [
+                      //                   TextSpan(
+                      //                     text: '$avgSpeedString',
+                      //                     style: TextStyle(
+                      //                       fontSize: 20,
+                      //                       color:
+                      //                           Theme.of(context).accentColor,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                   TextSpan(
+                      //                     text: ' m/s',
+                      //                     style: TextStyle(
+                      //                       color: Colors.grey,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       Expanded(
+                      //         flex: 2,
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.center,
+                      //           children: <Widget>[
+                      //             Text(
+                      //               'CALORIES',
+                      //               style: TextStyle(
+                      //                 color: Theme.of(context).primaryColor,
+                      //                 fontWeight: FontWeight.bold,
+                      //               ),
+                      //             ),
+                      //             RichText(
+                      //               text: TextSpan(
+                      //                 children: [
+                      //                   TextSpan(
+                      //                     text: 'Upcoming Feature!',
+                      //                     style: TextStyle(
+                      //                       fontSize: 20,
+                      //                       color:
+                      //                           Theme.of(context).accentColor,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                   TextSpan(
+                      //                     text: '',
+                      //                     style: TextStyle(
+                      //                       color: Colors.grey,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Divider(
                         height: 25,
                         color: Colors.grey[300],
@@ -336,3 +336,5 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     );
   }
 }
+//  Text(
+  //                      "$distanceString kms",timeMin,avgSpeedString

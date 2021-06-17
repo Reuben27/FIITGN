@@ -29,7 +29,8 @@ class _EquipmentsState extends State<Equipments> {
           }
           print(orders);
 
-          Navigator.push(context,
+          Navigator.push(
+            context,
             MaterialPageRoute(
               builder: (context) => OrderConfirmation(),
             ),
@@ -61,7 +62,8 @@ class _DisplayDataState extends State<DisplayData> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference equipments = FirebaseFirestore.instance.collection(sportequipmentid);    
+    CollectionReference equipments =
+        FirebaseFirestore.instance.collection(sportequipmentid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: equipments.snapshots(),
@@ -76,35 +78,80 @@ class _DisplayDataState extends State<DisplayData> {
           );
         }
 
-        return new ListView(
+        return new GridView(
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2,),
+              
           children: snapshot.data.docs.map((DocumentSnapshot document) {
             return GestureDetector(
               onTap: () {},
-              child: Column(children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                  color: Colors.blue[200],
-                  child: ListTile(
-                    title: new Text(
-                      document['name'] + " " + availability[document['availabilityindex']].toString(),
+              child: Container(
+                color: Colors.red[200],
+                child: Column(
+                  children: [
+                    Text(
+                      document['name'],
+                      // " " +
+                      // availability[document['availabilityindex']].toString(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white, 
-                        fontWeight: FontWeight.bold
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Available: " +
+                          availability[document['availabilityindex']]
+                              .toString(),
+                    ),
+                    Container(
+                      width: 100,
+                      //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                      child: TextFormField(
+                        controller: controllers[document['availabilityindex']],
+                        decoration: const InputDecoration(
+                          hintText: 'Enter Quantity',
+                        ),
                       ),
                     ),
-                  )
+
+                    // ListTile(
+                    //     trailing: Container(
+                    //       width: 100,
+                    //       //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                    //       child: TextFormField(
+                    //         controller: controllers[document['availabilityindex']],
+                    //         decoration: const InputDecoration(
+                    //           hintText: 'Enter Quantity',
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     subtitle: Text("Available: " + availability[document['availabilityindex']].toString(),),
+                    //     leading: Text(
+                    //       document['name'],
+                    //           // " " +
+                    //           // availability[document['availabilityindex']].toString(),
+                    //       textAlign: TextAlign.center,
+                    //       style: TextStyle(
+                    //        fontWeight: FontWeight.bold),
+                    //     ),
+                    //     // Container(
+                    //     //   width: 100,
+                    //     //  // margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                    //     //   color: Colors.blue[200],
+                    //     //   child: ListTile(
+                    //     //     title: new Text(
+                    //     //       document['name'] + " " + availability[document['availabilityindex']].toString(),
+                    //     //       textAlign: TextAlign.center,
+                    //     //       style: TextStyle(
+                    //     //         color: Colors.white,
+                    //     //         fontWeight: FontWeight.bold
+                    //     //       ),
+                    //     //     ),
+                    //     //   )
+                    //     // ),
+                    //   ),
+                    //   Divider(),
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                  child: TextFormField(
-                    controller: controllers[document['availabilityindex']],
-                    decoration: const InputDecoration(
-                      hintText: 'Enter Quantity',
-                    ),
-                  ),
-                ),
-              ]),
+              ),
             );
           }).toList(),
         );
