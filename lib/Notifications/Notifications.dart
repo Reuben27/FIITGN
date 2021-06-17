@@ -143,18 +143,6 @@ class _NotificationsState extends State<Notifications> {
             heightFactor: 2,
             child: RaisedButton(
               onPressed: () async {
-                // Widget okButton = FlatButton(
-                //   child: Text("OK"),
-                //   onPressed: () {},
-                // );
-                // AlertDialog alert = AlertDialog(
-                //   title: Text("Notice"),
-                //   content: Text(
-                //       "Your is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-                //   actions: [
-                //     okButton,
-                //   ],
-                // );
                 print("New Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
