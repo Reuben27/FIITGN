@@ -169,7 +169,7 @@ class _NotificationsState extends State<Notifications> {
                 showAlertDialog(context, selectedTime);
               },
               child: Text(
-                'Old Daily',
+                'Old Daily Hello',
                 style: TextStyle(fontSize: 22),
               ),
             ),
