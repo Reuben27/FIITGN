@@ -1,4 +1,6 @@
 // import 'dart:typed_data';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -101,6 +103,13 @@ class _CycleScreenState extends State<CycleScreen> {
     try {
       loc.LocationData location = await _locationTracker.getLocation();
       print("location gotten");
+      if (Platform.isAndroid) {
+        await bLoc.BackgroundLocation.setAndroidNotification(
+          title: 'FIITGN is running in the background',
+          message: 'Please keep the device active',
+          icon: "@mipmap/ic_launcher",
+        );
+      }
       // await bLoc.BackgroundLocation.setAndroidNotification(
       //   title: 'FIITGN is running in the background',
       //   message: 'Please keep the device active',
