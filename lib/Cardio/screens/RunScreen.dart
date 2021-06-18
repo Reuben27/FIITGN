@@ -1,4 +1,6 @@
 // import 'dart:typed_data';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -106,12 +108,13 @@ class _MapScreenState extends State<MapScreen> {
     try {
       loc.LocationData location = await _locationTracker.getLocation();
       print("location gotten");
-      await bLoc.BackgroundLocation.setAndroidNotification(
-        title: 'FIITGN is running in the background',
-        message: 'Please keep the device active',
-        icon: "@mipmap/ic_launcher",
-      );
-      // await bLoc.BackgroundLocation.setAndroidConfiguration(interval: 1000);
+      if (Platform.isAndroid) {
+        await bLoc.BackgroundLocation.setAndroidNotification(
+          title: 'FIITGN is running in the background',
+          message: 'Please keep the device active',
+          icon: "@mipmap/ic_launcher",
+        );
+      }
       await bLoc.BackgroundLocation.startLocationService();
       print('location services started');
       updateMarkerAndCircle(location.latitude, location.longitude);
