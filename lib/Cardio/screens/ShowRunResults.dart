@@ -1,3 +1,4 @@
+import '../providers/RunModel.dart';
 import 'package:flutter/material.dart';
 // import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../providers/RunDataProvider.dart';
 import '../../Screens/HomeScreen.dart';
 import 'PolylineShow.dart';
+import 'package:flutter_map/flutter_map.dart';
+import "package:latlong/latlong.dart" as latLng;
 // import "package:latlong/latlong.dart" as latLng;
 
 class ShowResultsScreen extends StatefulWidget {
@@ -18,6 +21,48 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
   final primaryColorThisScreen = Color(0XFF6D3FFF);
 
   final accentColorThisScreen = Color(0XFF233C63);
+
+  Widget createSmallMap(Map args) {
+    final double initialLatitude = args['initialLat'];
+    final double initialLongitude = args['initialLong'];
+    List<dynamic> listOfCoordinates = args['listOfLatLng'];
+    // final runStatsProvider = Provider.of<RunDataProvider>(context);
+    // final List<RunModel> runStats = runStatsProvider.yourRunsList;
+    // final double initialLatitude = runStats[index].initialLatitude;
+    // final double initialLongitude = runStats[index].initialLongitude;
+    // List<dynamic> listOfCoordinates = runStats[index].listOfLatLng;
+    List<latLng.LatLng> listOfPolyLineLatLng = [];
+
+    for (int i = 0; i < listOfCoordinates.length; i++) {
+      listOfPolyLineLatLng.add(
+        latLng.LatLng(
+          listOfCoordinates[i]['latitude'],
+          listOfCoordinates[i]['longitude'],
+        ),
+      );
+      // print("Heehahahahahahahah");
+    }
+    Polyline _polyline = Polyline(
+        points: listOfPolyLineLatLng, strokeWidth: 3.5, color: Colors.amber);
+
+    return FlutterMap(
+      options: MapOptions(
+        center: latLng.LatLng(initialLatitude, initialLongitude),
+        minZoom: 15.0,
+      ),
+      layers: [
+        TileLayerOptions(
+          urlTemplate:
+              "https://api.mapbox.com/styles/v1/gauti234/ckgovqsac39zk19o5vytzgreo/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ2F1dGkyMzQiLCJhIjoiY2tnbnA3ZHFvMjNwbzMwdGV1cGVtZWZqciJ9.jO2FxWNXXWh1Q8t_BaNs4g",
+          additionalOptions: {
+            'accessToken':
+                'pk.eyJ1IjoiZ2F1dGkyMzQiLCJhIjoiY2tnbnBlaWE2MHgzbDJ4bzFsb2x5ZnRjaCJ9.W3WKN9f1Uc5v4FT5om3-9g',
+          },
+        ),
+        PolylineLayerOptions(polylines: [_polyline]),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -328,6 +373,11 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                         color: Theme.of(context).primaryColor,
                         child: Text('Exit Without Saving'),
                       ),
+                      Container(
+                        height: MediaQuery.of(context).size.height / 5,
+                        color: Colors.black,
+                        child: createSmallMap(routeArgs),
+                      ),
                     ],
                   ),
                 ),
@@ -337,4 +387,4 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
   }
 }
 //  Text(
-  //                      "$distanceString kms",timeMin,avgSpeedString
+//                      "$distanceString kms",timeMin,avgSpeedString
