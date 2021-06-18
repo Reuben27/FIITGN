@@ -129,7 +129,7 @@ class _NotificationsState extends State<Notifications> {
                 print("New 2 Minute");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
+                notiupdate("hello1", selectedTime.hour, selectedTime.minute, 5);
                 await showNewTwoMinute(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
@@ -146,7 +146,7 @@ class _NotificationsState extends State<Notifications> {
                 print("New Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
+                notiupdate("syiedfbsijdbvsudbv", selectedTime.hour, selectedTime.minute, 5);
                 await showNewDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
