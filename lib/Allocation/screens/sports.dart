@@ -152,7 +152,7 @@ class _DisplayDataState extends State<DisplayData> {
             //   ),
             // ),
             Container(
-          child: DefaultTabController.of(context).index == 1
+          child: DefaultTabController.of(context).index == 0
               ? Container(
                   height: MediaQuery.of(context).size.height,
                   child: ListView(
@@ -195,6 +195,7 @@ class _DisplayDataState extends State<DisplayData> {
                               ),
                               ),
                               Divider(),
+                              
                               // SizedBox(
                               //   height: 10,
                               // ),
