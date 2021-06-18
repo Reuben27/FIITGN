@@ -215,338 +215,444 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Container(
-      height: height,
-      width: width,
-      child: Scaffold(
-        key: key,
-        body: WillPopScope(
-          onWillPop: () {
-            _showSnackBar();
-            return _onBackPressed();
-          },
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xFF145374), Colors.white],
+    // print(MediaQuery.of(context).padding.bottom);
+    return (
+        // height: height,
+        // width: width,
+        Scaffold(
+      key: key,
+      body: WillPopScope(
+        onWillPop: () {
+          _showSnackBar();
+          return _onBackPressed();
+        },
+        child: SafeArea(
+          child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+            return Container(
+              height: constraints.maxHeight,
+              child: Column(
+                children: [
+                  // SizedBox(height: MediaQuery.of(context).size.height / 10,),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     gradient: LinearGradient(
+                  //       begin: Alignment.topCenter,
+                  //       end: Alignment.bottomCenter,
+                  //       colors: [Color(0xFF145374), Colors.white],
+                  //     ),
+                  //   ),
+                  //   //  color: Colors.black,
+                  //   height: MediaQuery.of(context).size.height / 5.5,
+                  //   child: Padding(
+                  //     padding: EdgeInsets.fromLTRB(
+                  //         MediaQuery.of(context).size.width / 20,
+                  //         MediaQuery.of(context).size.width / 10,
+                  //         0,
+                  //         0),
+                  //     child: Row(
+                  //       children: [
+                  //         Container(
+                  //             height: MediaQuery.of(context).size.height / 11,
+                  //             child: Image.asset('assets/10765.png')),
+                  //         SizedBox(
+                  //           width: MediaQuery.of(context).size.width / 7,
+                  //         ),
+                  //         Text(
+                  //           'Running',
+                  //           style: TextStyle(
+                  //               fontWeight: FontWeight.bold,
+                  //               fontFamily: 'Raleway',
+                  //               fontSize: MediaQuery.of(context).size.width / 12),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 1.5,
+                    width: MediaQuery.of(context).size.width,
+                    child: GoogleMap(
+                      initialCameraPosition: initialPosition,
+                      mapType: MapType.normal,
+                      // markers: Set.of((marker != null) ? [marker] : []),
+                      circles: Set.of((circle != null) ? [circle] : []),
+                      polylines: _polylines,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller = controller;
+                      },
                     ),
                   ),
-                  //  color: Colors.black,
-                  height: MediaQuery.of(context).size.height / 5.5,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        MediaQuery.of(context).size.width / 20,
-                        MediaQuery.of(context).size.width / 10,
-                        0,
-                        0),
-                    child: Row(
-                      children: [
-                        Container(
-                            height: MediaQuery.of(context).size.height / 11,
-                            child: Image.asset('assets/10765.png')),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 7,
-                        ),
-                        Text(
-                          'Running',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Raleway',
-                              fontSize: MediaQuery.of(context).size.width / 12),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 2,
-                  width: MediaQuery.of(context).size.width,
-                  child: GoogleMap(
-                    initialCameraPosition: initialPosition,
-                    mapType: MapType.normal,
-                    // markers: Set.of((marker != null) ? [marker] : []),
-                    circles: Set.of((circle != null) ? [circle] : []),
-                    polylines: _polylines,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller = controller;
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child:
-                        // child: finishFlag == 1
-                        //     ? Container()
-                        Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 100,
-                        ),
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(
-                                    MediaQuery.of(context).size.height / 100)),
-                            height: MediaQuery.of(context).size.height / 500,
-                            width: MediaQuery.of(context).size.width / 3,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 80,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // Padding(
-                            //     padding: const EdgeInsets.all(10.0),
-                            //     child:
 
-                            finishFlag == 0
-                                ? InkWell(
-                                    // print("%%%%%%%%%%%%%%%%%");
-                                    // print("starting the run");
-                                    onTap: getCurrentLocation,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      width:
-                                          MediaQuery.of(context).size.width / 4,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              25,
-                                      child: Text(
-                                        'Start Run',
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                50,
-                                            fontFamily: 'Raleway',
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Colors.green[300]),
+                  //  Divider(),
+                  Expanded(
+                    child: Container(
+                      child:
+                          // child: finishFlag == 1
+                          //     ? Container()
+                          Column(
+                        children: [
+                          // SizedBox(
+                          //   height: MediaQuery.of(context).size.height / 100,
+                          // ),
+                          // Center(
+                          //   child: Container(
+                          //     decoration: BoxDecoration(
+                          //         color: Colors.grey,
+                          //         borderRadius: BorderRadius.circular(
+                          //             MediaQuery.of(context).size.height / 100)),
+                          //     height: MediaQuery.of(context).size.height / 500,
+                          //     width: MediaQuery.of(context).size.width / 3,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: MediaQuery.of(context).size.height / 80,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //   children: [
+                          //     // Padding(
+                          //     //     padding: const EdgeInsets.all(10.0),
+                          //     //     child:
+
+                          //     Container(
+                          //       child: Text(
+                          //         dateToShowOnScreen == null
+                          //             ? ''
+                          //             : DateFormat.MMMMEEEEd()
+                          //                 .format(dateToShowOnScreen)
+                          //                 .toString(),
+                          //         style: TextStyle(
+                          //             //color: Colors.white,
+                          //             fontFamily: 'Raleway',
+                          //             fontSize:
+                          //                 MediaQuery.of(context).size.height /
+                          //                     50),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          //  Divider(),
+                          // SizedBox(
+                          //   height: MediaQuery.of(context).size.height / 100,
+                          // ),
+                          Container(
+                            height:
+                                0.3 * MediaQuery.of(context).size.height / 3,
+                            child: Column(
+                              children: [
+                                // SizedBox(
+                                //   width: (3 / 8) *
+                                //       (MediaQuery.of(context).size.width),
+                                // ),
+                                Container(
+                                  height: 0.25 *
+                                      MediaQuery.of(context).size.height /
+                                      3,
+                                  //PUT DURATION STOPWATCH HERE
+                                  // child: Text(
+                                  //   dist,
+                                  //   style: TextStyle(
+                                  //       // color: Colors.white,
+                                  //       fontSize:
+                                  //           MediaQuery.of(context).size.height /
+                                  //               25,
+                                  //       fontWeight: FontWeight.w700),
+                                  // ),
+                                ),
+                                Container(
+                                  child: Center(
+                                    child: Text(
+                                      'DURATION',
+                                      style: TextStyle(
+                                          //      color: Colors.white,
+                                          fontFamily: 'Gilroy'),
                                     ),
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) {
-                                          var actions2 = [
-                                            // ignore: deprecated_member_use
-                                            FlatButton(
-                                              onPressed: () {
-                                                storeFinalLat = finalLatitude;
-                                                storeFinalLong = finalLongitude;
-                                                print(distance);
-                                                endingTime = DateTime.now();
-                                                passingToShowResults[
-                                                        'initialLat'] =
-                                                    storeInitialLat;
-                                                passingToShowResults[
-                                                        'initialLong'] =
-                                                    storeInitialLong;
-                                                passingToShowResults[
-                                                    'finalLat'] = storeFinalLat;
-                                                passingToShowResults[
-                                                        'finalLong'] =
-                                                    storeFinalLong;
-                                                passingToShowResults[
-                                                        'initialTime'] =
-                                                    startingTime;
-                                                passingToShowResults[
-                                                    'finalTime'] = endingTime;
-                                                passingToShowResults[
-                                                    'distance'] = distance;
-                                                passingToShowResults[
-                                                        'listOfLatLng'] =
-                                                    listOfLatLngForPoly;
-
-                                                // print("All parameters stored successfully");
-
-                                                // _locationSubscription.cancel();
-                                                bLoc.BackgroundLocation
-                                                    .stopLocationService();
-                                                Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        ShowResultsScreen
-                                                            .routeName,
-                                                        arguments:
-                                                            passingToShowResults);
-                                                // }
-                                              },
-                                              child: Text('Yes'),
-                                            ),
-                                            // ignore: deprecated_member_use
-                                            FlatButton(
-                                              onPressed: () {
-                                                Navigator.of(ctx).pop(true);
-                                              },
-                                              child: Text('No'),
-                                            ),
-                                          ];
-                                          return AlertDialog(
-                                            title: Text(
-                                                'Are you sure you want to end Run?'),
-                                            actions: actions2,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: finishFlag == 0
-                                        ? Container()
-                                        : Container(
-                                            alignment: Alignment.center,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                4,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                25,
-                                            child: Text(
-                                              'End Run',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height /
-                                                          50,
-                                                  fontFamily: 'Raleway',
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: Colors.red[200]),
-                                          ),
                                   ),
-
-                            Container(
-                              child: Text(
-                                dateToShowOnScreen == null
-                                    ? ''
-                                    : DateFormat.MMMMEEEEd()
-                                        .format(dateToShowOnScreen)
-                                        .toString(),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Raleway',
-                                    fontSize:
-                                        MediaQuery.of(context).size.height /
-                                            50),
-                              ),
+                                ),
+                                // SizedBox(
+                                //   width: (3 / 16) *
+                                //       (MediaQuery.of(context).size.width),
+                                // ),
+                              ],
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 100,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height / 10,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: (3 / 8) *
-                                    (MediaQuery.of(context).size.width),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 4,
-                                child: Text(
-                                  dist,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              25,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                              Container(
-                                width: (3 / 16) *
-                                    (MediaQuery.of(context).size.width),
-                                child: Center(
-                                  child: Text(
-                                    'kms',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Raleway'),
+                          ),
+                          Divider(),
+                          Container(
+                            height:
+                                0.3 * MediaQuery.of(context).size.height / 3,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                  child: Column(
+                                    children: [
+                                      // SizedBox(
+                                      //   width: (3 / 8) *
+                                      //       (MediaQuery.of(context).size.width),
+                                      // ),
+                                      Container(
+                                        height: 0.25 *
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        child: Center(
+                                          child: Text(
+                                            dist,
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.15 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    3,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            'KILOMETRES',
+                                            style: TextStyle(
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
+                                      // SizedBox(
+                                      //   width: (3 / 16) *
+                                      //       (MediaQuery.of(context).size.width),
+                                      // ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: (3 / 16) *
-                                    (MediaQuery.of(context).size.width),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height / 10,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: (3 / 8) *
-                                    (MediaQuery.of(context).size.width),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 4,
-                                child: Text(
-                                  speedString,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).size.height /
-                                              25,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                              Container(
-                                width: (3 / 16) *
-                                    (MediaQuery.of(context).size.width),
-                                child: Center(
-                                  child: Text(
-                                    'm/s',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Raleway'),
+                                VerticalDivider(),
+                                // SizedBox(
+                                //   width: (3 / 8) *
+                                //       (MediaQuery.of(context).size.width),
+                                // ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                  child: Column(
+                                    children: [
+                                      // SizedBox(
+                                      //   width: (3 / 8) *
+                                      //       (MediaQuery.of(context).size.width),
+                                      // ),
+                                      Container(
+                                        height: 0.25 *
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        child: Center(
+                                          child: Text(
+                                            speedString,
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.15 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    3,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            'MPS',
+                                            style: TextStyle(
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
+                                      // SizedBox(
+                                      //   width: (3 / 16) *
+                                      //       (MediaQuery.of(context).size.width),
+                                      // ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: (3 / 16) *
-                                    (MediaQuery.of(context).size.width),
-                              ),
-                            ],
+
+                                // SizedBox(
+                                //   width: (3 / 16) *
+                                //       (MediaQuery.of(context).size.width),
+                                // ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(
-                              MediaQuery.of(context).size.width / 10),
-                          topRight: Radius.circular(
-                              MediaQuery.of(context).size.width / 10)),
-                      color: Colors.grey[850],
+                          Divider(),
+                          finishFlag == 0
+                              ? Expanded(
+                                  child: Container(
+                                    child: InkWell(
+                                      // print("%%%%%%%%%%%%%%%%%");
+                                      // print("starting the run");
+                                      onTap: getCurrentLocation,
+                                      child: IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Container(
+                                              alignment: Alignment.center,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              //  height:MediaQuery.of(context).size.height/20,
+                                              // height: 0.2 * MediaQuery.of(context).size.height / 3 ,
+
+                                              // height:
+                                              //     MediaQuery.of(context).size.height /
+                                              //         ,
+                                              child: Text(
+                                                'START RUN',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            45,
+                                                    fontFamily: 'Gilroy',
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius:
+                                              //         BorderRadius.circular(20),
+                                              color: Colors.green[300],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Expanded(
+                                  child: Container(
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (ctx) {
+                                            var actions2 = [
+                                              // ignore: deprecated_member_use
+                                              FlatButton(
+                                                onPressed: () {
+                                                  storeFinalLat = finalLatitude;
+                                                  storeFinalLong =
+                                                      finalLongitude;
+                                                  print(distance);
+                                                  endingTime = DateTime.now();
+                                                  passingToShowResults[
+                                                          'initialLat'] =
+                                                      storeInitialLat;
+                                                  passingToShowResults[
+                                                          'initialLong'] =
+                                                      storeInitialLong;
+                                                  passingToShowResults[
+                                                          'finalLat'] =
+                                                      storeFinalLat;
+                                                  passingToShowResults[
+                                                          'finalLong'] =
+                                                      storeFinalLong;
+                                                  passingToShowResults[
+                                                          'initialTime'] =
+                                                      startingTime;
+                                                  passingToShowResults[
+                                                      'finalTime'] = endingTime;
+                                                  passingToShowResults[
+                                                      'distance'] = distance;
+                                                  passingToShowResults[
+                                                          'listOfLatLng'] =
+                                                      listOfLatLngForPoly;
+
+                                                  // print("All parameters stored successfully");
+
+                                                  // _locationSubscription.cancel();
+                                                  bLoc.BackgroundLocation
+                                                      .stopLocationService();
+                                                  Navigator.of(context)
+                                                      .pushReplacementNamed(
+                                                          ShowResultsScreen
+                                                              .routeName,
+                                                          arguments:
+                                                              passingToShowResults);
+                                                  // }
+                                                },
+                                                child: Text('Yes'),
+                                              ),
+                                              // ignore: deprecated_member_use
+                                              FlatButton(
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop(true);
+                                                },
+                                                child: Text('No'),
+                                              ),
+                                            ];
+                                            return AlertDialog(
+                                              title: Text(
+                                                  'Are you sure you want to end Run?'),
+                                              actions: actions2,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: finishFlag == 0
+                                          ? Container()
+                                          : Container(
+                                              alignment: Alignment.center,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              // height: MediaQuery.of(context)
+                                              //         .size
+                                              //         .height /
+                                              //     25,
+                                              child: Text(
+                                                'END RUN',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            45,
+                                                    fontFamily: 'Gilroy',
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              // decoration: BoxDecoration(
+                                              //     borderRadius:
+                                              //         BorderRadius.circular(20),
+                                              color: Colors.red[200],
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.only(
+                      //       topLeft: Radius.circular(
+                      //           MediaQuery.of(context).size.width / 10),
+                      //       topRight: Radius.circular(
+                      //           MediaQuery.of(context).size.width / 10)),
+                      //   color: Colors.grey[850],
+                      // ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
-    );
+    ));
   }
 }
