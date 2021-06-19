@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {
       'title': 'Your Activities',
       'url': 'assets/statLady.png',
-      'routeName': Calender.routeName,
+      'routeName': StatsScreen.routeName,
       'description':
           'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
       'heroID': 4,
@@ -160,14 +160,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // //       'This section is under construction. Check back in later to view some exciting new stuff!',
     // //   'heroID': 6,
     // // },
-    // {
-    //   'title': 'Calendarrr',
-    //   'url': 'assets/6569.png',
-    //   'routeName': CalendarScreen.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 6,
-    // },
+    {
+      'title': 'Calendar',
+      'url': 'assets/6569.png',
+      'routeName': Calender.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 6,
+    },
     {
       'title': 'Workout',
       'url': 'assets/4805.png',
