@@ -8,6 +8,7 @@ class ExerciseDbModel {
   final String imageUrl;
   final String description;
   final String category; //TO DO Make an Enum of category types
+  final String isWeighted;
 
   ExerciseDbModel({
     @required this.exerciseId,
@@ -15,6 +16,7 @@ class ExerciseDbModel {
     this.imageUrl,
     @required this.description,
     @required this.category,
+    @required this.isWeighted,
   });
 
   factory ExerciseDbModel.fromJson(dynamic json) {
@@ -23,7 +25,8 @@ class ExerciseDbModel {
         exerciseName: "${json['name']}",
         imageUrl: "${json['url']}",
         description: "${json['description']}",
-        category: "${json['category']}");
+        category: "${json['category']}",
+        isWeighted: "${json['isWeighted']}");
   }
 
   // Method to make GET parameters.
@@ -40,7 +43,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
   // ignore: deprecated_member_use
   List<ExerciseDbModel> _listExercises = List<ExerciseDbModel>();
   static const url =
-      "https://script.google.com/macros/s/AKfycbx2H4v8xaSWlnTq3WKaVHw-Z_2eBh6M0yFufxGwm-diDYcKfJPzHZjI9zi23Z1G0YSF/exec";
+      "https://script.google.com/macros/s/AKfycbw0vjoXH7xFpVEeREztGhaeKZ1tWhaNcoGGiE4mt3g2HipqxD_0u4OnOotqk3vjGAog/exec";
   Future<List<ExerciseDbModel>> getListOfExercises() async {
     await http.get(Uri.parse(url)).then((response) {
       var jsonFeedback = convert.jsonDecode(response.body) as List;

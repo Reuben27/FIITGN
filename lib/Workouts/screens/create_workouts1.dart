@@ -116,6 +116,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
               itemBuilder: (ctx, i) {
                 return InkWell(
                   onTap: () {
+                    print(allExerciseList[i].isWeighted);
                     if (!exercisesSelectedForWorkout
                         .contains(allExerciseList[i])) {
                       Color color = Colors.green;

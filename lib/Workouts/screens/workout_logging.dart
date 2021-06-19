@@ -87,7 +87,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
         databaseId: "",
         uid: uid,
         date: date,
-        listOfSetsReps: exercices,
+        listOfSetsRepsWeights: exercices,
         user_name: Data_Provider().name,
         workoutName: workoutName);
     // ignore: deprecated_member_use

@@ -13,6 +13,7 @@ class Exercises_in_Workout extends StatelessWidget {
       body: ListView.builder(
           itemCount: exercises.length,
           itemBuilder: (_, i) {
+            print(exercises[i].isWeighted);
             return ListTile(
               title: Text(exercises[i].exerciseName),
             );
