@@ -1,3 +1,4 @@
+import 'package:fiitgn/Screens/stopwatch.dart';
 import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
 
 import './Workouts/screens/wishlist.dart';
@@ -140,6 +141,9 @@ class MyApp extends StatelessWidget {
 
           //// Activities
           Activity_Screen.routeName: (_) => Activity_Screen(),
+
+          //// Stopwatch
+          // StopWatchScreen.routeName: (_) => StopWatchScreen(),
         },
       ),
     );

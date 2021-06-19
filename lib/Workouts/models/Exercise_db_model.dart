@@ -13,7 +13,7 @@ class ExerciseDbModel {
   ExerciseDbModel({
     @required this.exerciseId,
     @required this.exerciseName,
-    this.imageUrl,
+    @required this.imageUrl,
     @required this.description,
     @required this.category,
     @required this.isWeighted,

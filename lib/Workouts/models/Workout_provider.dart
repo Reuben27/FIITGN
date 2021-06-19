@@ -1,3 +1,5 @@
+import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
+
 import '../../Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/admin/directory_v1.dart';
@@ -29,6 +31,7 @@ class Workouts_Provider with ChangeNotifier {
 
   List<WorkoutModel> _workoutsList = [];
   List<WorkoutModel> _createdByUser = [];
+  List<Workout_Data_Model> _loggedWorkouts = [];
 
   // set user email id;
   //
@@ -110,7 +113,8 @@ class Workouts_Provider with ChangeNotifier {
         ),
       );
     } catch (e) {
-      print("sss");
+      print("ERROR IN SAVING CREATED WORKOUT TO DB");
+      print(e);
     }
 
     print("%%%%%%%%%%%%%%%%%%%%%");
@@ -296,5 +300,55 @@ class Workouts_Provider with ChangeNotifier {
       }
     });
     return followedWorkoutsList;
+  }
+
+  /// Method to save logged workouts
+  saveWorkoutToDb(Workout_Data_Model data) async {
+    const url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Logged_Workouts.json";
+    var response;
+    try {
+      final List listOfSetsRepsWeights = [];
+      data.listOfSetsRepsWeights.forEach((element) {
+        listOfSetsRepsWeights.add({
+          'exerciseId': element.exerciseId,
+          'exerciseName': element.exerciseName,
+          'numOfReps': element.numOfReps,
+          'setNumber': element.setNumber,
+          'weight': element.weight,
+        });
+      });
+      response = await http.post(
+        Uri.parse(url),
+        body: json.encode({
+          'date': data.date,
+          'uid': data.uid,
+          'user_name': data.user_name,
+          'workoutName': data.workoutName,
+          'listOfSetsRepsWeights': listOfSetsRepsWeights,
+          'duration_hours': data.duration_hours,
+          'duration_minutes': data.duration_minutes,
+          'duration_seconds': data.duration_seconds,
+        }),
+      );
+    } catch (e) {
+      print("ERROR IN SAVING LOGGED WORKOUT TO DB");
+      print(e);
+    }
+    var databaseId = json.decode(response.body)['name'];
+    Workout_Data_Model newLog = Workout_Data_Model(
+      duration_seconds: data.duration_seconds,
+      duration_hours: data.duration_hours,
+      duration_minutes: data.duration_minutes,
+      databaseId: databaseId,
+      date: data.date,
+      listOfSetsRepsWeights: data.listOfSetsRepsWeights,
+      uid: data.uid,
+      user_name: data.user_name,
+      workoutName: data.workoutName,
+    );
+    _loggedWorkouts.add(newLog);
+    print("Saved a log workout successfully");
+    notifyListeners();
   }
 }
