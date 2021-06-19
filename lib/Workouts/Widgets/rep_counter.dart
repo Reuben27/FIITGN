@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 
-class Counter extends StatefulWidget {
+class Rep_Counter extends StatefulWidget {
   @override
-  _CounterState createState() => _CounterState();
+  Rep_CounterState createState() => Rep_CounterState();
 }
 
-class _CounterState extends State<Counter> {
-  int _counter = 0;
+class Rep_CounterState extends State<Rep_Counter> {
+  static int counter = 0;
+  // int getCounter() {
+  //   print("counter is " + _counter.toString());
+  //   return _counter;
+  // }
 
-  int getCounter() {
-    print("counter is " + _counter.toString());
-    return _counter;
-  }
+  // void setCounter(){
 
+  // }
   void _incrementCounter() {
     setState(() {
-      _counter++;
+      counter++;
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      _counter--;
+      counter--;
     });
   }
 
@@ -32,7 +34,7 @@ class _CounterState extends State<Counter> {
         onPressed: _decrementCounter,
         icon: Icon(Icons.remove),
       ),
-      title: Center(child: Text('$_counter')),
+      title: Center(child: Text('$counter')),
       trailing: IconButton(
         onPressed: _incrementCounter,
         icon: Icon(Icons.add),

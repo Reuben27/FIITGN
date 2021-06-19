@@ -29,8 +29,8 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
             initialData: stopWatchTimer.rawTime.value,
             builder: (context, snapshot) {
               final value = snapshot.data;
-              final displayTime =
-                  StopWatchTimer.getDisplayTime(value, hours: isHours,milliSecond: false );
+              final displayTime = StopWatchTimer.getDisplayTime(value,
+                  hours: isHours, milliSecond: false);
               return Text(
                 displayTime,
                 style: TextStyle(fontSize: 40),

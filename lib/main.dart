@@ -53,9 +53,6 @@ import 'Nutrition/screens/nutritionScreen.dart';
 //// Activities
 import 'Sports-Activities/screens/activity_screens.dart';
 
-// StopWatch
-import './Screens/stopwatch.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //Method needed to initialize firebase application.
@@ -146,7 +143,7 @@ class MyApp extends StatelessWidget {
           Activity_Screen.routeName: (_) => Activity_Screen(),
 
           //// Stopwatch
-          StopWatchScreen.routeName: (_) => StopWatchScreen(),
+          // StopWatchScreen.routeName: (_) => StopWatchScreen(),
         },
       ),
     );
