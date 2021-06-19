@@ -205,7 +205,8 @@ class _EntryState extends State<Entry> {
             int go = await getName(sportequipmentid);
             if (go == 1)
             {
-              int makecontroller = await makeTextControllers();
+              //int makecontroller = await makeTextControllers();
+              int makecounter = await makeCounters();
               //go to getavailability.
               availability = await checkavailability(starttime, endtime);
               print(availability);
@@ -234,6 +235,19 @@ Future<int> makeTextControllers() async {
   for (var i = 0; i < numberofequipments; i++) {
     controllers.add(TextEditingController());
     print("Hey 3");
+  }
+
+  return 1;
+}
+
+
+//Function to make the list of counters for the equiments.dart
+Future<int> makeCounters() async {
+  counters = [];
+
+  print(numberofequipments);
+  for (var i = 0; i < numberofequipments; i++) {
+    counters.add(0);
   }
 
   return 1;

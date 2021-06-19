@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import './orderconfirmation.dart';
-import './entry.dart';
 import '../data/initialize.dart';
 
 class Equipments extends StatefulWidget {
@@ -24,7 +23,7 @@ class _EquipmentsState extends State<Equipments> {
           orders = [];
           //make the orders list
           for (var i = 0; i < numberofequipments; i++) {
-            int temp = int.parse(controllers[i].text);
+            int temp = counters[i];
             orders.add(temp);
           }
           print(orders);
@@ -51,6 +50,28 @@ class DisplayData extends StatefulWidget {
 }
 
 class _DisplayDataState extends State<DisplayData> {
+
+  void incrementCounter(int i){
+    setState(() {
+      if(counters[i] < availability[i]){
+        counters[i] = counters[i] + 1;
+      } else {
+        print("max reached");
+      }
+      
+    });
+  }
+
+  void decrementCounter(int i){
+    setState(() {
+      if(counters[i] > 0){
+        counters[i] = counters[i] - 1;
+      } else {
+        print("negative not allowed");
+      }      
+    });
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -62,8 +83,7 @@ class _DisplayDataState extends State<DisplayData> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference equipments =
-        FirebaseFirestore.instance.collection(sportequipmentid);
+    CollectionReference equipments = FirebaseFirestore.instance.collection(sportequipmentid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: equipments.snapshots(),
@@ -78,80 +98,60 @@ class _DisplayDataState extends State<DisplayData> {
           );
         }
 
-        return new GridView(
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2,),
-              
+        return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            return GestureDetector(
-              onTap: () {},
-              child: Container(
-                color: Colors.red[200],
-                child: Column(
-                  children: [
-                    Text(
-                      document['name'],
-                      // " " +
-                      // availability[document['availabilityindex']].toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+            return Column(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Text(
+                    document['name'],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
                     ),
-                    Text(
-                      "Available: " +
-                          availability[document['availabilityindex']]
-                              .toString(),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Text(
+                    "Available: " + availability[document['availabilityindex']].toString(),
+                  ),
+                ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width/2,
+                //   child: TextFormField(
+                //     controller: controllers[document['availabilityindex']],
+                //     decoration: const InputDecoration(
+                //       hintText: 'Enter Quantity',
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: ListTile(
+                    leading: IconButton(
+                      onPressed: (){
+                        decrementCounter(document['availabilityindex']);
+                      },
+                      icon: Icon(Icons.remove),
                     ),
-                    Container(
-                      width: 100,
-                      //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                      child: TextFormField(
-                        controller: controllers[document['availabilityindex']],
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Quantity',
-                        ),
+                    title: Center(
+                      child: Text(
+                        counters[document['availabilityindex']].toString(),
                       ),
                     ),
-
-                    // ListTile(
-                    //     trailing: Container(
-                    //       width: 100,
-                    //       //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                    //       child: TextFormField(
-                    //         controller: controllers[document['availabilityindex']],
-                    //         decoration: const InputDecoration(
-                    //           hintText: 'Enter Quantity',
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     subtitle: Text("Available: " + availability[document['availabilityindex']].toString(),),
-                    //     leading: Text(
-                    //       document['name'],
-                    //           // " " +
-                    //           // availability[document['availabilityindex']].toString(),
-                    //       textAlign: TextAlign.center,
-                    //       style: TextStyle(
-                    //        fontWeight: FontWeight.bold),
-                    //     ),
-                    //     // Container(
-                    //     //   width: 100,
-                    //     //  // margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                    //     //   color: Colors.blue[200],
-                    //     //   child: ListTile(
-                    //     //     title: new Text(
-                    //     //       document['name'] + " " + availability[document['availabilityindex']].toString(),
-                    //     //       textAlign: TextAlign.center,
-                    //     //       style: TextStyle(
-                    //     //         color: Colors.white,
-                    //     //         fontWeight: FontWeight.bold
-                    //     //       ),
-                    //     //     ),
-                    //     //   )
-                    //     // ),
-                    //   ),
-                    //   Divider(),
-                  ],
+                    trailing: IconButton(
+                      onPressed: (){
+                        incrementCounter(document['availabilityindex']);
+                      },
+                      icon: Icon(Icons.add),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 30.0),
+              ],
             );
           }).toList(),
         );

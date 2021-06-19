@@ -12,22 +12,30 @@ class OrderConfirmation extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: ListView.builder(
-          itemCount: orders.length,
-          itemBuilder: (context, index) {
-            String quantity = orders[index].toString();
-            String equipname = equipmentsname[index];
-            return ListTile(
-              title: new Text(
-                equipname + '   ' + quantity,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.blue, 
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            );
-          }),
+        child: Column(
+          children: [
+            Text(starttime),
+            Text(endtime),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: orders.length,
+              itemBuilder: (context, index) {
+                String quantity = orders[index].toString();
+                String equipname = equipmentsname[index];
+                return ListTile(
+                  title: new Text(
+                    equipname + '   ' + quantity,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blue, 
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                );
+              }
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
