@@ -68,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
         context,
         listen: false);
+    print("a");
     await exerciseDataProvider.getListOfExercises();
     print("b");
     await adminDataProvider.getListOfAdmins();

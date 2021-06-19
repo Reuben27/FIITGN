@@ -300,12 +300,6 @@ class _Workout_LoggingState extends State<Workout_Logging> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         appBar: AppBar(
-          actions: [
-            InkWell(
-              child: Icon(Icons.save),
-              onTap: startTimer,
-            ),
-          ],
           title: Text(workoutName),
         ),
         body: PageView(
