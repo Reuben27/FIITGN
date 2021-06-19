@@ -1,9 +1,6 @@
-import './equipments.dart';
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:date_format/date_format.dart';
 import 'package:intl/intl.dart';
+
 import '../data/initialize.dart';
 //for rooms
 import '../utils/roomchecker.dart';
@@ -12,291 +9,177 @@ import './notify.dart';
 
 //for equipments
 import '../utils/getavailability.dart';
+import './equipments.dart';
 
 class Entry extends StatefulWidget {
+  const Entry({Key key}) : super(key: key);
+
   @override
   _EntryState createState() => _EntryState();
 }
 
 class _EntryState extends State<Entry> {
-  String _setTime, _setDate;
-  String _hourEntry,
-      _minuteEntry,
-      _timeEntry,
-      _hourExit,
-      _minuteExit,
-      _timeExit;
-  String dateTime;
+  List<String> timeofDay = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
+  List<Color> colorList = [];
+  Map<int, List<Color>> colorMap = {};
 
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  int numberofslotschoosen = 0;
+  int chosendayindex = -1;
+  int chosentimeindex = -1;
 
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeControllerEntry = TextEditingController();
-  TextEditingController _timeControllerExit = TextEditingController();
+  void createColorMap(){
+    //create colorList
+    for(int i = 0; i < 24; i++){
+      colorList.add(Colors.grey[300]);
+    }
 
-  String submitbuttontext = reflag == 1 ? "Book" : "Next";
-
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-        _dateController.text = DateFormat.yMMMMd('en_US').format(selectedDate);
-      });
-  }
-
-  Future<Null> _selectTimeEntry(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (picked != null)
-      setState(() {
-        selectedTime = picked;
-        _hourEntry = selectedTime.hour.toString();
-        _minuteEntry = selectedTime.minute.toString();
-        _timeEntry = _hourEntry + ' : ' + _minuteEntry;
-        _timeControllerEntry.text = _timeEntry;
-        _timeControllerEntry.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
-      });
-  }
-
-  Future<Null> _selectTimeExit(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (picked != null)
-      setState(() {
-        selectedTime = picked;
-        _hourExit = selectedTime.hour.toString();
-        _minuteExit = selectedTime.minute.toString();
-        _timeExit = _hourExit + ' : ' + _minuteExit;
-        _timeControllerExit.text = _timeExit;
-        _timeControllerExit.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
-      });
+    for(int i = 0; i < 7; i++){     
+     List<Color> temp = [...colorList];
+     // ignore: unnecessary_cast
+     colorMap[i] = temp as List<Color>; //required cast
+    }
   }
 
   @override
   void initState() {
-    _dateController.text = DateFormat.yMMMMd('en_US').format(DateTime.now());
-
-    _timeControllerEntry.text = formatDate(
-        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
-        [hh, ':', nn, " ", am]).toString();
-
-    _timeControllerExit.text = formatDate(
-        DateTime(
-            2019,
-            08,
-            1,
-            DateTime.now().add(const Duration(minutes: 30)).hour,
-            DateTime.now().add(const Duration(minutes: 30)).minute),
-        [hh, ':', nn, " ", am]).toString();
-
+    // TODO: implement initState
+    createColorMap();
     super.initState();
   }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _dateController.dispose();
-    _timeControllerEntry.dispose();
-    super.dispose();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Allocation System'),
+        backgroundColor: Colors.white,
+        title: Text(
+          "CHOOSE SLOTS",
+          style: TextStyle(
+              color: Colors.black, fontSize: 25, fontFamily: 'Gilroy'),
+        ),
         centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              '',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.blue[500],
-                fontSize: 20,
-              ),
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text(
-                    'Choose Date',
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5),
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: 7,
+          itemBuilder: (context, dayindex) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 50,
                   ),
-                  InkWell(
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: MediaQuery.of(context).size.width / 10,
-                      margin: EdgeInsets.only(top: 10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(color: Colors.grey[200]),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 25),
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        keyboardType: TextInputType.text,
-                        controller: _dateController,
-                        onSaved: (String val) {
-                          _setDate = val;
-                        },
-                        decoration: InputDecoration(
-                            disabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide.none),
-                            // labelText: 'Time',
-                            contentPadding: EdgeInsets.only(top: 0.0)),
+                  Text(
+                    DateFormat.MMMMEEEEd().format(
+                      DateTime.now().add(
+                        Duration(days: dayindex),
                       ),
+                    ),
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 22,
                     ),
                   ),
                 ],
-              )),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'Choose Entry Time',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                InkWell(
-                  onTap: () {
-                    _selectTimeEntry(context);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.width / 10,
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 25),
-                      textAlign: TextAlign.center,
-                      onSaved: (String val) {
-                        _setTime = val;
+              ),
+              Container(
+                child: ListView.builder(
+                  itemCount: timeofDay.length,
+                  itemBuilder: (context, timeindex) => Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: (){
+                        if(numberofslotschoosen == 0){
+                          if (colorMap[dayindex][timeindex] == Colors.grey[300]) {
+                            print(dayindex);
+                            print("Hey");
+                            setState(() {
+                              print(dayindex);
+                              print(colorMap[dayindex][timeindex]);
+                              colorMap[dayindex][timeindex] = Colors.green;
+                              chosendayindex = dayindex;
+                              chosentimeindex = timeindex;
+                              print(colorMap);
+                            });  
+                            numberofslotschoosen += 1;                        
+                          }
+                        } else {
+                          if (colorMap[dayindex][timeindex] == Colors.grey[300]) {
+                            print("Cannot chose more than one time slot");                       
+                          } else {
+                            setState(() {
+                              colorMap[dayindex][timeindex] = Colors.grey[300];
+                              chosendayindex = -1;
+                              chosentimeindex = -1;
+                            });  
+                            numberofslotschoosen -= 1;  
+                          }
+                        }
                       },
-                      enabled: false,
-                      keyboardType: TextInputType.text,
-                      controller: _timeControllerEntry,
-                      decoration: InputDecoration(
-                          disabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          // labelText: 'Time',
-                          contentPadding: EdgeInsets.all(5)),
+                      child: Container(
+                        child: Center(
+                          child: Text(
+                            timeofDay[timeindex] + ":00"
+                            ,
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: colorMap[dayindex][timeindex],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        width: MediaQuery.of(context).size.width / 3,
+                      ),
                     ),
                   ),
+                  scrollDirection: Axis.horizontal,
                 ),
-              ],
-            ),
+                height: MediaQuery.of(context).size.height / 10,
+                width: MediaQuery.of(context).size.width,
+                //color: Colors.blueGrey,
+              ),
+              Divider(),
+            ],
           ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'Choose Exit Time',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5),
-                ),
-                InkWell(
-                  onTap: () {
-                    _selectTimeExit(context);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.width / 10,
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.grey[200]),
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 25),
-                      textAlign: TextAlign.center,
-                      onSaved: (String val) {
-                        _setTime = val;
-                      },
-                      enabled: false,
-                      keyboardType: TextInputType.text,
-                      controller: _timeControllerExit,
-                      decoration: InputDecoration(
-                          disabledBorder:
-                              UnderlineInputBorder(borderSide: BorderSide.none),
-                          // labelText: 'Time',
-                          contentPadding: EdgeInsets.all(5)),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          starttime = DateFormat('yyyy-MM-dd').format(selectedDate);
-          endtime = DateFormat('yyyy-MM-dd').format(selectedDate);
+          print(chosendayindex);
+          print(chosentimeindex);
+          //edge case
+          if(chosentimeindex == 23){
+            DateTime starting = DateTime.now().add(Duration(days: chosendayindex));
+            DateTime ending = DateTime.now().add(Duration(days: (chosendayindex+1)));
+            starttime = DateFormat('yyyy-MM-dd').format(starting).trim();
+            endtime = DateFormat('yyyy-MM-dd').format(ending).trim();
+            starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+            endtime = endtime + " " + timeofDay[0] + ":00:00.000";
+            starttime = starttime.trim();
+            endtime = endtime.trim();
+            print(starttime);
+            print(endtime);
 
-          //change the input to the required format.
-          if (int.parse(_hourEntry) < 10) {
-            starttime = starttime + " 0" + _hourEntry;
-          } else {
-            starttime = starttime + " " + _hourEntry;
+          } else{
+            DateTime starting = DateTime.now().add(Duration(days: chosendayindex));
+            DateTime ending = DateTime.now().add(Duration(days: chosendayindex));
+            starttime = DateFormat('yyyy-MM-dd').format(starting).trim();
+            endtime = DateFormat('yyyy-MM-dd').format(ending).trim();
+            starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+            endtime = endtime + " " + timeofDay[chosentimeindex+1] + ":00:00.000";
+            starttime = starttime.trim();
+            endtime = endtime.trim();
+            print(starttime);
+            print(endtime);
           }
-
-          if (int.parse(_minuteEntry) < 10) {
-            starttime = starttime + ":0" + _minuteEntry + ":" + "00.000";
-          } else {
-            starttime = starttime + ":" + _minuteEntry + ":" + "00.000";
-          }
-
-          if (int.parse(_hourExit) < 10) {
-            endtime = endtime + " 0" + _hourExit;
-          } else {
-            endtime = endtime + " " + _hourExit;
-          }
-
-          if (int.parse(_minuteExit) < 10) {
-            endtime = endtime + ":0" + _minuteExit + ":" + "00.000";
-          } else {
-            endtime = endtime + ":" + _minuteExit + ":" + "00.000";
-          }
-
-          print("Exit Time  " + endtime);
-          print("Entry Time " + starttime);
+          
 
           print(reflag);
 
@@ -336,7 +219,7 @@ class _EntryState extends State<Entry> {
         },
         tooltip: 'Show me the value!',
         child: Text(
-          submitbuttontext,
+          'Next',
         ),
       ),
     );

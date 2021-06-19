@@ -1,5 +1,3 @@
-import 'package:fiitgn/Allocation/screens/calender.dart';
-
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
 import '../Cardio/screens/RunScreen.dart';
@@ -161,14 +159,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // //       'This section is under construction. Check back in later to view some exciting new stuff!',
     // //   'heroID': 6,
     // // },
-    {
-      'title': 'Calendar',
-      'url': 'assets/6569.png',
-      'routeName': Calender.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 6,
-    },
     {
       'title': 'Workout',
       'url': 'assets/4805.png',

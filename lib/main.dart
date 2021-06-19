@@ -1,10 +1,9 @@
-// import 'package:Fiitgn1/Providers/DataProvider.dart';
 import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
 
 import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'Allocation/screens/calender.dart';
+//// CARDIO SECTION
 import 'Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter/material.dart';
 import 'Cardio/screens/CardioScreen.dart';
@@ -24,9 +23,8 @@ import 'Cardio/screens/ShowCycleResults.dart';
 import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
-// import 'lib/Calendar-Schedule/schedueCalendar.dart';
 
-///////// WORKOUTS SECTION
+//// WORKOUTS SECTION
 import 'Workouts/screens/workouts-home.dart';
 import 'Workouts/screens/your-workouts.dart';
 import 'Workouts/screens/ongoing_workouts.dart';
@@ -42,10 +40,10 @@ import 'Workouts/screens/exercises_in_workout.dart';
 import 'Workouts/screens/created_by_user.dart';
 import 'Workouts/screens/workout_logging.dart';
 
-////////Allocation
+//// Allocation
 import 'Allocation/screens/sports.dart';
 
-///// Guided Sessions
+//// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
 
 //// Nutrition
@@ -103,7 +101,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
 
         routes: {
-          ///// Cardio Section
+          //// Cardio Section
           CardioScreen.routeName: (ctx) => CardioScreen(),
           StepCounterScreen.routeName: (ctx) => StepCounterScreen(),
           MapScreen.routeName: (_) => MapScreen(),
@@ -112,14 +110,14 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (_) => HomeScreen(),
           PolyLineScreen.routeName: (_) => PolyLineScreen(),
           YourRunPolyLineScreen.routeName: (_) => YourRunPolyLineScreen(),
-          // DetailsScreen.routeName: (_) => DetailsScreen(),
           SignInGoogle.routeName: (_) => SignInGoogle(),
           StatsScreen.routeName: (_) => StatsScreen(),
           CycleScreen.routeName: (_) => CycleScreen(),
           ShowCycleResultsScreen.routeName: (_) => ShowCycleResultsScreen(),
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
-          ///// WOKROUTS SECTION
+
+          //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
           Your_Workouts.routeName: (_) => Your_Workouts(),
           Ongoing_Workouts.routeName: (_) => Ongoing_Workouts(),
@@ -130,17 +128,17 @@ class MyApp extends StatelessWidget {
           Exercises_in_Workout.routeName: (_) => Exercises_in_Workout(),
           Created_by_user.routeName: (_) => Created_by_user(),
           Workout_Logging.routeName: (_) => Workout_Logging(),
-          ///// Allocation Section
+
+          //// Allocation Section
           Sports.routeName: (_) => Sports(),
-          Calender.routeName: (_) => Calender(),
 
           //// Guided Sessions
           Sessions.routeName: (_) => Sessions(),
 
-          ///// Nutrition
+          //// Nutrition
           NutritionScreen.routeName: (_) => NutritionScreen(),
 
-          /// Activities
+          //// Activities
           Activity_Screen.routeName: (_) => Activity_Screen(),
         },
       ),
