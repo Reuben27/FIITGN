@@ -37,7 +37,7 @@ class ActivityData {
       json['activities'],
       json['online_offline'],
       json['link'],
-      json['venue)'],
+      json['venue'],
     );
   }
 }
