@@ -31,26 +31,27 @@ class _NutritionScreenState extends State {
       appBar: AppBar(
         title: Text("Nutrition Data"),
       ),
-      body: ListView(
+      body: PageView(
         children: [
-          SizedBox(height: 26),
-          Text(
-            "Today: ", 
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: "Gro",
-            )),
-          getDay(items, DateTime.now().weekday),
-          SizedBox(height: 26),
-          Text(
-            "Tomorrow: ",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: "Gro",
-            )
+          ListView(
+            children: [
+              SizedBox(height: 26),
+              Text("Today: ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Gro",
+                  )),
+              getDay(items, DateTime.now().weekday),
+              SizedBox(height: 26),
+              Text("Tomorrow: ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Gro",
+                  )),
+              getDay(items, DateTime.now().weekday + 1),
+              SizedBox(height: 26),
+            ],
           ),
-          getDay(items, DateTime.now().weekday + 1),
-          SizedBox(height: 26),
         ],
       ),
     );
