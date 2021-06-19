@@ -29,12 +29,12 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
     List<WorkoutModel> workoutsLists = workoutDataProvider.workoutList;
   }
 
-  @override
-  void didChangeDependencies() async {
-    await Provider.of<Workouts_Provider>(context).showAllWorkouts();
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() async {
+  //   await Provider.of<Workouts_Provider>(context).showAllWorkouts();
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context);
     final List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
     final String user_id = workoutDataProvider.userId;
+    print("checking pos");
     workoutsList.forEach((element) {
       if (element.listOfFollowersId.contains(user_id)) {
         iconList.add(followIcon);

@@ -66,7 +66,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
               //   listOfExercisesId,
               //   listOfFollowersId,
               // );
-              Navigator.pushNamed(context, Create_Workout1.routeName, arguments: map);
+              Navigator.pushNamed(context, Create_Workout1.routeName,
+                  arguments: map);
             },
           ),
         ],
