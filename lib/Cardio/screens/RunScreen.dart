@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'ShowRunResults.dart';
 import 'package:background_location/background_location.dart' as bLoc;
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = 'NewMapScreen';
@@ -18,6 +19,9 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final StopWatchTimer stopWatchTimer = StopWatchTimer();
+  final isHours = true;
+
   final GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   int finishFlag = 0; // flag to check if finish should be showed or no
   bool isChanged = false;
@@ -61,16 +65,6 @@ class _MapScreenState extends State<MapScreen> {
     LatLng latlng = LatLng(latitude, longitude);
     this.setState(
       () {
-        // marker = Marker(
-        //   markerId: MarkerId("home"),
-        //   visible: false,
-        //   position: latlng,
-        //   rotation: newLocalData.heading,
-        //   draggable: false,
-        //   zIndex: 2,
-        //   flat: true,
-        //   anchor: Offset(0.5, 0.5),
-        // );
         circle = Circle(
           circleId: CircleId("_"),
           radius: 2,
@@ -103,7 +97,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void getCurrentLocation() async {
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     print("RUNNING HAS STARTED");
     try {
       loc.LocationData location = await _locationTracker.getLocation();
@@ -116,14 +109,13 @@ class _MapScreenState extends State<MapScreen> {
         );
       }
       await bLoc.BackgroundLocation.startLocationService();
+
       print('location services started');
       updateMarkerAndCircle(location.latitude, location.longitude);
       isChanged = true;
       if (flag == 0) {
-        print("flag==0 condition");
         initialLatitude = location.latitude;
         initialLongitude = location.longitude;
-
         //  storing initial Location
         storeInitialLat = initialLatitude;
         storeInitialLong = initialLongitude;
@@ -132,6 +124,7 @@ class _MapScreenState extends State<MapScreen> {
         });
         listOfLatLngForPoly
             .add({'latitude': storeInitialLat, 'longitude': storeInitialLong});
+
         startingTime = DateTime.now();
         print("starting Time is " + startingTime.toString());
         // print("This portion is being run");
@@ -141,6 +134,11 @@ class _MapScreenState extends State<MapScreen> {
         _locationSubscription.cancel();
       }
       // print("stream beginning");
+
+      ///////%%%%%%%%%%%%%%%%%%
+      // STARTING stopwatch
+      stopWatchTimer.onExecute.add(StopWatchExecute.start);
+      /////%%%%%%%%%%%%%%%%%%%%
       bLoc.BackgroundLocation.getLocationUpdates((location) {
         print("code entered the stream");
         if (_controller != null) {
@@ -178,6 +176,15 @@ class _MapScreenState extends State<MapScreen> {
         listOfLatLngForPoly
             .add({'latitude': initialLatitude, 'longitude': initialLongitude});
       });
+      LatLng latlng = LatLng(initialLatitude, initialLongitude);
+      polylineCoordinates.add(latlng);
+      _polylines.add(Polyline(
+        polylineId: PolylineId(initialLatitude.toString()),
+        visible: true,
+        //latlng is List<LatLng>
+        points: polylineCoordinates,
+        color: Colors.blue,
+      ));
     } on PlatformException catch (e) {
       print("error");
       print(e.toString());
@@ -233,42 +240,6 @@ class _MapScreenState extends State<MapScreen> {
               height: constraints.maxHeight,
               child: Column(
                 children: [
-                  // SizedBox(height: MediaQuery.of(context).size.height / 10,),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //       begin: Alignment.topCenter,
-                  //       end: Alignment.bottomCenter,
-                  //       colors: [Color(0xFF145374), Colors.white],
-                  //     ),
-                  //   ),
-                  //   //  color: Colors.black,
-                  //   height: MediaQuery.of(context).size.height / 5.5,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.fromLTRB(
-                  //         MediaQuery.of(context).size.width / 20,
-                  //         MediaQuery.of(context).size.width / 10,
-                  //         0,
-                  //         0),
-                  //     child: Row(
-                  //       children: [
-                  //         Container(
-                  //             height: MediaQuery.of(context).size.height / 11,
-                  //             child: Image.asset('assets/10765.png')),
-                  //         SizedBox(
-                  //           width: MediaQuery.of(context).size.width / 7,
-                  //         ),
-                  //         Text(
-                  //           'Running',
-                  //           style: TextStyle(
-                  //               fontWeight: FontWeight.bold,
-                  //               fontFamily: 'Raleway',
-                  //               fontSize: MediaQuery.of(context).size.width / 12),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Container(
                     height: MediaQuery.of(context).size.height / 1.5,
                     width: MediaQuery.of(context).size.width,
@@ -283,82 +254,34 @@ class _MapScreenState extends State<MapScreen> {
                       },
                     ),
                   ),
-
-                  //  Divider(),
                   Expanded(
                     child: Container(
-                      child:
-                          // child: finishFlag == 1
-                          //     ? Container()
-                          Column(
+                      child: Column(
                         children: [
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 100,
-                          // ),
-                          // Center(
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //         color: Colors.grey,
-                          //         borderRadius: BorderRadius.circular(
-                          //             MediaQuery.of(context).size.height / 100)),
-                          //     height: MediaQuery.of(context).size.height / 500,
-                          //     width: MediaQuery.of(context).size.width / 3,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 80,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     // Padding(
-                          //     //     padding: const EdgeInsets.all(10.0),
-                          //     //     child:
-
-                          //     Container(
-                          //       child: Text(
-                          //         dateToShowOnScreen == null
-                          //             ? ''
-                          //             : DateFormat.MMMMEEEEd()
-                          //                 .format(dateToShowOnScreen)
-                          //                 .toString(),
-                          //         style: TextStyle(
-                          //             //color: Colors.white,
-                          //             fontFamily: 'Raleway',
-                          //             fontSize:
-                          //                 MediaQuery.of(context).size.height /
-                          //                     50),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          //  Divider(),
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 100,
-                          // ),
                           Container(
                             height:
                                 0.3 * MediaQuery.of(context).size.height / 3,
                             child: Column(
                               children: [
-                                // SizedBox(
-                                //   width: (3 / 8) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                                 Container(
                                   height: 0.25 *
                                       MediaQuery.of(context).size.height /
                                       3,
-                                  //PUT DURATION STOPWATCH HERE
-                                  // child: Text(
-                                  //   dist,
-                                  //   style: TextStyle(
-                                  //       // color: Colors.white,
-                                  //       fontSize:
-                                  //           MediaQuery.of(context).size.height /
-                                  //               25,
-                                  //       fontWeight: FontWeight.w700),
-                                  // ),
+                                  child: StreamBuilder<int>(
+                                    stream: stopWatchTimer.rawTime,
+                                    initialData: stopWatchTimer.rawTime.value,
+                                    builder: (context, snapshot) {
+                                      final value = snapshot.data;
+                                      final displayTime =
+                                          StopWatchTimer.getDisplayTime(value,
+                                              hours: isHours,
+                                              milliSecond: false);
+                                      return Text(
+                                        displayTime,
+                                        style: TextStyle(fontSize: 40),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 Container(
                                   child: Center(
@@ -370,10 +293,6 @@ class _MapScreenState extends State<MapScreen> {
                                     ),
                                   ),
                                 ),
-                                // SizedBox(
-                                //   width: (3 / 16) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                               ],
                             ),
                           ),
@@ -389,10 +308,6 @@ class _MapScreenState extends State<MapScreen> {
                                       MediaQuery.of(context).size.width / 2.2,
                                   child: Column(
                                     children: [
-                                      // SizedBox(
-                                      //   width: (3 / 8) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                       Container(
                                         height: 0.25 *
                                             MediaQuery.of(context).size.height /
@@ -422,27 +337,15 @@ class _MapScreenState extends State<MapScreen> {
                                           ),
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //   width: (3 / 16) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                     ],
                                   ),
                                 ),
                                 VerticalDivider(),
-                                // SizedBox(
-                                //   width: (3 / 8) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                                 Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.2,
                                   child: Column(
                                     children: [
-                                      // SizedBox(
-                                      //   width: (3 / 8) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                       Container(
                                         height: 0.25 *
                                             MediaQuery.of(context).size.height /
@@ -472,18 +375,9 @@ class _MapScreenState extends State<MapScreen> {
                                           ),
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //   width: (3 / 16) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                     ],
                                   ),
                                 ),
-
-                                // SizedBox(
-                                //   width: (3 / 16) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                               ],
                             ),
                           ),
@@ -505,12 +399,6 @@ class _MapScreenState extends State<MapScreen> {
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
-                                              //  height:MediaQuery.of(context).size.height/20,
-                                              // height: 0.2 * MediaQuery.of(context).size.height / 3 ,
-
-                                              // height:
-                                              //     MediaQuery.of(context).size.height /
-                                              //         ,
                                               child: Text(
                                                 'START RUN',
                                                 style: TextStyle(
@@ -523,9 +411,6 @@ class _MapScreenState extends State<MapScreen> {
                                                     fontWeight:
                                                         FontWeight.w600),
                                               ),
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius:
-                                              //         BorderRadius.circular(20),
                                               color: Colors.green[300],
                                             ),
                                           ],
@@ -545,6 +430,8 @@ class _MapScreenState extends State<MapScreen> {
                                               // ignore: deprecated_member_use
                                               FlatButton(
                                                 onPressed: () {
+                                                  stopWatchTimer.onExecute.add(
+                                                      StopWatchExecute.stop);
                                                   storeFinalLat = finalLatitude;
                                                   storeFinalLong =
                                                       finalLongitude;
@@ -584,7 +471,6 @@ class _MapScreenState extends State<MapScreen> {
                                                               .routeName,
                                                           arguments:
                                                               passingToShowResults);
-                                                  // }
                                                 },
                                                 child: Text('Yes'),
                                               ),
@@ -611,12 +497,8 @@ class _MapScreenState extends State<MapScreen> {
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
-                                              // height: MediaQuery.of(context)
-                                              //         .size
-                                              //         .height /
-                                              //     25,
                                               child: Text(
-                                                'END RUN',
+                                                'PAUSE RUN',
                                                 style: TextStyle(
                                                     fontSize:
                                                         MediaQuery.of(context)
@@ -627,9 +509,6 @@ class _MapScreenState extends State<MapScreen> {
                                                     fontWeight:
                                                         FontWeight.w600),
                                               ),
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius:
-                                              //         BorderRadius.circular(20),
                                               color: Colors.red[200],
                                             ),
                                     ),
@@ -637,14 +516,6 @@ class _MapScreenState extends State<MapScreen> {
                                 ),
                         ],
                       ),
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.only(
-                      //       topLeft: Radius.circular(
-                      //           MediaQuery.of(context).size.width / 10),
-                      //       topRight: Radius.circular(
-                      //           MediaQuery.of(context).size.width / 10)),
-                      //   color: Colors.grey[850],
-                      // ),
                     ),
                   ),
                 ],
@@ -654,5 +525,22 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
     ));
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final Color color;
+  final String label;
+  final Function onPressed;
+  CustomButton({this.color, this.label, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
+    return RaisedButton(
+      onPressed: onPressed,
+      color: color,
+      child: Text(label),
+    );
   }
 }

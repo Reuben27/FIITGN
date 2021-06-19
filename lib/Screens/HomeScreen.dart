@@ -31,6 +31,8 @@ import '../Nutrition/screens/nutritionScreen.dart';
 //////// ACTIVITIES
 import '../Sports-Activities/screens/activity_screens.dart';
 
+import '../Screens/stopwatch.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   static const routeName = '\HomeScreen';
@@ -143,14 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
       'heroID': 4,
     },
-    // {
-    //   'title': 'Running Buddy',
-    //   'url': 'assets/6517.png',
-    //   'routeName': '',
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 5,
-    // },
+    {
+      'title': 'Stop watch',
+      'url': 'assets/6517.png',
+      'routeName': StopWatchScreen.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 5,
+    },
     // // {
     // //   'title': 'Know Your Diet',
     // //   'url': 'assets/6569.png',

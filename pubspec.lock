@@ -28,7 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   background_location:
     dependency: "direct main"
     description:
@@ -513,6 +513,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.25.0"
   sensors:
     dependency: "direct main"
     description:
@@ -573,7 +580,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   stack_trace:
     dependency: transitive
     description:
@@ -581,6 +588,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  stop_watch_timer:
+    dependency: "direct main"
+    description:
+      name: stop_watch_timer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0"
   stream_channel:
     dependency: transitive
     description:
@@ -615,7 +629,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   transparent_image:
     dependency: transitive
     description:

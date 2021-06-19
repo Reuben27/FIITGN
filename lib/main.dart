@@ -1,3 +1,4 @@
+import 'package:fiitgn/Screens/stopwatch.dart';
 import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
 
 import './Workouts/screens/wishlist.dart';
@@ -51,6 +52,9 @@ import 'Nutrition/screens/nutritionScreen.dart';
 
 //// Activities
 import 'Sports-Activities/screens/activity_screens.dart';
+
+// StopWatch
+import './Screens/stopwatch.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding
@@ -140,6 +144,9 @@ class MyApp extends StatelessWidget {
 
           //// Activities
           Activity_Screen.routeName: (_) => Activity_Screen(),
+
+          //// Stopwatch
+          StopWatchScreen.routeName: (_) => StopWatchScreen(),
         },
       ),
     );
