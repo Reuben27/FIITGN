@@ -62,7 +62,7 @@ class ActivityData {
 
 // Google App Script Web URL.
 const String url =
-    "https://script.google.com/macros/s/AKfycbzKum_haSZpgLLZH_mTBgK5A4Ksp-GJC54uUDmvpl6XkCye9rnzpy_kK9xjA5DriVZJ5A/exec";
+    "https://script.google.com/macros/s/AKfycbw9gGfkya4rZ9HNcsHeQXP1sR-pQFIBDiQV9bSCIeFg9c412_jpiwE7DR42_qIvAxUH5w/exec";
 
 // Success Status Message
 const STATUS_SUCCESS = "SUCCESS";
