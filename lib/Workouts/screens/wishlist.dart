@@ -19,7 +19,7 @@ class Wishlist extends StatelessWidget {
     final workoutProvider = Provider.of<Workouts_Provider>(context);
     final List<WorkoutModel> followedWorkouts =
         workoutProvider.followedWorkouts();
-    print(followedWorkouts);
+    print(followedWorkouts.length);
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Workouts'),

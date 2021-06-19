@@ -58,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     data_provider.setDisplay(userDisplay);
     data_provider.setName(name);
     print(Data_Provider().name);
+    print(Data_Provider().email);
     print("Uids and tokens are set");
 
     /// initializing admin and exercise dbs
@@ -334,6 +335,38 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.height / 1.8,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 25,
+            top: MediaQuery.of(context).size.height / 6,
+            child: Container(
+              child: IconButton(
+                icon: Icon(FontAwesomeIcons.signOutAlt),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Do you want to Logout?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            logoutUser();
+                            SystemNavigator.pop();
+                          },
+                          child: Text('Yes'),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop(true);
+                          },
+                          child: Text('No'),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
           Container(
             height: MediaQuery.of(context).size.height,

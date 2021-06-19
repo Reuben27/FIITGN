@@ -90,53 +90,60 @@ class Workouts_Provider with ChangeNotifier {
     // finding the time of creation
     final time = DateTime.now();
     final String dateOfCreationOfWorkout = time.toIso8601String();
-    const url = "https://authentications-c0299.firebaseio.com/Workouts.json";
-    return http
-        .post(
-      Uri.parse(url),
-      body: json.encode(
-        {
-          'creatorId': creatorId,
-          'creator_name': creator_name,
-          'creationDate': dateOfCreationOfWorkout,
-          'workoutName': workoutName,
-          'workoutDescription': description,
-          'access': access,
-          'listOfExercisesId': listOfExercisesId,
-          'listOfFollowersId': listOfFollowersId,
-        },
-      ),
-    )
-        .then(
-      (response) {
-        var workoutId = json.decode(response.body)['name'];
-        print(workoutId);
-        WorkoutModel newWorkout = WorkoutModel(
-            creator_name: creator_name,
-            creatorId: creatorId,
-            workoutId: workoutId,
-            creationDate: dateOfCreationOfWorkout,
-            workoutName: workoutName,
-            description: description,
-            access: access,
-            listOfExercisesId: listOfExercisesId,
-            listOfFollowersId: listOfFollowersId);
-        _workoutsList.add(newWorkout);
-        notifyListeners();
-        // print(newWorkout.listOfExercisesId);
-      },
-    ).catchError(
-      (error) {
-        print(error);
-      },
-    );
+    const url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com//Workouts.json";
+    var response;
+    try {
+      response = await http.post(
+        Uri.parse(url),
+        body: json.encode(
+          {
+            'creatorId': creatorId,
+            'creator_name': creator_name,
+            'creationDate': dateOfCreationOfWorkout,
+            'workoutName': workoutName,
+            'workoutDescription': description,
+            'access': access,
+            'listOfExercisesId': listOfExercisesId,
+            'listOfFollowersId': listOfFollowersId,
+          },
+        ),
+      );
+    } catch (e) {
+      print("sss");
+    }
+
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    print("workout has been added to the Database");
+    print("%%%%%%%%%%%%%%%%%%%%%%");
+    var workoutId = json.decode(response.body)['name'];
+    print(workoutId);
+    WorkoutModel newWorkout = WorkoutModel(
+        creator_name: creator_name,
+        creatorId: creatorId,
+        workoutId: workoutId,
+        creationDate: dateOfCreationOfWorkout,
+        workoutName: workoutName,
+        description: description,
+        access: access,
+        listOfExercisesId: listOfExercisesId,
+        listOfFollowersId: listOfFollowersId);
+    _workoutsList.add(newWorkout);
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    print("workouts list has been updated");
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    notifyListeners();
+    // print(newWorkout.listOfExercisesId);
+
     //  get the list of all exercises
   }
 
   Future<void> showAllWorkouts() async {
+    print("SHOW ALL WORKOUTS CALLED");
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
-    const url = "https://authentications-c0299.firebaseio.com/Workouts.json";
+    const url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts.json";
     try {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map;
@@ -184,8 +191,10 @@ class Workouts_Provider with ChangeNotifier {
       );
       _workoutsList = filteredList;
       notifyListeners();
+      print("loaded list is ready");
       // return _workoutsList;
     } catch (e) {
+      print("ERROR IN LOADING ALL WORKOUTS");
       print(e);
     }
   }
@@ -194,11 +203,14 @@ class Workouts_Provider with ChangeNotifier {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
     final url =
-        "https://authentications-c0299.firebaseio.com/Workouts.json/$workoutId.json";
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
+    print(url);
     List followers = workout.listOfFollowersId;
     followers.add(user_uid);
+    print(followers);
+    // workout.listOfFollowersId.add(user_uid);
     try {
-      await http.patch(Uri.parse(url),
+      var x = await http.patch(Uri.parse(url),
           body: json.encode({
             'access': workout.access,
             'creationDate': workout.creationDate,
@@ -207,6 +219,7 @@ class Workouts_Provider with ChangeNotifier {
             'listOfExercisesId': workout.listOfExercisesId,
             'listOfFollowersId': followers,
           }));
+      print(x.body);
       print("follower list has been updated");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
@@ -223,8 +236,10 @@ class Workouts_Provider with ChangeNotifier {
           _workoutsList.indexWhere((element) => element.workoutId == workoutId);
       _workoutsList[index] = updatedWorkout;
       print(_workoutsList[index].listOfFollowersId);
+      print("workout saved locally");
       notifyListeners();
     } catch (e) {
+      print("ERROR OCCURED");
       print(e);
     }
   }
@@ -234,11 +249,11 @@ class Workouts_Provider with ChangeNotifier {
     String user_email = Data_Provider().email;
 
     final url =
-        "https://authentications-c0299.firebaseio.com/Workouts.json/$workoutId.json";
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
     List followers = workout.listOfFollowersId;
     followers.remove(user_uid);
     try {
-      await http.patch(Uri.parse(url),
+      var x = await http.patch(Uri.parse(url),
           body: json.encode({
             'access': workout.access,
             'creationDate': workout.creationDate,
@@ -247,6 +262,8 @@ class Workouts_Provider with ChangeNotifier {
             'listOfExercisesId': workout.listOfExercisesId,
             'listOfFollowersId': followers,
           }));
+
+      print(x.body);
       print("user has been unfollowed");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
