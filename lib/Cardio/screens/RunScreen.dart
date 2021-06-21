@@ -227,6 +227,26 @@ class _MapScreenState extends State<MapScreen> {
         // height: height,
         // width: width,
         Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[100],
+        // bottom: PreferredSize(
+        //   child: Text(
+        //     "SESSIONS CURRENTLY UNDERWAY",
+        //     style: TextStyle(fontFamily: 'Gilroy'),
+        //   ),
+        //   preferredSize: Size.fromHeight(1),
+        //   ),
+        //   backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          'RUNNING',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 30,
+              fontFamily: 'Gilroy'),
+        ),
+      ),
       key: key,
       body: WillPopScope(
         onWillPop: () {
@@ -241,7 +261,7 @@ class _MapScreenState extends State<MapScreen> {
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height / 1.5,
+                    height: MediaQuery.of(context).size.height / 1.7,
                     width: MediaQuery.of(context).size.width,
                     child: GoogleMap(
                       initialCameraPosition: initialPosition,
@@ -256,6 +276,15 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   Expanded(
                     child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                              MediaQuery.of(context).size.height / 20),
+                          topRight: Radius.circular(
+                              MediaQuery.of(context).size.height / 20),
+                        ),
+                      ),
                       child: Column(
                         children: [
                           Container(
@@ -264,6 +293,7 @@ class _MapScreenState extends State<MapScreen> {
                             child: Column(
                               children: [
                                 Container(
+                                  alignment: Alignment.center,
                                   height: 0.25 *
                                       MediaQuery.of(context).size.height /
                                       3,
@@ -278,7 +308,15 @@ class _MapScreenState extends State<MapScreen> {
                                               milliSecond: false);
                                       return Text(
                                         displayTime,
-                                        style: TextStyle(fontSize: 40),
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.15 *
+                                                MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                3,
+                                            // color: Colors.white,
+                                            fontWeight: FontWeight.w700),
                                       );
                                     },
                                   ),
@@ -383,137 +421,129 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                           Divider(),
                           finishFlag == 0
-                              ? Expanded(
-                                  child: Container(
-                                    child: InkWell(
-                                      // print("%%%%%%%%%%%%%%%%%");
-                                      // print("starting the run");
-                                      onTap: getCurrentLocation,
-                                      child: IntrinsicHeight(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Container(
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: Text(
-                                                'START RUN',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            45,
-                                                    fontFamily: 'Gilroy',
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              color: Colors.green[300],
-                                            ),
-                                          ],
-                                        ),
+                              ? Container(
+                                  child: InkWell(
+                                    // print("%%%%%%%%%%%%%%%%%");
+                                    // print("starting the run");
+                                    onTap: getCurrentLocation,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.green[300],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      height:
+                                          MediaQuery.of(context).size.width /
+                                              10,
+                                      child: Text(
+                                        'START RUN',
+                                        style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                35,
+                                            fontFamily: 'Gilroy',
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                   ),
                                 )
-                              : Expanded(
-                                  child: Container(
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) {
-                                            var actions2 = [
-                                              // ignore: deprecated_member_use
-                                              FlatButton(
-                                                onPressed: () {
-                                                  stopWatchTimer.onExecute.add(
-                                                      StopWatchExecute.stop);
-                                                  storeFinalLat = finalLatitude;
-                                                  storeFinalLong =
-                                                      finalLongitude;
-                                                  print(distance);
-                                                  endingTime = DateTime.now();
-                                                  passingToShowResults[
-                                                          'initialLat'] =
-                                                      storeInitialLat;
-                                                  passingToShowResults[
-                                                          'initialLong'] =
-                                                      storeInitialLong;
-                                                  passingToShowResults[
-                                                          'finalLat'] =
-                                                      storeFinalLat;
-                                                  passingToShowResults[
-                                                          'finalLong'] =
-                                                      storeFinalLong;
-                                                  passingToShowResults[
-                                                          'initialTime'] =
-                                                      startingTime;
-                                                  passingToShowResults[
-                                                      'finalTime'] = endingTime;
-                                                  passingToShowResults[
-                                                      'distance'] = distance;
-                                                  passingToShowResults[
-                                                          'listOfLatLng'] =
-                                                      listOfLatLngForPoly;
+                              : Container(
+                                  child: InkWell(
+                                    // print("%%%%%%%%%%%%%%%%%");
+                                    // print("starting the run");
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          var actions2 = [
+                                            // ignore: deprecated_member_use
+                                            FlatButton(
+                                              onPressed: () {
+                                                stopWatchTimer.onExecute
+                                                    .add(StopWatchExecute.stop);
+                                                storeFinalLat = finalLatitude;
+                                                storeFinalLong = finalLongitude;
+                                                print(distance);
+                                                endingTime = DateTime.now();
+                                                passingToShowResults[
+                                                        'initialLat'] =
+                                                    storeInitialLat;
+                                                passingToShowResults[
+                                                        'initialLong'] =
+                                                    storeInitialLong;
+                                                passingToShowResults[
+                                                    'finalLat'] = storeFinalLat;
+                                                passingToShowResults[
+                                                        'finalLong'] =
+                                                    storeFinalLong;
+                                                passingToShowResults[
+                                                        'initialTime'] =
+                                                    startingTime;
+                                                passingToShowResults[
+                                                    'finalTime'] = endingTime;
+                                                passingToShowResults[
+                                                    'distance'] = distance;
+                                                passingToShowResults[
+                                                        'listOfLatLng'] =
+                                                    listOfLatLngForPoly;
 
-                                                  // print("All parameters stored successfully");
+                                                // print("All parameters stored successfully");
 
-                                                  // _locationSubscription.cancel();
-                                                  bLoc.BackgroundLocation
-                                                      .stopLocationService();
-                                                  Navigator.of(context)
-                                                      .pushReplacementNamed(
-                                                          ShowResultsScreen
-                                                              .routeName,
-                                                          arguments:
-                                                              passingToShowResults);
-                                                },
-                                                child: Text('Yes'),
-                                              ),
-                                              // ignore: deprecated_member_use
-                                              FlatButton(
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop(true);
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                            ];
-                                            return AlertDialog(
-                                              title: Text(
-                                                  'Are you sure you want to end Run?'),
-                                              actions: actions2,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: finishFlag == 0
-                                          ? Container()
-                                          : Container(
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: Text(
-                                                'PAUSE RUN',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            45,
-                                                    fontFamily: 'Gilroy',
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              color: Colors.red[200],
+                                                // _locationSubscription.cancel();
+                                                bLoc.BackgroundLocation
+                                                    .stopLocationService();
+                                                Navigator.of(context)
+                                                    .pushReplacementNamed(
+                                                        ShowResultsScreen
+                                                            .routeName,
+                                                        arguments:
+                                                            passingToShowResults);
+                                              },
+                                              child: Text('Yes'),
                                             ),
+                                            // ignore: deprecated_member_use
+                                            FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(ctx).pop(true);
+                                              },
+                                              child: Text('No'),
+                                            ),
+                                          ];
+                                          return AlertDialog(
+                                            title: Text(
+                                                'Are you sure you want to end Run?'),
+                                            actions: actions2,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.red[300],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      alignment: Alignment.center,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.5,
+                                      height:
+                                          MediaQuery.of(context).size.width /
+                                              10,
+                                      child: Text(
+                                        'END RUN',
+                                        style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                35,
+                                            fontFamily: 'Gilroy',
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                )
                         ],
                       ),
                     ),

@@ -158,7 +158,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           // Text("Add Set Number:  "),
           Container(
         // width: MediaQuery.of(context).size.width / 5,
-        child: Set_Counter(),
+        child: Set_Counter(), 
       ),
     );
   }

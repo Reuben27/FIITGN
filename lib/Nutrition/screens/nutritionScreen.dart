@@ -27,32 +27,53 @@ class _NutritionScreenState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Nutrition Data"),
-      ),
-      body: PageView(
-        children: [
-          ListView(
-            children: [
-              SizedBox(height: 26),
-              Text("Today: ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Gro",
-                  )),
-              getDay(items, DateTime.now().weekday),
-              SizedBox(height: 26),
-              Text("Tomorrow: ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Gro",
-                  )),
-              getDay(items, DateTime.now().weekday + 1),
-              SizedBox(height: 26),
-            ],
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Nutrition Data"),
+        ),
+        body: PageView(
+          children: [
+            ListView(
+              children: [
+                // SizedBox(height: 26),
+                Text("Today: ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Gro",
+                    )),
+                getDay(items, DateTime.now().weekday),
+                // // SizedBox(height: 26),
+                // Text("Tomorrow: ",
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontFamily: "Gro",
+                //     )),
+                // getDay(items, DateTime.now().weekday + 1),
+              //  SizedBox(height: 26),
+              ],
+            ),
+            ListView(
+              children: [
+                // SizedBox(height: 26),
+                // Text("Today: ",
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontFamily: "Gro",
+                //     )),
+                // getDay(items, DateTime.now().weekday),
+                // // SizedBox(height: 26),
+                Text("Tomorrow: ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Gro",
+                    )),
+                getDay(items, DateTime.now().weekday + 1),
+               // SizedBox(height: 26),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
