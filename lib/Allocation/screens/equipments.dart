@@ -1,15 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fiitgn/Allocation/screens/rooms.dart';
+import 'package:fiitgn/Allocation/screens/sports.dart';
 import 'package:fiitgn/Allocation/utils/equipmentupdater.dart';
 import 'package:flutter/material.dart';
 import './orderconfirmation.dart';
 import '../data/initialize.dart';
 import 'notify.dart';
+import 'entry.dart';
 
 class Equipments extends StatefulWidget {
   _EquipmentsState createState() => _EquipmentsState();
 }
 
 class _EquipmentsState extends State<Equipments> {
+  String next = reflag == 0 ? "Room" : "Equipment";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,16 +42,90 @@ class _EquipmentsState extends State<Equipments> {
           }
           print(orders);
           await infogetter();
+          return showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                  title: Row(
+                    children: [
+                      Text(
+                        "Booking Successful",
+                        style: TextStyle(fontFamily: "Gilroy"),
+                      ),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green[300],
+                      ),
+                    ],
+                  ),
+                  content: Container(
+                    height: MediaQuery.of(context).size.height / 7,
+                    child: Column(
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.deepOrange[300]),
+                          ),
+                          child: Text(
+                            "Home",
+                            style: TextStyle(
+                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Sports(),
+                              ),
+                            );
+                          },
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Colors.deepOrange[300],
+                            ),
+                          ),
+                          child: Text(
+                            'Book ' + next,
+                            style: TextStyle(
+                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                          ),
+                          onPressed: () {
+                            if (reflag == 0) {
+                              reflag = 1;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Rooms(),
+                                ),
+                              );
+                            } else {
+                              reflag = 0;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Entry(),
+                                ),
+                              );
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                  )));
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Notify(),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => Notify(),
+          //   ),
+          // );
         },
         tooltip: 'Show me the value!',
-        child: Icon(Icons.check_sharp,color: Colors.deepOrange[300],),
+        child: Icon(
+          Icons.check_sharp,
+          color: Colors.deepOrange[300],
+        ),
         backgroundColor: Colors.grey[300],
       ),
     );
@@ -119,7 +197,7 @@ class _DisplayDataState extends State<DisplayData> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 9,
                 child: Container(
-                  margin: EdgeInsets.only(left: 10, right: 5,top: 5),
+                  margin: EdgeInsets.only(left: 10, right: 5, top: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -1,3 +1,5 @@
+import 'package:fiitgn/Allocation/screens/rooms.dart';
+import 'package:fiitgn/Allocation/screens/sports.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +21,7 @@ class Entry extends StatefulWidget {
 }
 
 class _EntryState extends State<Entry> {
+  String next = reflag == 0 ? "Room" : "Equipment";
   List<String> timeofDay = [
     "00",
     "01",
@@ -269,13 +272,84 @@ class _EntryState extends State<Entry> {
                 print("Room has been booked.");
               }
             }
+             return showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                  title: Row(
+                    children: [
+                      Text(
+                        "Booking Successful",
+                        style: TextStyle(fontFamily: "Gilroy"),
+                      ),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green[300],
+                      ),
+                    ],
+                  ),
+                  content: Container(
+                    height: MediaQuery.of(context).size.height / 7,
+                    child: Column(
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.deepOrange[300]),
+                          ),
+                          child: Text(
+                            "Home",
+                            style: TextStyle(
+                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Sports(),
+                              ),
+                            );
+                          },
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Colors.deepOrange[300],
+                            ),
+                          ),
+                          child: Text(
+                            'Book ' + next,
+                            style: TextStyle(
+                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                          ),
+                          onPressed: () {
+                            if (reflag == 0) {
+                              reflag = 1;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Rooms(),
+                                ),
+                              );
+                            } else {
+                              reflag = 0;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Entry(),
+                                ),
+                              );
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                  )));
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Notify(),
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => Notify(),
+            //   ),
+            // );
           } else {
             print(sportequipmentid);
             int go = await getName(sportequipmentid);
