@@ -19,7 +19,32 @@ class Entry extends StatefulWidget {
 }
 
 class _EntryState extends State<Entry> {
-  List<String> timeofDay = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"];
+  List<String> timeofDay = [
+    "00",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+  ];
   List<Color> colorList = [];
   Map<int, List<Color>> colorMap = {};
 
@@ -27,16 +52,16 @@ class _EntryState extends State<Entry> {
   int chosendayindex = -1;
   int chosentimeindex = -1;
 
-  void createColorMap(){
+  void createColorMap() {
     //create colorList
-    for(int i = 0; i < 24; i++){
+    for (int i = 0; i < 24; i++) {
       colorList.add(Colors.grey[300]);
     }
 
-    for(int i = 0; i < 7; i++){     
-     List<Color> temp = [...colorList];
-     // ignore: unnecessary_cast
-     colorMap[i] = temp as List<Color>; //required cast
+    for (int i = 0; i < 7; i++) {
+      List<Color> temp = [...colorList];
+      // ignore: unnecessary_cast
+      colorMap[i] = temp as List<Color>; //required cast
     }
   }
 
@@ -46,140 +71,189 @@ class _EntryState extends State<Entry> {
     createColorMap();
     super.initState();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.deepOrange[300],
         title: Text(
           "CHOOSE SLOTS",
           style: TextStyle(
-              color: Colors.black, fontSize: 25, fontFamily: 'Gilroy'),
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 25,
+              fontFamily: 'Gilroy'),
         ),
         centerTitle: true,
       ),
       body: SafeArea(
-        child: ListView.builder(
+        child: ListView.separated(
+          separatorBuilder: (context, dayindex) => Divider(),
           itemCount: 7,
-          itemBuilder: (context, dayindex) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 50,
-                  ),
-                  Text(
-                    DateFormat.MMMMEEEEd().format(
-                      DateTime.now().add(
-                        Duration(days: dayindex),
+          itemBuilder: (context, dayindex) => Container(
+            margin: EdgeInsets.only(
+                right: 10,
+                left: 10,
+                top: MediaQuery.of(context).size.height / 40,
+                bottom: MediaQuery.of(context).size.height / 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      DateFormat.MMMMEEEEd()
+                          .format(
+                            DateTime.now().add(
+                              Duration(days: dayindex),
+                            ),
+                          )
+                          .toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
                       ),
                     ),
-                    style: TextStyle(
-                      fontFamily: 'Gilroy',
-                      fontSize: 22,
+                    Row(
+                      children: [
+                        Text(
+                          "Swipe",
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontFamily: 'Gilroy',
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.deepOrange[300],
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 80,
+                ),
+                Container(
+                  child: ListView.separated(
+                    separatorBuilder: (context, timeindex) => SizedBox(
+                      width: MediaQuery.of(context).size.width / 20,
                     ),
-                  ),
-                ],
-              ),
-              Container(
-                child: ListView.builder(
-                  itemCount: timeofDay.length,
-                  itemBuilder: (context, timeindex) => Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: (){
-                        if(numberofslotschoosen == 0){
-                          if (colorMap[dayindex][timeindex] == Colors.grey[300]) {
-                            print(dayindex);
-                            print("Hey");
-                            setState(() {
+                    itemCount: timeofDay.length,
+                    itemBuilder: (context, timeindex) => Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (numberofslotschoosen == 0) {
+                            if (colorMap[dayindex][timeindex] ==
+                                Colors.grey[300]) {
                               print(dayindex);
-                              print(colorMap[dayindex][timeindex]);
-                              colorMap[dayindex][timeindex] = Colors.green;
-                              chosendayindex = dayindex;
-                              chosentimeindex = timeindex;
-                              print(colorMap);
-                            });  
-                            numberofslotschoosen += 1;                        
-                          }
-                        } else {
-                          if (colorMap[dayindex][timeindex] == Colors.grey[300]) {
-                            print("Cannot chose more than one time slot");                       
+                              print("Hey");
+                              setState(() {
+                                print(dayindex);
+                                print(colorMap[dayindex][timeindex]);
+                                colorMap[dayindex][timeindex] = Colors.green;
+                                chosendayindex = dayindex;
+                                chosentimeindex = timeindex;
+                                print(colorMap);
+                              });
+                              numberofslotschoosen += 1;
+                            }
                           } else {
-                            setState(() {
-                              colorMap[dayindex][timeindex] = Colors.grey[300];
-                              chosendayindex = -1;
-                              chosentimeindex = -1;
-                            });  
-                            numberofslotschoosen -= 1;  
+                            if (colorMap[dayindex][timeindex] ==
+                                Colors.grey[300]) {
+                              print("Cannot chose more than one time slot");
+                            } else {
+                              setState(() {
+                                colorMap[dayindex][timeindex] =
+                                    Colors.grey[300];
+                                chosendayindex = -1;
+                                chosentimeindex = -1;
+                              });
+                              numberofslotschoosen -= 1;
+                            }
                           }
-                        }
-                      },
-                      child: Container(
-                        child: Center(
-                          child: Text(
-                            timeofDay[timeindex] + ":00"
-                            ,
-                            style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              fontSize: 30,
+                        },
+                        child: Container(
+                          child: Center(
+                            child: Text(
+                              timeofDay[timeindex] + ":00",
+                              style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 30,
+                              ),
                             ),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: colorMap[dayindex][timeindex],
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.green[300],
+                                offset: Offset(
+                                  2.0, // Move to right 10  horizontally
+                                  2.0, // Move to bottom 10 Vertically
+                                ),
+                              )
+                            ],
+                            //   border: Border.all(color: Colors.green[300],width: 3),
+                            color: colorMap[dayindex][timeindex],
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15),
+                            ),
                           ),
+                          width: MediaQuery.of(context).size.width / 3.5,
                         ),
-                        width: MediaQuery.of(context).size.width / 3,
                       ),
                     ),
+                    scrollDirection: Axis.horizontal,
                   ),
-                  scrollDirection: Axis.horizontal,
+                  height: MediaQuery.of(context).size.height / 10,
+                  width: MediaQuery.of(context).size.width,
+                  //color: Colors.blueGrey,
                 ),
-                height: MediaQuery.of(context).size.height / 10,
-                width: MediaQuery.of(context).size.width,
-                //color: Colors.blueGrey,
-              ),
-              Divider(),
-            ],
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepOrange[300],
         onPressed: () async {
           print(chosendayindex);
           print(chosentimeindex);
           //edge case
-          if(chosentimeindex == 23){
-            DateTime starting = DateTime.now().add(Duration(days: chosendayindex));
-            DateTime ending = DateTime.now().add(Duration(days: (chosendayindex+1)));
+          if (chosentimeindex == 23) {
+            DateTime starting =
+                DateTime.now().add(Duration(days: chosendayindex));
+            DateTime ending =
+                DateTime.now().add(Duration(days: (chosendayindex + 1)));
             starttime = DateFormat('yyyy-MM-dd').format(starting).trim();
             endtime = DateFormat('yyyy-MM-dd').format(ending).trim();
-            starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+            starttime =
+                starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
             endtime = endtime + " " + timeofDay[0] + ":00:00.000";
             starttime = starttime.trim();
             endtime = endtime.trim();
             print(starttime);
             print(endtime);
-
-          } else{
-            DateTime starting = DateTime.now().add(Duration(days: chosendayindex));
-            DateTime ending = DateTime.now().add(Duration(days: chosendayindex));
+          } else {
+            DateTime starting =
+                DateTime.now().add(Duration(days: chosendayindex));
+            DateTime ending =
+                DateTime.now().add(Duration(days: chosendayindex));
             starttime = DateFormat('yyyy-MM-dd').format(starting).trim();
             endtime = DateFormat('yyyy-MM-dd').format(ending).trim();
-            starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
-            endtime = endtime + " " + timeofDay[chosentimeindex+1] + ":00:00.000";
+            starttime =
+                starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+            endtime =
+                endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
             starttime = starttime.trim();
             endtime = endtime.trim();
             print(starttime);
             print(endtime);
           }
-          
 
           print(reflag);
 
@@ -192,25 +266,27 @@ class _EntryState extends State<Entry> {
               int updatedornot = await updater(starttime, endtime);
 
               if (updatedornot == 1) {
-                print("Room has been booked.");                
+                print("Room has been booked.");
               }
             }
 
-            Navigator.push(context, 
-              MaterialPageRoute(builder: (context) => Notify(),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Notify(),
               ),
             );
           } else {
             print(sportequipmentid);
             int go = await getName(sportequipmentid);
-            if (go == 1)
-            {
+            if (go == 1) {
               //int makecontroller = await makeTextControllers();
               int makecounter = await makeCounters();
               //go to getavailability.
               availability = await checkavailability(starttime, endtime);
               print(availability);
-              Navigator.push(context,
+              Navigator.push(
+                context,
                 MaterialPageRoute(
                   builder: (context) => Equipments(),
                 ),
@@ -219,8 +295,8 @@ class _EntryState extends State<Entry> {
           }
         },
         tooltip: 'Show me the value!',
-        child: Text(
-          'Next',
+        child: Icon(
+          Icons.arrow_forward,
         ),
       ),
     );
@@ -239,7 +315,6 @@ Future<int> makeTextControllers() async {
 
   return 1;
 }
-
 
 //Function to make the list of counters for the equiments.dart
 Future<int> makeCounters() async {
