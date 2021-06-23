@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import './LocalNotifications.dart';
+import '../main.dart';
 
 FlutterLocalNotificationsPlugin notificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -22,17 +24,40 @@ class _NotificationsState extends State<Notifications> {
   String _hourEntry, _minuteEntry, _timeEntry;
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _timeController = TextEditingController();
-  String token;
 
   @override
   void initState() {
-    getToken();
-    initializeSetting();
+    super.initState();
+    LocalNotificationService.initializeSetting(context);
+    // initializeSetting();
     tz.initializeTimeZones();
     _timeController.text = formatDate(
         DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
         [hh, ':', nn, " ", am]).toString();
-    super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message.data != null) {
+        final routeName = message.data["route"];
+        print(routeName);
+        // Navigator.of(context).pushNamed(routeName);
+      }
+    });
+
+    //When Open.
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.notification != null) {
+        print(message.notification.title);
+        print(message.notification.body);
+      }
+      LocalNotificationService.display(message);
+    });
+
+    //When in bg but not killed
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final routeName = message.data["route"];
+      print(routeName);
+      // Navigator.of(context).pushNamed(routeName);
+    });
   }
 
   Future<Null> _selectTime(BuildContext context) async {
@@ -146,7 +171,8 @@ class _NotificationsState extends State<Notifications> {
                 print("New Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate("syiedfbsijdbvsudbv", selectedTime.hour, selectedTime.minute, 5);
+                notiupdate("syiedfbsijdbvsudbv", selectedTime.hour,
+                    selectedTime.minute, 5);
                 await showNewDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
@@ -163,8 +189,8 @@ class _NotificationsState extends State<Notifications> {
                 print("Old Daily");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate(token, selectedTime.hour,
-                    selectedTime.minute, 5);
+                print(token);
+                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
                 await showOldDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
@@ -312,19 +338,19 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 
-  getToken() async {
-    String token = await FirebaseMessaging.instance.getToken();
-    print(token);
-  }
+
 
   void notiupdate(String tokenid, int hour, int minute, int workoutid) async {
     CollectionReference notify =
         FirebaseFirestore.instance.collection("Notifications");
+    print(tokenid);
     DocumentSnapshot documentSnapshot = await notify.doc(tokenid).get();
     var timemap = {};
+    var tokenID;
     var numberofnoti;
     if (documentSnapshot.exists) {
       timemap = await documentSnapshot['TimeMap'];
+      tokenID = await documentSnapshot['TokenID'];
       print(timemap);
       numberofnoti = await documentSnapshot['numberofnoti'];
       numberofnoti += 1;
@@ -335,10 +361,12 @@ class _NotificationsState extends State<Notifications> {
       await notify.doc(tokenid).update({
         'TimeMap': timemap,
         'numberofnoti': numberofnoti,
+        'TokenID': tokenID
       });
       print("Updated");
     } else {
       notify.doc(tokenid).set({
+        'TokenID': tokenid,
         'TimeMap': {
           '1': {
             'time': {

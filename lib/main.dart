@@ -1,4 +1,6 @@
 // import 'package:Fiitgn1/Providers/DataProvider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -49,10 +51,25 @@ import 'Guided-Sessions/screens/sessions.dart';
 //// Nutrition
 import 'Nutrition/screens/nutritionScreen.dart';
 
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.notification.title);
+  print(message.notification.body);
+  print(message.data.toString());
+}
+
+String token;
+getToken() async {
+  token = await FirebaseMessaging.instance.getToken();
+  print(token);
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //Method needed to initialize firebase application.
   await Firebase.initializeApp();
+  getToken();
+  // When killed
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MyApp());
 }
 
