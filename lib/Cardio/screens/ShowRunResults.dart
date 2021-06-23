@@ -113,214 +113,351 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        titleSpacing: 10,
+        backgroundColor: Colors.blue[100],
+        centerTitle: true,
         title: Text(
-          'Run Results',
+          'RUN RESULTS',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 30,
+              fontFamily: 'Gilroy'),
         ),
       ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(25, 30, 25, 25),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      // Container(
-                      //   width: 70,
-                      //   height: 70,
-                      //   padding: EdgeInsets.all(15),
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(100),
-                      //     color: Theme.of(context).primaryColor.withAlpha(50),
-                      //   ),
-                      //   child: Image.asset(
-                      //     'assets/iitgnlogo-emblem.png',
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 30),
-                      // ),
-                      // Text(
-                      //   "$distanceString kms",
-                      //   style: TextStyle(
-                      //     color: Theme.of(context).primaryColor,
-                      //     fontSize: 80,
-                      //     // fontFamily: 'Bebas',
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(top: 15),
-                      // ),
-                      // Container(
-                      //   padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
-                      //   width: MediaQuery.of(context).size.width,
-                      //   child: Column(
-                      //     children: <Widget>[
-                      //       // Row(
-                      //       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       //   children: <Widget>[
-                      //       //     Text(
-                      //       //       '0 kms'.toUpperCase(),
-                      //       //       style: TextStyle(
-                      //       //         color: Colors.grey,
-                      //       //       ),
-                      //       //     ),
-                      //       //     Text(
-                      //       //       '10 kms'.toUpperCase(),
-                      //       //       style: TextStyle(
-                      //       //         color: Colors.grey,
-                      //       //       ),
-                      //       //     ),
-                      //       //   ],
-                      //       // ),
-                      //       // LinearPercentIndicator(
-                      //       //   lineHeight: 8.0,
-                      //       //   percent: percent,
-                      //       //   linearStrokeCap: LinearStrokeCap.roundAll,
-                      //       //   backgroundColor:
-                      //       //       Theme.of(context).accentColor.withAlpha(30),
-                      //       //   progressColor: Theme.of(context).primaryColor,
-                      //       // ),
-                      //       Padding(
-                      //         padding: EdgeInsets.only(top: 30),
-                      //       ),
-                      //       Text(
-                      //         'Time of Run'.toUpperCase(),
-                      //         style: TextStyle(
-                      //           color: Theme.of(context).accentColor,
-                      //           // fontFamily: 'Bebas',
-                      //           fontSize: 24,
-                      //           fontWeight: FontWeight.bold,
-                      //         ),
-                      //       ),
-                      //       Text(
-                      //         '$timeMin min(s)',
-                      //         style: TextStyle(
-                      //           color: Theme.of(context).accentColor,
-                      //           fontSize: 16,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // Divider(
-                      //   height: 25,
-                      //   color: Colors.grey[300],
-                      // ),
-                      // Container(
-                      //   child: Row(
-                      //     children: <Widget>[
-                      //       Expanded(
-                      //         flex: 2,
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: <Widget>[
-                      //             Text(
-                      //               'AVG SPEED',
-                      //               style: TextStyle(
-                      //                 color: Theme.of(context).primaryColor,
-                      //                 fontWeight: FontWeight.bold,
-                      //               ),
-                      //             ),
-                      //             RichText(
-                      //               text: TextSpan(
-                      //                 children: [
-                      //                   TextSpan(
-                      //                     text: '$avgSpeedString',
-                      //                     style: TextStyle(
-                      //                       fontSize: 20,
-                      //                       color:
-                      //                           Theme.of(context).accentColor,
-                      //                       fontWeight: FontWeight.bold,
-                      //                     ),
-                      //                   ),
-                      //                   TextSpan(
-                      //                     text: ' m/s',
-                      //                     style: TextStyle(
-                      //                       color: Colors.grey,
-                      //                       fontWeight: FontWeight.bold,
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       Expanded(
-                      //         flex: 2,
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.center,
-                      //           children: <Widget>[
-                      //             Text(
-                      //               'CALORIES',
-                      //               style: TextStyle(
-                      //                 color: Theme.of(context).primaryColor,
-                      //                 fontWeight: FontWeight.bold,
-                      //               ),
-                      //             ),
-                      //             RichText(
-                      //               text: TextSpan(
-                      //                 children: [
-                      //                   TextSpan(
-                      //                     text: 'Upcoming Feature!',
-                      //                     style: TextStyle(
-                      //                       fontSize: 20,
-                      //                       color:
-                      //                           Theme.of(context).accentColor,
-                      //                       fontWeight: FontWeight.bold,
-                      //                     ),
-                      //                   ),
-                      //                   TextSpan(
-                      //                     text: '',
-                      //                     style: TextStyle(
-                      //                       color: Colors.grey,
-                      //                       fontWeight: FontWeight.bold,
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      Divider(
-                        height: 25,
-                        color: Colors.grey[300],
+          : Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height / 1.7,
+                    color: Colors.black,
+                    child: createSmallMap(routeArgs),
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(
+                              MediaQuery.of(context).size.height / 20),
+                          topRight: Radius.circular(
+                              MediaQuery.of(context).size.height / 20),
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            PolyLineScreen.routeName,
-                            arguments: toPassToPolyLine,
-                          );
-                        },
-                        elevation: 10,
-                        color: Theme.of(context).primaryColor,
-                        child: Text('See Run'),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          // Add function to add code to database
+                      child: Column(
+                        children: [
+                          Container(
+                            height:
+                                0.3 * MediaQuery.of(context).size.height / 3,
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 0.25 *
+                                      MediaQuery.of(context).size.height /
+                                      3,
+                                  child: Text(
+                                    timeMin,
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontSize: 0.15 *
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        // color: Colors.white,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                                Container(
+                                  child: Center(
+                                    child: Text(
+                                      'DURATION',
+                                      style: TextStyle(
+                                          //      color: Colors.white,
+                                          fontFamily: 'Gilroy'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(),
+                          Container(
+                            height:
+                                0.3 * MediaQuery.of(context).size.height / 3,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 0.25 *
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        child: Center(
+                                          child: Text(
+                                            "$distanceString",
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.15 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    3,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            'KILOMETRES',
+                                            style: TextStyle(
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                VerticalDivider(),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 0.25 *
+                                            MediaQuery.of(context).size.height /
+                                            3,
+                                        child: Center(
+                                          child: Text(
+                                            avgSpeedString,
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.15 *
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    3,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            'MPS',
+                                            style: TextStyle(
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(),
+                          // finishFlag == 0
+                          //     ? Container(
+                          //         child: InkWell(
+                          //           // print("%%%%%%%%%%%%%%%%%");
+                          //           // print("starting the run");
+                          //           onTap: getCurrentLocation,
+                          //           child: Container(
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.green[300],
+                          //                 borderRadius:
+                          //                     BorderRadius.circular(10)),
+                          //             alignment: Alignment.center,
+                          //             width: MediaQuery.of(context).size.width /
+                          //                 2.5,
+                          //             height:
+                          //                 MediaQuery.of(context).size.width /
+                          //                     10,
+                          //             child: Text(
+                          //               'START RUN',
+                          //               style: TextStyle(
+                          //                   fontSize: MediaQuery.of(context)
+                          //                           .size
+                          //                           .height /
+                          //                       35,
+                          //                   fontFamily: 'Gilroy',
+                          //                   fontWeight: FontWeight.w600),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                          //     : Container(
+                          //         child: InkWell(
+                          //           // print("%%%%%%%%%%%%%%%%%");
+                          //           // print("starting the run");
+                          //           onTap: () {
+                          //             showDialog(
+                          //               context: context,
+                          //               builder: (ctx) {
+                          //                 var actions2 = [
+                          //                   // ignore: deprecated_member_use
+                          //                   FlatButton(
+                          //                     onPressed: () {
+                          //                       stopWatchTimer.onExecute
+                          //                           .add(StopWatchExecute.stop);
+                          //                       storeFinalLat = finalLatitude;
+                          //                       storeFinalLong = finalLongitude;
+                          //                       print(distance);
+                          //                       endingTime = DateTime.now();
+                          //                       passingToShowResults[
+                          //                               'initialLat'] =
+                          //                           storeInitialLat;
+                          //                       passingToShowResults[
+                          //                               'initialLong'] =
+                          //                           storeInitialLong;
+                          //                       passingToShowResults[
+                          //                           'finalLat'] = storeFinalLat;
+                          //                       passingToShowResults[
+                          //                               'finalLong'] =
+                          //                           storeFinalLong;
+                          //                       passingToShowResults[
+                          //                               'initialTime'] =
+                          //                           startingTime;
+                          //                       passingToShowResults[
+                          //                           'finalTime'] = endingTime;
+                          //                       passingToShowResults[
+                          //                           'distance'] = distance;
+                          //                       passingToShowResults[
+                          //                               'listOfLatLng'] =
+                          //                           listOfLatLngForPoly;
 
+                          //                       // print("All parameters stored successfully");
+
+                          //                       // _locationSubscription.cancel();
+                          //                       bLoc.BackgroundLocation
+                          //                           .stopLocationService();
+                          //                       Navigator.of(context)
+                          //                           .pushReplacementNamed(
+                          //                               ShowResultsScreen
+                          //                                   .routeName,
+                          //                               arguments:
+                          //                                   passingToShowResults);
+                          //                     },
+                          //                     child: Text('Yes'),
+                          //                   ),
+                          //                   // ignore: deprecated_member_use
+                          //                   FlatButton(
+                          //                     onPressed: () {
+                          //                       Navigator.of(ctx).pop(true);
+                          //                     },
+                          //                     child: Text('No'),
+                          //                   ),
+                          //                 ];
+                          //                 return AlertDialog(
+                          //                   title: Text(
+                          //                       'Are you sure you want to end Run?'),
+                          //                   actions: actions2,
+                          //                 );
+                          //               },
+                          //             );
+                          //           },
+                          //           child: Container(
+                          //             decoration: BoxDecoration(
+                          //                 color: Colors.red[300],
+                          //                 borderRadius:
+                          //                     BorderRadius.circular(10)),
+                          //             alignment: Alignment.center,
+                          //             width: MediaQuery.of(context).size.width /
+                          //                 2.5,
+                          //             height:
+                          //                 MediaQuery.of(context).size.width /
+                          //                     10,
+                          //             child: Text(
+                          //               'END RUN',
+                          //               style: TextStyle(
+                          //                   fontSize: MediaQuery.of(context)
+                          //                           .size
+                          //                           .height /
+                          //                       35,
+                          //                   fontFamily: 'Gilroy',
+                          //                   fontWeight: FontWeight.w600),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      RaisedButton(
+                        onPressed: () async {
+                          // Add function to add code to database
+                          print(("alpha"));
                           setState(() {
                             _isLoading = true;
                           });
+                          print("beta");
+                          try {
+                            await runStatsProvider.addNewRunData(
+                              dateOfRun,
+                              avgSpeedString,
+                              distanceString,
+                              startTime,
+                              timeHrs,
+                              timeMin,
+                              timeSec,
+                              listOfLatLng,
+                              initialLat,
+                              initialLong,
+                            );
+                            print("function called ");
+                          } catch (e) {
+                            print("error in saving");
+                            print(e);
+                            return showDialog<Null>(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: Text('An error occured'),
+                                content: Text('Something went wrong'),
+                                actions: [
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('Okay'))
+                                ],
+                              ),
+                            );
+                          }
+
+                          print("gamma");
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          Navigator.pushReplacementNamed(
+                              context, HomeScreen.routeName);
+                        },
+                        elevation: 10,
+                        color: Theme.of(context).primaryColor,
+                        child: Text('Save Progress'),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // Add function to add code to database
+                          _isLoading = true;
                           runStatsProvider
                               .addNewRunData(
                             dateOfRun,
@@ -360,30 +497,48 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                             },
                           );
                         },
-                        elevation: 10,
-                        color: Theme.of(context).primaryColor,
-                        child: Text('Save Progress'),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green[300],
+                              borderRadius: BorderRadius.circular(10)),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          height: MediaQuery.of(context).size.width / 10,
+                          child: Text(
+                            'SAVE PROGRESS',
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 35,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
-
-
-                      //////
-                      RaisedButton(
-                        onPressed: () {
+                      InkWell(
+                        onTap: () {
                           Navigator.pushReplacementNamed(
                               context, HomeScreen.routeName);
                         },
-                        elevation: 10,
-                        color: Theme.of(context).primaryColor,
-                        child: Text('Exit Without Saving'),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 5,
-                        color: Colors.black,
-                        child: createSmallMap(routeArgs),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.red[300],
+                              borderRadius: BorderRadius.circular(10)),
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          height: MediaQuery.of(context).size.width / 10,
+                          child: Text(
+                            "DON'T SAVE",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height / 35,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             ),
     );
