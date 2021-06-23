@@ -82,6 +82,11 @@ class Workouts_Provider with ChangeNotifier {
     List exercises = exerciseDataProvider.listExercises;
   }
 
+
+  savestuffFromCW1(){
+    
+  }
+
   createWorkoutAndAddToDB(
       String creatorId,
       String creator_name,

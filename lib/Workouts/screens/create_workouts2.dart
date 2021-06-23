@@ -42,32 +42,15 @@ class _Create_Workout1State extends State<Create_Workout1> {
     // print("t3");
     // print(adminEmailIds);
     if (adminEmailIds.contains(workoutDataProvider.user_emailId.trim())) {
-      print("true");
+      print("user is admin");
     } else {
-      print(adminEmailIds[1]);
-      print(workoutDataProvider.user_emailId.trim());
+      // print(adminEmailIds[1]);
+      print("user is not admin");
     }
 
     final routeArgs = ModalRoute.of(context).settings.arguments as Map;
     List<String> listOfExercisesId = routeArgs['listOfExercisesId'] as List;
     List<String> listOfFollowersId = routeArgs['listOfFollowersId'] as List;
-
-    // onTap() {
-    //   String description = descriptionController.text;
-    //   String creatorId = Data_Provider().uid;
-    //   String creator_name = Data_Provider().name;
-    //   workoutDataProvider.createWorkoutAndAddToDB(
-    //     creatorId,
-    //     creator_name,
-    //     workoutName,
-    //     descriptionController.text,
-    //     access,
-    //     listOfExercisesId,
-    //     listOfFollowersId,
-    //   );
-    //   Navigator.pushNamed(context, HomeScreen.routeName);
-    // }
-
     return Scaffold(
       body: Column(
         children: [
