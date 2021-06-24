@@ -32,40 +32,44 @@ class _Create_Workout2State extends State<Create_Workout2> {
   final List<ExerciseDbModel> exercisesSelectedForWorkout = [];
   final List<Color> colorList = [];
 
-  Widget take_workout_name(TextEditingController nameController) {
-    return Center(
-      child: TextField(
-        controller: nameController,
-        decoration: InputDecoration(
-          hintText: 'Enter the name of Workout',
-        ),
-      ),
-      heightFactor: 1,
-    );
-  }
+  // Widget take_workout_name(TextEditingController nameController) {
+  //   return Center(
+  //     child: TextField(
+  //       controller: nameController,
+  //       decoration: InputDecoration(
+  //         hintText: 'Enter the name of Workout',
+  //       ),
+  //     ),
+  //     heightFactor: 1,
+  //   );
+  // }
 
-  Widget take_workout_description(TextEditingController desc_controller) {
-    return Center(
-      child: TextField(
-        controller: desc_controller,
-        decoration: InputDecoration(
-          hintText: 'Enter Description',
-        ),
-      ),
-      heightFactor: 1,
-    );
-  }
+  // Widget take_workout_description(TextEditingController desc_controller) {
+  //   return Center(
+  //     child: TextField(
+  //       controller: desc_controller,
+  //       decoration: InputDecoration(
+  //         hintText: 'Enter Description',
+  //       ),
+  //     ),
+  //     heightFactor: 1,
+  //   );
+  // }
 
   bool is_admin(List<String> adminEmailIds) {
+    print("is_admin called");
     String user_id = Data_Provider().uid;
-    if (adminEmailIds.contains(user_id)) {
+    if (adminEmailIds.contains(user_id.trim())) {
+      print("user is an admin");
       return true;
     }
+    print("user is a bitch");
     return false;
   }
 
   save_workout(String workoutName, String description, String access,
       List<String> exerciseIds, List<String> followerIds) async {
+    print("save workouts called");
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     String creator_id = Data_Provider().uid;
@@ -79,78 +83,145 @@ class _Create_Workout2State extends State<Create_Workout2> {
       exerciseIds,
       followerIds,
     );
+    print("workout saved");
+    Navigator.pop(context, true);
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 
   // applicable only to Admins
-  Widget who_can_see(String workoutName, String description, String access,
-      List<String> exerciseIds, List<String> followerIds) {
-    return Row(
-      children: [
-        RaisedButton(
-            child: Text('Everyone'),
-            onPressed: () {
-              access = 'Public';
-              save_workout(
-                  workoutName, description, access, exerciseIds, followerIds);
-            }),
-        RaisedButton(
-          child: Text('Only me'),
-          onPressed: () {
-            access = 'Private';
-          },
-        )
-      ],
-    );
-  }
+  // Widget who_can_see(String workoutName, String description, String access,
+  //     List<String> exerciseIds, List<String> followerIds) {
+  //   // print("who can see called");
+  //   return Row(
+  //     children: [
+  //       RaisedButton(
+  //           child: Text('Everyone'),
+  //           onPressed: () {
+  //             access = 'Public';
+  //             save_workout(
+  //                 workoutName, description, access, exerciseIds, followerIds);
+  //           }),
+  //       RaisedButton(
+  //         child: Text('Only me'),
+  //         onPressed: () {
+  //           access = 'Private';
+  //         },
+  //       )
+  //     ],
+  //   );
+  // }
 
-  Future workoutName_Description_Access(BuildContext context,
+  void workoutName_Description_Access(BuildContext context,
       List<String> listOfExercisesId, List<String> listOfFollowersId) {
+    print("workoutName_Description_Access called");
     final nameController = TextEditingController();
     final descriptionController = TextEditingController();
     String access = 'Private';
-    String workoutName = 'Null';
 
-    final adminDataProvider =
-        Provider.of<GetAdminDataFromGoogleSheetProvider>(context);
-    final workoutDataProvider =
-        Provider.of<Workouts_Provider>(context, listen: false);
-    List adminEmailIds = adminDataProvider.getAdminEmailIds();
+    final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
+        context,
+        listen: false);
+    List<String> adminEmailIds = adminDataProvider.getAdminEmailIds();
+    print(" got all the details");
     // if (adminEmailIds.contains(workoutDataProvider.user_emailId.trim())) {
     //   print("user is admin");
     // } else {
     //   // print(adminEmailIds[1]);
     //   print("user is not admin");
     // }
-    return showDialog(
+    showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Workout Description'),
-        actions: [
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                take_workout_name(nameController),
-                take_workout_description(descriptionController),
-                is_admin(adminEmailIds)
-                    ? who_can_see(
-                        nameController.text.trim(),
-                        descriptionController.text.trim(),
-                        access,
-                        listOfExercisesId,
-                        listOfFollowersId,
-                      )
-                    : null,
-              ],
-            ),
-          )
-        ],
-      ),
+      builder: (ctx) {
+        print("show dialog initialized");
+        return AlertDialog(
+          title: Text('Workout Description'),
+          actions: [
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //// TAKING WORKOUT NAME
+                  Center(
+                    child: TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter the name of Workout',
+                      ),
+                    ),
+                    heightFactor: 1,
+                  ),
+                  // take_workout_name(nameController),
+                  //// TAKING WORKOUT DESCRIPTION
+                  Center(
+                    child: TextField(
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter Description',
+                      ),
+                    ),
+                    heightFactor: 1,
+                  ),
+                  ///// ##if is admin,
+                  is_admin(adminEmailIds)
+
+                      /// ##Asking if workout should be public or private and saving it
+                      ? Row(
+                          children: [
+                            RaisedButton(
+                              child: Text('Everyone'),
+                              onPressed: () {
+                                print("alpha alpha alpha");
+                                access = 'Public';
+                                save_workout(
+                                    nameController.text.trim(),
+                                    descriptionController.text.trim(),
+                                    access,
+                                    listOfExercisesId,
+                                    listOfFollowersId);
+                              },
+                            ),
+                            RaisedButton(
+                              child: Text('Only me'),
+                              onPressed: () {
+                                access = 'Private';
+                                save_workout(
+                                    nameController.text.trim(),
+                                    descriptionController.text.trim(),
+                                    access,
+                                    listOfExercisesId,
+                                    listOfFollowersId);
+                                // Navigator.of(context).pop(true);
+                                // Navigator.of(context).pop(true);
+                              },
+                            )
+                          ],
+                        )
+                      :
+                      /////## Save workout as private as non admin
+                      RaisedButton(
+                          child: Text('Save workout'),
+                          onPressed: () {
+                            access = 'Private';
+                            save_workout(
+                                nameController.text.trim(),
+                                descriptionController.text.trim(),
+                                access,
+                                listOfExercisesId,
+                                listOfFollowersId);
+                          },
+                        ),
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
-  onTapSave() {
-    final workoutDataProvider = Provider.of<Workouts_Provider>(context);
+  onTapSave() async {
+    final workoutDataProvider =
+        Provider.of<Workouts_Provider>(context, listen: false);
     List<String> listOfExercisesId = [];
     exercisesSelectedForWorkout.forEach((element) {
       listOfExercisesId.add(element.exerciseId);
@@ -159,17 +230,20 @@ class _Create_Workout2State extends State<Create_Workout2> {
     String creatorId = workoutDataProvider.userId;
     String creator_name = workoutDataProvider.user_name;
     List<String> listOfFollowersId = [creatorId];
-    Map<String, dynamic> map = Map();
-    map['listOfExercisesId'] = listOfExercisesId;
-    map['listOfFollowersId'] = listOfFollowersId;
-    Navigator.pushNamed(context, Create_Workout1.routeName, arguments: map);
+    // Map<String, dynamic> map = Map();
+    // map['listOfExercisesId'] = listOfExercisesId;
+    // map['listOfFollowersId'] = listOfFollowersId;
+    print("calling the funcc");
+    await workoutName_Description_Access(
+        context, listOfExercisesId, listOfFollowersId);
+    // Navigator.pushNamed(context, Create_Workout1.routeName, arguments: map);
   }
 
   @override
   Widget build(BuildContext context) {
-    final workoutDataProvider = Provider.of<Workouts_Provider>(context);
     final exerciseDataProvider =
-        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context);
+        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+            listen: false);
     final List<ExerciseDbModel> allExerciseList =
         exerciseDataProvider.listExercises;
     // final routeArgs = ModalRoute.of(context).settings.arguments as Map;
@@ -236,25 +310,26 @@ class _Create_Workout2State extends State<Create_Workout2> {
               itemBuilder: (ctx, i) {
                 return InkWell(
                   onTap: () {
-                    print(allExerciseList[i].isWeighted);
+                    // print(allExerciseList[i].isWeighted);
                     if (!exercisesSelectedForWorkout
                         .contains(allExerciseList[i])) {
                       Color color = Colors.green;
                       exercisesSelectedForWorkout.add(allExerciseList[i]);
-                      print("exercise " +
-                          allExerciseList[i].exerciseName +
-                          " added");
+                      // print("exercise " +
+                      // allExerciseList[i].exerciseName +
+                      // " added");
                       setState(() {
-                        print('colorChange!');
+                        // print('colorChange!');
                         colorList[i] = color;
-                        print(colorList[i].toString());
+                        // print(colorList[i].toString());
                       });
                     } else {
                       Color color = Colors.grey[200];
                       exercisesSelectedForWorkout.remove(allExerciseList[i]);
-                      print("exercise " +
-                          allExerciseList[i].exerciseName +
-                          " removed");
+                      // print("exercise " +
+                      // allExerciseList[i].exerciseName +
+
+                      // " removed");
                       setState(() {
                         colorList[i] = color;
                       });
