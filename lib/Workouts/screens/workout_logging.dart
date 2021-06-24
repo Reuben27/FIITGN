@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../models/Exercise_db_model.dart';
 import '../models/Workouts_Log_Model.dart';
 import 'package:intl/intl.dart';
 import '../../Screens/HomeScreen.dart';
 import '../../Providers/DataProvider.dart';
 import '../models/Workout_Data_Log_Model.dart';
+import '../Widgets/rep_counter.dart';
+import '../Widgets/set_counter.dart';
+import '../models/Workout_provider.dart';
 
 class Workout_Logging extends StatefulWidget {
   static const routeName = '\Workout_Logging_Screen';
@@ -20,18 +24,27 @@ List<Workout_Log_Model> setsAndReps = List<Workout_Log_Model>();
 List<Workout_Log_Model> workoutList = List<Workout_Log_Model>();
 
 class _Workout_LoggingState extends State<Workout_Logging> {
-  TextEditingController repEditingController = TextEditingController();
-  TextEditingController setEditingController = TextEditingController();
+  final StopWatchTimer stopWatchTimer = StopWatchTimer();
+  String displayTime;
+
+  TextEditingController weightsEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    startTimer();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    repEditingController.dispose();
-    setEditingController.dispose();
+    weightsEditingController.dispose();
     super.dispose();
   }
 
   Future<bool> _onBackPressed() async {
+    stopTimer();
     return showDialog(
       context: context,
       builder: (_) {
@@ -56,6 +69,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             // ignore: deprecated_member_use
             FlatButton(
               onPressed: () {
+                startTimer();
                 Navigator.of(_).pop();
               },
               child: Text('No'),
@@ -66,60 +80,211 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     );
   }
 
-  void addNewSet(String exerciseId, int setVal, int repVal) {
+  void addNewSet(String exerciseName, String exerciseId, int setVal, int repVal,
+      int weightsVal) {
     final Workout_Log_Model newData = Workout_Log_Model(
+      exerciseName: exerciseName,
       exerciseId: exerciseId,
       numOfReps: repVal,
       setNumber: setVal,
+      weight: weightsVal,
     );
-
     setsAndReps.add(newData);
-    // testing
-    print(newData.setNumber);
-    print("Value aded " + setsAndReps[setsAndReps.length - 1].exerciseId);
   }
 
-  void saveData(String uid, String date, List<Workout_Log_Model> exercices,
-      String workoutName) {
+  void saveData(List<Workout_Log_Model> exercices, String workoutName) {
     print("save data initiated");
-    print("User UID is " + uid);
+    String uid = Data_Provider().uid;
+    List time = displayTime.split(":");
+    String duration_minutes = time[1];
+    String duration_hours = time[0];
+    String duration_seconds = time[2];
+
+    /// change this date to the starting time of the workout
+    String date = DateTime.now().toIso8601String();
     Workout_Data_Model data = Workout_Data_Model(
+        duration_seconds: duration_seconds,
+        duration_hours: duration_hours,
+        duration_minutes: duration_minutes,
         databaseId: "",
         uid: uid,
         date: date,
-        listOfSetsReps: exercices,
+        listOfSetsRepsWeights: exercices,
         user_name: Data_Provider().name,
         workoutName: workoutName);
     // ignore: deprecated_member_use
     setsAndReps = List<Workout_Log_Model>();
     showDialog(
       context: context,
+      builder: (ctx) {
+        stopTimer();
+        return AlertDialog(
+          title: Text("Do you want to save and End?"),
+          actions: [
+            FloatingActionButton(
+              child: Text("Yes"),
+              onPressed: () async {
+                await Workouts_Provider().saveWorkoutToDb(data);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
+            ),
+            FloatingActionButton(
+              child: Text("No"),
+              onPressed: () {
+                startTimer();
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  startTimer() {
+    stopWatchTimer.onExecute.add(StopWatchExecute.start);
+  }
+
+  stopTimer() {
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+  }
+
+  Widget addSet() {
+    /// returns a row
+    return Container(
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      child:
+          // Text("Add Set Number:  "),
+          Container(
+        // width: MediaQuery.of(context).size.width / 5,
+        child: Set_Counter(), 
+      ),
+    );
+  }
+
+  Widget addRep() {
+    /// returns a row
+    // return Row(
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Text("Add number of reps:  "),
+    //     Container(
+    //       width: MediaQuery.of(context).size.width / 2,
+    //       child: Rep_Counter(),
+    //     )
+    //   ],
+    // );
+    return Container(
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      child:
+          // Text("Add Set Number:  "),
+          Container(
+        // width: MediaQuery.of(context).size.width / 5,
+        child: Rep_Counter(),
+      ),
+    );
+  }
+
+  Widget addWeights() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text("Add Weights:  "),
+        Container(
+          width: MediaQuery.of(context).size.width / 5,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            controller: weightsEditingController,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
+    return FlatButton(
+      child: Text("Done"),
+      onPressed: () {
+        String repVal = "";
+        String setVal = "";
+        String weightsVal = "";
+        repVal = Rep_CounterState.counter.toString();
+        print("rep Val is " + repVal);
+        setVal = Set_CounterState.counter.toString();
+        weightsVal = weightsEditingController.text;
+        // Resetting variables
+        Rep_CounterState.counter = 0;
+        Set_CounterState.counter = 0;
+        weightsEditingController = new TextEditingController();
+        print("rep Val is " + repVal);
+        if (repVal == "" || setVal == "" || weightsVal == "") {
+          showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text('No field should be empty.'),
+                actions: [
+                  // ignore: deprecated_member_use
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('OK'))
+                ],
+              );
+            },
+          );
+        } else {
+          String currentExerciseId = exercises[index].exerciseId;
+          String currentExerciseName = exercises[index].exerciseName;
+          print(currentExerciseId + " is the id");
+          // print("same exercise");
+          addNewSet(
+            currentExerciseName,
+            currentExerciseId,
+            int.parse(setVal),
+            int.parse(repVal),
+            int.parse(weightsVal),
+          );
+          // print("different exercise");
+          Navigator.of(ctx).pop(true);
+
+          setsAndReps.forEach(
+            (element) {
+              if (element.exerciseId == currentExerciseId) {
+                workoutList.add(element);
+                print(workoutList[workoutList.length - 1]);
+                setState(() {});
+              }
+            },
+          );
+          // testing
+          print(index.toString() + " ---> val of i after popping");
+          print(setsAndReps.length.toString() + "--> len of sets and reps");
+        }
+      },
+    );
+  }
+
+  Future addSetsRepsWeights(
+      BuildContext context, List<ExerciseDbModel> exercises, int index) {
+    return showDialog(
+      context: context,
       builder: (ctx) => AlertDialog(
-        title: Text("Do you want to save and End?"),
+        title: Text('Add Reps'),
         actions: [
-          FloatingActionButton(
-            child: Text("Yes"),
-            onPressed: () {
-              //////////////////
-              //
-              ////////////
-              //
-              //
-              //
-              //
-              //
-              // ADD FUNCTION TO STORE DATA ON DB
-              // workoutDataProvider.saveToYourWorkouts(data);
-              Navigator.of(context).pop(true);
-              Navigator.of(context).pop(true);
-            },
-          ),
-          FloatingActionButton(
-            child: Text("No"),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                addSet(),
+                addRep(),
+                addWeights(),
+                done(context, exercises, index),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -127,337 +292,183 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   @override
   Widget build(BuildContext context) {
-    // the list of exercises in the workout clicked to be done
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments as Map;
     List<ExerciseDbModel> exercises = routeArgs['exercises'];
     String workoutName = routeArgs['workoutName'];
-    String uid = Data_Provider().uid;
-    // String uid = workoutDataProvider.getUid;
-
-    final DateTime date = DateTime.now();
-    final String dateIso = date.toIso8601String();
-    // final String day = DateFormat.EEEE().format(date);
-
-    // MOVE THIS FUNCTION outside the build method when saving is enabled again WITHOUT FAIL
-
-    return Scaffold(
-        body: WillPopScope(
+    return WillPopScope(
       onWillPop: _onBackPressed,
-
-      /// adding code that handles back button pressing
-      child: PageView(
-        children: [
-          ListView(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: exercises.length,
-                      itemBuilder: (ctx, index) => Stack(
-                        alignment: Alignment.center,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(workoutName),
+        ),
+        body: PageView(
+          children: [
+            Column(
+              children: [
+                StreamBuilder<int>(
+                  stream: stopWatchTimer.rawTime,
+                  initialData: stopWatchTimer.rawTime.value,
+                  builder: (context, snapshot) {
+                    final value = snapshot.data;
+                    displayTime = StopWatchTimer.getDisplayTime(value,
+                        hours: true, milliSecond: false);
+                    return Text(
+                      displayTime,
+                      style: TextStyle(fontSize: 40),
+                    );
+                  },
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: exercises.length,
+                    itemBuilder: (ctx, i) {
+                      return ListTile(
+                        title: Text(exercises[i].exerciseName),
+                        trailing: RaisedButton.icon(
+                          icon: Icon(Icons.add),
+                          label: Text('Add Log'),
+                          onPressed: () {
+                            // print("i= " + index.toString());
+                            addSetsRepsWeights(ctx, exercises, i);
+                          },
+                        ),
+                      );
+                    }),
+              ],
+            ),
+            /////// SECOND PAGE
+            Container(
+              color: Colors.grey[200],
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            alignment: Alignment.center,
+                          Text(
+                            "Workout Details",
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 10,
+                                fontWeight: FontWeight.bold),
                           ),
-                          ClipRRect(
-                            child: exercises[index].imageUrl == null
-                                ? Text('No Image yet')
-                                : Image.asset(
-                                    exercises[index].imageUrl,
-                                    height: 300,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
+                          FloatingActionButton(
+                            onPressed: () {
+                              saveData(setsAndReps, workoutName);
+                            },
+                            child: Icon(Icons.save),
                           ),
-                          Positioned(
-                            left: 10,
-                            bottom: 15,
-                            child: Column(
+                        ]),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: setsAndReps.length,
+                      itemBuilder: (ctx, j) {
+                        // print("abcde");
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          height: MediaQuery.of(context).size.height / 10,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(
-                                  exercises[index].exerciseName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 30),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image(
+                                    fit: BoxFit.cover,
+                                    width:
+                                        MediaQuery.of(context).size.width / 4,
+                                    height:
+                                        MediaQuery.of(context).size.height / 10,
+                                    image: NetworkImage(
+                                      exercises
+                                          .firstWhere((element) =>
+                                              element.exerciseId ==
+                                              setsAndReps[j].exerciseId)
+                                          .imageUrl,
+                                    ),
+                                  ),
                                 ),
-                                // ignore: deprecated_member_use
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.add),
-                                  label: Text('Add Log'),
-                                  onPressed: () {
-                                    // print("i= " + index.toString());
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => AlertDialog(
-                                        title: Text('Add Reps'),
-                                        actions: [
-                                          Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text("Add Set Number:  "),
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
-                                                      child: TextField(
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        controller:
-                                                            setEditingController,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text("Add Rep Count:  "),
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
-                                                      child: TextField(
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        controller:
-                                                            repEditingController,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // ignore: deprecated_member_use
-                                                FlatButton(
-                                                  child: Text("Done"),
-                                                  onPressed: () {
-                                                    String repVal = "";
-                                                    String setVal = "";
-                                                    repVal =
-                                                        repEditingController
-                                                            .text;
-                                                    setVal =
-                                                        setEditingController
-                                                            .text;
-                                                    // print(index
-                                                    // .toString() +
-                                                    // " this is the value of i ");
-                                                    if (repVal == "" ||
-                                                        setVal == "") {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (_) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'No field should be empty.'),
-                                                            actions: [
-                                                              // ignore: deprecated_member_use
-                                                              FlatButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      'OK'))
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    } else {
-                                                      String currentExerciseId =
-                                                          exercises[index]
-                                                              .exerciseId;
-                                                      print(currentExerciseId +
-                                                          " is the id");
-                                                      // print("same exercise");
-                                                      addNewSet(
-                                                        currentExerciseId,
-                                                        int.parse(setVal),
-                                                        int.parse(repVal),
-                                                      );
-                                                      repEditingController =
-                                                          TextEditingController();
-                                                      setEditingController =
-                                                          TextEditingController();
-                                                      // print("different exercise");
-                                                      Navigator.of(ctx)
-                                                          .pop(true);
-
-                                                      setsAndReps.forEach(
-                                                        (element) {
-                                                          if (element
-                                                                  .exerciseId ==
-                                                              currentExerciseId) {
-                                                            workoutList
-                                                                .add(element);
-                                                            print(workoutList[
-                                                                workoutList
-                                                                        .length -
-                                                                    1]);
-                                                            setState(() {});
-                                                          }
-                                                        },
-                                                      );
-                                                      // testing
-                                                      print(index.toString() +
-                                                          " val of i after popping");
-                                                      print(setsAndReps.length
-                                                              .toString() +
-                                                          " len");
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      setsAndReps[j].exerciseName,
+                                      style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              20.5,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Set - " +
+                                              setsAndReps[j]
+                                                  .setNumber
+                                                  .toString(),
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "|",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Reps - " +
+                                              setsAndReps[j]
+                                                  .numOfReps
+                                                  .toString(),
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          "|",
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          "Weights - " +
+                                              setsAndReps[j].weight.toString(),
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            color: Colors.grey[200],
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Workout Details",
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width / 10,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        FloatingActionButton(
-                          onPressed: () {
-                            saveData(uid, dateIso, setsAndReps, workoutName);
-                          },
-                          child: Icon(Icons.save),
-                        ),
-                      ]),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: setsAndReps.length,
-                    itemBuilder: (ctx, t) {
-                      // print("abcde");
-                      return Container(
-                        margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        height: MediaQuery.of(context).size.height / 10,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image(
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  height:
-                                      MediaQuery.of(context).size.height / 10,
-                                  image: AssetImage(
-                                    exercises
-                                        .firstWhere((element) =>
-                                            element.exerciseId ==
-                                            setsAndReps[t].exerciseId)
-                                        .imageUrl,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    setsAndReps[t].exerciseId,
-                                    style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                20.5,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "Set - " +
-                                              setsAndReps[t]
-                                                  .setNumber
-                                                  .toString(),
-                                          style: TextStyle(fontSize: 18)),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "|",
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Reps - " +
-                                            setsAndReps[t].numOfReps.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

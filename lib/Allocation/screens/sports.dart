@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './roomorequipment.dart';
 import '../data/initialize.dart';
+import 'entry.dart';
+import 'rooms.dart';
 
 class Sports extends StatefulWidget {
   static const routeName = "SportsScreen";
@@ -13,18 +14,199 @@ class Sports extends StatefulWidget {
 class _SportsState extends State<Sports> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DisplayData(),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "CHOOSE SPORT",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontFamily: 'Gilroy'),
+            ),
+            bottom: TabBar(
+              indicatorSize: TabBarIndicatorSize.label,
+              indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), // Creates border
+                  color: Colors.deepOrange[300]),
+              tabs: [
+                Tab(
+                    child: Container(
+                  width: MediaQuery.of(context).size.width / 2.2,
+                  child: Center(
+                    child: Text(
+                      "ROOMS",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontFamily: 'Gilroy'),
+                    ),
+                  ),
+                )),
+                Tab(
+                    child: Container(
+                  width: MediaQuery.of(context).size.width / 2.2,
+                  child: Center(
+                    child: Text(
+                      "EQUIPMENT",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontFamily: 'Gilroy'),
+                    ),
+                  ),
+                ))
+              ],
+            ),
+          ),
+          // body: DisplayData(),
+          body: TabBarView(
+            children: [
+              DisplayRoomData(),
+              DisplayEquipmentsData(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
 
-class DisplayData extends StatefulWidget {
+class DisplayRoomData extends StatefulWidget {
+  // const DisplayRoomData({ Key? key }) : super(key: key);
+
   @override
-  _DisplayDataState createState() => _DisplayDataState();
+  _DisplayRoomDataState createState() => _DisplayRoomDataState();
 }
 
-class _DisplayDataState extends State<DisplayData> {
+class _DisplayRoomDataState extends State<DisplayRoomData> {
+  @override
+  Widget build(BuildContext context) {
+    CollectionReference sports =
+        FirebaseFirestore.instance.collection('Sports');
+    return StreamBuilder<QuerySnapshot>(
+      stream: sports.snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        return new Container(
+            child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1.5,
+              mainAxisSpacing: MediaQuery.of(context).size.width / 20,
+            ),
+            children: snapshot.data.docs.map((DocumentSnapshot document) {
+              return GestureDetector(
+                onTap: () async {
+                  String tempsportid = document['sportid'];
+                  int flag = await getData(tempsportid);
+                  if (flag == 1) {
+                    print(sportequipmentid);
+                    print(sportroomid);
+                    reflag = 1;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Rooms(),
+                      ),
+                    );
+                  } else {
+                    print("Error");
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  height: MediaQuery.of(context).size.height / 8,
+                  child: Stack(children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 49,
+                              ),
+                              Text(
+                                document['sportname'].toString().toUpperCase(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  fontFamily: "Gilroy",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.deepOrange[300],
+                                offset: Offset(
+                                  5.0, // Move to right 10  horizontally
+                                  5.0, // Move to bottom 10 Vertically
+                                ),
+                              )
+                            ],
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20)),
+                        height: MediaQuery.of(context).size.height / 9,
+                        width: MediaQuery.of(context).size.width / 2.5,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width / 6,
+                          child: Image.asset('assets/ico.png',
+                              fit: BoxFit.contain)),
+                    ),
+                  ]),
+                ),
+              );
+            }).toList(),
+          ),
+        )
+
+            //Text('Rooms'),
+
+            //  Text('Equipments'),
+            );
+      },
+    );
+    // return Container(
+
+    // );
+  }
+}
+
+class DisplayEquipmentsData extends StatefulWidget {
+  // const DisplayEquipmentsData({ Key? key }) : super(key: key);
+
+  @override
+  _DisplayEquipmentsDataState createState() => _DisplayEquipmentsDataState();
+}
+
+class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
   @override
   Widget build(BuildContext context) {
     CollectionReference sports =
@@ -43,128 +225,95 @@ class _DisplayDataState extends State<DisplayData> {
           );
         }
 
-        return new Column(children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.blueGrey[300],
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "Hi Abhiram",
-                    style: TextStyle(
-                      fontSize: 37,
-                      fontFamily: "Gro",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  Text(
-                    "What would you play today?",
-                    style: TextStyle(
-                      fontSize: 37,
-                      fontFamily: "Gro",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 6,
-
-                    //   borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset(
-                      'assets/statLady.png',
-                      //  height: MediaQuery.of(context).size.height / 4.87,
-                      // width: MediaQuery.of(context).size.width / 2.28,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 22,
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    // decoration: BoxDecoration(
-                    //     color: Color(0xFFFFFF).withOpacity(0.5),
-                    //     borderRadius: BorderRadius.all(Radius.circular(30))),
-
-                    child: Center(
-                      child: Text('Select your Sport',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontFamily: "Gilroy",
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
+        return new Container(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1.5,
+                mainAxisSpacing: MediaQuery.of(context).size.width / 20,
               ),
+              children: snapshot.data.docs.map((DocumentSnapshot document) {
+                return GestureDetector(
+                  onTap: () async {
+                    String tempsportid = document['sportid'];
+                    int flag = await getData(tempsportid);
+                    if (flag == 1) {
+                      print(sportequipmentid);
+                      print(sportroomid);
+                      reflag = 0;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Entry(),
+                        ),
+                      );
+                    } else {
+                      print("Error");
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    height: MediaQuery.of(context).size.height / 8,
+                    child: Stack(children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 49,
+                                ),
+                                Text(
+                                  document['sportname']
+                                      .toString()
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    fontFamily: "Gilroy",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.deepOrange[300],
+                                  offset: Offset(
+                                    5.0, // Move to right 10  horizontally
+                                    5.0, // Move to bottom 10 Vertically
+                                  ),
+                                )
+                              ],
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20)),
+                          height: MediaQuery.of(context).size.height / 9,
+                          width: MediaQuery.of(context).size.width / 2.5,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                            width: MediaQuery.of(context).size.width / 6,
+                            child: Image.asset('assets/ico.png',
+                                fit: BoxFit.contain)),
+                      ),
+                    ]),
+                  ),
+                );
+              }).toList(),
             ),
           ),
-          Center(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Container(
-                height: 130,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  // physics: NeverScrollableScrollPhysics(),
 
-                  children: snapshot.data.docs.map((DocumentSnapshot document) {
-                    return GestureDetector(
-                        onTap: () async {
-                          String tempsportid = document['sportid'];
-                          int flag = await getData(tempsportid);
-                          if (flag == 1) {
-                            print(sportequipmentid);
-                            print(sportroomid);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RoomOrEquipment(),
-                              ),
-                            );
-                          } else {
-                            print("Error");
-                          }
-                        },
-                        child: Container(
-                          child: Column(children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width / 6,
-                                child: Image.asset('assets/ico.png',
-                                    fit: BoxFit.contain)),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              document['sportname'],
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontFamily: "Gilroy",
-                              ),
-                            ),
-                          ]),
-                          width: MediaQuery.of(context).size.width / 3,
-                        ));
-                  }).toList(),
-                )),
-          ))
-        ]);
+          //Text('Rooms'),
+
+          //  Text('Equipments'),
+        );
       },
     );
   }

@@ -28,6 +28,11 @@ import '../Guided-Sessions/screens/sessions.dart';
 ///////// NUTRITION
 import '../Nutrition/screens/nutritionScreen.dart';
 
+//////// ACTIVITIES
+import '../Sports-Activities/screens/activity_screens.dart';
+
+import '../Screens/stopwatch.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   static const routeName = '\HomeScreen';
@@ -53,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     data_provider.setDisplay(userDisplay);
     data_provider.setName(name);
     print(Data_Provider().name);
+    print(Data_Provider().email);
     print("Uids and tokens are set");
 
     /// initializing admin and exercise dbs
@@ -62,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
         context,
         listen: false);
+    print("a");
     await exerciseDataProvider.getListOfExercises();
     print("b");
     await adminDataProvider.getListOfAdmins();
@@ -139,14 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
       'heroID': 4,
     },
-    // {
-    //   'title': 'Running Buddy',
-    //   'url': 'assets/6517.png',
-    //   'routeName': '',
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 5,
-    // },
     // // {
     // //   'title': 'Know Your Diet',
     // //   'url': 'assets/6569.png',
@@ -155,14 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // //       'This section is under construction. Check back in later to view some exciting new stuff!',
     // //   'heroID': 6,
     // // },
-    // {
-    //   'title': 'Calendarrr',
-    //   'url': 'assets/6569.png',
-    //   'routeName': CalendarScreen.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 6,
-    // },
     {
       'title': 'Workout',
       'url': 'assets/4805.png',
@@ -194,6 +185,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 10,
+    },
+    {
+      'title': 'Activities',
+      'url': 'assets/6569.png',
+      'routeName': Activity_Screen.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 11,
     },
   ];
 
@@ -321,6 +320,38 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.height / 1.8,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 25,
+            top: MediaQuery.of(context).size.height / 6,
+            child: Container(
+              child: IconButton(
+                icon: Icon(FontAwesomeIcons.signOutAlt),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: Text('Do you want to Logout?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            logoutUser();
+                            SystemNavigator.pop();
+                          },
+                          child: Text('Yes'),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop(true);
+                          },
+                          child: Text('No'),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
           Container(
             height: MediaQuery.of(context).size.height,

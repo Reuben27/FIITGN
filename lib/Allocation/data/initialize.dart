@@ -28,7 +28,11 @@ List<int> orders = [];
 
 int status = 0;
 
+//List of Text Editing Controllers
 var controllers = [];
+
+//List of Counters
+var counters = [];
 
 //Function that initialize the collection id variables based on the sport chosen.
 Future<int> getData(String sportid) async {

@@ -1,9 +1,9 @@
+import 'dart:core';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import './LocalNotifications.dart';
 import '../main.dart';
 import 'utils/addNotification.dart';
@@ -29,7 +29,6 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     LocalNotificationService.initializeSetting(context);
-    tz.initializeTimeZones();
     _timeController.text = formatDate(
         DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
         [hh, ':', nn, " ", am]).toString();
