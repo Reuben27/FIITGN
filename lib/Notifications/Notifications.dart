@@ -7,6 +7,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import './LocalNotifications.dart';
 import '../main.dart';
+import 'utils/addNotification.dart';
+import 'utils/removeNotification.dart';
 
 FlutterLocalNotificationsPlugin notificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -149,14 +151,42 @@ class _NotificationsState extends State<Notifications> {
             heightFactor: 2,
             child: RaisedButton(
               onPressed: () async {
-                print("Daily Notification");
+                print("Daily Notification 1");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
+                notiAdd(token, selectedTime.hour, selectedTime.minute, 5);
                 showAlertDialog(context, selectedTime);
               },
               child: Text(
-                'Daily Notification',
+                'Daily Notification 1',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          Center(
+            heightFactor: 2,
+            child: RaisedButton(
+              onPressed: () async {
+                print("Daily Notification 2");
+                print(selectedTime.hour);
+                print(selectedTime.minute);
+                notiAdd(token, selectedTime.hour, selectedTime.minute, 6);
+                showAlertDialog(context, selectedTime);
+              },
+              child: Text(
+                'Daily Notification 2',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+          ),
+          Center(
+            heightFactor: 2,
+            child: RaisedButton(
+              onPressed: () async {
+                notiRemove(token, 5);
+              },
+              child: Text(
+                'Remove Notification',
                 style: TextStyle(fontSize: 22),
               ),
             ),
@@ -166,74 +196,31 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 
-  void notiupdate(String tokenid, int hour, int minute, int workoutid) async {
-    CollectionReference notify =
-        FirebaseFirestore.instance.collection("Notifications");
-    print(tokenid);
-    DocumentSnapshot documentSnapshot = await notify.doc(tokenid).get();
-    var timemap = {};
-    var tokenID;
-    var numberofnoti;
-    if (documentSnapshot.exists) {
-      timemap = await documentSnapshot['TimeMap'];
-      tokenID = await documentSnapshot['TokenID'];
-      print(timemap);
-      numberofnoti = await documentSnapshot['numberofnoti'];
-      numberofnoti += 1;
-      timemap[numberofnoti.toString()] = {
-        'time': {'hour': hour, 'minute': minute},
-        'workoutid': workoutid,
-      };
-      await notify.doc(tokenid).update({
-        'TimeMap': timemap,
-        'numberofnoti': numberofnoti,
-        'TokenID': tokenID
-      });
-      print("Updated");
-    } else {
-      notify.doc(tokenid).set({
-        'TokenID': tokenid,
-        'TimeMap': {
-          '1': {
-            'time': {
-              'hour': hour,
-              'minute': minute,
-            },
-            'workoutid': workoutid,
-          },
-        },
-        'numberofnoti': 1,
-      });
-      print("New doc added");
-    }
+  showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Notice"),
+      content: Text(
+          "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
-
-showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
-  // set up the button
-  Widget okButton = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Notice"),
-    content: Text(
-        "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
