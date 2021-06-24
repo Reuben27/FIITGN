@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import './LocalNotifications.dart';
 import '../main.dart';
@@ -29,7 +28,6 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     LocalNotificationService.initializeSetting(context);
-    // initializeSetting();
     tz.initializeTimeZones();
     _timeController.text = formatDate(
         DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
@@ -151,64 +149,14 @@ class _NotificationsState extends State<Notifications> {
             heightFactor: 2,
             child: RaisedButton(
               onPressed: () async {
-                print("New 2 Minute");
+                print("Daily Notification");
                 print(selectedTime.hour);
                 print(selectedTime.minute);
-                notiupdate("hello1", selectedTime.hour, selectedTime.minute, 5);
-                await showNewTwoMinute(selectedTime.hour, selectedTime.minute);
-                showAlertDialog(context, selectedTime);
-              },
-              child: Text(
-                'New 2 Minute',
-                style: TextStyle(fontSize: 22),
-              ),
-            ),
-          ),
-          Center(
-            heightFactor: 2,
-            child: RaisedButton(
-              onPressed: () async {
-                print("New Daily");
-                print(selectedTime.hour);
-                print(selectedTime.minute);
-                notiupdate("syiedfbsijdbvsudbv", selectedTime.hour,
-                    selectedTime.minute, 5);
-                await showNewDaily(selectedTime.hour, selectedTime.minute);
-                showAlertDialog(context, selectedTime);
-              },
-              child: Text(
-                'New Daily',
-                style: TextStyle(fontSize: 22),
-              ),
-            ),
-          ),
-          Center(
-            heightFactor: 2,
-            child: RaisedButton(
-              onPressed: () async {
-                print("Old Daily");
-                print(selectedTime.hour);
-                print(selectedTime.minute);
-                print(token);
                 notiupdate(token, selectedTime.hour, selectedTime.minute, 5);
-                await showOldDaily(selectedTime.hour, selectedTime.minute);
                 showAlertDialog(context, selectedTime);
               },
               child: Text(
-                'Old Daily Hello',
-                style: TextStyle(fontSize: 22),
-              ),
-            ),
-          ),
-          Center(
-            heightFactor: 2,
-            child: RaisedButton(
-              onPressed: () {
-                print("Showing Pending Notifications");
-                _checkPendingNotificationRequests();
-              },
-              child: Text(
-                'Pending Notifications',
+                'Daily Notification',
                 style: TextStyle(fontSize: 22),
               ),
             ),
@@ -217,128 +165,6 @@ class _NotificationsState extends State<Notifications> {
       ),
     );
   }
-
-  Future<void> showNewTwoMinute(hours, minute) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your new channel id',
-        'your new channel name',
-        'your new channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    // ignore: deprecated_member_use
-    await notificationsPlugin.zonedSchedule(
-        0,
-        'New Two Minute',
-        "Hurray",
-        // time,
-        _nextInstance(hours, minute),
-        platformChannelSpecifics,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time);
-  }
-
-  tz.TZDateTime _nextInstance(hours, minute) {
-    var how = DateTime.now();
-    var scheduledTime = DateTime(how.year, how.month, how.day, hours, minute);
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(minutes: 2));
-    }
-    return scheduledDate;
-  }
-
-  Future<void> showNewDaily(hours, minute) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your new channel id',
-        'your new channel name',
-        'your new channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    // ignore: deprecated_member_use
-    await notificationsPlugin.zonedSchedule(
-        1,
-        'New Daily',
-        "Hurray",
-        // time,
-        _nextInstance2(hours, minute),
-        platformChannelSpecifics,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time);
-  }
-
-  tz.TZDateTime _nextInstance2(hours, minute) {
-    var how = DateTime.now();
-    var scheduledTime = DateTime(how.year, how.month, how.day, hours, minute);
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime.from(scheduledTime, tz.local);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
-
-  Future<void> showOldDaily(hours, minute) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your new channel id',
-        'your new channel name',
-        'your new channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    var time = new Time(hours, minute, 0);
-    // ignore: deprecated_member_use
-    await notificationsPlugin.showDailyAtTime(
-      2,
-      'Old Daily',
-      "Hurray",
-      time,
-      // _nextInstance(hours, minute),
-      platformChannelSpecifics,
-    );
-  }
-
-  Future<void> _checkPendingNotificationRequests() async {
-    final List<PendingNotificationRequest> pendingNotificationRequests =
-        await notificationsPlugin.pendingNotificationRequests();
-    print(pendingNotificationRequests);
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content:
-            Text('${pendingNotificationRequests.length} pending notification '
-                'requests'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-
 
   void notiupdate(String tokenid, int hour, int minute, int workoutid) async {
     CollectionReference notify =
@@ -411,11 +237,3 @@ showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
   );
 }
 
-void initializeSetting() async {
-  var initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  var initializationSettingsIOS = IOSInitializationSettings();
-  var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  await notificationsPlugin.initialize(initializationSettings);
-}
