@@ -9,7 +9,7 @@ exports.scheduledFunctionCrontab = functions.pubsub.schedule("* * * * *")
         var d = new Date(date.getTime() + 340 * 60 * 1000);
         var min = d.getMinutes();
         var hour = d.getHours();
-        console.log(min);
+        // console.log(min);
         database.collection("Notifications").get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
             const timemap = doc.data()["TimeMap"];
