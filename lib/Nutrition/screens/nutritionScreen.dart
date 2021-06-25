@@ -72,9 +72,9 @@ class _NutritionScreenState extends State {
             children: [
               // SizedBox(height: 26),
 
-              getDay(items, DateTime.now().weekday),
+              getDay(context, items, DateTime.now().weekday),
 
-              getDay(items, DateTime.now().weekday + 1),
+              getDay(context, items, DateTime.now().weekday + 1),
               // SizedBox(height: 26),
             ],
           ),

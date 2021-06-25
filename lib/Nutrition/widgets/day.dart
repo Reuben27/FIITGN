@@ -20,7 +20,7 @@ class Meal {
       this.protein});
 }
 
-Widget getDay(List<NutritionData> data, int day) {
+Widget getDay( BuildContext context, List<NutritionData> data, int day) {
   List<Widget> breakfast = [];
   List<Widget> lunch = [];
   List<Widget> snacks = [];
@@ -538,7 +538,7 @@ Widget getDay(List<NutritionData> data, int day) {
               width: 20,
             ),
             Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height/8,
               child: Image(
                 fit: BoxFit.contain,
                 image: AssetImage("assets/toaster.png"),

@@ -7,12 +7,18 @@ class Data_Provider with ChangeNotifier {
   static String _emailId;
   static String _name;
   static String _userDisplay;
+  static String _notificationToken;
 
 // getters
   // void setToken(String token) {
   //   _auth_token = token;
   //   notifyListeners();
   // }
+
+  void setNotifToken(String token) {
+    _notificationToken = token;
+    notifyListeners();
+  }
 
   void setUid(String userUid) {
     _uid = userUid;
@@ -39,10 +45,6 @@ class Data_Provider with ChangeNotifier {
     return _name;
   }
 
-  // String get auth_token {
-  //   return _auth_token;
-  // }
-
   String get uid {
     return _uid;
   }
@@ -53,5 +55,9 @@ class Data_Provider with ChangeNotifier {
 
   String get user_display {
     return _userDisplay;
+  }
+
+  String get notif_token {
+    return _notificationToken;
   }
 }

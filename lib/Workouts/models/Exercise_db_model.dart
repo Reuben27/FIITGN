@@ -58,7 +58,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return [..._listExercises];
   } 
 
-  
+
 
   List<ExerciseDbModel> exercisesBasesOnId(List<String> listOfExercisesId) {
     List<ExerciseDbModel> exercises = [];
@@ -71,7 +71,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return exercises;
   }
 
-  List<ExerciseDbModel> chest_exercises(){
+  List<ExerciseDbModel>  get chest_exercises   {
     List<ExerciseDbModel> chest_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Chest'){
@@ -81,7 +81,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return chest_exercises;
 }
 
-  List<ExerciseDbModel> core_exercises(){
+  List<ExerciseDbModel> get core_exercises{
     List<ExerciseDbModel> core_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Core'){
@@ -92,7 +92,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
 }
 
 
-  List<ExerciseDbModel> tricep_exercises(){
+  List<ExerciseDbModel> get tricep_exercises{
     List<ExerciseDbModel> tricep_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Triceps'){
@@ -102,7 +102,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return tricep_exercises;
 }
 
-  List<ExerciseDbModel> back_exercises(){
+  List<ExerciseDbModel> get back_exercises{
     List<ExerciseDbModel> back_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Back'){
@@ -112,7 +112,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return back_exercises;
 }
 
-  List<ExerciseDbModel> legs_exercises(){
+  List<ExerciseDbModel> get legs_exercises{
     List<ExerciseDbModel> legs_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Legs'){
@@ -122,7 +122,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return legs_exercises;
 }
 
-  List<ExerciseDbModel> biceps_exercises(){
+  List<ExerciseDbModel> get biceps_exercises{
     List<ExerciseDbModel> biceps_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Biceps'){
@@ -132,7 +132,7 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
     return biceps_exercises;
 }
 
-  List<ExerciseDbModel> shoulder_exercises(){
+  List<ExerciseDbModel> get shoulder_exercises{
     List<ExerciseDbModel> shoulder_exercises = [];
     _listExercises.forEach((element) {
       if(element.description == 'Shoulder'){

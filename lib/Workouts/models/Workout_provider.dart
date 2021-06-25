@@ -1,3 +1,4 @@
+import 'package:fiitgn/Notifications/utils/removeNotification.dart';
 import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
 
 import '../../Providers/DataProvider.dart';
@@ -8,6 +9,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/WorkoutModel.dart';
 import '../models/Exercise_db_model.dart';
+
+import '../../Notifications/utils/addNotification.dart';
 
 class Workouts_Provider with ChangeNotifier {
   // String _userEmailId;
@@ -82,6 +85,8 @@ class Workouts_Provider with ChangeNotifier {
     List exercises = exerciseDataProvider.listExercises;
   }
 
+  savestuffFromCW1() {}
+
   createWorkoutAndAddToDB(
       String creatorId,
       String creator_name,
@@ -89,7 +94,8 @@ class Workouts_Provider with ChangeNotifier {
       String description,
       String access,
       List<String> listOfExercisesId,
-      List<String> listOfFollowersId) async {
+      List<String> listOfFollowersId,
+      List<String> listOfOngoingId) async {
     // finding the time of creation
     final time = DateTime.now();
     final String dateOfCreationOfWorkout = time.toIso8601String();
@@ -109,6 +115,7 @@ class Workouts_Provider with ChangeNotifier {
             'access': access,
             'listOfExercisesId': listOfExercisesId,
             'listOfFollowersId': listOfFollowersId,
+            'listOfOngoingId': listOfOngoingId,
           },
         ),
       );
@@ -131,7 +138,8 @@ class Workouts_Provider with ChangeNotifier {
         description: description,
         access: access,
         listOfExercisesId: listOfExercisesId,
-        listOfFollowersId: listOfFollowersId);
+        listOfFollowersId: listOfFollowersId,
+        listOfOnGoingId: listOfOngoingId);
     _workoutsList.add(newWorkout);
     print("%%%%%%%%%%%%%%%%%%%%%");
     print("workouts list has been updated");
@@ -157,6 +165,7 @@ class Workouts_Provider with ChangeNotifier {
         (statId, statValue) {
           final List<String> tempListExerciseId = [];
           final List<String> tempListFollowersId = [];
+          final List<String> tempListOngoingId = [];
           List x = statValue['listOfExercisesId'];
           x.forEach((element) {
             tempListExerciseId.add(element.toString());
@@ -164,6 +173,10 @@ class Workouts_Provider with ChangeNotifier {
           List y = statValue['listOfFollowersId'];
           y.forEach((element) {
             tempListFollowersId.add(element.toString());
+          });
+          List z = statValue['listOfOngoingId'];
+          z.forEach((element) {
+            tempListOngoingId.add(element.toString());
           });
           loadedList.add(
             WorkoutModel(
@@ -176,6 +189,7 @@ class Workouts_Provider with ChangeNotifier {
               creationDate: statValue['creationDate'],
               listOfExercisesId: tempListExerciseId,
               listOfFollowersId: tempListFollowersId,
+              listOfOnGoingId: tempListOngoingId,
             ),
           );
         },
@@ -222,12 +236,14 @@ class Workouts_Provider with ChangeNotifier {
             'workoutName': workout.workoutName,
             'listOfExercisesId': workout.listOfExercisesId,
             'listOfFollowersId': followers,
+            'listOfOngoingId': workout.listOfOnGoingId,
           }));
       print(x.body);
       print("follower list has been updated");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
         creatorId: workout.creatorId,
+        listOfOnGoingId: workout.listOfOnGoingId,
         workoutId: workout.workoutId,
         workoutName: workout.workoutName,
         description: workout.description,
@@ -265,6 +281,7 @@ class Workouts_Provider with ChangeNotifier {
             'workoutName': workout.workoutName,
             'listOfExercisesId': workout.listOfExercisesId,
             'listOfFollowersId': followers,
+            'listOfOngoingId': workout.listOfOnGoingId,
           }));
 
       print(x.body);
@@ -274,6 +291,7 @@ class Workouts_Provider with ChangeNotifier {
         creatorId: workout.creatorId,
         workoutId: workout.workoutId,
         workoutName: workout.workoutName,
+        listOfOnGoingId: workout.listOfOnGoingId,
         description: workout.description,
         access: workout.access,
         creationDate: workout.creationDate,
@@ -350,5 +368,136 @@ class Workouts_Provider with ChangeNotifier {
     _loggedWorkouts.add(newLog);
     print("Saved a log workout successfully");
     notifyListeners();
+  }
+
+//// functions for getting workouts that user has set reminder for
+  ///
+  List<WorkoutModel> ongoingWorkouts() {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    List<WorkoutModel> ongoingWorkoutsList = [];
+    _workoutsList.forEach((element) {
+      if (element.listOfOnGoingId.contains(user_uid)) {
+        ongoingWorkoutsList.add(element);
+      }
+    });
+    return ongoingWorkoutsList;
+  }
+
+  Future<void> addWorkoutToOngoingDB(
+      // print("add workout to ongoing called");
+
+      WorkoutModel workout,
+      String workoutId,
+      int hour,
+      int min) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
+    print("add workout to ongoing called");
+    print(url);
+    List ongoing = workout.listOfOnGoingId;
+    ongoing.add(user_uid);
+    print(ongoing);
+    // workout.listOfFollowersId.add(user_uid);
+    try {
+      var x = await http.patch(Uri.parse(url),
+          body: json.encode({
+            'access': workout.access,
+            'creationDate': workout.creationDate,
+            'creatorId': workout.creatorId,
+            'workoutName': workout.workoutName,
+            'listOfExercisesId': workout.listOfExercisesId,
+            'listOfFollowersId': workout.listOfFollowersId,
+            'listOfOngoingId': ongoing,
+          }));
+      print(x.body);
+      print("ongoing list has been updated");
+      WorkoutModel updatedWorkout = WorkoutModel(
+        creator_name: workout.creator_name,
+        creatorId: workout.creatorId,
+        workoutId: workout.workoutId,
+        workoutName: workout.workoutName,
+        description: workout.description,
+        access: workout.access,
+        creationDate: workout.creationDate,
+        listOfExercisesId: workout.listOfExercisesId,
+        listOfFollowersId: workout.listOfFollowersId,
+        listOfOnGoingId: ongoing,
+      );
+      int index =
+          _workoutsList.indexWhere((element) => element.workoutId == workoutId);
+      _workoutsList[index] = updatedWorkout;
+      print(_workoutsList[index].listOfOnGoingId);
+      print("added workout to Ongoing");
+      /////// SETTING NOTIFICATION FOR WORKOUT
+      String token = Data_Provider().notif_token;
+      try {
+        await notiAdd(token, hour, min, workout.workoutName);
+        print("notification successfully added ");
+      } catch (e) {
+        print("error in setting notifs");
+        print(e);
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("ERROR OCCURED");
+      print(e);
+    }
+  }
+
+  Future<void> removeWorkoutFromOngoingDB(
+      WorkoutModel workout, String workoutId) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
+    List ongoing = workout.listOfOnGoingId;
+    ongoing.remove(user_uid);
+    try {
+      var x = await http.patch(Uri.parse(url),
+          body: json.encode({
+            'access': workout.access,
+            'creationDate': workout.creationDate,
+            'creatorId': workout.creatorId,
+            'workoutName': workout.workoutName,
+            'listOfExercisesId': workout.listOfExercisesId,
+            'listOfFollowersId': workout.listOfFollowersId,
+            'listOfOngoingId': ongoing,
+          }));
+
+      print(x.body);
+      print("user has been unfollowed");
+      WorkoutModel updatedWorkout = WorkoutModel(
+        creator_name: workout.creator_name,
+        creatorId: workout.creatorId,
+        workoutId: workout.workoutId,
+        workoutName: workout.workoutName,
+        description: workout.description,
+        access: workout.access,
+        creationDate: workout.creationDate,
+        listOfExercisesId: workout.listOfExercisesId,
+        listOfFollowersId: workout.listOfFollowersId,
+        listOfOnGoingId: ongoing,
+      );
+      int index =
+          _workoutsList.indexWhere((element) => element.workoutId == workoutId);
+      _workoutsList[index] = updatedWorkout;
+      print(_workoutsList[index].listOfOnGoingId);
+      try {
+        String token = Data_Provider().notif_token;
+        await notiRemove(token, workout.workoutName);
+        print("notification successfully removed ");
+      } catch (e) {
+        print("error in removing notifs");
+        print(e);
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
   }
 }
