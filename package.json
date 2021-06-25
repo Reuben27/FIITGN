@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions": "^3.14.1"
+  },
+  "dependencies": {
+    "asyncawait": "^3.0.0"
+  }
+}

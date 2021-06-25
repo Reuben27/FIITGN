@@ -58,8 +58,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
   bool is_admin(List<String> adminEmailIds) {
     print("is_admin called");
-    String user_id = Data_Provider().uid;
-    if (adminEmailIds.contains(user_id.trim())) {
+    String user_email = Data_Provider().email;
+    print("user EMAIL ID IS " + user_email);
+    if (adminEmailIds.contains(user_email.trim())) {
       print("user is an admin");
       return true;
     }
@@ -67,22 +68,20 @@ class _Create_Workout2State extends State<Create_Workout2> {
     return false;
   }
 
-  save_workout(String workoutName, String description, String access,
-      List<String> exerciseIds, List<String> followerIds) async {
+  save_workout(
+      String workoutName,
+      String description,
+      String access,
+      List<String> exerciseIds,
+      List<String> followerIds,
+      List<String> ongoingId) async {
     print("save workouts called");
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     String creator_id = Data_Provider().uid;
     String creator_name = Data_Provider().name;
-    await workoutDataProvider.createWorkoutAndAddToDB(
-      creator_id,
-      creator_name,
-      workoutName,
-      description,
-      access,
-      exerciseIds,
-      followerIds,
-    );
+    await workoutDataProvider.createWorkoutAndAddToDB(creator_id, creator_name,
+        workoutName, description, access, exerciseIds, followerIds, ongoingId);
     print("workout saved");
     Navigator.pop(context, true);
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
@@ -111,8 +110,11 @@ class _Create_Workout2State extends State<Create_Workout2> {
   //   );
   // }
 
-  void workoutName_Description_Access(BuildContext context,
-      List<String> listOfExercisesId, List<String> listOfFollowersId) {
+  void workoutName_Description_Access(
+      BuildContext context,
+      List<String> listOfExercisesId,
+      List<String> listOfFollowersId,
+      List<String> listOfOngoingId) {
     print("workoutName_Description_Access called");
     final nameController = TextEditingController();
     final descriptionController = TextEditingController();
@@ -177,7 +179,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     descriptionController.text.trim(),
                                     access,
                                     listOfExercisesId,
-                                    listOfFollowersId);
+                                    listOfFollowersId,
+                                    listOfOngoingId);
                               },
                             ),
                             RaisedButton(
@@ -189,7 +192,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     descriptionController.text.trim(),
                                     access,
                                     listOfExercisesId,
-                                    listOfFollowersId);
+                                    listOfFollowersId,
+                                    listOfOngoingId);
                                 // Navigator.of(context).pop(true);
                                 // Navigator.of(context).pop(true);
                               },
@@ -207,7 +211,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 descriptionController.text.trim(),
                                 access,
                                 listOfExercisesId,
-                                listOfFollowersId);
+                                listOfFollowersId,
+                                listOfOngoingId);
                           },
                         ),
                 ],
@@ -230,12 +235,13 @@ class _Create_Workout2State extends State<Create_Workout2> {
     String creatorId = workoutDataProvider.userId;
     String creator_name = workoutDataProvider.user_name;
     List<String> listOfFollowersId = [creatorId];
+    List<String> listOfOngoingId = ['alpha'];
     // Map<String, dynamic> map = Map();
     // map['listOfExercisesId'] = listOfExercisesId;
     // map['listOfFollowersId'] = listOfFollowersId;
     print("calling the funcc");
-    await workoutName_Description_Access(
-        context, listOfExercisesId, listOfFollowersId);
+    workoutName_Description_Access(
+        context, listOfExercisesId, listOfFollowersId, listOfOngoingId);
     // Navigator.pushNamed(context, Create_Workout1.routeName, arguments: map);
   }
 

@@ -1,5 +1,6 @@
 import 'package:fiitgn/Screens/stopwatch.dart';
 import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +32,7 @@ import 'Workouts/screens/your-workouts.dart';
 import 'Workouts/screens/ongoing_workouts.dart';
 import 'Workouts/screens/wishlist.dart';
 import 'Workouts/models/Workout_provider.dart';
-import 'Workouts/screens/create_workouts2.dart';
+// import 'Workouts/screens/create_workouts2.dart';
 import 'Workouts/screens/create_workouts1.dart';
 import './Providers/DataProvider.dart';
 import 'Workouts/models/Admin_db_model.dart';
@@ -40,23 +41,40 @@ import 'Workouts/screens/explore_workouts.dart';
 import 'Workouts/screens/exercises_in_workout.dart';
 import 'Workouts/screens/created_by_user.dart';
 import 'Workouts/screens/workout_logging.dart';
+import 'Notifications/Notifications.dart';
 
 //// Allocation
 import 'Allocation/screens/sports.dart';
 
+///// Guided Sessions
 //// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
 
 //// Nutrition
 import 'Nutrition/screens/nutritionScreen.dart';
-
-//// Activities
 import 'Sports-Activities/screens/activity_screens.dart';
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.notification.title);
+  print(message.notification.body);
+  print(message.data.toString());
+}
+
+String token;
+getToken() async {
+  token = await FirebaseMessaging.instance.getToken();
+  Data_Provider().setNotifToken(token);
+  print(token);
+}
+//// Activities
 
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //Method needed to initialize firebase application.
   await Firebase.initializeApp();
+  getToken();
+  // When killed
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MyApp());
 }
 
@@ -123,12 +141,15 @@ class MyApp extends StatelessWidget {
           Your_Workouts.routeName: (_) => Your_Workouts(),
           Ongoing_Workouts.routeName: (_) => Ongoing_Workouts(),
           Wishlist.routeName: (_) => Wishlist(),
-          Create_Workout1.routeName: (_) => Create_Workout1(),
+          // Create_Workout1.routeName: (_) => Create_Workout1(),
           Create_Workout2.routeName: (_) => Create_Workout2(),
           Explore_Workouts.routeName: (_) => Explore_Workouts(),
           Exercises_in_Workout.routeName: (_) => Exercises_in_Workout(),
           Created_by_user.routeName: (_) => Created_by_user(),
           Workout_Logging.routeName: (_) => Workout_Logging(),
+          Notifications.routeName: (_) => Notifications(),
+
+          ///// Allocation Section
 
           //// Allocation Section
           Sports.routeName: (_) => Sports(),
@@ -136,7 +157,7 @@ class MyApp extends StatelessWidget {
           //// Guided Sessions
           Sessions.routeName: (_) => Sessions(),
 
-          //// Nutrition
+          ///// Nutrition
           NutritionScreen.routeName: (_) => NutritionScreen(),
 
           //// Activities
