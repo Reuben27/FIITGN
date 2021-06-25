@@ -56,7 +56,9 @@ class GetExerciseDataFromGoogleSheetProvider with ChangeNotifier {
 
   List<ExerciseDbModel> get listExercises {
     return [..._listExercises];
-  }
+  } 
+
+  
 
   List<ExerciseDbModel> exercisesBasesOnId(List<String> listOfExercisesId) {
     List<ExerciseDbModel> exercises = [];

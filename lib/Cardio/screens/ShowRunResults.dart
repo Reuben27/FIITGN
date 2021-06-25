@@ -396,147 +396,101 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                           //           ),
                           //         ),
                           //       )
+                          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // Add function to add code to database
+                                  _isLoading = true;
+                                  runStatsProvider
+                                      .addNewRunData(
+                                    dateOfRun,
+                                    avgSpeedString,
+                                    distanceString,
+                                    startTime,
+                                    timeHrs,
+                                    timeMin,
+                                    timeSec,
+                                    listOfLatLng,
+                                    initialLat,
+                                    initialLong,
+                                  )
+                                      .catchError((error) {
+                                    print(error);
+                                    return showDialog<Null>(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        title: Text('An error occured'),
+                                        content: Text('Something went wrong'),
+                                        actions: [
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Okay'))
+                                        ],
+                                      ),
+                                    );
+                                  }).then(
+                                    (_) {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                      Navigator.pushReplacementNamed(
+                                          context, HomeScreen.routeName);
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.green[300],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  alignment: Alignment.center,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  height:
+                                      MediaQuery.of(context).size.width / 10,
+                                  child: Text(
+                                    'SAVE PROGRESS',
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                35,
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushReplacementNamed(
+                                      context, HomeScreen.routeName);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.red[300],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  alignment: Alignment.center,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.5,
+                                  height:
+                                      MediaQuery.of(context).size.width / 10,
+                                  child: Text(
+                                    "DON'T SAVE",
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height /
+                                                35,
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      RaisedButton(
-                        onPressed: () async {
-                          // Add function to add code to database
-                          print(("alpha"));
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          print("beta");
-                          try {
-                            await runStatsProvider.addNewRunData(
-                              dateOfRun,
-                              avgSpeedString,
-                              distanceString,
-                              startTime,
-                              timeHrs,
-                              timeMin,
-                              timeSec,
-                              listOfLatLng,
-                              initialLat,
-                              initialLong,
-                            );
-                            print("function called ");
-                          } catch (e) {
-                            print("error in saving");
-                            print(e);
-                            return showDialog<Null>(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                title: Text('An error occured'),
-                                content: Text('Something went wrong'),
-                                actions: [
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('Okay'))
-                                ],
-                              ),
-                            );
-                          }
-
-                          print("gamma");
-                          setState(() {
-                            _isLoading = false;
-                          });
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.routeName);
-                        },
-                        elevation: 10,
-                        color: Theme.of(context).primaryColor,
-                        child: Text('Save Progress'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          // Add function to add code to database
-                          _isLoading = true;
-                          runStatsProvider
-                              .addNewRunData(
-                            dateOfRun,
-                            avgSpeedString,
-                            distanceString,
-                            startTime,
-                            timeHrs,
-                            timeMin,
-                            timeSec,
-                            listOfLatLng,
-                            initialLat,
-                            initialLong,
-                          )
-                              .catchError((error) {
-                            print(error);
-                            return showDialog<Null>(
-                              context: context,
-                              builder: (ctx) => AlertDialog(
-                                title: Text('An error occured'),
-                                content: Text('Something went wrong'),
-                                actions: [
-                                  FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text('Okay'))
-                                ],
-                              ),
-                            );
-                          }).then(
-                            (_) {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              Navigator.pushReplacementNamed(
-                                  context, HomeScreen.routeName);
-                            },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.green[300],
-                              borderRadius: BorderRadius.circular(10)),
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          height: MediaQuery.of(context).size.width / 10,
-                          child: Text(
-                            'SAVE PROGRESS',
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 35,
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.routeName);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.red[300],
-                              borderRadius: BorderRadius.circular(10)),
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          height: MediaQuery.of(context).size.width / 10,
-                          child: Text(
-                            "DON'T SAVE",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height / 35,
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

@@ -30,14 +30,6 @@ class _Activity_ScreenState extends State<Activity_Screen> {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.green[200],
-            // bottom: PreferredSize(
-            //   child: Text(
-            //     "SESSIONS CURRENTLY UNDERWAY",
-            //     style: TextStyle(fontFamily: 'Gilroy'),
-            //   ),
-            //   preferredSize: Size.fromHeight(1),
-            //   ),
-            //   backgroundColor: Colors.white,
             centerTitle: true,
             title: Text(
               'SPORTS ACTIVITIES',

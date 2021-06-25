@@ -177,7 +177,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                       alignment: Alignment.topCenter,
                       child: Container(
                           width: MediaQuery.of(context).size.width / 6,
-                          child: Image.asset('assets/ico.png',
+                          child: Image.asset(document['description'],
                               fit: BoxFit.contain)),
                     ),
                   ]),
@@ -186,7 +186,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
             }).toList(),
           ),
         )
-
+ 
             //Text('Rooms'),
 
             //  Text('Equipments'),
