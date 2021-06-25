@@ -385,11 +385,17 @@ class Workouts_Provider with ChangeNotifier {
   }
 
   Future<void> addWorkoutToOngoingDB(
-      WorkoutModel workout, String workoutId, int hour, int min) async {
+      // print("add workout to ongoing called");
+
+      WorkoutModel workout,
+      String workoutId,
+      int hour,
+      int min) async {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
     final url =
         "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
+    print("add workout to ongoing called");
     print(url);
     List ongoing = workout.listOfOnGoingId;
     ongoing.add(user_uid);

@@ -19,7 +19,7 @@ exports.scheduledFunctionCrontab = functions.pubsub.schedule("* * * * *")
                 // console.log(time);
                 if ((time["hour"] == hour) && (time["minute"] == min)){
                     const workoutid = timemap[i.toString()]["workoutid"];
-                    sendNotification(workoutid.toString(),tokenid);
+                    sendNotification(workoutid,tokenid);
                 }
             }
             function sendNotification(workoutid, tokenid) {

@@ -37,14 +37,14 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
   String dateTime;
   String _hourEntry, _minuteEntry, _timeEntry;
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-  TextEditingController _timeController = TextEditingController();
+  // TextEditingController _timeController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _timeController.text = formatDate(
-        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
-        [hh, ':', nn, " ", am]).toString();
+    //   _timeController.text = formatDate(
+    //       DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+    //       [hh, ':', nn, " ", am]).toString();
   }
 
   // @override
@@ -82,87 +82,41 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
     );
   }
 
-  Future<Null> _selectTime(BuildContext context) async {
+  Future<Null> _selectTime(BuildContext context, WorkoutModel workout,
+      String workoutId, int index) async {
+    final workoutDataProvider =
+        Provider.of<Workouts_Provider>(context, listen: false);
     final TimeOfDay picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: TimeOfDay(hour: 00, minute: 00),
     );
-    if (picked != null)
+    if (picked != null) {
       setState(() {
         selectedTime = picked;
         _hourEntry = selectedTime.hour.toString();
         _minuteEntry = selectedTime.minute.toString();
-        _timeEntry = _hourEntry + ' : ' + _minuteEntry;
-        _timeController.text = _timeEntry;
-        _timeController.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
+
+        ongoing_iconList[index] = ongoing_followIcon;
+        print("THETAAA");
+
+        // _timeEntry = _hourEntry + ' : ' + _minuteEntry;
+        // _timeController.text = _timeEntry;
+        // _timeController.text = formatDate(
+        //     DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+        //     [hh, ':', nn, " ", am]).toString();
       });
+      await workoutDataProvider.addWorkoutToOngoingDB(
+          workout, workoutId, selectedTime.hour, selectedTime.minute);
+      print("workout added to ongoing");
+    }
   }
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _timeController.dispose();
+    // _timeController.dispose();
     super.dispose();
   }
-
-  // Widget add_workout(WorkoutModel workout, String workoutId) {
-  //   print("GOT IN THE WIDGET");
-  //   final workoutDataProvider =
-  //       Provider.of<Workouts_Provider>(context, listen: false);
-  //   Container(
-  //     padding: const EdgeInsets.all(16.0),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: <Widget>[
-  //         Text(
-  //           'Choose Time',
-  //           style: TextStyle(
-  //               fontStyle: FontStyle.italic,
-  //               fontWeight: FontWeight.w600,
-  //               letterSpacing: 0.5),
-  //         ),
-  //         InkWell(
-  //           onTap: () {
-  //             _selectTime(context).then((_) async {
-  //               print("entered select time THEN block");
-  //               String token = Data_Provider().notif_token;
-  //               int hour = selectedTime.hour;
-  //               int minute = selectedTime.minute;
-  //               await workoutDataProvider.addWorkoutToOngoingDB(
-  //                   workout, workoutId, hour, minute);
-  //               print("Workout added to ongoing");
-  //               notiAdd(token, hour, minute, workout.workoutName);
-  //               print("Notif added");
-  //               showAlertDialog(context, selectedTime);
-  //             });
-  //           },
-  //           child: Container(
-  //             width: MediaQuery.of(context).size.width / 2,
-  //             height: MediaQuery.of(context).size.width / 10,
-  //             margin: EdgeInsets.only(top: 10),
-  //             alignment: Alignment.center,
-  //             decoration: BoxDecoration(color: Colors.grey[200]),
-  //             child: TextFormField(
-  //               style: TextStyle(fontSize: 25),
-  //               textAlign: TextAlign.center,
-  //               enabled: false,
-  //               keyboardType: TextInputType.text,
-  //               controller: _timeController,
-  //               decoration: InputDecoration(
-  //                   disabledBorder:
-  //                       UnderlineInputBorder(borderSide: BorderSide.none),
-  //                   // labelText: 'Time',
-  //                   contentPadding: EdgeInsets.all(5)),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  //   print("container happened");
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -304,40 +258,32 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                       ),
                       InkWell(
                         child: ongoing_iconList[i],
-                        onTap: () {},
-                        // onTap: () async {
-                        //   //  function to follow/unfollow the workout
-                        //   print("test");
-                        //   if (workoutsList[i]
-                        //       .listOfOnGoingId
-                        //       .contains(user_id)) {
-                        //     await workoutDataProvider
-                        //         .removeWorkoutFromOngoingDB(
-                        //             workoutsList[i], workoutsList[i].workoutId);
-                        //     print("http removed from ongoing done");
-                        //     setState(() {
-                        //       ongoing_iconList[i] = ongoing_unfollowIcon;
-                        //       print("state set");
-                        //     });
-                        //   } else if (!workoutsList[i]
-                        //       .listOfOnGoingId
-                        //       .contains(user_id)) {
-                        //     print("QQQQQQQQQQQQQQQQQQQQQ");
-                        //     // add_workout(
-                        //     //     workoutsList[i], workoutsList[i].workoutId);
-                        //     NotificationsTimer(
-                        //       workout: workoutsList[i],
-                        //       workoutId: workoutsList[i].workoutId,
-                        //     );
-                        //     // await workoutDataProvider.followWorkout(
-                        //     //     workoutsList[i], workoutsList[i].workoutId);
-                        //     print("ZUMBAAAA");
-                        //     setState(() {
-                        //       ongoing_iconList[i] = ongoing_followIcon;
-                        //       print("THETAAA");
-                        //     });
-                        //   }
-                        // },
+                        // onTap: () {},
+                        onTap: () async {
+                          //  function to follow/unfollow the workout
+                          print("test");
+                          if (workoutsList[i]
+                              .listOfOnGoingId
+                              .contains(user_id)) {
+                            await workoutDataProvider
+                                .removeWorkoutFromOngoingDB(
+                                    workoutsList[i], workoutsList[i].workoutId);
+                            print("http removed from ongoing done");
+                            setState(() {
+                              ongoing_iconList[i] = ongoing_unfollowIcon;
+                              print("state set");
+                            });
+                          } else if (!workoutsList[i]
+                              .listOfOnGoingId
+                              .contains(user_id)) {
+                            print("QQQQQQQQQQQQQQQQQQQQQ");
+                            await _selectTime(context, workoutsList[i],
+                                workoutsList[i].workoutId, i);
+                            print(_hourEntry);
+                            print(_minuteEntry);
+                            print("ZUMBAAAA");
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -351,196 +297,196 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
   }
 }
 
-FlutterLocalNotificationsPlugin notificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// FlutterLocalNotificationsPlugin notificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
 
-class NotificationsTimer extends StatefulWidget {
-  static const routeName = '\Notifications';
-  WorkoutModel workout;
-  String workoutId;
+// class NotificationsTimer extends StatefulWidget {
+//   static const routeName = '\Notifications';
+//   WorkoutModel workout;
+//   String workoutId;
 
-  NotificationsTimer({
-    @required this.workout,
-    @required this.workoutId,
-  });
+//   NotificationsTimer({
+//     @required this.workout,
+//     @required this.workoutId,
+//   });
 
-  @override
-  NotificationsTimerState createState() =>
-      NotificationsTimerState(workout: workout, workoutId: workoutId);
-}
+//   @override
+//   NotificationsTimerState createState() =>
+//       NotificationsTimerState(workout: workout, workoutId: workoutId);
+// }
 
-class NotificationsTimerState extends State<NotificationsTimer> {
-  WorkoutModel workout;
-  String workoutId;
+// class NotificationsTimerState extends State<NotificationsTimer> {
+//   WorkoutModel workout;
+//   String workoutId;
 
-  NotificationsTimerState({
-    @required this.workout,
-    @required this.workoutId,
-  });
+//   NotificationsTimerState({
+//     @required this.workout,
+//     @required this.workoutId,
+//   });
 
-  String dateTime;
-  String _hourEntry, _minuteEntry, _timeEntry;
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-  TextEditingController _timeController = TextEditingController();
+//   String dateTime;
+//   String _hourEntry, _minuteEntry, _timeEntry;
+//   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+//   // TextEditingController _timeController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    LocalNotificationService.initializeSetting(context);
-    _timeController.text = formatDate(
-        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
-        [hh, ':', nn, " ", am]).toString();
+//   @override
+//   void initState() {
+//     super.initState();
+//     LocalNotificationService.initializeSetting(context);
+//     _timeController.text = formatDate(
+//         DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+//         [hh, ':', nn, " ", am]).toString();
 
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message.data != null) {
-        final routeName = message.data["route"];
-        print(routeName);
-        // Navigator.of(context).pushNamed(routeName);
-      }
-    });
+//     FirebaseMessaging.instance.getInitialMessage().then((message) {
+//       if (message.data != null) {
+//         final routeName = message.data["route"];
+//         print(routeName);
+//         // Navigator.of(context).pushNamed(routeName);
+//       }
+//     });
 
-    //When Open.
-    FirebaseMessaging.onMessage.listen((message) {
-      if (message.notification != null) {
-        print(message.notification.title);
-        print(message.notification.body);
-      }
-      LocalNotificationService.display(message);
-    });
+//     //When Open.
+//     FirebaseMessaging.onMessage.listen((message) {
+//       if (message.notification != null) {
+//         print(message.notification.title);
+//         print(message.notification.body);
+//       }
+//       LocalNotificationService.display(message);
+//     });
 
-    //When in bg but not killed
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      final routeName = message.data["route"];
-      print(routeName);
-      // Navigator.of(context).pushNamed(routeName);
-    });
-  }
+//     //When in bg but not killed
+//     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+//       final routeName = message.data["route"];
+//       print(routeName);
+//       // Navigator.of(context).pushNamed(routeName);
+//     });
+//   }
 
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (picked != null)
-      setState(() {
-        selectedTime = picked;
-        _hourEntry = selectedTime.hour.toString();
-        _minuteEntry = selectedTime.minute.toString();
-        _timeEntry = _hourEntry + ' : ' + _minuteEntry;
-        _timeController.text = _timeEntry;
-        _timeController.text = formatDate(
-            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-            [hh, ':', nn, " ", am]).toString();
-      });
-  }
+//   Future<Null> _selectTime(BuildContext context) async {
+//     final TimeOfDay picked = await showTimePicker(
+//       context: context,
+//       initialTime: selectedTime,
+//     );
+//     if (picked != null)
+//       setState(() {
+//         selectedTime = picked;
+//         _hourEntry = selectedTime.hour.toString();
+//         _minuteEntry = selectedTime.minute.toString();
+//         _timeEntry = _hourEntry + ' : ' + _minuteEntry;
+//         _timeController.text = _timeEntry;
+//         _timeController.text = formatDate(
+//             DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+//             [hh, ':', nn, " ", am]).toString();
+//       });
+//   }
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _timeController.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     // Clean up the controller when the widget is disposed.
+//     _timeController.dispose();
+//     super.dispose();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final workoutDataProvider =
-        Provider.of<Workouts_Provider>(context, listen: false);
-    return Column(
-      children: <Widget>[
-        Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            '',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.blue[500],
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text(
-                'Choose Time',
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.5),
-              ),
-              InkWell(
-                onTap: () {
-                  _selectTime(context).then((_) async {
-                    print("entered select time THEN block");
-                    String token = Data_Provider().notif_token;
-                    int hour = selectedTime.hour;
-                    int minute = selectedTime.minute;
-                    await workoutDataProvider.addWorkoutToOngoingDB(
-                        workout, workoutId, hour, minute);
-                    print("Workout added to ongoing");
-                    notiAdd(token, hour, minute, workout.workoutName);
-                    print("Notif added");
-                    showAlertDialog(context, selectedTime);
-                  });
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: MediaQuery.of(context).size.width / 10,
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.grey[200]),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.center,
-                    enabled: false,
-                    keyboardType: TextInputType.text,
-                    controller: _timeController,
-                    decoration: InputDecoration(
-                        disabledBorder:
-                            UnderlineInputBorder(borderSide: BorderSide.none),
-                        // labelText: 'Time',
-                        contentPadding: EdgeInsets.all(5)),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-    ;
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     final workoutDataProvider =
+//         Provider.of<Workouts_Provider>(context, listen: false);
+//     return Column(
+//       children: <Widget>[
+//         Container(
+//           alignment: Alignment.center,
+//           padding: const EdgeInsets.all(16.0),
+//           child: Text(
+//             '',
+//             textAlign: TextAlign.center,
+//             overflow: TextOverflow.ellipsis,
+//             style: TextStyle(
+//               fontWeight: FontWeight.bold,
+//               color: Colors.blue[500],
+//               fontSize: 20,
+//             ),
+//           ),
+//         ),
+//         Container(
+//           padding: const EdgeInsets.all(16.0),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//             children: <Widget>[
+//               Text(
+//                 'Choose Time',
+//                 style: TextStyle(
+//                     fontStyle: FontStyle.italic,
+//                     fontWeight: FontWeight.w600,
+//                     letterSpacing: 0.5),
+//               ),
+//               InkWell(
+//                 onTap: () {
+//                   _selectTime(context).then((_) async {
+//                     print("entered select time THEN block");
+//                     String token = Data_Provider().notif_token;
+//                     int hour = selectedTime.hour;
+//                     int minute = selectedTime.minute;
+//                     await workoutDataProvider.addWorkoutToOngoingDB(
+//                         workout, workoutId, hour, minute);
+//                     print("Workout added to ongoing");
+//                     notiAdd(token, hour, minute, workout.workoutName);
+//                     print("Notif added");
+//                     showAlertDialog(context, selectedTime);
+//                   });
+//                 },
+//                 child: Container(
+//                   width: MediaQuery.of(context).size.width / 2,
+//                   height: MediaQuery.of(context).size.width / 10,
+//                   margin: EdgeInsets.only(top: 10),
+//                   alignment: Alignment.center,
+//                   decoration: BoxDecoration(color: Colors.grey[200]),
+//                   child: TextFormField(
+//                     style: TextStyle(fontSize: 25),
+//                     textAlign: TextAlign.center,
+//                     enabled: false,
+//                     keyboardType: TextInputType.text,
+//                     controller: _timeController,
+//                     decoration: InputDecoration(
+//                         disabledBorder:
+//                             UnderlineInputBorder(borderSide: BorderSide.none),
+//                         // labelText: 'Time',
+//                         contentPadding: EdgeInsets.all(5)),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//     ;
+//   }
 
-  showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+//   showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
+//     // set up the button
+//     Widget okButton = FlatButton(
+//       child: Text("OK"),
+//       onPressed: () {
+//         Navigator.of(context).pop();
+//       },
+//     );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Notice"),
-      content: Text(
-          "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-      actions: [
-        okButton,
-      ],
-    );
+//     // set up the AlertDialog
+//     AlertDialog alert = AlertDialog(
+//       title: Text("Notice"),
+//       content: Text(
+//           "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+//       actions: [
+//         okButton,
+//       ],
+//     );
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-}
+//     // show the dialog
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return alert;
+//       },
+//     );
+//   }
+// }
