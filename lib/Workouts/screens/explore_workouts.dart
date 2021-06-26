@@ -141,8 +141,16 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
       }
     });
     return Scaffold(
-      appBar: AppBar(
-        title: Text('All Workouts'),
+      appBar: AppBar(centerTitle: true,
+        backgroundColor: Colors.blueGrey[300],
+        title: Text(
+          'All Workouts',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 30,
+              fontFamily: 'Gilroy'),
+        ),
       ),
       body: ListView.builder(
         itemCount: workoutsList.length,
@@ -240,4 +248,3 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
     );
   }
 }
-

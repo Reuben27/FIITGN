@@ -252,7 +252,20 @@ class _Create_Workout2State extends State<Create_Workout2> {
             listen: false);
     final List<ExerciseDbModel> allExerciseList =
         exerciseDataProvider.listExercises;
-    final List<ExerciseDbModel> chestExercises = exerciseDataProvider.chest_exercises;
+    final List<ExerciseDbModel> chestExercises =
+        exerciseDataProvider.chest_exercises;
+    final List<ExerciseDbModel> coreExercises =
+        exerciseDataProvider.core_exercises;
+    final List<ExerciseDbModel> backExercises =
+        exerciseDataProvider.back_exercises;
+    final List<ExerciseDbModel> bicepsExercises =
+        exerciseDataProvider.biceps_exercises;
+    final List<ExerciseDbModel> tricepsExercises =
+        exerciseDataProvider.tricep_exercises;
+    final List<ExerciseDbModel> legsExercises =
+        exerciseDataProvider.legs_exercises;
+    final List<ExerciseDbModel> shoulderExercises =
+        exerciseDataProvider.shoulder_exercises;
 
     // final routeArgs = ModalRoute.of(context).settings.arguments as Map;
     // final String workoutName = routeArgs['workoutName'];
@@ -260,121 +273,762 @@ class _Create_Workout2State extends State<Create_Workout2> {
     // final String description = routeArgs['desription'];
     allExerciseList.forEach(
       (element) {
-        colorList.add(Colors.grey[200]);
+        colorList.add(Colors.grey[350]);
       },
     );
     // print(workoutName + " " + access);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Choose Exercises'),
-        actions: [
-          InkWell(
+    return DefaultTabController(
+      length: 7,
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.red[400],
             child: Icon(Icons.save),
-            onTap: onTapSave,
+            onPressed: onTapSave,
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 60,
+          appBar: AppBar(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.blueGrey[300],
+            centerTitle: true,
+            title: Text(
+              'SELECT EXERCISES',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 30,
+                  fontFamily: 'Gilroy'),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height / 6,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(width: 30),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.7,
-                    child: Text(
-                      'Create Workout',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontFamily: "Gilroy",
-                      ),
-                    ),
+            bottom: TabBar(
+              isScrollable: true,
+              tabs: [
+                Tab(
+                  child: Text(
+                    "Chest",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 8,
-                    child: ClipRRect(
-                      child: Image.asset(
-                        'assets/23.png',
-                        fit: BoxFit.contain,
+                ),
+                Tab(
+                  child: Text(
+                    "Core",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Shoulder",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Biceps",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Triceps",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Legs",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Back",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                )
+              ],
+            ),
+            //  title: Text('Choose Exercises'),
+            // actions: [
+            //   InkWell(
+            //     child: Icon(Icons.save),
+            //     onTap: onTapSave,
+            //   ),
+            // ],
+          ),
+          body: TabBarView(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: chestExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(chestExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(chestExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(chestExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          chestExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        chestExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 2),
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: chestExercises.length,
-              itemBuilder: (ctx, i) {
-                return InkWell(
-                  onTap: () {
-                    // print(allExerciseList[i].isWeighted);
-                    if (!exercisesSelectedForWorkout
-                        .contains(chestExercises[i])) {
-                      Color color = Colors.green;
-                      exercisesSelectedForWorkout.add(chestExercises[i]);
-                      // print("exercise " +
-                      // allExerciseList[i].exerciseName +
-                      // " added");
-                      setState(() {
-                        // print('colorChange!');
-                        colorList[i] = color;
-                        // print(colorList[i].toString());
-                      });
-                    } else {
-                      Color color = Colors.grey[200];
-                      exercisesSelectedForWorkout.remove(chestExercises[i]);
-                      // print("exercise " +
-                      // allExerciseList[i].exerciseName +
-
-                      // " removed");
-                      setState(() {
-                        colorList[i] = color;
-                      });
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: colorList[i],
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 100,
-                          ),
-                          Text(
-                            chestExercises[i].exerciseName,
-                            style:
-                                TextStyle(fontFamily: "Gilroy", fontSize: 23),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 80,
-                          ),
-                          Text(
-                            chestExercises[i].description,
-                            style:
-                                TextStyle(fontFamily: "Gilroy", fontSize: 17),
-                          ),
-                        ],
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: coreExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(coreExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(coreExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(coreExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          coreExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        coreExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
-                );
-              },
-            ),
-          ],
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: shoulderExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(shoulderExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(shoulderExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(shoulderExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          shoulderExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        shoulderExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: bicepsExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(bicepsExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(bicepsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(bicepsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          bicepsExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        bicepsExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: tricepsExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(tricepsExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(tricepsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(tricepsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          tricepsExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        tricepsExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: legsExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(legsExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(legsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(legsExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          legsExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        legsExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 60,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, i) => Divider(),
+                        itemCount: backExercises.length,
+                        itemBuilder: (ctx, i) {
+                          return InkWell(
+                            onTap: () {
+                              // print(allExerciseList[i].isWeighted);
+                              if (!exercisesSelectedForWorkout
+                                  .contains(backExercises[i])) {
+                                Color color = Colors.green;
+                                exercisesSelectedForWorkout
+                                    .add(backExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+                                // " added");
+                                setState(() {
+                                  // print('colorChange!');
+                                  colorList[i] = color;
+                                  // print(colorList[i].toString());
+                                });
+                              } else {
+                                Color color = Colors.grey[350];
+                                exercisesSelectedForWorkout
+                                    .remove(backExercises[i]);
+                                // print("exercise " +
+                                // allExerciseList[i].exerciseName +
+
+                                // " removed");
+                                setState(() {
+                                  colorList[i] = color;
+                                });
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          backExercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: colorList[i],
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          bottomLeft: Radius.circular(20))),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, bottom: 8),
+                                      child: Text(
+                                        backExercises[i].exerciseName,
+                                        style: TextStyle(
+                                            fontFamily: "Gilroy",
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Text(
+                                  //   chestExercises[i].description,
+                                  //   style: TextStyle(
+                                  //       fontFamily: "Gilroy", fontSize: 17),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
