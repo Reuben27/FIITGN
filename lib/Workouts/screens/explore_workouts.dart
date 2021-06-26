@@ -1,16 +1,17 @@
 // import 'package:fiitgn_workouts_1/models/WorkoutModel.dart';
 import 'package:date_format/date_format.dart';
-import 'package:fiitgn/Notifications/LocalNotifications.dart';
-import 'package:fiitgn/Notifications/utils/addNotification.dart';
-import 'package:fiitgn/Providers/DataProvider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:fiitgn/Notifications/LocalNotifications.dart';
+// import 'package:fiitgn/Notifications/utils/addNotification.dart';
+// import 'package:fiitgn/Providers/DataProvider.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import '../models/Workout_provider.dart';
 import '../models/WorkoutModel.dart';
 import '../screens/exercises_in_workout.dart';
 import '../models/Exercise_db_model.dart';
+import '../models/expanded_panel_model.dart';
 
 class Explore_Workouts extends StatefulWidget {
   static const routeName = '\allWorkouts';
@@ -98,12 +99,6 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
 
         ongoing_iconList[index] = ongoing_followIcon;
         print("THETAAA");
-
-        // _timeEntry = _hourEntry + ' : ' + _minuteEntry;
-        // _timeController.text = _timeEntry;
-        // _timeController.text = formatDate(
-        //     DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
-        //     [hh, ':', nn, " ", am]).toString();
       });
       await workoutDataProvider.addWorkoutToOngoingDB(
           workout, workoutId, selectedTime.hour, selectedTime.minute);
@@ -126,6 +121,8 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
     final List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
+    final List<ItemModel> workouts_expansion_list =
+        ItemModel.get_list_item_model(workoutsList);
     final String user_id = workoutDataProvider.userId;
     print("checking pos");
     workoutsList.forEach((element) {
@@ -142,7 +139,16 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Workouts'),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[300],
+        title: Text(
+          'All Workouts',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 30,
+              fontFamily: 'Gilroy'),
+        ),
       ),
       body: ListView.builder(
         itemCount: workoutsList.length,
@@ -165,62 +171,6 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                   // Text("Creator Id - " + workoutsList[i].creatorId),
                   Row(
                     children: [
-                      // Container(
-                      //   padding: const EdgeInsets.all(16.0),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //     children: <Widget>[
-                      //       // Text(
-                      //       //   'Choose Time',
-                      //       //   style: TextStyle(
-                      //       //       fontStyle: FontStyle.italic,
-                      //       //       fontWeight: FontWeight.w600,
-                      //       //       letterSpacing: 0.5),
-                      //       // ),
-                      //       InkWell(
-                      //         onTap: () {
-                      //           _selectTime(context).then((_) async {
-                      //             print("entered select time THEN block");
-                      //             String token = Data_Provider().notif_token;
-                      //             int hour = selectedTime.hour;
-                      //             int minute = selectedTime.minute;
-                      //             await workoutDataProvider
-                      //                 .addWorkoutToOngoingDB(
-                      //                     workoutsList[i],
-                      //                     workoutsList[i].workoutId,
-                      //                     hour,
-                      //                     minute);
-                      //             print("Workout added to ongoing");
-                      //             notiAdd(token, hour, minute,
-                      //                 workoutsList[i].workoutName);
-                      //             print("Notif added");
-                      //             showAlertDialog(context, selectedTime);
-                      //           });
-                      //         },
-                      //         child: Container(
-                      //           width: MediaQuery.of(context).size.width / 2,
-                      //           height: MediaQuery.of(context).size.width / 10,
-                      //           margin: EdgeInsets.only(top: 10),
-                      //           alignment: Alignment.center,
-                      //           decoration:
-                      //               BoxDecoration(color: Colors.grey[200]),
-                      //           child: TextFormField(
-                      //             style: TextStyle(fontSize: 25),
-                      //             textAlign: TextAlign.center,
-                      //             enabled: false,
-                      //             keyboardType: TextInputType.text,
-                      //             controller: _timeController,
-                      //             decoration: InputDecoration(
-                      //                 disabledBorder: UnderlineInputBorder(
-                      //                     borderSide: BorderSide.none),
-                      //                 // labelText: 'Time',
-                      //                 contentPadding: EdgeInsets.all(5)),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       InkWell(
                         child: iconList[i],
                         onTap: () async {

@@ -435,7 +435,6 @@ class Workouts_Provider with ChangeNotifier {
       String token = Data_Provider().notif_token;
       try {
         await notiAdd(token, hour, min, workout.workoutName);
-        print("notification successfully added ");
       } catch (e) {
         print("error in setting notifs");
         print(e);

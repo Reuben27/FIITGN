@@ -54,6 +54,9 @@ import 'Guided-Sessions/screens/sessions.dart';
 import 'Nutrition/screens/nutritionScreen.dart';
 import 'Sports-Activities/screens/activity_screens.dart';
 
+// TEMP expansion panel
+import './Screens/expansion_list.dart';
+
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.notification.title);
   print(message.notification.body);
@@ -165,6 +168,9 @@ class MyApp extends StatelessWidget {
 
           //// Stopwatch
           // StopWatchScreen.routeName: (_) => StopWatchScreen(),
+
+          //// Temp Expansion list
+          ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),
         },
       ),
     );

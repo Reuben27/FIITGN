@@ -31,6 +31,9 @@ import '../Nutrition/screens/nutritionScreen.dart';
 //////// ACTIVITIES
 import '../Sports-Activities/screens/activity_screens.dart';
 
+//// Temp Expansion Panel
+import './expansion_list.dart';
+
 import '../Screens/stopwatch.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -115,8 +118,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List homeScreenList = [
     {
-      'title': 'Start Running',
-      'url': 'assets/10765.png',
+      'title': 'Expansion Panel',
+      'url': 'assets/roonn.png',
+      'routeName': ExpansionPanelDemo.routeName,
+      'description': 'EXPANSION',
+      'heroID': 1,
+    },
+    {
+      'title': 'Running',
+      'url': 'assets/roonn.png',
       'routeName': MapScreen.routeName,
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
@@ -138,15 +148,15 @@ class _HomeScreenState extends State<HomeScreen> {
     //       'Had a quick warmup or a gruelling cardio session? Whichever it is, record it here and keep a tab on all those calories you are burning!',
     //   'heroID': 3,
     // },
-    {
-      'title': 'Your Activities',
-      'url': 'assets/statLady.png',
-      'routeName': StatsScreen.routeName,
-      'description':
-          'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
-      'heroID': 4,
-    },
-    // // {
+    // {
+    //   'title': 'Your Activities',
+    //   'url': 'assets/statLady.png',
+    //   'routeName': StatsScreen.routeName,
+    //   'description':
+    //       'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
+    //   'heroID': 4,
+    // },
+    // // // {
     // //   'title': 'Know Your Diet',
     // //   'url': 'assets/6569.png',
     // //   'routeName': '',
@@ -155,8 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // //   'heroID': 6,
     // // },
     {
-      'title': 'Workout',
-      'url': 'assets/4805.png',
+      'title': 'Workouts',
+      'url': 'assets/twerkout.png',
       'routeName': Workouts_Home.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -164,23 +174,23 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       'title': 'Allocation',
-      'url': 'assets/statLady.png',
+      'url': 'assets/alloc.png',
       'routeName': Sports.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
-    {
-      'title': 'Guided Sessions',
-      'url': 'assets/6569.png',
-      'routeName': Sessions.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 9,
-    },
+    // {
+    //   'title': 'Guided Sessions',
+    //   'url': 'assets/.png',
+    //   'routeName': Sessions.routeName,
+    //   'description':
+    //       'This section is under construction. Check back in later to view some exciting new stuff!',
+    //   'heroID': 9,
+    // },
     {
       'title': 'Nutrition',
-      'url': 'assets/6569.png',
+      'url': 'assets/food.png',
       'routeName': NutritionScreen.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -188,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       'title': 'Activities',
-      'url': 'assets/6569.png',
+      'url': 'assets/acti.png',
       'routeName': Activity_Screen.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -200,131 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
     var deviceSize = MediaQuery.of(context);
     print(deviceSize);
     return Scaffold(
-      // backgroundColor: Colors.white,
-      // body: WillPopScope(
-      //   onWillPop: () => _onBackPressed(context),
-      //   child: SafeArea(
-      //     child: Column(
-      //       // padding: const EdgeInsets.symmetric(
-      //       //   vertical: 20,
-      //       // ),
-      //       children: <Widget>[
-      //         // Padding(
-      //         //   padding: const EdgeInsets.only(left: 20.0, right: 120.0),
-      //         Stack(
-      //           children: [
-      //             Container(
-      //               decoration: BoxDecoration(
-      //                 gradient: LinearGradient(
-      //                   begin: Alignment.topCenter,
-      //                   end: Alignment.bottomCenter,
-      //                   colors: [Colors.teal[300], Colors.white],
-      //                 ),
-      //               ),
-      //               // color: Colors.green[200],
-
-      //               height: MediaQuery.of(context).size.height * 0.30,
-      //               width: MediaQuery.of(context).size.width,
-      //               //       child: Image.asset(
-      //               //       'assets/homePage.jpg',
-      //               //     fit: BoxFit.cover,
-      //             ),
-      //             //   ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 20,
-      //               top: MediaQuery.of(context).size.height / 26,
-      //               child: Text(
-      //                 'Hello.',
-      //                 style: TextStyle(
-      //                   fontFamily: 'Raleway',
-      //                   fontSize: deviceSize.size.width / 6.5,
-      //                   fontWeight: FontWeight.bold,
-      //                 ),
-      //               ),
-      //             ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 19,
-      //               top: MediaQuery.of(context).size.height / 8,
-      //               child: Text(
-      //                 'Welcome to FIITGN.',
-      //                 style: TextStyle(
-      //                   fontFamily: 'Raleway',
-      //                   fontSize: deviceSize.size.width / 16,
-      //                 ),
-      //               ),
-      //             ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 25,
-      //               top: MediaQuery.of(context).size.height / 6,
-      //               child: Container(
-      //                 child: IconButton(
-      //                   icon: Icon(FontAwesomeIcons.signOutAlt),
-      //                   onPressed: () {
-      //                     showDialog(
-      //                       context: context,
-      //                       builder: (ctx) => AlertDialog(
-      //                         title: Text('Do you want to Logout?'),
-      //                         actions: <Widget>[
-      //                           FlatButton(
-      //                             onPressed: () {
-      //                               logoutUser();
-      //                               SystemNavigator.pop();
-      //                             },
-      //                             child: Text('Yes'),
-      //                           ),
-      //                           FlatButton(
-      //                             onPressed: () {
-      //                               Navigator.of(ctx).pop(true);
-      //                             },
-      //                             child: Text('No'),
-      //                           )
-      //                         ],
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               ),
-      //             )
-      //           ],
-      //         ),
-
-      // Expanded(
-      //   child: Container(
-      //     child: GridView.builder(
-      //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //           crossAxisCount: 2,
-      //           mainAxisSpacing:
-      //               MediaQuery.of(context).size.height / 80),
-      //       shrinkWrap: true,
-      //       physics: ScrollPhysics(),
-      //       itemCount: homeScreenList.length,
-      //       itemBuilder: (ctx, i) => HomeScreenItem(
-      //         routeName: homeScreenList[i]['routeName'],
-      //         title: homeScreenList[i]['title'],
-      //         url: homeScreenList[i]['url'],
-      //         description: homeScreenList[i]['description'],
-      //         heroID: homeScreenList[i]['heroID'],
-      //       ),
-      //     ),
-      //   ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-      // OGHOMEPLSKEEP
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/iitgnCamp.jpg',
-            height: MediaQuery.of(context).size.height / 1.8,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 25,
-            top: MediaQuery.of(context).size.height / 6,
-            child: Container(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          actions: [
+            Container(
               child: IconButton(
                 icon: Icon(FontAwesomeIcons.signOutAlt),
                 onPressed: () {
@@ -352,101 +242,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+          ],
+          backgroundColor: Colors.blue[200],
+          elevation: 0,
+          title: Text(
+            'FIITGN',
+            style: TextStyle(
+                fontSize: 60,
+                fontFamily: 'Gilroy',
+                fontWeight: FontWeight.bold),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
+          centerTitle: true,
+        ),
+      ),
+      body: Stack(
+        children: [
+          Expanded(
+            child: Container(
+              child: ListView.separated(
+                separatorBuilder: (ctx, i) => Divider(),
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                itemCount: homeScreenList.length,
+                itemBuilder: (ctx, i) => HomeScreenItem(
+                  routeName: homeScreenList[i]['routeName'],
+                  title: homeScreenList[i]['title'],
+                  url: homeScreenList[i]['url'],
+                  description: homeScreenList[i]['description'],
+                  heroID: homeScreenList[i]['heroID'],
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 25),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFDDDDDD),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
-                        topRight: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 40,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height / 10,
-                          width: MediaQuery.of(context).size.width / 5,
-                          child: Image.asset(
-                            "assets/iitgnlogo-emblem.png",
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                          child: Text(
-                            "FIITGN",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.width / 7,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 2, 8),
-                          child: Text(
-                            "THE COMPLETE FITNESS APP",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 18,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing:
-                                          MediaQuery.of(context).size.height /
-                                              80),
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount: homeScreenList.length,
-                              itemBuilder: (ctx, i) => HomeScreenItem(
-                                routeName: homeScreenList[i]['routeName'],
-                                title: homeScreenList[i]['title'],
-                                url: homeScreenList[i]['url'],
-                                description: homeScreenList[i]['description'],
-                                heroID: homeScreenList[i]['heroID'],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // SignInButtonBuilder(
-                        //   text: 'Login with IITGN ID',
-                        //   icon: Icons.email,
-                        //   // onPressed: () async {
-                        //   //   await SignInClass(context: context).signIn();
-
-                        //     // if (outCome == false) {
-                        //     //   // _showSnackBar();
-                        //     // }
-                        //   //},
-                        //   backgroundColor: Color(0xFF3F7B70),
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ],
