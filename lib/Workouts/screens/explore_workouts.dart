@@ -179,7 +179,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                           if (workoutsList[i]
                               .listOfFollowersId
                               .contains(user_id)) {
-                            if (workoutsList[i].creatorId != user_id) {
+                            if (workoutsList[i].creatorId != user_id || true) {
                               await workoutDataProvider.unFollowWorkout(
                                   workoutsList[i], workoutsList[i].workoutId);
                               print("http unfollow done");
@@ -187,12 +187,13 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                 iconList[i] = unFollowIcon;
                                 print("state set");
                               });
-                            } else {
-                              // cant unfollow your own workout
-                              print("cant unfollow your own workout");
-                              //
-                              // TODO Add a snackbar thats tells user they cant unfollow workouts they have created
                             }
+                            // } else {
+                            //   // cant unfollow your own workout
+                            //   print("cant unfollow your own workout");
+                            //   //
+                            //   // TODO Add a snackbar thats tells user they cant unfollow workouts they have created
+                            // }
                           } else if (!workoutsList[i]
                               .listOfFollowersId
                               .contains(user_id)) {

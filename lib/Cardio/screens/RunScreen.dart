@@ -24,6 +24,9 @@ class _MapScreenState extends State<MapScreen> {
 
   final GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   int finishFlag = 0; // flag to check if finish should be showed or no
+  int pauseFlag = 0;
+  int resume_end_flag = 0;
+  String displayTime;
   bool isChanged = false;
   DateTime startingTime;
   DateTime endingTime;
@@ -59,6 +62,160 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(23.210672, 72.684402),
     zoom: 18.00,
   );
+
+  pause_run() async {
+    print("Pausing RUN");
+    await bLoc.BackgroundLocation.stopLocationService();
+    // await bLoc.BackgroundLocation.stopLocationService();
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    setState(() {
+      resume_end_flag = 1;
+    });
+    print("run has been paused");
+  }
+
+  resume_run() async {
+    print("RESUMING RUN");
+    // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    setState(() {
+      resume_end_flag = 0;
+    });
+    start_run();
+  }
+
+  start_run() async {
+    print("starting RUN");
+    await bLoc.BackgroundLocation.startLocationService();
+    if (Platform.isAndroid) {
+      await bLoc.BackgroundLocation.setAndroidNotification(
+        title: 'FIITGN is running in the background',
+        message: 'Please keep the device active',
+        icon: "@mipmap/ic_launcher",
+      );
+    }
+    print('BACKGRUND location services started');
+    // print("stream beginning");
+    ///////%%%%%%%%%%%%%%%%%%
+    // STARTING stopwatch
+    stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    /////%%%%%%%%%%%%%%%%%%%%
+    // print("alpha alpha alpha");
+    bLoc.BackgroundLocation.getLocationUpdates(
+      (location) {
+        print("code entered the BACKGROUND stream");
+        if (_controller != null) {
+          // print("stream going on");
+          _controller.animateCamera(
+            CameraUpdate.newCameraPosition(
+              new CameraPosition(
+                  target: LatLng(location.latitude, location.longitude),
+                  bearing: 192.232,
+                  tilt: 0,
+                  zoom: 18.00),
+            ),
+          );
+        }
+        updateMarkerAndCircle(location.latitude, location.longitude);
+        finalLatitude = location.latitude;
+        finalLongitude = location.longitude;
+        // if (location.speed <= speedThreshold) {
+        // print("speed too slow to count distance");
+        // } else {
+        distance = distance +
+            distanceCovered(initialLatitude, initialLongitude, finalLatitude,
+                finalLongitude);
+        // }
+        // print("Distance is $dist metres");
+        double speed = location.speed;
+        speedString = speed.toStringAsFixed(1);
+
+        dist = distance.toStringAsFixed(2);
+        initialLatitude = finalLatitude;
+        initialLongitude = finalLongitude;
+        print("initial Latitude --> " + initialLatitude.toString());
+        print("initial Longitude -->" + initialLongitude.toString());
+        // listOfLatLngForPoly.add(LatLng(initialLatitude, initialLongitude));
+        listOfLatLngForPoly
+            .add({'latitude': initialLatitude, 'longitude': initialLongitude});
+
+        // print("beta");
+        LatLng latlng = LatLng(initialLatitude, initialLongitude);
+        polylineCoordinates.add(latlng);
+        _polylines.add(
+          Polyline(
+            polylineId: PolylineId(initialLatitude.toString()),
+            visible: true,
+            //latlng is List<LatLng>
+            points: polylineCoordinates,
+            color: Colors.blue,
+          ),
+        );
+      },
+    );
+  }
+
+  end_run() {
+    print("ENDING RUN");
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        var actions2 = [
+          // ignore: deprecated_member_use
+          FlatButton(
+            onPressed: () async {
+              // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+              storeFinalLat = finalLatitude;
+              storeFinalLong = finalLongitude;
+              print(distance);
+              endingTime = DateTime.now();
+              passingToShowResults['initialLat'] = storeInitialLat;
+              passingToShowResults['initialLong'] = storeInitialLong;
+              passingToShowResults['finalLat'] = storeFinalLat;
+              passingToShowResults['finalLong'] = storeFinalLong;
+              passingToShowResults['initialTime'] = startingTime;
+              passingToShowResults['finalTime'] = endingTime;
+              passingToShowResults['distance'] = distance;
+              passingToShowResults['listOfLatLng'] = listOfLatLngForPoly;
+              List timeList = displayTime.split(":");
+              String duration_minutes = timeList[1];
+              String duration_hours = timeList[0];
+              String duration_seconds = timeList[2];
+              passingToShowResults['duration_minutes'] = duration_minutes;
+              passingToShowResults['duration_hours'] = duration_hours;
+              passingToShowResults['duration_seconds'] = duration_seconds;
+
+              // print("All parameters stored successfully");
+
+              // _locationSubscription.cancel();
+              // await bLoc.BackgroundLocation.stopLocationService();
+              Navigator.of(context).pushReplacementNamed(
+                  ShowResultsScreen.routeName,
+                  arguments: passingToShowResults);
+            },
+            child: Text('Yes'),
+          ),
+          // ignore: deprecated_member_use
+          FlatButton(
+            onPressed: () {
+              stopWatchTimer.onExecute.add(StopWatchExecute.start);
+              Navigator.of(ctx).pop(true);
+              resume_run();
+              // setState(() {
+              //   resume_end_flag = 0;
+              //   resume_run();
+              // });
+            },
+            child: Text('No'),
+          ),
+        ];
+        return AlertDialog(
+          title: Text('Are you sure you want to end Run?'),
+          actions: actions2,
+        );
+      },
+    );
+  }
 
   void updateMarkerAndCircle(double latitude, double longitude) {
     // print("newLocalData type is" + newLocalData.runtimeType.toString());
@@ -120,7 +277,8 @@ class _MapScreenState extends State<MapScreen> {
         storeInitialLat = initialLatitude;
         storeInitialLong = initialLongitude;
         setState(() {
-          finishFlag = 1; // flag to check if finish should be showed or no
+          pauseFlag = 1;
+          // finishFlag = 1; // flag to check if finish should be showed or no
         });
         listOfLatLngForPoly
             .add({'latitude': storeInitialLat, 'longitude': storeInitialLong});
@@ -137,54 +295,56 @@ class _MapScreenState extends State<MapScreen> {
 
       ///////%%%%%%%%%%%%%%%%%%
       // STARTING stopwatch
-      stopWatchTimer.onExecute.add(StopWatchExecute.start);
-      /////%%%%%%%%%%%%%%%%%%%%
-      bLoc.BackgroundLocation.getLocationUpdates((location) {
-        print("code entered the stream");
-        if (_controller != null) {
-          // print("stream going on");
-          _controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  target: LatLng(location.latitude, location.longitude),
-                  bearing: 192.232,
-                  tilt: 0,
-                  zoom: 18.00),
-            ),
-          );
-        }
-        updateMarkerAndCircle(location.latitude, location.longitude);
-        finalLatitude = location.latitude;
-        finalLongitude = location.longitude;
-        // if (location.speed <= speedThreshold) {
-        // print("speed too slow to count distance");
-        // } else {
-        distance = distance +
-            distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                finalLongitude);
-        // }
-        // print("Distance is $dist metres");
-        double speed = location.speed;
-        speedString = speed.toStringAsFixed(1);
+      start_run();
+      // stopWatchTimer.onExecute.add(StopWatchExecute.start);
 
-        dist = distance.toStringAsFixed(2);
-        initialLatitude = finalLatitude;
-        initialLongitude = finalLongitude;
-        print("initial Latitude --> " + initialLatitude.toString());
-        print("initial Longitude -->" + initialLongitude.toString());
-        // listOfLatLngForPoly.add(LatLng(initialLatitude, initialLongitude));
-        listOfLatLngForPoly
-            .add({'latitude': initialLatitude, 'longitude': initialLongitude});
-      });
-      LatLng latlng = LatLng(initialLatitude, initialLongitude);
-      polylineCoordinates.add(latlng);
-      _polylines.add(Polyline(
-        polylineId: PolylineId(initialLatitude.toString()),
-        visible: true,
-        //latlng is List<LatLng>
-        points: polylineCoordinates,
-        color: Colors.blue,
-      ));
+      // ///%%%%%%%%%%%%%%%%%%%%
+      // bLoc.BackgroundLocation.getLocationUpdates((location) {
+      //   print("code entered the stream");
+      //   if (_controller != null) {
+      //     // print("stream going on");
+      //     _controller.animateCamera(
+      //       CameraUpdate.newCameraPosition(
+      //         new CameraPosition(
+      //             target: LatLng(location.latitude, location.longitude),
+      //             bearing: 192.232,
+      //             tilt: 0,
+      //             zoom: 18.00),
+      //       ),
+      //     );
+      //   }
+      //   updateMarkerAndCircle(location.latitude, location.longitude);
+      //   finalLatitude = location.latitude;
+      //   finalLongitude = location.longitude;
+      //   // if (location.speed <= speedThreshold) {
+      //   // print("speed too slow to count distance");
+      //   // } else {
+      //   distance = distance +
+      //       distanceCovered(initialLatitude, initialLongitude, finalLatitude,
+      //           finalLongitude);
+      //   // }
+      //   // print("Distance is $dist metres");
+      //   double speed = location.speed;
+      //   speedString = speed.toStringAsFixed(1);
+
+      //   dist = distance.toStringAsFixed(2);
+      //   initialLatitude = finalLatitude;
+      //   initialLongitude = finalLongitude;
+      //   print("initial Latitude --> " + initialLatitude.toString());
+      //   print("initial Longitude -->" + initialLongitude.toString());
+      //   // listOfLatLngForPoly.add(LatLng(initialLatitude, initialLongitude));
+      //   listOfLatLngForPoly
+      //       .add({'latitude': initialLatitude, 'longitude': initialLongitude});
+      // });
+      // LatLng latlng = LatLng(initialLatitude, initialLongitude);
+      // polylineCoordinates.add(latlng);
+      // _polylines.add(Polyline(
+      //   polylineId: PolylineId(initialLatitude.toString()),
+      //   visible: true,
+      //   //latlng is List<LatLng>
+      //   points: polylineCoordinates,
+      //   color: Colors.blue,
+      // ));
     } on PlatformException catch (e) {
       print("error");
       print(e.toString());
@@ -195,13 +355,12 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void endRun() {}
-
   _showSnackBar() {
     // print("a");
-    final snackBar = SnackBar(content: Text("Sorry! Back button is disabled"));
+    final snackBar = SnackBar(content: Text("Pausing Run"));
     // ignore: deprecated_member_use
     key.currentState.showSnackBar(snackBar);
+
     // print('b');
   }
 
@@ -251,7 +410,9 @@ class _MapScreenState extends State<MapScreen> {
       body: WillPopScope(
         onWillPop: () {
           _showSnackBar();
-          return _onBackPressed();
+          pause_run();
+
+          // return _onBackPressed();
         },
         child: SafeArea(
           child: LayoutBuilder(
@@ -302,7 +463,7 @@ class _MapScreenState extends State<MapScreen> {
                                     initialData: stopWatchTimer.rawTime.value,
                                     builder: (context, snapshot) {
                                       final value = snapshot.data;
-                                      final displayTime =
+                                      displayTime =
                                           StopWatchTimer.getDisplayTime(value,
                                               hours: isHours,
                                               milliSecond: false);
@@ -420,12 +581,18 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                           ),
                           Divider(),
-                          finishFlag == 0
+                          pauseFlag == 0
                               ? Container(
                                   child: InkWell(
                                     // print("%%%%%%%%%%%%%%%%%");
                                     // print("starting the run");
-                                    onTap: getCurrentLocation,
+                                    onTap: () {
+                                      getCurrentLocation();
+                                      // getCurrentLocation().then((value) {
+                                      //   print("entered run block");
+                                      //   start_run();
+                                      // });
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                           color: Colors.green[300],
@@ -450,100 +617,113 @@ class _MapScreenState extends State<MapScreen> {
                                     ),
                                   ),
                                 )
-                              : Container(
-                                  child: InkWell(
-                                    // print("%%%%%%%%%%%%%%%%%");
-                                    // print("starting the run");
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (ctx) {
-                                          var actions2 = [
-                                            // ignore: deprecated_member_use
-                                            FlatButton(
-                                              onPressed: () {
-                                                stopWatchTimer.onExecute
-                                                    .add(StopWatchExecute.stop);
-                                                storeFinalLat = finalLatitude;
-                                                storeFinalLong = finalLongitude;
-                                                print(distance);
-                                                endingTime = DateTime.now();
-                                                passingToShowResults[
-                                                        'initialLat'] =
-                                                    storeInitialLat;
-                                                passingToShowResults[
-                                                        'initialLong'] =
-                                                    storeInitialLong;
-                                                passingToShowResults[
-                                                    'finalLat'] = storeFinalLat;
-                                                passingToShowResults[
-                                                        'finalLong'] =
-                                                    storeFinalLong;
-                                                passingToShowResults[
-                                                        'initialTime'] =
-                                                    startingTime;
-                                                passingToShowResults[
-                                                    'finalTime'] = endingTime;
-                                                passingToShowResults[
-                                                    'distance'] = distance;
-                                                passingToShowResults[
-                                                        'listOfLatLng'] =
-                                                    listOfLatLngForPoly;
-
-                                                // print("All parameters stored successfully");
-
-                                                // _locationSubscription.cancel();
-                                                bLoc.BackgroundLocation
-                                                    .stopLocationService();
-                                                Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        ShowResultsScreen
-                                                            .routeName,
-                                                        arguments:
-                                                            passingToShowResults);
-                                              },
-                                              child: Text('Yes'),
+                              : pauseFlag == 1 && resume_end_flag == 1
+                                  ? Row(
+                                      children: [
+                                        Container(
+                                          child: InkWell(
+                                            onTap: () {
+                                              resume_run();
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.red[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              alignment: Alignment.center,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              child: Text(
+                                                'RESUME RUN',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            35,
+                                                    fontFamily: 'Gilroy',
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
                                             ),
-                                            // ignore: deprecated_member_use
-                                            FlatButton(
-                                              onPressed: () {
-                                                Navigator.of(ctx).pop(true);
-                                              },
-                                              child: Text('No'),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: InkWell(
+                                            onTap: () {
+                                              end_run();
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.red[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              alignment: Alignment.center,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              child: Text(
+                                                'END RUN',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            35,
+                                                    fontFamily: 'Gilroy',
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
                                             ),
-                                          ];
-                                          return AlertDialog(
-                                            title: Text(
-                                                'Are you sure you want to end Run?'),
-                                            actions: actions2,
-                                          );
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : Container(
+                                      child: InkWell(
+                                        onTap: () {
+                                          pause_run();
                                         },
-                                      );
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.red[300],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      height:
-                                          MediaQuery.of(context).size.width /
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.red[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          alignment: Alignment.center,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.5,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
                                               10,
-                                      child: Text(
-                                        'END RUN',
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                35,
-                                            fontFamily: 'Gilroy',
-                                            fontWeight: FontWeight.w600),
+                                          child: Text(
+                                            'PAUSE RUN',
+                                            style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    35,
+                                                fontFamily: 'Gilroy',
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                )
+                                    )
                         ],
                       ),
                     ),

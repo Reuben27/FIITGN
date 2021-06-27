@@ -15,12 +15,13 @@ class _Activity_ScreenState extends State<Activity_Screen> {
   void initState() {
     // TODO: implement initState
     inInIt();
+    setState(() {});
     print(" in init ran");
     super.initState();
   }
 
   void inInIt() async {
-    activities = await getActivityData();
+    activities = activities_data;
     print("activities loaded");
     setState(() {});
   }
@@ -115,23 +116,24 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                                   ),
                                 ),
                                 VerticalDivider(),
-                               Expanded(
-                                 child: Container(
-                                   child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              activities[i].venue.toUpperCase(),
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy', fontSize: 20),
-                                            ),
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            activities[i].venue.toUpperCase(),
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 20),
                                           ),
-                                        ],
-                                      ),
-                                 ),
-                               ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

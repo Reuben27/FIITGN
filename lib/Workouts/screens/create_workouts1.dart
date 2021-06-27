@@ -4,7 +4,6 @@
 // import 'package:fiitgn_workouts_1/models/Exercise_db_model.dart';
 // import 'package:fiitgn_workouts_1/models/WorkoutModel.dart';
 // import 'package:fiitgn_workouts_1/models/Workouts_providers.dart';
-import './create_workouts2.dart';
 
 import '../models/Workout_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +15,6 @@ import '../../Providers/DataProvider.dart';
 import '../../Screens/HomeScreen.dart';
 
 import '../models/Admin_db_model.dart';
-import '../models/Workout_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'create_workouts1.dart';
 
 class Create_Workout2 extends StatefulWidget {
   static const routeName = '\CreateWorkout1';
@@ -31,6 +26,13 @@ class Create_Workout2 extends StatefulWidget {
 class _Create_Workout2State extends State<Create_Workout2> {
   final List<ExerciseDbModel> exercisesSelectedForWorkout = [];
   final List<Color> colorList = [];
+  final List<Color> chestColorList = [];
+  final List<Color> coreColorList = [];
+  final List<Color> backColorList = [];
+  final List<Color> legsColorList = [];
+  final List<Color> bicepsColorList = [];
+  final List<Color> tricepsColorList = [];
+  final List<Color> shouldersColorList = [];
 
   // Widget take_workout_name(TextEditingController nameController) {
   //   return Center(
@@ -234,7 +236,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
     String creatorId = workoutDataProvider.userId;
     String creator_name = workoutDataProvider.user_name;
-    List<String> listOfFollowersId = [creatorId];
+    List<String> listOfFollowersId = [];
     List<String> listOfOngoingId = ['alpha'];
     // Map<String, dynamic> map = Map();
     // map['listOfExercisesId'] = listOfExercisesId;
@@ -267,15 +269,47 @@ class _Create_Workout2State extends State<Create_Workout2> {
     final List<ExerciseDbModel> shoulderExercises =
         exerciseDataProvider.shoulder_exercises;
 
-    // final routeArgs = ModalRoute.of(context).settings.arguments as Map;
-    // final String workoutName = routeArgs['workoutName'];
-    // final String access = routeArgs['access'];
-    // final String description = routeArgs['desription'];
     allExerciseList.forEach(
       (element) {
         colorList.add(Colors.grey[350]);
       },
     );
+    chestExercises.forEach(
+      (element) {
+        chestColorList.add(Colors.grey[350]);
+      },
+    );
+    coreExercises.forEach(
+      (element) {
+        coreColorList.add(Colors.grey[350]);
+      },
+    );
+    backExercises.forEach(
+      (element) {
+        backColorList.add(Colors.grey[350]);
+      },
+    );
+    bicepsExercises.forEach(
+      (element) {
+        bicepsColorList.add(Colors.grey[350]);
+      },
+    );
+    shoulderExercises.forEach(
+      (element) {
+        shouldersColorList.add(Colors.grey[350]);
+      },
+    );
+    tricepsExercises.forEach(
+      (element) {
+        tricepsColorList.add(Colors.grey[350]);
+      },
+    );
+    legsExercises.forEach(
+      (element) {
+        legsColorList.add(Colors.grey[350]);
+      },
+    );
+
     // print(workoutName + " " + access);
     return DefaultTabController(
       length: 7,
@@ -407,7 +441,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  chestColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -419,7 +453,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  chestColorList[i] = color;
                                 });
                               }
                             },
@@ -442,7 +476,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: chestColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -499,7 +533,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  coreColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -511,7 +545,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  coreColorList[i] = color;
                                 });
                               }
                             },
@@ -534,7 +568,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: coreColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -591,7 +625,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  shouldersColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -603,7 +637,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  shouldersColorList[i] = color;
                                 });
                               }
                             },
@@ -626,7 +660,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: shouldersColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -683,7 +717,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  bicepsColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -695,7 +729,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  bicepsColorList[i] = color;
                                 });
                               }
                             },
@@ -718,7 +752,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: bicepsColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -775,7 +809,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  tricepsColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -787,7 +821,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  tricepsColorList[i] = color;
                                 });
                               }
                             },
@@ -810,7 +844,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: tricepsColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -867,7 +901,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  legsColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -879,7 +913,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  legsColorList[i] = color;
                                 });
                               }
                             },
@@ -902,7 +936,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: legsColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),
@@ -959,7 +993,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                 // " added");
                                 setState(() {
                                   // print('colorChange!');
-                                  colorList[i] = color;
+                                  backColorList[i] = color;
                                   // print(colorList[i].toString());
                                 });
                               } else {
@@ -971,7 +1005,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
 
                                 // " removed");
                                 setState(() {
-                                  colorList[i] = color;
+                                  backColorList[i] = color;
                                 });
                               }
                             },
@@ -994,7 +1028,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                   width: MediaQuery.of(context).size.width,
                                   margin: EdgeInsets.only(left: 10, right: 10),
                                   decoration: BoxDecoration(
-                                      color: colorList[i],
+                                      color: backColorList[i],
                                       borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(20),
                                           bottomLeft: Radius.circular(20))),

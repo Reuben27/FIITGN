@@ -85,8 +85,6 @@ class Workouts_Provider with ChangeNotifier {
     List exercises = exerciseDataProvider.listExercises;
   }
 
-  savestuffFromCW1() {}
-
   createWorkoutAndAddToDB(
       String creatorId,
       String creator_name,
@@ -160,24 +158,34 @@ class Workouts_Provider with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map;
       final List<WorkoutModel> loadedList = [];
-
+      // print("####");
+      // print(extractedData);
+      // print("####");
       extractedData.forEach(
         (statId, statValue) {
+          // print("1");
           final List<String> tempListExerciseId = [];
           final List<String> tempListFollowersId = [];
           final List<String> tempListOngoingId = [];
           List x = statValue['listOfExercisesId'];
+          // print("2");
           x.forEach((element) {
             tempListExerciseId.add(element.toString());
           });
-          List y = statValue['listOfFollowersId'];
-          y.forEach((element) {
-            tempListFollowersId.add(element.toString());
-          });
+          // print("3");
+          List y = [];
+          y = statValue['listOfFollowersId'];
+          if (y != null) {
+            y.forEach((element) {
+              tempListFollowersId.add(element.toString());
+            });
+          }
+          // print("4");
           List z = statValue['listOfOngoingId'];
           z.forEach((element) {
             tempListOngoingId.add(element.toString());
           });
+          // print("5");
           loadedList.add(
             WorkoutModel(
               creator_name: statValue['creator_name'],
@@ -209,7 +217,7 @@ class Workouts_Provider with ChangeNotifier {
       );
       _workoutsList = filteredList;
       notifyListeners();
-      print("loaded list is ready");
+      print("loaded workout  list is ready");
       // return _workoutsList;
     } catch (e) {
       print("ERROR IN LOADING ALL WORKOUTS");

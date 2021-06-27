@@ -2,7 +2,6 @@ import './create_workouts1.dart';
 import './wishlist.dart';
 import 'package:flutter/material.dart';
 import './your-workouts.dart';
-import 'create_workouts2.dart';
 import './explore_workouts.dart';
 import './created_by_user.dart';
 import 'ongoing_workouts.dart';

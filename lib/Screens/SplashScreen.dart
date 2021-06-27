@@ -1,9 +1,15 @@
+import '../Workouts/models/Admin_db_model.dart';
+import '../Workouts/models/Exercise_db_model.dart';
+import '../Workouts/models/Workout_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 import 'GAuth.dart';
 import 'HomeScreen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../Nutrition/data/nutrition.dart';
+import '../Sports-Activities/data/activity_data.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,6 +29,23 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isUserSignedIn == null || isUserSignedIn == false) {
         Navigator.of(context).pushReplacementNamed(SignInGoogle.routeName);
       } else if (isUserSignedIn == true) {
+        final workoutDataProvider =
+            Provider.of<Workouts_Provider>(context, listen: false);
+        final exerciseDataProvider =
+            Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+                listen: false);
+        final adminDataProvider =
+            Provider.of<GetAdminDataFromGoogleSheetProvider>(context,
+                listen: false);
+        await workoutDataProvider.showAllWorkouts();
+        await exerciseDataProvider.getListOfExercises();
+        await adminDataProvider.getListOfAdmins();
+        //// END of initialization
+        // await workoutDataProvider.showAllWorkouts();
+        await getNutritionData();
+        await getActivityData();
+        print("all data Loaded");
+        // print("Home Screen Inside init has succesfully run");
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
     });

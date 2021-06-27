@@ -69,6 +69,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     final runStatsProvider = Provider.of<RunDataProvider>(context);
     final routeArgs = ModalRoute.of(context).settings.arguments as Map;
     List<Map<String, double>> listOfLatLng = routeArgs['listOfLatLng'];
+    String duration_minutes = routeArgs['duration_minutes'];
+    String duration_hours = routeArgs['duration_hours'];
+    String duration_seconds = routeArgs['duration_seconds'];
 
     var _isLoading = false;
     // for storing list of Lat Longs in the database
@@ -96,18 +99,11 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     final String startTime = DateFormat.Hm().format(initialTime);
     final String dateOfRun = initialTime.toIso8601String();
     DateTime finalTime = routeArgs['finalTime'];
-    final timeOfRun = finalTime.difference(initialTime);
-    String time = timeOfRun.toString();
-    List<String> timeList = time.split(':');
-    String timeMin = timeList[1];
-    String timeHrs = timeList[0];
-    String a = timeList[2]; // for conversiom
-    double b = double.parse(a); // for conversion
-    String timeSec = b.toStringAsFixed(2);
+
     // print(timeSec);
-    double allTimeInSec = double.parse(timeSec) +
-        double.parse(timeMin) * 60 +
-        double.parse(timeHrs) * 3600;
+    double allTimeInSec = double.parse(duration_seconds) +
+        double.parse(duration_minutes) * 60 +
+        double.parse(duration_hours) * 3600;
     double avgSpeed = (distance * 1000) / allTimeInSec;
     String avgSpeedString = avgSpeed.toStringAsFixed(2);
 
@@ -163,7 +159,11 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       MediaQuery.of(context).size.height /
                                       3,
                                   child: Text(
-                                    timeMin,
+                                    duration_hours +
+                                        ":" +
+                                        duration_minutes +
+                                        ":" +
+                                        duration_seconds,
                                     style: TextStyle(
                                         fontFamily: 'Gilroy',
                                         fontSize: 0.15 *
@@ -396,7 +396,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                           //           ),
                           //         ),
                           //       )
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InkWell(
                                 onTap: () {
@@ -408,9 +409,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                     avgSpeedString,
                                     distanceString,
                                     startTime,
-                                    timeHrs,
-                                    timeMin,
-                                    timeSec,
+                                    duration_hours,
+                                    duration_minutes,
+                                    duration_seconds,
                                     listOfLatLng,
                                     initialLat,
                                     initialLong,

@@ -63,21 +63,20 @@ class _HomeScreenState extends State<HomeScreen> {
     print(Data_Provider().name);
     print(Data_Provider().email);
     print("Uids and tokens are set");
-
-    /// initializing admin and exercise dbs
+    // await workoutDataProvider.showAllWorkouts();
+    // / initializing admin and exercise dbs
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
     final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
         context,
         listen: false);
-    print("a");
-    await exerciseDataProvider.getListOfExercises();
-    print("b");
-    await adminDataProvider.getListOfAdmins();
+    // print("a");
+    // await exerciseDataProvider.getListOfExercises();
+    // print("b");
+    // await adminDataProvider.getListOfAdmins();
     //// END of initialization
-    await workoutDataProvider.showAllWorkouts();
-    print("all workouts Loaded");
+    // print("all workouts Loaded");
     print("Home Screen Inside init has succesfully run");
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }

@@ -18,7 +18,7 @@ class _NutritionScreenState extends State {
   }
 
   void getData() async {
-    items = await getNutritionData();
+    items = nutri_data;
     getIndices(items);
     setState(() {
       this.items = items;
