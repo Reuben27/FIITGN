@@ -117,13 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
-    {
-      'title': 'Expansion Panel',
-      'url': 'assets/roonn.png',
-      'routeName': ExpansionPanelDemo.routeName,
-      'description': 'EXPANSION',
-      'heroID': 1,
-    },
+    // {
+    //   'title': 'Expansion Panel',
+    //   'url': 'assets/roonn.png',
+    //   'routeName': ExpansionPanelDemo.routeName,
+    //   'description': 'EXPANSION',
+    //   'heroID': 1,
+    // },
     {
       'title': 'Running',
       'url': 'assets/roonn.png',

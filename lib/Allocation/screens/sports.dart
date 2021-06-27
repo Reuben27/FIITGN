@@ -160,7 +160,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.deepOrange[300],
+                                color: Colors.grey,
                                 offset: Offset(
                                   5.0, // Move to right 10  horizontally
                                   5.0, // Move to bottom 10 Vertically
@@ -186,7 +186,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
             }).toList(),
           ),
         )
- 
+
             //Text('Rooms'),
 
             //  Text('Equipments'),
@@ -283,7 +283,7 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                           decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.deepOrange[300],
+                                  color: Colors.grey,
                                   offset: Offset(
                                     5.0, // Move to right 10  horizontally
                                     5.0, // Move to bottom 10 Vertically
@@ -300,7 +300,7 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                         alignment: Alignment.topCenter,
                         child: Container(
                             width: MediaQuery.of(context).size.width / 6,
-                            child: Image.asset('assets/ico.png',
+                            child: Image.asset(document['description'],
                                 fit: BoxFit.contain)),
                       ),
                     ]),

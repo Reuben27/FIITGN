@@ -153,11 +153,10 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   Widget addSet() {
     /// returns a row
-    return Container(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      child:
-          // Text("Add Set Number:  "),
-          Container(
+    return Center(
+      child: Container(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+
         // width: MediaQuery.of(context).size.width / 5,
         child: Set_Counter(),
       ),
@@ -176,11 +175,10 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     //     )
     //   ],
     // );
-    return Container(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      child:
-          // Text("Add Set Number:  "),
-          Container(
+    return Center(
+      child: Container(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+
         // width: MediaQuery.of(context).size.width / 5,
         child: Rep_Counter(),
       ),
@@ -188,10 +186,17 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Widget addWeights() {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Add Weights:  "),
+        Text(
+          "Weights (in kilograms)",
+          style: TextStyle(
+            fontFamily: 'Gilroy',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         Container(
           width: MediaQuery.of(context).size.width / 5,
           child: TextField(
@@ -204,67 +209,83 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
-    return FlatButton(
-      child: Text("Done"),
-      onPressed: () {
-        String repVal = "";
-        String setVal = "";
-        String weightsVal = "";
-        repVal = Rep_CounterState.counter.toString();
-        print("rep Val is " + repVal);
-        setVal = Set_CounterState.counter.toString();
-        weightsVal = weightsEditingController.text;
-        // Resetting variables
-        Rep_CounterState.counter = 0;
-        Set_CounterState.counter = 0;
-        weightsEditingController = new TextEditingController();
-        print("rep Val is " + repVal);
-        if (repVal == "" || setVal == "" || weightsVal == "") {
-          showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text('No field should be empty.'),
-                actions: [
-                  // ignore: deprecated_member_use
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('OK'))
-                ],
-              );
-            },
-          );
-        } else {
-          String currentExerciseId = exercises[index].exerciseId;
-          String currentExerciseName = exercises[index].exerciseName;
-          print(currentExerciseId + " is the id");
-          // print("same exercise");
-          addNewSet(
-            currentExerciseName,
-            currentExerciseId,
-            int.parse(setVal),
-            int.parse(repVal),
-            int.parse(weightsVal),
-          );
-          // print("different exercise");
-          Navigator.of(ctx).pop(true);
+    return Container(
+      width: MediaQuery.of(context).size.width / 3,
+      child: OutlinedButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Done",
+              style: TextStyle(
+                  fontFamily: 'Gilroy', fontSize: 20, color: Colors.black),
+            ),
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          ],
+        ),
+        onPressed: () {
+          String repVal = "";
+          String setVal = "";
+          String weightsVal = "";
+          repVal = Rep_CounterState.counter.toString();
+          print("rep Val is " + repVal);
+          setVal = Set_CounterState.counter.toString();
+          weightsVal = weightsEditingController.text;
+          // Resetting variables
+          Rep_CounterState.counter = 0;
+          Set_CounterState.counter = 0;
+          weightsEditingController = new TextEditingController();
+          print("rep Val is " + repVal);
+          if (repVal == "" || setVal == "" || weightsVal == "") {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text('No field should be empty.'),
+                  actions: [
+                    // ignore: deprecated_member_use
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('OK'))
+                  ],
+                );
+              },
+            );
+          } else {
+            String currentExerciseId = exercises[index].exerciseId;
+            String currentExerciseName = exercises[index].exerciseName;
+            print(currentExerciseId + " is the id");
+            // print("same exercise");
+            addNewSet(
+              currentExerciseName,
+              currentExerciseId,
+              int.parse(setVal),
+              int.parse(repVal),
+              int.parse(weightsVal),
+            );
+            // print("different exercise");
+            Navigator.of(ctx).pop(true);
 
-          setsAndReps.forEach(
-            (element) {
-              if (element.exerciseId == currentExerciseId) {
-                workoutList.add(element);
-                print(workoutList[workoutList.length - 1]);
-                setState(() {});
-              }
-            },
-          );
-          // testing
-          print(index.toString() + " ---> val of i after popping");
-          print(setsAndReps.length.toString() + "--> len of sets and reps");
-        }
-      },
+            setsAndReps.forEach(
+              (element) {
+                if (element.exerciseId == currentExerciseId) {
+                  workoutList.add(element);
+                  print(workoutList[workoutList.length - 1]);
+                  setState(() {});
+                }
+              },
+            );
+            // testing
+            print(index.toString() + " ---> val of i after popping");
+            print(setsAndReps.length.toString() + "--> len of sets and reps");
+          }
+        },
+      ),
     );
   }
 
@@ -273,19 +294,52 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     return showModalBottomSheet(
       context: context,
       builder: (ctx) => Container(
-        
-      
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                addSet(),
-                addRep(),
-                addWeights(),
-                done(context, exercises, index),
-              ],
-            ),
-          
-        
+        // margin: EdgeInsets.only(top: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(0), topRight: Radius.circular(0)),
+          color: Colors.blueGrey[200],
+        ),
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                exercises[index].exerciseName,
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(),
+              Text(
+                "Set Number",
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(child: Container(child: addSet())),
+              Text(
+                "Reps",
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(child: Container(child: addRep())),
+              addWeights(),
+              SizedBox(
+                width: MediaQuery.of(context).size.height / 50,
+              ),
+              done(context, exercises, index),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -322,10 +376,16 @@ class _Workout_LoggingState extends State<Workout_Logging> {
         // ),
         appBar: AppBar(
           bottom: PreferredSize(
-            child: Container(height: MediaQuery.of(context).size.height/8,
-              child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            child: Container(
+              height: MediaQuery.of(context).size.height / 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(child: Text("DURATION",style: TextStyle(fontFamily: 'Gilroy'),)),
+                  Center(
+                      child: Text(
+                    "DURATION",
+                    style: TextStyle(fontFamily: 'Gilroy'),
+                  )),
                   StreamBuilder<int>(
                     stream: stopWatchTimer.rawTime,
                     initialData: stopWatchTimer.rawTime.value,
@@ -396,8 +456,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 ],
               ),
             ),
-            preferredSize:
-                Size(MediaQuery.of(context).size.width,MediaQuery.of(context).size.height/7),
+            preferredSize: Size(MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height / 7),
           ),
           centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
@@ -414,7 +474,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           children: [
             Column(
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height/50,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 50,
+                ),
                 Expanded(
                   child: Container(
                     child: ListView.separated(
