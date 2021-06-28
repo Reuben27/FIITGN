@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../data/initialize.dart';
+
 //for rooms
 import '../utils/roomchecker.dart';
 import '../utils/roomupdater.dart';
@@ -370,7 +371,7 @@ class _EntryState extends State<Entry> {
         },
         tooltip: 'Show me the value!',
         child: Icon(
-          Icons.arrow_forward,
+          reflag == 0 ? Icons.arrow_forward : Icons.save,
         ),
       ),
     );

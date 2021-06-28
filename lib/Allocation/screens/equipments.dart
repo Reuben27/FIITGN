@@ -8,11 +8,9 @@ import '../data/initialize.dart';
 import 'notify.dart';
 import 'entry.dart';
 
-class Equipments extends StatefulWidget {
-  _EquipmentsState createState() => _EquipmentsState();
-}
-
-class _EquipmentsState extends State<Equipments> {
+// ignore: must_be_immutable
+class Equipments extends StatelessWidget {
+  // const Equipments({ Key? key }) : super(key: key);
   String next = reflag == 0 ? "Room" : "Equipment";
   @override
   Widget build(BuildContext context) {
