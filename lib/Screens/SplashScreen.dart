@@ -1,3 +1,6 @@
+import '../Providers/DataProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Workouts/models/Admin_db_model.dart';
 import '../Workouts/models/Exercise_db_model.dart';
 import '../Workouts/models/Workout_provider.dart';
@@ -29,6 +32,21 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isUserSignedIn == null || isUserSignedIn == false) {
         Navigator.of(context).pushReplacementNamed(SignInGoogle.routeName);
       } else if (isUserSignedIn == true) {
+        final data_provider =
+            Provider.of<Data_Provider>(context, listen: false);
+        final prefs = await SharedPreferences.getInstance();
+        print('got instance');
+        String uid = prefs.getString('uid');
+        String email = prefs.getString('email');
+        String name = prefs.getString('name');
+        String userDisplay = prefs.getString('userDisplay');
+        data_provider.setUid(uid);
+        data_provider.setEmailId(email);
+        data_provider.setDisplay(userDisplay);
+        data_provider.setName(name);
+        print(Data_Provider().name);
+        print(Data_Provider().email);
+        print("Uids and tokens are set");
         final workoutDataProvider =
             Provider.of<Workouts_Provider>(context, listen: false);
         final exerciseDataProvider =
@@ -38,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Provider.of<GetAdminDataFromGoogleSheetProvider>(context,
                 listen: false);
         await workoutDataProvider.showAllWorkouts();
+        await workoutDataProvider.getWorkoutLogFromDB();
         await exerciseDataProvider.getListOfExercises();
         await adminDataProvider.getListOfAdmins();
         //// END of initialization

@@ -5,6 +5,7 @@ import './your-workouts.dart';
 import './explore_workouts.dart';
 import './created_by_user.dart';
 import 'ongoing_workouts.dart';
+import './workouts_history.dart';
 
 class Workouts_Home extends StatelessWidget {
   static const routeName = '\Workouts-Home';
@@ -243,7 +244,8 @@ class Workouts_Home extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            // Navigator.pushNamed(context, CWScreen1.routeName);
+                            Navigator.pushNamed(
+                                context, WorkoutHistoryScreen.routeName);
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height / 20,

@@ -95,52 +95,56 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   void saveData(List<Workout_Log_Model> exercices, String workoutName) {
     print("save data initiated");
-    String uid = Data_Provider().uid;
-    List time = displayTime.split(":");
-    String duration_minutes = time[1];
-    String duration_hours = time[0];
-    String duration_seconds = time[2];
+    if (exercices.length == 0) {
+      print("no exercises to log");
+    } else {
+      String uid = Data_Provider().uid;
+      List time = displayTime.split(":");
+      String duration_minutes = time[1];
+      String duration_hours = time[0];
+      String duration_seconds = time[2];
 
-    /// change this date to the starting time of the workout
-    String date = DateTime.now().toIso8601String();
-    Workout_Data_Model data = Workout_Data_Model(
-        duration_seconds: duration_seconds,
-        duration_hours: duration_hours,
-        duration_minutes: duration_minutes,
-        databaseId: "",
-        uid: uid,
-        date: date,
-        listOfSetsRepsWeights: exercices,
-        user_name: Data_Provider().name,
-        workoutName: workoutName);
-    // ignore: deprecated_member_use
-    setsAndReps = List<Workout_Log_Model>();
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        stopTimer();
-        return AlertDialog(
-          title: Text("Do you want to save and End?"),
-          actions: [
-            FloatingActionButton(
-              child: Text("Yes"),
-              onPressed: () async {
-                await Workouts_Provider().saveWorkoutToDb(data);
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-              },
-            ),
-            FloatingActionButton(
-              child: Text("No"),
-              onPressed: () {
-                startTimer();
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
-        );
-      },
-    );
+      /// change this date to the starting time of the workout
+      String date = DateTime.now().toIso8601String();
+      Workout_Data_Model data = Workout_Data_Model(
+          duration_seconds: duration_seconds,
+          duration_hours: duration_hours,
+          duration_minutes: duration_minutes,
+          databaseId: "",
+          uid: uid,
+          date: date,
+          listOfSetsRepsWeights: exercices,
+          user_name: Data_Provider().name,
+          workoutName: workoutName);
+      // ignore: deprecated_member_use
+      setsAndReps = List<Workout_Log_Model>();
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          stopTimer();
+          return AlertDialog(
+            title: Text("Do you want to save and End?"),
+            actions: [
+              FloatingActionButton(
+                child: Text("Yes"),
+                onPressed: () async {
+                  await Workouts_Provider().saveWorkoutToDb(data);
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              FloatingActionButton(
+                child: Text("No"),
+                onPressed: () {
+                  startTimer();
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   startTimer() {

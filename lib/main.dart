@@ -1,8 +1,4 @@
-import 'package:fiitgn/Screens/stopwatch.dart';
-import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import './Workouts/screens/wishlist.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 //// CARDIO SECTION
@@ -42,6 +38,7 @@ import 'Workouts/screens/exercises_in_workout.dart';
 import 'Workouts/screens/created_by_user.dart';
 import 'Workouts/screens/workout_logging.dart';
 import 'Notifications/Notifications.dart';
+import 'Workouts/screens/workouts_history.dart';
 
 //// Allocation
 import 'Allocation/screens/sports.dart';
@@ -144,7 +141,7 @@ class MyApp extends StatelessWidget {
           Your_Workouts.routeName: (_) => Your_Workouts(),
           Ongoing_Workouts.routeName: (_) => Ongoing_Workouts(),
           Wishlist.routeName: (_) => Wishlist(),
-          // Create_Workout1.routeName: (_) => Create_Workout1(),
+          WorkoutHistoryScreen.routeName: (_) => WorkoutHistoryScreen(),
           Create_Workout2.routeName: (_) => Create_Workout2(),
           Explore_Workouts.routeName: (_) => Explore_Workouts(),
           Exercises_in_Workout.routeName: (_) => Exercises_in_Workout(),

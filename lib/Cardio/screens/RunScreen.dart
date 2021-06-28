@@ -296,55 +296,6 @@ class _MapScreenState extends State<MapScreen> {
       ///////%%%%%%%%%%%%%%%%%%
       // STARTING stopwatch
       start_run();
-      // stopWatchTimer.onExecute.add(StopWatchExecute.start);
-
-      // ///%%%%%%%%%%%%%%%%%%%%
-      // bLoc.BackgroundLocation.getLocationUpdates((location) {
-      //   print("code entered the stream");
-      //   if (_controller != null) {
-      //     // print("stream going on");
-      //     _controller.animateCamera(
-      //       CameraUpdate.newCameraPosition(
-      //         new CameraPosition(
-      //             target: LatLng(location.latitude, location.longitude),
-      //             bearing: 192.232,
-      //             tilt: 0,
-      //             zoom: 18.00),
-      //       ),
-      //     );
-      //   }
-      //   updateMarkerAndCircle(location.latitude, location.longitude);
-      //   finalLatitude = location.latitude;
-      //   finalLongitude = location.longitude;
-      //   // if (location.speed <= speedThreshold) {
-      //   // print("speed too slow to count distance");
-      //   // } else {
-      //   distance = distance +
-      //       distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-      //           finalLongitude);
-      //   // }
-      //   // print("Distance is $dist metres");
-      //   double speed = location.speed;
-      //   speedString = speed.toStringAsFixed(1);
-
-      //   dist = distance.toStringAsFixed(2);
-      //   initialLatitude = finalLatitude;
-      //   initialLongitude = finalLongitude;
-      //   print("initial Latitude --> " + initialLatitude.toString());
-      //   print("initial Longitude -->" + initialLongitude.toString());
-      //   // listOfLatLngForPoly.add(LatLng(initialLatitude, initialLongitude));
-      //   listOfLatLngForPoly
-      //       .add({'latitude': initialLatitude, 'longitude': initialLongitude});
-      // });
-      // LatLng latlng = LatLng(initialLatitude, initialLongitude);
-      // polylineCoordinates.add(latlng);
-      // _polylines.add(Polyline(
-      //   polylineId: PolylineId(initialLatitude.toString()),
-      //   visible: true,
-      //   //latlng is List<LatLng>
-      //   points: polylineCoordinates,
-      //   color: Colors.blue,
-      // ));
     } on PlatformException catch (e) {
       print("error");
       print(e.toString());
@@ -388,14 +339,6 @@ class _MapScreenState extends State<MapScreen> {
         Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[100],
-        // bottom: PreferredSize(
-        //   child: Text(
-        //     "SESSIONS CURRENTLY UNDERWAY",
-        //     style: TextStyle(fontFamily: 'Gilroy'),
-        //   ),
-        //   preferredSize: Size.fromHeight(1),
-        //   ),
-        //   backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           'RUNNING',

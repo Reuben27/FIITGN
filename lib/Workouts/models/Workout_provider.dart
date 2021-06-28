@@ -1,5 +1,6 @@
 import 'package:fiitgn/Notifications/utils/removeNotification.dart';
 import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
+import 'package:fiitgn/Workouts/models/Workouts_Log_Model.dart';
 
 import '../../Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,10 @@ class Workouts_Provider with ChangeNotifier {
 
   List<WorkoutModel> get workoutList {
     return [..._workoutsList];
+  }
+
+  List<Workout_Data_Model> get loggedWorkouts {
+    return [..._loggedWorkouts];
   }
 
   String get userId {
@@ -373,9 +378,68 @@ class Workouts_Provider with ChangeNotifier {
       user_name: data.user_name,
       workoutName: data.workoutName,
     );
-    _loggedWorkouts.add(newLog);
+    _loggedWorkouts.insert(0, newLog);
     print("Saved a log workout successfully");
     notifyListeners();
+  }
+
+  getWorkoutLogFromDB() async {
+    String uid = Data_Provider().uid;
+
+    final url =
+        'https://fiitgn-6aee7-default-rtdb.firebaseio.com/Logged_Workouts.json?orderBy="uid"&equalTo="$uid"';
+    try {
+      final response = await http.get(Uri.parse(url));
+      // print(response);
+      final extractedData = json.decode(response.body);
+      // print(extractedData);
+      // print("@@@@@@");
+      List<Workout_Data_Model> fetched_logs = [];
+      extractedData.forEach((key, value) {
+        String user_uid = value['uid'];
+        // print("uid is --> " + user_uid.toString());
+        String duration_seconds = value['duration_seconds'];
+        String duration_hours = value['duration_hours'];
+        String duration_minutes = value['duration_minutes'];
+        String databaseId = key;
+        String workoutName = value['workoutName'];
+        String date = value['date'];
+        List setsRepsWeights = value['listOfSetsRepsWeights'];
+        List<Workout_Log_Model> listOfSetsRepsWeights = [];
+        setsRepsWeights.forEach((element) {
+          Workout_Log_Model log = Workout_Log_Model(
+            exerciseId: element['exerciseId'],
+            exerciseName: element['exerciseName'],
+            numOfReps: element['numOfReps'],
+            setNumber: element['setNumber'],
+            weight: element['weight'],
+          );
+          listOfSetsRepsWeights.add(log);
+        });
+        // print("log created");
+        Workout_Data_Model logs = Workout_Data_Model(
+            duration_seconds: duration_seconds,
+            duration_hours: duration_hours,
+            duration_minutes: duration_minutes,
+            databaseId: databaseId,
+            uid: user_uid,
+            user_name: user_name,
+            workoutName: workoutName,
+            date: date,
+            listOfSetsRepsWeights: listOfSetsRepsWeights);
+        // print("logs created");
+        fetched_logs.add(logs);
+      });
+      _loggedWorkouts = fetched_logs;
+      _loggedWorkouts.sort((a, b) {
+        return b.date.compareTo(a.date);
+      });
+      notifyListeners();
+      print("recieved workout logs");
+    } catch (e) {
+      print("error in fetching workouts history data");
+      print(e);
+    }
   }
 
 //// functions for getting workouts that user has set reminder for
