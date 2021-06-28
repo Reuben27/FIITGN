@@ -1,26 +1,34 @@
 import '../data/initialize.dart';
+import '../../Providers/DataProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<int> updater(String starttime, String endtime) async {
   //update data
-  var bookedSlots, numberofslots;
+  var bookedslots, numberofslots, userinfo;
   CollectionReference currentroom = FirebaseFirestore.instance.collection(sportroomid);
   DocumentSnapshot documentSnapshot = await currentroom.doc(selectedroomid).get();
   if (documentSnapshot.exists) {
-    bookedSlots = await documentSnapshot['bookedslots'];
+    bookedslots = await documentSnapshot['bookedslots'];
     numberofslots = await documentSnapshot['numberofbookedslots'];
-    print(bookedSlots);
+    userinfo = await documentSnapshot['userinfo'];
+    print(bookedslots);
     print(numberofslots);
+    print(userinfo);
 
     String currentslot = numberofslots.toString();
-    bookedSlots[currentslot] = [starttime, endtime];
+    bookedslots[currentslot] = [starttime, endtime];
+    userinfo[currentslot] = {
+      'emailid' : Data_Provider().email,
+      'name' : Data_Provider().name,
+    };
     numberofslots = numberofslots + 1;
 
     currentroom
         .doc(selectedroomid)
         .update({
-          'bookedslots': bookedSlots,
+          'bookedslots': bookedslots,
           'numberofbookedslots': numberofslots,
+          'userinfo': userinfo,
         })
         .then((value) => {
           print("Data Updated. Room has been booked!"),
