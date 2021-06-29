@@ -1,6 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+////ADMIN SECTION
+import 'Admin/screens/admin_home.dart';
+
 //// CARDIO SECTION
 import 'Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +46,6 @@ import 'Workouts/screens/workouts_history.dart';
 //// Allocation
 import 'Allocation/screens/sports.dart';
 
-///// Guided Sessions
 //// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
 
@@ -51,7 +53,7 @@ import 'Guided-Sessions/screens/sessions.dart';
 import 'Nutrition/screens/nutritionScreen.dart';
 import 'Sports-Activities/screens/activity_screens.dart';
 
-// TEMP expansion panel
+//// TEMP expansion panel
 import './Screens/expansion_list.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -66,7 +68,6 @@ getToken() async {
   Data_Provider().setNotifToken(token);
   print(token);
 }
-//// Activities
 
 Future<void> main() async {
   WidgetsFlutterBinding
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
     print(SignInGoogle().isSignedIn);
     return MultiProvider(
       providers: [
+        //// CARDIO
         ChangeNotifierProvider.value(
           value: RunDataProvider(),
         ),
@@ -149,7 +151,8 @@ class MyApp extends StatelessWidget {
           Workout_Logging.routeName: (_) => Workout_Logging(),
           Notifications.routeName: (_) => Notifications(),
 
-          ///// Allocation Section
+          ///// Admin Section
+          AdminHome.routeName: (_) => AdminHome(),
 
           //// Allocation Section
           Sports.routeName: (_) => Sports(),
@@ -164,7 +167,7 @@ class MyApp extends StatelessWidget {
           Activity_Screen.routeName: (_) => Activity_Screen(),
 
           //// Stopwatch
-          // StopWatchScreen.routeName: (_) => StopWatchScreen(),
+          //// StopWatchScreen.routeName: (_) => StopWatchScreen(),
 
           //// Temp Expansion list
           ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),

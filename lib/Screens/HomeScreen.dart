@@ -16,20 +16,23 @@ import '../Calendar-Schedule/schedueCalendar.dart';
 import '../Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-////////////WORKOUTS
+//// WORKOUTS
 import '../Workouts/screens/workouts-home.dart';
 import '../Workouts/models/Admin_db_model.dart';
 import '../Workouts/models/Exercise_db_model.dart';
 import '../Workouts/models/Workout_provider.dart';
 
-///////////// GUIDED SESSIONS
+//// GUIDED SESSIONS
 import '../Guided-Sessions/screens/sessions.dart';
 
-///////// NUTRITION
+//// NUTRITION
 import '../Nutrition/screens/nutritionScreen.dart';
 
-//////// ACTIVITIES
+//// ACTIVITIES
 import '../Sports-Activities/screens/activity_screens.dart';
+
+//// ADMIN
+import 'package:fiitgn/Admin/screens/admin_home.dart';
 
 //// Temp Expansion Panel
 import './expansion_list.dart';
@@ -47,8 +50,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   insideInIt() async {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
-    final workoutDataProvider =
-        Provider.of<Workouts_Provider>(context, listen: false);
+    final workoutDataProvider = Provider.of<Workouts_Provider>(context, listen: false);
 
     final prefs = await SharedPreferences.getInstance();
     print('got instance');
@@ -64,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(Data_Provider().email);
     print("Uids and tokens are set");
     // await workoutDataProvider.showAllWorkouts();
-    // / initializing admin and exercise dbs
+    // initializing admin and exercise dbs
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
@@ -179,14 +181,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
-    // {
-    //   'title': 'Guided Sessions',
-    //   'url': 'assets/.png',
-    //   'routeName': Sessions.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 9,
-    // },
+    {
+      'title': 'Admin',
+      'url': 'assets/alloc.png',
+      'routeName': AdminHome.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 9,
+    },
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',

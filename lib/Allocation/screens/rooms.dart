@@ -29,8 +29,7 @@ class DisplayData extends StatefulWidget {
 class _DisplayDataState extends State<DisplayData> {
   @override
   Widget build(BuildContext context) {
-    CollectionReference rooms =
-        FirebaseFirestore.instance.collection(sportroomid);
+    CollectionReference rooms =  FirebaseFirestore.instance.collection(sportroomid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: rooms.snapshots(),
