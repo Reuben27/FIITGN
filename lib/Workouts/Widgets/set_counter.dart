@@ -15,7 +15,11 @@ class Set_CounterState extends State<Set_Counter> {
 
   void _decrementCounter() {
     setState(() {
-      counter--;
+      if (counter > 0) {
+        counter = counter - 1;
+      } else {
+        print("negative not allowed");
+      }
     });
   }
 

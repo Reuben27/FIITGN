@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fiitgn/Allocation/screens/rooms.dart';
-import 'package:fiitgn/Allocation/screens/sports.dart';
-import 'package:fiitgn/Allocation/utils/equipmentupdater.dart';
+import './rooms.dart';
+import './sports.dart';
+import '../utils/equipmentupdater.dart';
 import 'package:flutter/material.dart';
-import './orderconfirmation.dart';
 import '../data/initialize.dart';
-import 'notify.dart';
 import 'entry.dart';
 
 // ignore: must_be_immutable
@@ -17,7 +15,7 @@ class Equipments extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange[300],
-        title: Text(
+        title: const Text(
           'SELECT EQUIPMENT',
           style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -66,7 +64,9 @@ class Equipments extends StatelessWidget {
                           child: Text(
                             "Home",
                             style: TextStyle(
-                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                                fontFamily: "Gilroy",
+                                color: Colors.black,
+                                fontSize: 20),
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -86,7 +86,9 @@ class Equipments extends StatelessWidget {
                           child: Text(
                             'Book ' + next,
                             style: TextStyle(
-                                fontFamily: "Gilroy", color: Colors.black,fontSize: 20),
+                                fontFamily: "Gilroy",
+                                color: Colors.black,
+                                fontSize: 20),
                           ),
                           onPressed: () {
                             if (reflag == 0) {
@@ -179,7 +181,7 @@ class _DisplayDataState extends State<DisplayData> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: const CircularProgressIndicator(),
           );
         }
 
