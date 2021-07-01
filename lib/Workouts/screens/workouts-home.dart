@@ -76,189 +76,272 @@ class Workouts_Home extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Container(
-              height: MediaQuery.of(context).size.height / 6,
-           
-              child: Column(children: [
-                Text(
-                  'Your Workouts',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontFamily: "Gilroy",
+          Center(
+            child: Container(
+              // height: MediaQuery.of(context).size.height / 6,
+              child: Column(
+                children: [
+                  Text(
+                    'Your Workouts',
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontFamily: "Gilroy",
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 80,
-                ),
-                Row(
-                  children: [
-                    Column(
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 80,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 27.5,
+                        right: MediaQuery.of(context).size.width / 27.5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(
                                 context, Ongoing_Workouts.routeName);
                           },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Row(
-                              children: [
-                                Container(
-                                  child: Image.asset(
-                                    'assets/clok.png',
-                                    //  height: MediaQuery.of(context).size.height / 4.87,
-                                    // width: MediaQuery.of(context).size.width / 2.28,
-                                    fit: BoxFit.contain,
-                                  ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 25,
-                                  width: MediaQuery.of(context).size.width / 8,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Image.asset(
+                                  'assets/clok.png',
+                                  fit: BoxFit.contain,
                                 ),
-                                Text(
-                                  "FOLLOWING NOW",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Gro",
+                                width: MediaQuery.of(context).size.width / 8,
+                              ),
+                              Container(
+                                // height: MediaQuery.of(context).size.height / 20,
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                        MediaQuery.of(context).size.width /
+                                            13.8),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: (MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                MediaQuery.of(context)
+                                                    .viewPadding
+                                                    .top) /
+                                            70,
+                                        bottom: (MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                MediaQuery.of(context)
+                                                    .viewPadding
+                                                    .top) /
+                                            70),
+                                    child: Text(
+                                      "FOLLOWING NOW",
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                23,
+                                        fontFamily: "Gilroy",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 80,
                         ),
                         InkWell(
                           onTap: () {
                             Navigator.pushNamed(
                                 context, Created_by_user.routeName);
-                            // Navigator.pushNamed(context, CWScreen1.routeName);
                           },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Row(
-                              children: [
-                                Container(
-                                  child: Image.asset(
-                                    'assets/idea.png',
-                                    //  height: MediaQuery.of(context).size.height / 4.87,
-                                    // width: MediaQuery.of(context).size.width / 2.28,
-                                    fit: BoxFit.contain,
-                                  ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 20,
-                                  width: MediaQuery.of(context).size.width / 8,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Image.asset(
+                                  'assets/idea.png',
+                                  fit: BoxFit.contain,
                                 ),
-                                Text(
-                                  "CREATED BY YOU",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Gro",
+                                width: MediaQuery.of(context).size.width / 8,
+                              ),
+                              Container(
+                                // height: MediaQuery.of(context).size.height / 20,
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(
+                                        MediaQuery.of(context).size.width /
+                                            13.8),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: (MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                MediaQuery.of(context)
+                                                    .viewPadding
+                                                    .top) /
+                                            70,
+                                        bottom: (MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                MediaQuery.of(context)
+                                                    .viewPadding
+                                                    .top) /
+                                            70),
+                                    child: Text(
+                                      "CREATED BY YOU",
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                23,
+                                        fontFamily: "Gilroy",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.height / 80,
-                    ),
-                    Column(
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 27.5,
+                        right: MediaQuery.of(context).size.width / 27.5) ,
+                    child: Row(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, Wishlist.routeName);
-                            // Navigator.pushNamed(context, CWScreen1.routeName);
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Row(
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Wishlist.routeName);
+                            },
+                            child: Column(
                               children: [
                                 Container(
                                   child: Image.asset(
                                     'assets/wiss.png',
-                                    //  height: MediaQuery.of(context).size.height / 4.87,
-                                    // width: MediaQuery.of(context).size.width / 2.28,
                                     fit: BoxFit.contain,
                                   ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 15,
                                   width: MediaQuery.of(context).size.width / 8,
                                 ),
-                                Text(
-                                  "WISHLIST",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Gro",
+                                Container(
+                                  // height: MediaQuery.of(context).size.height / 20,
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          MediaQuery.of(context).size.width /
+                                              13.8),
+                                    ),
                                   ),
-                                )
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  MediaQuery.of(context)
+                                                      .viewPadding
+                                                      .top) /
+                                              70,
+                                          bottom: (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  MediaQuery.of(context)
+                                                      .viewPadding
+                                                      .top) /
+                                              70),
+                                      child: Text(
+                                        "WISHLIST",
+                                        style: TextStyle(
+                                          fontSize:
+                                              MediaQuery.of(context).size.width /
+                                                  23,
+                                          fontFamily: "Gilroy",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 80,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, WorkoutHistoryScreen.routeName);
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 20,
-                            width: MediaQuery.of(context).size.width / 2.2,
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30))),
-                            child: Row(
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, WorkoutHistoryScreen.routeName);
+                            },
+                            child: Column(
                               children: [
                                 Container(
                                   child: Image.asset(
                                     'assets/hiss.png',
-                                    //  height: MediaQuery.of(context).size.height / 4.87,
-                                    // width: MediaQuery.of(context).size.width / 2.28,
                                     fit: BoxFit.contain,
                                   ),
-                                  height:
-                                      MediaQuery.of(context).size.height / 20,
                                   width: MediaQuery.of(context).size.width / 8,
                                 ),
-                                Text(
-                                  "HISTORY",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Gro",
+                                Container(
+                                  // height: MediaQuery.of(context).size.height / 20,
+                                  width: MediaQuery.of(context).size.width / 2.5,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          MediaQuery.of(context).size.width /
+                                              13.8),
+                                    ),
                                   ),
-                                )
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  MediaQuery.of(context)
+                                                      .viewPadding
+                                                      .top) /
+                                              70,
+                                          bottom: (MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  MediaQuery.of(context)
+                                                      .viewPadding
+                                                      .top) /
+                                              70),
+                                      child: Text(
+                                        "HISTORY",
+                                        style: TextStyle(
+                                          fontSize:
+                                              MediaQuery.of(context).size.width /
+                                                  23,
+                                          fontFamily: "Gilroy",
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),
                       ],
                     ),
-                  ],
-                ),
-              ]),
+                  ),
+                ],
+              ),
             ),
-          
+          ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
