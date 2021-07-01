@@ -42,7 +42,7 @@ class _NutritionScreenState extends State {
                     "Today",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.width / 20,
                         color: Colors.black,
                         fontFamily: 'Gilroy'),
                   ),
@@ -52,7 +52,7 @@ class _NutritionScreenState extends State {
                     "Tomorrow",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: MediaQuery.of(context).size.width / 20,
                         color: Colors.black,
                         fontFamily: 'Gilroy'),
                   ),
@@ -60,11 +60,13 @@ class _NutritionScreenState extends State {
               ],
             ),
             title: Text(
-              "MESS AND NUTRITION",
+              "MESS MENU",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  fontSize: 30,
+                  fontSize: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top) /
+                        28,
                   fontFamily: 'Gilroy'),
             ),
           ),

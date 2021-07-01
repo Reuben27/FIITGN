@@ -15,12 +15,14 @@ class Equipments extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange[300],
-        title: const Text(
+        title: Text(
           'SELECT EQUIPMENT',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              fontSize: 30,
+              fontSize: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).viewPadding.top) /
+                  28,
               fontFamily: 'Gilroy'),
         ),
         centerTitle: true,
@@ -66,7 +68,8 @@ class Equipments extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "Gilroy",
                                 color: Colors.black,
-                                fontSize: 20),
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20),
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -88,7 +91,8 @@ class Equipments extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "Gilroy",
                                 color: Colors.black,
-                                fontSize: 20),
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20),
                           ),
                           onPressed: () {
                             if (reflag == 0) {
@@ -181,23 +185,40 @@ class _DisplayDataState extends State<DisplayData> {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: const CircularProgressIndicator(),
+            child: CircularProgressIndicator(),
           );
         }
 
         return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
+            return Container(
+              margin: EdgeInsets.only(
+                top: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).viewPadding.top) /
+                    84.5,
+                bottom: 0,
+                left: MediaQuery.of(context).size.width / 29,
+                right: MediaQuery.of(context).size.width / 29,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    MediaQuery.of(context).size.width / 20.57),
+                color: Colors.deepOrange[300],
+              ),
+              width: MediaQuery.of(context).size.width,
+              //  height: MediaQuery.of(context).size.height / 9,
               child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  color: Colors.deepOrange[300],
+                margin: EdgeInsets.only(
+                  top: (MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).viewPadding.top) /
+                      50,
+                  bottom: (MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).viewPadding.top) /
+                      50,
+                  left: MediaQuery.of(context).size.width / 29,
+                  right: MediaQuery.of(context).size.width / 29,
                 ),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 9,
-                child: Container(
-                  margin: EdgeInsets.only(left: 10, right: 5, top: 5),
+                child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -205,15 +226,14 @@ class _DisplayDataState extends State<DisplayData> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 1.7,
-                            child: Flexible(
-                              child: Text(
-                                document['name'],
-                                style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            // width: MediaQuery.of(context).size.width / 1.7,
+                            child: Text(
+                              document['name'],
+                              style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 13,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -221,15 +241,15 @@ class _DisplayDataState extends State<DisplayData> {
                             height: MediaQuery.of(context).size.height / 300,
                           ),
                           Container(
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Flexible(
-                              child: Text(
-                                "Available: " +
-                                    availability[document['availabilityindex']]
-                                        .toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Gilroy', fontSize: 15),
-                              ),
+                            //  width: MediaQuery.of(context).size.width / 2,
+                            child: Text(
+                              "Available: " +
+                                  availability[document['availabilityindex']]
+                                      .toString(),
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 27),
                             ),
                           ),
                         ],
@@ -246,8 +266,10 @@ class _DisplayDataState extends State<DisplayData> {
                             child: Text(
                               counters[document['availabilityindex']]
                                   .toString(),
-                              style:
-                                  TextStyle(fontFamily: 'Gilroy', fontSize: 25),
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 20),
                             ),
                           ),
                           IconButton(

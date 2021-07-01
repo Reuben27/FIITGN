@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import './WorkoutModel.dart';
 import 'package:flutter/foundation.dart';
 
-class ItemModel {
+class Item_Model {
   bool expanded;
   Color color_item;
   final String creator_name;
@@ -21,7 +21,7 @@ class ItemModel {
   final String imageUrl;
   //   this.imageUrl
 
-  ItemModel({
+  Item_Model({
     this.expanded: false,
     this.color_item,
     @required this.workoutId,
@@ -37,7 +37,7 @@ class ItemModel {
   });
 
   static create_item_model_from_workout_model(WorkoutModel workout) {
-    return ItemModel(
+    return Item_Model(
       expanded: false,
       color_item: Colors.green,
       access: workout.access,
@@ -54,7 +54,7 @@ class ItemModel {
   }
 
   static get_list_item_model(List<WorkoutModel> workouts) {
-    List<ItemModel> items = [];
+    List<Item_Model> items = [];
     workouts.forEach(
       (element) {
         items.add(create_item_model_from_workout_model(element));
