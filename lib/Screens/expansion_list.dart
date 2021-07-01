@@ -63,6 +63,7 @@ class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
                         style: TextStyle(
                           color: itemData[index].colorsItem,
                           fontSize: 18,
+                          
                         ),
                       ),
                     );

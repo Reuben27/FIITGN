@@ -20,7 +20,7 @@ class Meal {
       this.protein});
 }
 
-Widget getDay( BuildContext context, List<NutritionData> data, int day) {
+Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   List<Widget> breakfast = [];
   List<Widget> lunch = [];
   List<Widget> snacks = [];
@@ -530,28 +530,30 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
     children: [
       new Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         SizedBox(
-          height: 15,
+          height: (MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).viewPadding.top) /
+              42.25,
         ),
         Row(
           children: [
             SizedBox(
-              width: 20,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Container(
-              height: MediaQuery.of(context).size.height/8,
+              height: MediaQuery.of(context).size.height / 8,
               child: Image(
                 fit: BoxFit.contain,
                 image: AssetImage("assets/toaster.png"),
               ),
             ),
             SizedBox(
-              width: 10,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Text(
               "BREAKFAST",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 40,
+                fontSize: MediaQuery.of(context).size.width / 10,
                 fontFamily: "Gilroy",
               ),
             ),
@@ -563,9 +565,11 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
             headingTextStyle: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Gilroy',
-                fontSize: 15,
+                fontSize: MediaQuery.of(context).size.width / 25,
                 fontWeight: FontWeight.bold),
-            dataRowHeight: 50,
+            dataRowHeight: (MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).viewPadding.top) /
+                16.9,
             columns: [
               DataColumn(label: Text("Meal Name")),
               DataColumn(label: Text("Calories")),
@@ -582,36 +586,50 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
                       DataCell(
                         Text(
                           e.dishName,
-                          style: TextStyle(fontFamily: 'Gilroy', fontSize: 20),
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: MediaQuery.of(context).size.width / 20),
                         ),
                       ),
                       DataCell(
                         Text(e.calories,
-                            style:
-                                TextStyle(fontFamily: 'Gilroy', fontSize: 20)),
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20)),
                       ),
                       DataCell(
                         Text(e.fat,
-                            style:
-                                TextStyle(fontFamily: 'Gilroy', fontSize: 20)),
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20)),
                       ),
                       DataCell(
                         Text(e.carbs,
-                            style:
-                                TextStyle(fontFamily: 'Gilroy', fontSize: 20)),
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20)),
                       ),
                       DataCell(Text(e.protein,
-                          style:
-                              TextStyle(fontFamily: 'Gilroy', fontSize: 20))),
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 20))),
                       DataCell(
                         Text(e.sodium,
-                            style:
-                                TextStyle(fontFamily: 'Gilroy', fontSize: 20)),
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20)),
                       ),
                       DataCell(
                         Text(e.cholesterol,
-                            style:
-                                TextStyle(fontFamily: 'Gilroy', fontSize: 20)),
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize:
+                                    MediaQuery.of(context).size.width / 20)),
                       ),
                     ],
                   ),
@@ -622,27 +640,29 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
       ]),
       Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         SizedBox(
-          height: 15,
+          height: (MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).viewPadding.top) /
+              42.25,
         ),
         Row(
           children: [
             SizedBox(
-              width: 20,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height / 8,
               child: Image(
                 fit: BoxFit.contain,
                 image: AssetImage("assets/sandwich.png"),
               ),
             ),
             SizedBox(
-              width: 10,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Text("LUNCH",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontSize: MediaQuery.of(context).size.width / 10,
                   fontFamily: "Gilroy",
                 )),
           ],
@@ -653,11 +673,15 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
             headingTextStyle: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Gilroy',
-                fontSize: 15,
+                fontSize: MediaQuery.of(context).size.width / 25,
                 fontWeight: FontWeight.bold),
-            dataRowHeight: 50,
+            dataRowHeight: (MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).viewPadding.top) /
+                16.9,
             dataTextStyle: TextStyle(
-                color: Colors.black, fontFamily: 'Gilroy', fontSize: 20),
+                color: Colors.black,
+                fontFamily: 'Gilroy',
+                fontSize: MediaQuery.of(context).size.width / 20),
             columns: [
               DataColumn(label: Text("Meal Name")),
               DataColumn(label: Text("Calories")),
@@ -699,27 +723,29 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
       ]),
       Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         SizedBox(
-          height: 15,
+          height: (MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).viewPadding.top) /
+              42.25,
         ),
         Row(
           children: [
             SizedBox(
-              width: 20,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Container(
-              height: 100,
+              height: MediaQuery.of(context).size.height / 8,
               child: Image(
                 fit: BoxFit.contain,
                 image: AssetImage("assets/coffee-bean.png"),
               ),
             ),
             SizedBox(
-              width: 10,
+              width: MediaQuery.of(context).size.width / 20.57,
             ),
             Text("SNACKS",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontSize: MediaQuery.of(context).size.width / 10,
                   fontFamily: "Gilroy",
                 )),
           ],
@@ -730,11 +756,15 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
             headingTextStyle: TextStyle(
                 color: Colors.black,
                 fontFamily: 'Gilroy',
-                fontSize: 15,
+                fontSize: MediaQuery.of(context).size.width / 25,
                 fontWeight: FontWeight.bold),
-            dataRowHeight: 50,
+            dataRowHeight: (MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).viewPadding.top) /
+                16.9,
             dataTextStyle: TextStyle(
-                color: Colors.black, fontFamily: 'Gilroy', fontSize: 20),
+                color: Colors.black,
+                fontFamily: 'Gilroy',
+                fontSize: MediaQuery.of(context).size.width / 20),
             columns: [
               DataColumn(label: Text("Meal Name")),
               DataColumn(label: Text("Calories")),
@@ -778,27 +808,29 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: 15,
+            height: (MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).viewPadding.top) /
+                42.25,
           ),
           Row(
             children: [
               SizedBox(
-                width: 20,
+                width: MediaQuery.of(context).size.width / 20.57,
               ),
               Container(
-                height: 100,
+                height: MediaQuery.of(context).size.height / 8,
                 child: Image(
                   fit: BoxFit.contain,
                   image: AssetImage("assets/cutlery.png"),
                 ),
               ),
               SizedBox(
-                width: 12,
+                width: MediaQuery.of(context).size.width / 20.57,
               ),
               Text("DINNER",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 40,
+                    fontSize: MediaQuery.of(context).size.width / 10,
                     fontFamily: "Gilroy",
                   )),
             ],
@@ -809,11 +841,15 @@ Widget getDay( BuildContext context, List<NutritionData> data, int day) {
               headingTextStyle: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Gilroy',
-                  fontSize: 15,
+                  fontSize: MediaQuery.of(context).size.width / 25,
                   fontWeight: FontWeight.bold),
-              dataRowHeight: 50,
+              dataRowHeight: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).viewPadding.top) /
+                  16.9,
               dataTextStyle: TextStyle(
-                  color: Colors.black, fontFamily: 'Gilroy', fontSize: 20),
+                  color: Colors.black,
+                  fontFamily: 'Gilroy',
+                  fontSize: MediaQuery.of(context).size.width / 20),
               columns: [
                 DataColumn(label: Text("Meal Name")),
                 DataColumn(label: Text("Calories")),

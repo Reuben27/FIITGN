@@ -1,3 +1,5 @@
+import 'package:googleapis/chat/v1.dart';
+
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
 import '../Cardio/screens/RunScreen.dart';
@@ -124,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   'heroID': 1,
     // },
     {
-      'title': 'Running',
+      'title': 'Activities',
       'url': 'assets/roonn.png',
       'routeName': MapScreen.routeName,
       'description':
@@ -206,74 +208,128 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   Widget build(BuildContext context) {
-    var deviceSize = MediaQuery.of(context);
-    print(deviceSize);
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: AppBar(
-          actions: [
-            Container(
-              child: IconButton(
-                icon: Icon(FontAwesomeIcons.signOutAlt),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text('Do you want to Logout?'),
-                      actions: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            logoutUser();
-                            SystemNavigator.pop();
-                          },
-                          child: Text('Yes'),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(ctx).pop(true);
-                          },
-                          child: Text('No'),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-          backgroundColor: Colors.blue[200],
-          elevation: 0,
-          title: Text(
-            'FIITGN',
-            style: TextStyle(
-                fontSize: 60,
-                fontFamily: 'Gilroy',
-                fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-        ),
+    final MediaQueryData data = MediaQuery.of(context);
+    print(data);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
       ),
-      body: Stack(
-        children: [
-          Expanded(
-            child: Container(
-              child: ListView.separated(
-                separatorBuilder: (ctx, i) => Divider(),
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemCount: homeScreenList.length,
-                itemBuilder: (ctx, i) => HomeScreenItem(
-                  routeName: homeScreenList[i]['routeName'],
-                  title: homeScreenList[i]['title'],
-                  url: homeScreenList[i]['url'],
-                  description: homeScreenList[i]['description'],
-                  heroID: homeScreenList[i]['heroID'],
+      child: Scaffold(
+        drawer: Drawer(),
+        // appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(100.0),
+        //   child: AppBar(
+        //     actions: [
+
+        //     ],
+        //     backgroundColor: Color(0xFFD1D9D9),
+        //     elevation: 0,
+        //     title: Text(
+        //       'FIITGN',
+
+        //     centerTitle: true,
+        //   ),
+        // ),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              actions: [
+                Container(
+                  child: IconButton(
+                    icon: Icon(FontAwesomeIcons.signOutAlt),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text('Do you want to Logout?'),
+                          actions: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                logoutUser();
+                                SystemNavigator.pop();
+                              },
+                              child: Text('Yes'),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop(true);
+                              },
+                              child: Text('No'),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
+              ],
+              backgroundColor: Color(0xFFD1D9D9),
+              elevation: 0,
+              title: Text(
+                "FIITGN",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top) /
+                        14,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.bold),
               ),
+              // Allows the user to reveal the app bar if they begin scrolling
+              // back up the list of items.
+              floating: true,
+              // Display a placeholder widget to visualize the shrinking size.
+              // flexibleSpace: Placeholder(),
+              // Make the initial height of the SliverAppBar larger than normal.
+              expandedHeight: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top) / 4.225,
             ),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  (ctx, i) => Padding(
+                        padding: EdgeInsets.only(
+                            top: (MediaQuery.of(context).size.height -
+                                    MediaQuery.of(context).viewPadding.top) /
+                                56,bottom: (MediaQuery.of(context).size.height -
+                                    MediaQuery.of(context).viewPadding.top) /
+                                56),
+                                
+                        child: HomeScreenItem(
+                          routeName: homeScreenList[i]['routeName'],
+                          title: homeScreenList[i]['title'],
+                          url: homeScreenList[i]['url'],
+                          description: homeScreenList[i]['description'],
+                          heroID: homeScreenList[i]['heroID'],
+                        ),
+                      ),
+                  childCount: homeScreenList.length),
+            )
+          ],
+          // child: Column(
+          //   children: [
+          //     SizedBox(height: MediaQuery.of(context).size.height / 40),
+          //     Expanded(
+          //       child: Container(
+          //         child: ListView.separated(
+          //           separatorBuilder: (ctx, i) => SizedBox(
+          //             height: MediaQuery.of(context).size.height / 40,
+          //           ),
+          //           shrinkWrap: true,
+          //           physics: ScrollPhysics(),
+          //           itemCount: homeScreenList.length,
+          //           itemBuilder: (ctx, i) => HomeScreenItem(
+          //             routeName: homeScreenList[i]['routeName'],
+          //             title: homeScreenList[i]['title'],
+          //             url: homeScreenList[i]['url'],
+          //             description: homeScreenList[i]['description'],
+          //             heroID: homeScreenList[i]['heroID'],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+        ),
       ),
     );
   }

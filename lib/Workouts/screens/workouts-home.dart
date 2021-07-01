@@ -12,99 +12,73 @@ class Workouts_Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Center(
-            //   heightFactor: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.blueGrey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Hi Abhiram",
-                      style: TextStyle(
-                        fontSize: 37,
-                        fontFamily: "Gro",
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 6,
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: Size(MediaQuery.of(context).size.width,
+              MediaQuery.of(context).size.height / 7),
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height / 10,
 
-                      //   borderRadius: BorderRadius.circular(20.0),
-                      child: Image.asset(
-                        'assets/4805.png',
-                        //  height: MediaQuery.of(context).size.height / 4.87,
-                        // width: MediaQuery.of(context).size.width / 2.28,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 22,
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      decoration: BoxDecoration(
-                          color: Color(0xFFFFFF).withOpacity(0.5),
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      child: InkWell(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.search),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text('Explore Workouts',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontFamily: "Gilroy",
-                                ))
-                          ],
-                        ),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Explore_Workouts.routeName);
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                //   borderRadius: BorderRadius.circular(20.0),
+                child: Image.asset(
+                  'assets/4805.png',
+                  //  height: MediaQuery.of(context).size.height / 4.87,
+                  // width: MediaQuery.of(context).size.width / 2.28,
+                  fit: BoxFit.contain,
                 ),
               ),
-            ),
+              Container(
+                height: MediaQuery.of(context).size.height / 25,
+                width: MediaQuery.of(context).size.width / 2.4,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFFF).withOpacity(0.5),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(MediaQuery.of(context).size.width / 13.8),
+                  ),
+                ),
+                child: InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.search),
+                      Text('Explore',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 15,
+                            fontFamily: "Gilroy",
+                          ))
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, Explore_Workouts.routeName);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
           ),
-          //     Center(
-          //     heightFactor: 2,
-          //      child: RaisedButton(
-          //      onPressed: () {
-          //       Navigator.pushNamed(context, Your_Workouts.routeName);
-          //      },
-          //      child: Text(
-          //        'Your Workouts',
-          //         style: TextStyle(fontSize: 22, fontFamily: "Gro"),
-          //        ),
-          //     ),
-          //    ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[300],
+        title: Text(
+          'WORKOUTS',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).viewPadding.top) /
+                  25,
+              fontFamily: 'Gilroy'),
+        ),
+      ),
+      body: ListView(
+        children: [
+          Container(
               height: MediaQuery.of(context).size.height / 6,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
+           
               child: Column(children: [
                 Text(
                   'Your Workouts',
@@ -284,7 +258,7 @@ class Workouts_Home extends StatelessWidget {
                 ),
               ]),
             ),
-          ),
+          
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(

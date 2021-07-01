@@ -22,7 +22,7 @@ class Set_CounterState extends State<Set_Counter> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
             onPressed: _decrementCounter,
@@ -31,7 +31,7 @@ class Set_CounterState extends State<Set_Counter> {
           Center(
             child: Text(
               '$counter',
-              style: TextStyle(fontFamily: 'Gilroy', fontSize: 25),
+              style: TextStyle(fontFamily: 'Gilroy', fontSize: MediaQuery.of(context).size.width / 15),
             ),
           ),
           IconButton(

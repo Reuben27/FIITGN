@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:googleapis/cloudbuild/v1.dart';
 import '../data/initialize.dart';
 import 'entry.dart';
 import 'rooms.dart';
@@ -12,66 +13,79 @@ class Sports extends StatefulWidget {
 }
 
 class _SportsState extends State<Sports> {
+  // final MediaQueryData data = MediaQuery.of(context);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            title: Text(
-              "CHOOSE SPORT",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 30,
-                  fontFamily: 'Gilroy'),
+    final MediaQueryData data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: MaterialApp(
+        home: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: Text(
+                "CHOOSE SPORT",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top) /
+                        28,
+                    fontFamily: 'Gilroy'),
+              ),
+              bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.label,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width /
+                            20.57), // Creates border
+                    color: Colors.deepOrange[300]),
+                tabs: [
+                  Tab(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2.2,
+                      child: Center(
+                        child: Text(
+                          "ROOMS",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MediaQuery.of(context).size.width / 20,
+                              color: Colors.black,
+                              fontFamily: 'Gilroy'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2.2,
+                      child: Center(
+                        child: Text(
+                          "EQUIPMENT",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: MediaQuery.of(context).size.width / 20,
+                              color: Colors.black,
+                              fontFamily: 'Gilroy'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            bottom: TabBar(
-              indicatorSize: TabBarIndicatorSize.label,
-              indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), // Creates border
-                  color: Colors.deepOrange[300]),
-              tabs: [
-                Tab(
-                    child: Container(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                  child: Center(
-                    child: Text(
-                      "ROOMS",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontFamily: 'Gilroy'),
-                    ),
-                  ),
-                )),
-                Tab(
-                    child: Container(
-                  width: MediaQuery.of(context).size.width / 2.2,
-                  child: Center(
-                    child: Text(
-                      "EQUIPMENT",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontFamily: 'Gilroy'),
-                    ),
-                  ),
-                ))
+            // body: DisplayData(),
+            body: TabBarView(
+              children: [
+                DisplayRoomData(),
+                DisplayEquipmentsData(),
               ],
             ),
-          ),
-          // body: DisplayData(),
-          body: TabBarView(
-            children: [
-              DisplayRoomData(),
-              DisplayEquipmentsData(),
-            ],
           ),
         ),
       ),
@@ -110,8 +124,8 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 1.5,
-              mainAxisSpacing: MediaQuery.of(context).size.width / 20,
+              childAspectRatio: 1.7,
+            //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
             ),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               return GestureDetector(
@@ -133,7 +147,11 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                   }
                 },
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  margin: EdgeInsets.fromLTRB(
+                      0 * MediaQuery.of(context).size.width / 30,
+                      MediaQuery.of(context).size.width / 50,
+                     0 * MediaQuery.of(context).size.width / 30,
+                      0),
                   height: MediaQuery.of(context).size.height / 8,
                   child: Stack(children: [
                     Align(
@@ -144,13 +162,14 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 49,
+                                height: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top)/14,
                               ),
                               Text(
                                 document['sportname'].toString().toUpperCase(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25,
+                                  fontSize:MediaQuery.of(context).size.width/16.456 ,
                                   fontFamily: "Gilroy",
                                 ),
                               ),
@@ -158,19 +177,20 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                           ),
                         ),
                         decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(
-                                  5.0, // Move to right 10  horizontally
-                                  5.0, // Move to bottom 10 Vertically
-                                ),
-                              )
-                            ],
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     color: Colors.grey,
+                            //     offset: Offset(
+                            //       MediaQuery.of(context).size.width / 55, // Move to right 10  horizontally
+                            //       MediaQuery.of(context).size.width / 55, // Move to bottom 10 Vertically
+                            //     ),
+                            //   )
+                            // ],
                             color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular( MediaQuery.of(context).size.width /
+                            20.57)),
                         height: MediaQuery.of(context).size.height / 9,
-                        width: MediaQuery.of(context).size.width / 2.5,
+                        width: MediaQuery.of(context).size.width / 2.2,
                       ),
                     ),
                     Align(
@@ -231,8 +251,8 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
             child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 1.5,
-                mainAxisSpacing: MediaQuery.of(context).size.width / 20,
+                childAspectRatio: 1.7,
+              //  mainAxisSpacing: MediaQuery.of(context).size.width / 20,
               ),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 return GestureDetector(
@@ -254,7 +274,10 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                     }
                   },
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    margin: EdgeInsets.fromLTRB( 0 * MediaQuery.of(context).size.width / 30,
+                      MediaQuery.of(context).size.width / 50,
+                     0 * MediaQuery.of(context).size.width / 30,
+                      0),
                     height: MediaQuery.of(context).size.height / 8,
                     child: Stack(children: [
                       Align(
@@ -265,7 +288,8 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                             child: Column(
                               children: [
                                 SizedBox(
-                                  height: 49,
+                                  height: (MediaQuery.of(context).size.height -
+                            MediaQuery.of(context).viewPadding.top)/14,
                                 ),
                                 Text(
                                   document['sportname']
@@ -273,7 +297,7 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                                       .toUpperCase(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: MediaQuery.of(context).size.width/16.456,
                                     fontFamily: "Gilroy",
                                   ),
                                 ),
@@ -281,19 +305,12 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                             ),
                           ),
                           decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(
-                                    5.0, // Move to right 10  horizontally
-                                    5.0, // Move to bottom 10 Vertically
-                                  ),
-                                )
-                              ],
+                             
                               color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular( MediaQuery.of(context).size.width /
+                            20.57)),
                           height: MediaQuery.of(context).size.height / 9,
-                          width: MediaQuery.of(context).size.width / 2.5,
+                          width: MediaQuery.of(context).size.width / 2.2,
                         ),
                       ),
                       Align(

@@ -330,149 +330,124 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    // print(MediaQuery.of(context).padding.bottom);
-    return (
-        // height: height,
-        // width: width,
-        Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[100],
-        centerTitle: true,
-        title: Text(
-          'RUNNING',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 30,
-              fontFamily: 'Gilroy'),
-        ),
+    final MediaQueryData data = MediaQuery.of(context);
+    print(data);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
       ),
-      key: key,
-      body: WillPopScope(
-        onWillPop: () {
-          _showSnackBar();
-          pause_run();
+      child: SafeArea(
+        child: (Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blue[100],
+            centerTitle: true,
+            title: Text(
+              'ACTIVITY LOGGING',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: (MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).viewPadding.top) /
+                      28,
+                  fontFamily: 'Gilroy'),
+            ),
+          ),
+          key: key,
+          body: WillPopScope(
+            onWillPop: () {
+              _showSnackBar();
+              pause_run();
 
-          // return _onBackPressed();
-        },
-        child: SafeArea(
-          child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-            return Container(
-              height: constraints.maxHeight,
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height / 1.7,
-                    width: MediaQuery.of(context).size.width,
-                    child: GoogleMap(
-                      initialCameraPosition: initialPosition,
-                      mapType: MapType.normal,
-                      // markers: Set.of((marker != null) ? [marker] : []),
-                      circles: Set.of((circle != null) ? [circle] : []),
-                      polylines: _polylines,
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller = controller;
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(
-                              MediaQuery.of(context).size.height / 20),
-                          topRight: Radius.circular(
-                              MediaQuery.of(context).size.height / 20),
+              // return _onBackPressed();
+            },
+            child: SafeArea(
+              child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                return Container(
+                  height: constraints.maxHeight,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height / 1.7,
+                        width: MediaQuery.of(context).size.width,
+                        child: GoogleMap(
+                          initialCameraPosition: initialPosition,
+                          mapType: MapType.normal,
+                          // markers: Set.of((marker != null) ? [marker] : []),
+                          circles: Set.of((circle != null) ? [circle] : []),
+                          polylines: _polylines,
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller = controller;
+                          },
                         ),
                       ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height:
-                                0.3 * MediaQuery.of(context).size.height / 3,
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  height: 0.25 *
-                                      MediaQuery.of(context).size.height /
-                                      3,
-                                  child: StreamBuilder<int>(
-                                    stream: stopWatchTimer.rawTime,
-                                    initialData: stopWatchTimer.rawTime.value,
-                                    builder: (context, snapshot) {
-                                      final value = snapshot.data;
-                                      displayTime =
-                                          StopWatchTimer.getDisplayTime(value,
-                                              hours: isHours,
-                                              milliSecond: false);
-                                      return Text(
-                                        displayTime,
-                                        style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.15 *
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue[100],
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular((MediaQuery.of(context)
+                                          .size
+                                          .height -
+                                      MediaQuery.of(context).viewPadding.top) /
+                                  20),
+                              topRight: Radius.circular((MediaQuery.of(context)
+                                          .size
+                                          .height -
+                                      MediaQuery.of(context).viewPadding.top) /
+                                  20),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: (MediaQuery.of(context).size.height -
+                                            MediaQuery.of(context)
+                                                .viewPadding
+                                                .top) /
+                                        120,
+                                    bottom:
+                                        (MediaQuery.of(context).size.height -
                                                 MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                3,
-                                            // color: Colors.white,
-                                            fontWeight: FontWeight.w700),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  child: Center(
-                                    child: Text(
-                                      'DURATION',
-                                      style: TextStyle(
-                                          //      color: Colors.white,
-                                          fontFamily: 'Gilroy'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Divider(),
-                          Container(
-                            height:
-                                0.3 * MediaQuery.of(context).size.height / 3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.2,
+                                                    .viewPadding
+                                                    .top) /
+                                            120),
+                                child: Container(
                                   child: Column(
                                     children: [
                                       Container(
-                                        height: 0.25 *
-                                            MediaQuery.of(context).size.height /
-                                            3,
-                                        child: Center(
-                                          child: Text(
-                                            dist,
-                                            style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 0.15 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    3,
-                                                // color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
+                                        alignment: Alignment.center,
+                                        child: StreamBuilder<int>(
+                                          stream: stopWatchTimer.rawTime,
+                                          initialData:
+                                              stopWatchTimer.rawTime.value,
+                                          builder: (context, snapshot) {
+                                            final value = snapshot.data;
+                                            displayTime =
+                                                StopWatchTimer.getDisplayTime(
+                                                    value,
+                                                    hours: isHours,
+                                                    milliSecond: false);
+                                            return Text(
+                                              displayTime,
+                                              style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          7.5,
+                                                  // color: Colors.white,
+                                                  fontWeight: FontWeight.w700),
+                                            );
+                                          },
                                         ),
                                       ),
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'KILOMETRES',
+                                            'DURATION',
                                             style: TextStyle(
                                                 //      color: Colors.white,
                                                 fontFamily: 'Gilroy'),
@@ -482,133 +457,321 @@ class _MapScreenState extends State<MapScreen> {
                                     ],
                                   ),
                                 ),
-                                VerticalDivider(),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.2,
-                                  child: Column(
+                              ),
+                              Divider(),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: (MediaQuery.of(context).size.height -
+                                            MediaQuery.of(context)
+                                                .viewPadding
+                                                .top) /
+                                        120,
+                                    bottom:
+                                        (MediaQuery.of(context).size.height -
+                                                MediaQuery.of(context)
+                                                    .viewPadding
+                                                    .top) /
+                                            120),
+                                child: Container(
+                                  height: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      12,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
-                                        height: 0.25 *
-                                            MediaQuery.of(context).size.height /
-                                            3,
-                                        child: Center(
-                                          child: Text(
-                                            speedString,
-                                            style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 0.15 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    3,
-                                                // color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Center(
-                                          child: Text(
-                                            'MPS',
-                                            style: TextStyle(
-                                                //      color: Colors.white,
-                                                fontFamily: 'Gilroy'),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Divider(),
-                          pauseFlag == 0
-                              ? Container(
-                                  child: InkWell(
-                                    // print("%%%%%%%%%%%%%%%%%");
-                                    // print("starting the run");
-                                    onTap: () {
-                                      getCurrentLocation();
-                                      // getCurrentLocation().then((value) {
-                                      //   print("entered run block");
-                                      //   start_run();
-                                      // });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.green[300],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      alignment: Alignment.center,
-                                      width: MediaQuery.of(context).size.width /
-                                          2.5,
-                                      height:
-                                          MediaQuery.of(context).size.width /
-                                              10,
-                                      child: Text(
-                                        'START RUN',
-                                        style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                35,
-                                            fontFamily: 'Gilroy',
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              : pauseFlag == 1 && resume_end_flag == 1
-                                  ? Row(
-                                      children: [
-                                        Container(
-                                          child: InkWell(
-                                            onTap: () {
-                                              resume_run();
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.red[300],
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              child: Text(
-                                                'RESUME RUN',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            35,
-                                                    fontFamily: 'Gilroy',
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                        // width:
+                                        //     MediaQuery.of(context).size.width /
+                                        //         2.2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              child: Center(
+                                                child: Text(
+                                                  dist,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              7.5,
+                                                      // color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
                                               ),
+                                            ),
+                                            Container(
+                                              child: Center(
+                                                child: Text(
+                                                  'KILOMETRES',
+                                                  style: TextStyle(
+                                                      //      color: Colors.white,
+                                                      fontFamily: 'Gilroy'),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      VerticalDivider(),
+                                      Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              child: Center(
+                                                child: Text(
+                                                  speedString,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              7.5,
+                                                      // color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Center(
+                                                child: Text(
+                                                  'MPS',
+                                                  style: TextStyle(
+                                                      //      color: Colors.white,
+                                                      fontFamily: 'Gilroy'),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Divider(),
+                              pauseFlag == 0
+                                  ? Center(
+                                      child: Container(
+                                        child: InkWell(
+                                          // print("%%%%%%%%%%%%%%%%%");
+                                          // print("starting the run");
+                                          onTap: () {
+                                            getCurrentLocation();
+                                            // getCurrentLocation().then((value) {
+                                            //   print("entered run block");
+                                            //   start_run();
+                                            // });
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.green[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          24),
+                                            ),
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                2.5,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                10,
+                                            child: Text(
+                                              'BEGIN',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          15,
+                                                  fontFamily: 'Gilroy',
+                                                  fontWeight: FontWeight.w600),
                                             ),
                                           ),
                                         ),
-                                        Container(
+                                      ),
+                                    )
+                                  : pauseFlag == 1 && resume_end_flag == 1
+                                      ? Center(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    resume_run();
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.green[300],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  24),
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    child: Text(
+                                                      'RESUME',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              15,
+                                                          fontFamily: 'Gilroy',
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    stopWatchTimer.onExecute
+                                                        .add(StopWatchExecute
+                                                            .stop);
+                                                    storeFinalLat =
+                                                        finalLatitude;
+                                                    storeFinalLong =
+                                                        finalLongitude;
+                                                    print(distance);
+                                                    endingTime = DateTime.now();
+                                                    passingToShowResults[
+                                                            'initialLat'] =
+                                                        storeInitialLat;
+                                                    passingToShowResults[
+                                                            'initialLong'] =
+                                                        storeInitialLong;
+                                                    passingToShowResults[
+                                                            'finalLat'] =
+                                                        storeFinalLat;
+                                                    passingToShowResults[
+                                                            'finalLong'] =
+                                                        storeFinalLong;
+                                                    passingToShowResults[
+                                                            'initialTime'] =
+                                                        startingTime;
+                                                    passingToShowResults[
+                                                            'finalTime'] =
+                                                        endingTime;
+                                                    passingToShowResults[
+                                                        'distance'] = distance;
+                                                    passingToShowResults[
+                                                            'listOfLatLng'] =
+                                                        listOfLatLngForPoly;
+                                                    List timeList =
+                                                        displayTime.split(":");
+                                                    String duration_minutes =
+                                                        timeList[1];
+                                                    String duration_hours =
+                                                        timeList[0];
+                                                    String duration_seconds =
+                                                        timeList[2];
+                                                    passingToShowResults[
+                                                            'duration_minutes'] =
+                                                        duration_minutes;
+                                                    passingToShowResults[
+                                                            'duration_hours'] =
+                                                        duration_hours;
+                                                    passingToShowResults[
+                                                            'duration_seconds'] =
+                                                        duration_seconds;
+
+                                                    // print("All parameters stored successfully");
+
+                                                    // _locationSubscription.cancel();
+                                                    // await bLoc.BackgroundLocation.stopLocationService();
+                                                    Navigator.of(context)
+                                                        .pushReplacementNamed(
+                                                            ShowResultsScreen
+                                                                .routeName,
+                                                            arguments:
+                                                                passingToShowResults);
+                                                    // end_run();
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.red[300],
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    24)),
+                                                    alignment: Alignment.center,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    child: Text(
+                                                      'FINISH',
+                                                      style: TextStyle(
+                                                          fontSize: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              15,
+                                                          fontFamily: 'Gilroy',
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : Container(
                                           child: InkWell(
                                             onTap: () {
-                                              end_run();
+                                              pause_run();
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   color: Colors.red[300],
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          10)),
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              24)),
                                               alignment: Alignment.center,
                                               width: MediaQuery.of(context)
                                                       .size
@@ -619,13 +782,13 @@ class _MapScreenState extends State<MapScreen> {
                                                       .width /
                                                   10,
                                               child: Text(
-                                                'END RUN',
+                                                'PAUSE',
                                                 style: TextStyle(
                                                     fontSize:
                                                         MediaQuery.of(context)
                                                                 .size
-                                                                .height /
-                                                            35,
+                                                                .width /
+                                                            15,
                                                     fontFamily: 'Gilroy',
                                                     fontWeight:
                                                         FontWeight.w600),
@@ -633,51 +796,19 @@ class _MapScreenState extends State<MapScreen> {
                                             ),
                                           ),
                                         )
-                                      ],
-                                    )
-                                  : Container(
-                                      child: InkWell(
-                                        onTap: () {
-                                          pause_run();
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.red[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          alignment: Alignment.center,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.5,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              10,
-                                          child: Text(
-                                            'PAUSE RUN',
-                                            style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    35,
-                                                fontFamily: 'Gilroy',
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                        ],
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }),
-        ),
+                );
+              }),
+            ),
+          ),
+        )),
       ),
-    ));
+    );
   }
 }
 
