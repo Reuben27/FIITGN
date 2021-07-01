@@ -78,6 +78,14 @@ class Workouts_Home extends StatelessWidget {
         children: [
           Center(
             child: Container(
+              margin: EdgeInsets.only(
+                top: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).viewPadding.top) /
+                    40,
+                bottom: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).viewPadding.top) /
+                    40,
+              ),
               // height: MediaQuery.of(context).size.height / 6,
               child: Column(
                 children: [
@@ -103,46 +111,46 @@ class Workouts_Home extends StatelessWidget {
                             Navigator.pushNamed(
                                 context, Ongoing_Workouts.routeName);
                           },
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Image.asset(
-                                  'assets/clok.png',
-                                  fit: BoxFit.contain,
-                                ),
-                                width: MediaQuery.of(context).size.width / 8,
-                              ),
-                              Container(
-                                // height: MediaQuery.of(context).size.height / 20,
-                                width: MediaQuery.of(context).size.width / 2.5,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(
-                                        MediaQuery.of(context).size.width /
-                                            13.8),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 20.57)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70,
+                                  bottom: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/clok.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 8,
                                   ),
-                                ),
-                                child: Center(
-                                  child: Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
-                                        top: (MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            70,
-                                        bottom: (MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            70),
+                                      top: (MediaQuery.of(context).size.height -
+                                              MediaQuery.of(context)
+                                                  .viewPadding
+                                                  .top) /
+                                          70,
+                                    ),
                                     child: Text(
                                       "FOLLOWING NOW",
                                       style: TextStyle(
+                                        fontWeight: FontWeight.bold,
                                         fontSize:
                                             MediaQuery.of(context).size.width /
                                                 23,
@@ -150,9 +158,9 @@ class Workouts_Home extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                         InkWell(
@@ -160,46 +168,46 @@ class Workouts_Home extends StatelessWidget {
                             Navigator.pushNamed(
                                 context, Created_by_user.routeName);
                           },
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Image.asset(
-                                  'assets/idea.png',
-                                  fit: BoxFit.contain,
-                                ),
-                                width: MediaQuery.of(context).size.width / 8,
-                              ),
-                              Container(
-                                // height: MediaQuery.of(context).size.height / 20,
-                                width: MediaQuery.of(context).size.width / 2.5,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(
-                                        MediaQuery.of(context).size.width /
-                                            13.8),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 20.57)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70,
+                                  bottom: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/idea.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 8,
                                   ),
-                                ),
-                                child: Center(
-                                  child: Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
-                                        top: (MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            70,
-                                        bottom: (MediaQuery.of(context)
-                                                    .size
-                                                    .height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            70),
+                                      top: (MediaQuery.of(context).size.height -
+                                              MediaQuery.of(context)
+                                                  .viewPadding
+                                                  .top) /
+                                          70,
+                                    ),
                                     child: Text(
                                       "CREATED BY YOU",
                                       style: TextStyle(
+                                        fontWeight: FontWeight.bold,
                                         fontSize:
                                             MediaQuery.of(context).size.width /
                                                 23,
@@ -207,134 +215,137 @@ class Workouts_Home extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                     SizedBox(
+                    height: MediaQuery.of(context).size.height / 80,
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width / 27.5,
-                        right: MediaQuery.of(context).size.width / 27.5) ,
+                        right: MediaQuery.of(context).size.width / 27.5),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, Wishlist.routeName);
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: Image.asset(
-                                    'assets/wiss.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                  width: MediaQuery.of(context).size.width / 8,
-                                ),
-                                Container(
-                                  // height: MediaQuery.of(context).size.height / 20,
-                                  width: MediaQuery.of(context).size.width / 2.5,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MediaQuery.of(context).size.width /
-                                              13.8),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Wishlist.routeName);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 20.57)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70,
+                                  bottom: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/wiss.png',
+                                      fit: BoxFit.contain,
                                     ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 6,
                                   ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: (MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  MediaQuery.of(context)
-                                                      .viewPadding
-                                                      .top) /
-                                              70,
-                                          bottom: (MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  MediaQuery.of(context)
-                                                      .viewPadding
-                                                      .top) /
-                                              70),
-                                      child: Text(
-                                        "WISHLIST",
-                                        style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.of(context).size.width /
-                                                  23,
-                                          fontFamily: "Gilroy",
-                                        ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      // top: (MediaQuery.of(context).size.height -
+                                      //         MediaQuery.of(context)
+                                      //             .viewPadding
+                                      //             .top) /
+                                      //     70,
+                                    ),
+                                    child: Text(
+                                      "WISHLIST",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                23,
+                                        fontFamily: "Gilroy",
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, WorkoutHistoryScreen.routeName);
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: Image.asset(
-                                    'assets/hiss.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                  width: MediaQuery.of(context).size.width / 8,
-                                ),
-                                Container(
-                                  // height: MediaQuery.of(context).size.height / 20,
-                                  width: MediaQuery.of(context).size.width / 2.5,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          MediaQuery.of(context).size.width /
-                                              13.8),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, WorkoutHistoryScreen.routeName);
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    MediaQuery.of(context).size.width / 20.57)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70,
+                                  bottom: (MediaQuery.of(context).size.height -
+                                          MediaQuery.of(context)
+                                              .viewPadding
+                                              .top) /
+                                      70),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/hiss.png',
+                                      fit: BoxFit.contain,
                                     ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 6,
                                   ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: (MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  MediaQuery.of(context)
-                                                      .viewPadding
-                                                      .top) /
-                                              70,
-                                          bottom: (MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  MediaQuery.of(context)
-                                                      .viewPadding
-                                                      .top) /
-                                              70),
-                                      child: Text(
-                                        "HISTORY",
-                                        style: TextStyle(
-                                          fontSize:
-                                              MediaQuery.of(context).size.width /
-                                                  23,
-                                          fontFamily: "Gilroy",
-                                        ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      // top: (MediaQuery.of(context).size.height -
+                                      //         MediaQuery.of(context)
+                                      //             .viewPadding
+                                      //             .top) /
+                                      //     70,
+                                    ),
+                                    child: Text(
+                                      "HISTORY",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                23,
+                                        fontFamily: "Gilroy",
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
+                        ),
                       ],
                     ),
                   ),
@@ -342,43 +353,43 @@ class Workouts_Home extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 6,
-              decoration: BoxDecoration(
-                  color: Colors.yellow[200],
-                  borderRadius: BorderRadius.all(Radius.circular(30))),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(width: 30),
-                  InkWell(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.7,
-                      child: Text(
-                        'Create Workout',
-                        style: TextStyle(
-                          fontSize: 35,
-                          fontFamily: "Gilroy",
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, Create_Workout2.routeName);
-                    },
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 8,
-                    child: ClipRRect(
-                      child: Image.asset(
-                        'assets/23.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
+          Container(width: MediaQuery.of(context).size.width,
+          //  height: MediaQuery.of(context).size.height / 6,
+            decoration: BoxDecoration(
+              color: Colors.yellow[200],
+              borderRadius: BorderRadius.all(
+                Radius.circular(MediaQuery.of(context).size.width / 20.57),
               ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: 30),
+                InkWell(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 1.7,
+                    child: Text(
+                      'Create Workout',
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontFamily: "Gilroy",
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, Create_Workout2.routeName);
+                  },
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height / 8,
+                  child: ClipRRect(
+                    child: Image.asset(
+                      'assets/23.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

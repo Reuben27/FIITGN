@@ -330,6 +330,11 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    print(_screenHeight);
+    print(_screenRatio);
     final MediaQueryData data = MediaQuery.of(context);
     print(data);
     return MediaQuery(
@@ -346,9 +351,7 @@ class _MapScreenState extends State<MapScreen> {
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
-                  fontSize: (MediaQuery.of(context).size.height -
-                          MediaQuery.of(context).viewPadding.top) /
-                      28,
+                 fontSize: 0.04 * _screenHeight,
                   fontFamily: 'Gilroy'),
             ),
           ),
@@ -368,8 +371,8 @@ class _MapScreenState extends State<MapScreen> {
                   child: Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height / 1.7,
-                        width: MediaQuery.of(context).size.width,
+                        height: 0.6 * _screenHeight,
+                        width: _screenWidth,
                         child: GoogleMap(
                           initialCameraPosition: initialPosition,
                           mapType: MapType.normal,
@@ -386,33 +389,17 @@ class _MapScreenState extends State<MapScreen> {
                           decoration: BoxDecoration(
                             color: Colors.blue[100],
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular((MediaQuery.of(context)
-                                          .size
-                                          .height -
-                                      MediaQuery.of(context).viewPadding.top) /
-                                  20),
-                              topRight: Radius.circular((MediaQuery.of(context)
-                                          .size
-                                          .height -
-                                      MediaQuery.of(context).viewPadding.top) /
-                                  20),
+                              topLeft: Radius.circular(0.01 * _screenHeight),
+                              topRight: Radius.circular(0.01 * _screenHeight),
                             ),
                           ),
                           child: Column(
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: (MediaQuery.of(context).size.height -
-                                            MediaQuery.of(context)
-                                                .viewPadding
-                                                .top) /
-                                        120,
-                                    bottom:
-                                        (MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            120),
+                                    top: 0.01 * _screenHeight,
+                                    bottom:0.01 * _screenHeight
+                                       ,),
                                 child: Container(
                                   child: Column(
                                     children: [
@@ -434,12 +421,9 @@ class _MapScreenState extends State<MapScreen> {
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
                                                   fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          7.5,
+                                                     0.04 * _screenHeight,
                                                   // color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
+                                                  fontWeight: FontWeight.bold),
                                             );
                                           },
                                         ),
@@ -461,23 +445,12 @@ class _MapScreenState extends State<MapScreen> {
                               Divider(),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: (MediaQuery.of(context).size.height -
-                                            MediaQuery.of(context)
-                                                .viewPadding
-                                                .top) /
-                                        120,
-                                    bottom:
-                                        (MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            120),
+                                      top: 0.01 * _screenHeight,
+                                    bottom:0.01 * _screenHeight
+                                       ,
+                                       ),
                                 child: Container(
-                                  height: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      12,
+                                  height: 0.1 * _screenHeight,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -497,10 +470,7 @@ class _MapScreenState extends State<MapScreen> {
                                                   style: TextStyle(
                                                       fontFamily: 'Gilroy',
                                                       fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              7.5,
+                                                            0.04 * _screenHeight,
                                                       // color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.w700),
@@ -531,10 +501,7 @@ class _MapScreenState extends State<MapScreen> {
                                                   style: TextStyle(
                                                       fontFamily: 'Gilroy',
                                                       fontSize:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              7.5,
+                                                            0.04 * _screenHeight,
                                                       // color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.w700),
@@ -576,29 +543,17 @@ class _MapScreenState extends State<MapScreen> {
                                             decoration: BoxDecoration(
                                               color: Colors.green[300],
                                               borderRadius:
-                                                  BorderRadius.circular(
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          24),
+                                                  BorderRadius.circular(0.01 * _screenHeight
+                                                     ),
                                             ),
                                             alignment: Alignment.center,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2.5,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                10,
+                                            width: 0.4 * _screenWidth,
+                                            height: 0.05 * _screenHeight,
                                             child: Text(
                                               'BEGIN',
                                               style: TextStyle(
                                                   fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          15,
+                                                     0.02 * _screenHeight,
                                                   fontFamily: 'Gilroy',
                                                   fontWeight: FontWeight.w600),
                                             ),
