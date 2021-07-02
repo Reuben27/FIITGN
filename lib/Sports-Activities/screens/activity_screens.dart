@@ -37,8 +37,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
       data: data.copyWith(
         textScaleFactor: 0.8,
       ),
-      child: SafeArea(
-        child: Scaffold(
+      child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.green[200],
               centerTitle: true,
@@ -164,7 +163,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                     ),
                   );
                 })),
-      ),
+      
     );
   }
 }

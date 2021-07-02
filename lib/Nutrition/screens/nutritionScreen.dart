@@ -37,8 +37,7 @@ class _NutritionScreenState extends State {
       ),
       child: DefaultTabController(
         length: 2,
-        child: SafeArea(
-          child: Scaffold(
+        child:  Scaffold(
             appBar: AppBar(
               centerTitle: true,
               backgroundColor: Colors.purple[100],
@@ -87,7 +86,7 @@ class _NutritionScreenState extends State {
               ],
             ),
           ),
-        ),
+        
       ),
     );
   }
