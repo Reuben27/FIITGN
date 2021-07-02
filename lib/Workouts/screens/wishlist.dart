@@ -98,7 +98,7 @@ class _WishlistState extends State<Wishlist> {
 
   @override
   Widget build(BuildContext context) {
-     var _screenHeight = MediaQuery.of(context).size.height -
+    var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
@@ -123,18 +123,22 @@ class _WishlistState extends State<Wishlist> {
       }
     });
     final MediaQueryData data = MediaQuery.of(context);
-    return Scaffold(
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
-          'WISHLIST',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              fontSize: 0.04 * _screenHeight,
-              fontFamily: 'Gilroy'),
-        ),
+            'WISHLIST',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
+          ),
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -143,19 +147,19 @@ class _WishlistState extends State<Wishlist> {
             itemBuilder: (ctx, i) {
               return Padding(
                 padding: EdgeInsets.only(
-                    top: 0.0125 * _screenHeight,
-                bottom: 0.0125 * _screenHeight,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: Colors.blueGrey[200],
-                  width: 0.005 * _screenWidth,
-                )),
-                margin: EdgeInsets.only(
-                  left: 0.03 * _screenWidth,
-                  right: 0.03 * _screenWidth,
+                  top: 0.0125 * _screenHeight,
+                  bottom: 0.0125 * _screenHeight,
                 ),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Colors.blueGrey[200],
+                    width: 0.005 * _screenWidth,
+                  )),
+                  margin: EdgeInsets.only(
+                    left: 0.03 * _screenWidth,
+                    right: 0.03 * _screenWidth,
+                  ),
                   child: ExpansionPanelList(
                     elevation: 0,
                     animationDuration: Duration(milliseconds: 500),
@@ -163,15 +167,14 @@ class _WishlistState extends State<Wishlist> {
                       ExpansionPanel(
                         headerBuilder: (ctx, bool isExpanded) {
                           return Container(
-                               margin: EdgeInsets.only(
-                            top: 0.00625 * _screenHeight,
-                            bottom: 0.00625 * _screenHeight,
-                          ),
+                            margin: EdgeInsets.only(
+                              top: 0.00625 * _screenHeight,
+                              bottom: 0.00625 * _screenHeight,
+                            ),
                             // height: (MediaQuery.of(context).size.height -
                             //         MediaQuery.of(context).viewPadding.top) /
                             //     8,
                             child: Column(
-                              
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -180,27 +183,29 @@ class _WishlistState extends State<Wishlist> {
                                   style: TextStyle(
                                       fontFamily: 'Gilroy',
                                       //   color: Colors.red,
-                                     fontSize: 0.045 * _screenHeight,
-                                    fontWeight: FontWeight.w900),
-                              ),
-                              Text(
-                                "by " + workouts_expansion_list[i].creator_name,
-                                style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                   fontSize: 0.025 * _screenHeight,
+                                      fontSize: 0.045 * _screenHeight,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Text(
+                                  "by " +
+                                      workouts_expansion_list[i].creator_name,
+                                  style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight,
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     top: 0.00625 * _screenHeight,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                           left: 0.025 * _screenWidth,
-                                        right: 0.025 * _screenWidth,),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 0.025 * _screenWidth,
+                                          right: 0.025 * _screenWidth,
+                                        ),
                                         child: InkWell(
                                           child: iconList[i],
                                           onTap: () async {
@@ -248,8 +253,9 @@ class _WishlistState extends State<Wishlist> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                             left: 0.025 * _screenWidth,
-                                        right: 0.025 * _screenWidth,),
+                                          left: 0.025 * _screenWidth,
+                                          right: 0.025 * _screenWidth,
+                                        ),
                                         child: InkWell(
                                           child: ongoing_iconList[i],
                                           // onTap: () {},
@@ -299,9 +305,9 @@ class _WishlistState extends State<Wishlist> {
                         isExpanded: workouts_expansion_list[i].expanded,
                         body: Container(
                           margin: EdgeInsets.only(
-                             left: 0.025 * _screenWidth,
-                          bottom: 0.0125 * _screenHeight,
-                        ),
+                            left: 0.025 * _screenWidth,
+                            bottom: 0.0125 * _screenHeight,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -312,10 +318,9 @@ class _WishlistState extends State<Wishlist> {
                                     child: Text(
                                       workouts_expansion_list[i].description,
                                       style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                       fontSize: 0.022 * _screenHeight,
-                                       fontWeight: FontWeight.bold
-                                      ),
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 0.022 * _screenHeight,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],
@@ -349,7 +354,7 @@ class _WishlistState extends State<Wishlist> {
             },
           ),
         ),
-      
+      ),
     );
   }
 }

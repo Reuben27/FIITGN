@@ -43,146 +43,152 @@ class _Ongoing_WorkoutsState extends State<Ongoing_Workouts> {
     print(ongoingWorkouts);
     print("zzzzzzzzzzzzzzzzzzzzzzz");
     final MediaQueryData data = MediaQuery.of(context);
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
-          title: Text(
-            'ONGOING WORKOUTS',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 0.04 * _screenHeight,
-                fontFamily: 'Gilroy'),
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.blueGrey[300],
+            title: Text(
+              'ONGOING WORKOUTS',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
+            ),
           ),
-        ),
-        body: ongoingWorkouts.length == 0
-            ? Center(
-                child: Text('No current workouts'),
-              )
-            : ListView.builder(
-                itemCount: ongoingWorkouts.length,
-                itemBuilder: (ctx, i) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      top: 0.01 * _screenHeight,
-                      bottom: 0.00625 * _screenHeight,
-                      left: 0.03 * _screenWidth,
-                      right: 0.03 * _screenWidth,
-                    ),
-                    child: Container(
-                      width: _screenWidth,
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey[200],
-                        borderRadius:
-                            BorderRadius.circular(0.02 * _screenHeight),
+          body: ongoingWorkouts.length == 0
+              ? Center(
+                  child: Text('No current workouts'),
+                )
+              : ListView.builder(
+                  itemCount: ongoingWorkouts.length,
+                  itemBuilder: (ctx, i) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.00625 * _screenHeight,
+                        bottom: 0.00625 * _screenHeight,
+                        left: 0.03 * _screenWidth,
+                        right: 0.03 * _screenWidth,
                       ),
-                      // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
-
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: 0.00625 * _screenHeight,
-                          bottom: 0.00625 * _screenHeight,
-                          left: 0.03 * _screenWidth,
-                          right: 0.03 * _screenWidth,
+                      child: Container(
+                        width: _screenWidth,
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey[200],
+                          borderRadius:
+                              BorderRadius.circular(0.02 * _screenHeight),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  ongoingWorkouts[i].workoutName,
-                                  style: TextStyle(
-                                    fontFamily: 'Gilroy',
-                                    fontSize: 0.04 * _screenHeight,
-                                    fontWeight: FontWeight.bold,
+                        // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
+
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: 0.00625 * _screenHeight,
+                            bottom: 0.00625 * _screenHeight,
+                            left: 0.03 * _screenWidth,
+                            right: 0.03 * _screenWidth,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ongoingWorkouts[i].workoutName,
+                                    style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontSize: 0.04 * _screenHeight,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "by " + ongoingWorkouts[i].creator_name,
-                                  style: TextStyle(
-                                    fontFamily: 'Gilroy',
-                                    fontSize: 0.025 * _screenHeight,
+                                  Text(
+                                    "by " + ongoingWorkouts[i].creator_name,
+                                    style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontSize: 0.025 * _screenHeight,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  width: 0.3 * _screenWidth,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      start_workout(ongoingWorkouts[i]);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Begin",
-                                          style: TextStyle(
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    width: 0.3 * _screenWidth,
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        start_workout(ongoingWorkouts[i]);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Begin",
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.025 * _screenHeight,
+                                                color: Colors.black),
+                                          ),
+                                          Icon(
+                                            Icons.fitness_center,
+                                            color: Colors.black,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 0.3 * _screenWidth,
+                                    child: OutlinedButton(
+                                      onPressed: () {
+                                        workouts_provider
+                                            .removeWorkoutFromOngoingDB(
+                                                ongoingWorkouts[i],
+                                                ongoingWorkouts[i].workoutId);
+                                        print(
+                                            "removed workout from ongoing succesfully");
+                                        ///// removing the notification for the workout
+                                        String token =
+                                            data_provider.notif_token;
+                                        notiRemove(token,
+                                            ongoingWorkouts[i].workoutName);
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Remove",
+                                            style: TextStyle(
+                                              color: Colors.black,
                                               fontFamily: 'Gilroy',
                                               fontSize: 0.025 * _screenHeight,
-                                              color: Colors.black),
-                                        ),
-                                        Icon(
-                                          Icons.fitness_center,
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 0.3 * _screenWidth,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      workouts_provider
-                                          .removeWorkoutFromOngoingDB(
-                                              ongoingWorkouts[i],
-                                              ongoingWorkouts[i].workoutId);
-                                      print(
-                                          "removed workout from ongoing succesfully");
-                                      ///// removing the notification for the workout
-                                      String token = data_provider.notif_token;
-                                      notiRemove(token,
-                                          ongoingWorkouts[i].workoutName);
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Remove",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.025 * _screenHeight,
+                                            ),
                                           ),
-                                        ),
-                                        Icon(
-                                          Icons.delete_outline,
-                                          color: Colors.black,
-                                        )
-                                      ],
+                                          Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.black,
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
+        ),
       ),
     );
   }
