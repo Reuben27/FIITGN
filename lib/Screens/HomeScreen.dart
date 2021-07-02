@@ -1,3 +1,4 @@
+import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
 import 'package:fiitgn/Guided-Sessions/data/guidedsessions.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:flutter/src/widgets/image.dart' as img;
@@ -139,14 +140,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    // {
-    //   'title': 'Activities',
-    //   'url': 'assets/roonn.png',
-    //   'routeName': ExpansionPanelDemo.routeName,
-    //   'description':
-    //       'Running can be accessed from here. Get out there and get those legs working!',
-    //   'heroID': 1,
-    // },
+    {
+      'title': 'Activity Results',
+      'url': 'assets/roonn.png',
+      'routeName': YourRuns.routeName,
+      'description':
+          'Running can be accessed from here. Get out there and get those legs working!',
+      'heroID': 1,
+    },
     // {
     //   'title': 'Start Cycling',
     //   'url': 'assets/11241.png',
@@ -335,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Welcome, " + Data_Provider().name.toString(),
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                         
                           fontSize: 0.035 * _screenHeight,
                           fontFamily: 'Gilroy'),
                     ),
