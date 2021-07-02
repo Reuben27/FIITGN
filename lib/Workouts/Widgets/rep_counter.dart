@@ -33,8 +33,13 @@ class Rep_CounterState extends State<Rep_Counter> {
 
   @override
   Widget build(BuildContext context) {
+     var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     return Center(
-      child: Row(mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
             onPressed: _decrementCounter,
@@ -43,7 +48,10 @@ class Rep_CounterState extends State<Rep_Counter> {
           Center(
             child: Text(
               '$counter',
-              style: TextStyle(fontFamily: 'Gilroy', fontSize: MediaQuery.of(context).size.width / 15),
+              textScaleFactor: 0.8,
+              style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.025 * _screenHeight),
             ),
           ),
           IconButton(

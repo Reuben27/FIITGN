@@ -116,9 +116,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     final MediaQueryData data = MediaQuery.of(context);
 
     return MediaQuery(
-      data: data.copyWith(
-        textScaleFactor: 0.8,
-      ),
+      data: data.copyWith(textScaleFactor: 0.8),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue[100],
@@ -143,7 +141,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.7 * _screenHeight,
+                      height: 0.66 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
@@ -158,333 +156,205 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                         ),
                         child: Column(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: 0.01 * _screenHeight,
-                                bottom: 0.01 * _screenHeight,
-                              ),
-                              child: Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.center,
+                            Container(
+                              height: 0.12 * _screenHeight,
+                              child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      duration_hours +
+                                          ":" +
+                                          duration_minutes +
+                                          ":" +
+                                          duration_seconds,
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 0.07 * _screenHeight,
+                                          // color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Center(
                                       child: Text(
-                                        duration_hours +
-                                            ":" +
-                                            duration_minutes +
-                                            ":" +
-                                            duration_seconds,
+                                        'DURATION',
                                         style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.06 * _screenHeight,
-                                            // color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                            fontSize: 0.018 * _screenHeight,
+                                            //      color: Colors.white,
+                                            fontFamily: 'Gilroy'),
                                       ),
                                     ),
-                                    Container(
-                                      child: Center(
-                                        child: Text(
-                                          'DURATION',
-                                          style: TextStyle(
-                                              //      color: Colors.white,
-                                              fontFamily: 'Gilroy'),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Divider(),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: 0.01 * _screenHeight,
-                                bottom: 0.01 * _screenHeight,
+                            Divider(height: 0.01 * _screenHeight),
+                            Container(
+                              height: 0.12 * _screenHeight,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Center(
+                                            child: Text(
+                                              "$distanceString",
+                                              style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize:
+                                                      0.07 * _screenHeight,
+                                                  // color: Colors.white,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Center(
+                                            child: Text(
+                                              'KILOMETRES',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      0.018 * _screenHeight,
+                                                  //      color: Colors.white,
+                                                  fontFamily: 'Gilroy'),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  VerticalDivider(),
+                                  Container(
+                                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Center(
+                                            child: Text(
+                                              avgSpeedString,
+                                              style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize:
+                                                      0.07 * _screenHeight,
+                                                  // color: Colors.white,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Center(
+                                            child: Text(
+                                              'MPS',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      0.018 * _screenHeight,
+                                                  //      color: Colors.white,
+                                                  fontFamily: 'Gilroy'),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Container(
-                                height: 0.08 * _screenHeight,
+                            ),
+                            Divider(height: 0.01 * _screenHeight),
+                            Container(height: 0.08 * _screenHeight,
+                              child: Center(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Center(
-                                              child: Text(
-                                                "$distanceString",
-                                                style: TextStyle(
-                                                    fontFamily: 'Gilroy',
-                                                    fontSize:
-                                                        0.06 * _screenHeight,
-                                                    // color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
+                                    InkWell(
+                                      onTap: () {
+                                        // Add function to add code to database
+                                        _isLoading = true;
+                                        runStatsProvider
+                                            .addNewRunData(
+                                          dateOfRun,
+                                          avgSpeedString,
+                                          distanceString,
+                                          startTime,
+                                          duration_hours,
+                                          duration_minutes,
+                                          duration_seconds,
+                                          listOfLatLng,
+                                          initialLat,
+                                          initialLong,
+                                        )
+                                            .catchError((error) {
+                                          print(error);
+                                          return showDialog<Null>(
+                                            context: context,
+                                            builder: (ctx) => AlertDialog(
+                                              title: Text('An error occured'),
+                                              content: Text('Something went wrong'),
+                                              actions: [
+                                                FlatButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: Text('Okay'))
+                                              ],
                                             ),
-                                          ),
-                                          Container(
-                                            child: Center(
-                                              child: Text(
-                                                'KILOMETRES',
-                                                style: TextStyle(
-                                                    //      color: Colors.white,
-                                                    fontFamily: 'Gilroy'),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    VerticalDivider(),
-                                    Container(
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Center(
-                                              child: Text(
-                                                avgSpeedString,
-                                                style: TextStyle(
-                                                    fontFamily: 'Gilroy',
-                                                    fontSize:
-                                                        0.06 * _screenHeight,
-                                                    // color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            child: Center(
-                                              child: Text(
-                                                'MPS',
-                                                style: TextStyle(
-                                                    //      color: Colors.white,
-                                                    fontFamily: 'Gilroy'),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Divider(),
-                            // finishFlag == 0
-                            //     ? Container(
-                            //         child: InkWell(
-                            //           // print("%%%%%%%%%%%%%%%%%");
-                            //           // print("starting the run");
-                            //           onTap: getCurrentLocation,
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //                 color: Colors.green[300],
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(10)),
-                            //             alignment: Alignment.center,
-                            //             width: MediaQuery.of(context).size.width /
-                            //                 2.5,
-                            //             height:
-                            //                 MediaQuery.of(context).size.width /
-                            //                     10,
-                            //             child: Text(
-                            //               'START RUN',
-                            //               style: TextStyle(
-                            //                   fontSize: MediaQuery.of(context)
-                            //                           .size
-                            //                           .height /
-                            //                       35,
-                            //                   fontFamily: 'Gilroy',
-                            //                   fontWeight: FontWeight.w600),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            //     : Container(
-                            //         child: InkWell(
-                            //           // print("%%%%%%%%%%%%%%%%%");
-                            //           // print("starting the run");
-                            //           onTap: () {
-                            //             showDialog(
-                            //               context: context,
-                            //               builder: (ctx) {
-                            //                 var actions2 = [
-                            //                   // ignore: deprecated_member_use
-                            //                   FlatButton(
-                            //                     onPressed: () {
-                            //                       stopWatchTimer.onExecute
-                            //                           .add(StopWatchExecute.stop);
-                            //                       storeFinalLat = finalLatitude;
-                            //                       storeFinalLong = finalLongitude;
-                            //                       print(distance);
-                            //                       endingTime = DateTime.now();
-                            //                       passingToShowResults[
-                            //                               'initialLat'] =
-                            //                           storeInitialLat;
-                            //                       passingToShowResults[
-                            //                               'initialLong'] =
-                            //                           storeInitialLong;
-                            //                       passingToShowResults[
-                            //                           'finalLat'] = storeFinalLat;
-                            //                       passingToShowResults[
-                            //                               'finalLong'] =
-                            //                           storeFinalLong;
-                            //                       passingToShowResults[
-                            //                               'initialTime'] =
-                            //                           startingTime;
-                            //                       passingToShowResults[
-                            //                           'finalTime'] = endingTime;
-                            //                       passingToShowResults[
-                            //                           'distance'] = distance;
-                            //                       passingToShowResults[
-                            //                               'listOfLatLng'] =
-                            //                           listOfLatLngForPoly;
-
-                            //                       // print("All parameters stored successfully");
-
-                            //                       // _locationSubscription.cancel();
-                            //                       bLoc.BackgroundLocation
-                            //                           .stopLocationService();
-                            //                       Navigator.of(context)
-                            //                           .pushReplacementNamed(
-                            //                               ShowResultsScreen
-                            //                                   .routeName,
-                            //                               arguments:
-                            //                                   passingToShowResults);
-                            //                     },
-                            //                     child: Text('Yes'),
-                            //                   ),
-                            //                   // ignore: deprecated_member_use
-                            //                   FlatButton(
-                            //                     onPressed: () {
-                            //                       Navigator.of(ctx).pop(true);
-                            //                     },
-                            //                     child: Text('No'),
-                            //                   ),
-                            //                 ];
-                            //                 return AlertDialog(
-                            //                   title: Text(
-                            //                       'Are you sure you want to end Run?'),
-                            //                   actions: actions2,
-                            //                 );
-                            //               },
-                            //             );
-                            //           },
-                            //           child: Container(
-                            //             decoration: BoxDecoration(
-                            //                 color: Colors.red[300],
-                            //                 borderRadius:
-                            //                     BorderRadius.circular(10)),
-                            //             alignment: Alignment.center,
-                            //             width: MediaQuery.of(context).size.width /
-                            //                 2.5,
-                            //             height:
-                            //                 MediaQuery.of(context).size.width /
-                            //                     10,
-                            //             child: Text(
-                            //               'END RUN',
-                            //               style: TextStyle(
-                            //                   fontSize: MediaQuery.of(context)
-                            //                           .size
-                            //                           .height /
-                            //                       35,
-                            //                   fontFamily: 'Gilroy',
-                            //                   fontWeight: FontWeight.w600),
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       )
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    // Add function to add code to database
-                                    _isLoading = true;
-                                    runStatsProvider
-                                        .addNewRunData(
-                                      dateOfRun,
-                                      avgSpeedString,
-                                      distanceString,
-                                      startTime,
-                                      duration_hours,
-                                      duration_minutes,
-                                      duration_seconds,
-                                      listOfLatLng,
-                                      initialLat,
-                                      initialLong,
-                                    )
-                                        .catchError((error) {
-                                      print(error);
-                                      return showDialog<Null>(
-                                        context: context,
-                                        builder: (ctx) => AlertDialog(
-                                          title: Text('An error occured'),
-                                          content: Text('Something went wrong'),
-                                          actions: [
-                                            FlatButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('Okay'))
-                                          ],
+                                          );
+                                        }).then(
+                                          (_) {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            Navigator.pushReplacementNamed(
+                                                context, HomeScreen.routeName);
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[300],
+                                          borderRadius: BorderRadius.circular(
+                                              0.02 * _screenHeight),
                                         ),
-                                      );
-                                    }).then(
-                                      (_) {
-                                        setState(() {
-                                          _isLoading = false;
-                                        });
+                                        alignment: Alignment.center,
+                                        width: 0.45 * _screenWidth,
+                                        height: 0.05 * _screenHeight,
+                                        child: Text(
+                                          'SAVE',
+                                          style: TextStyle(
+                                              fontSize: 0.04 * _screenHeight,
+                                              fontFamily: 'Gilroy',
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
                                         Navigator.pushReplacementNamed(
                                             context, HomeScreen.routeName);
                                       },
-                                    );
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.green[300],
-                                      borderRadius: BorderRadius.circular(
-                                          0.02 * _screenHeight),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[300],
+                                          borderRadius: BorderRadius.circular(
+                                              0.02 * _screenHeight),
+                                        ),
+                                        alignment: Alignment.center,
+                                        width: 0.45 * _screenWidth,
+                                        height: 0.05 * _screenHeight,
+                                        child: Text(
+                                          'DON\'T SAVE',
+                                          style: TextStyle(
+                                              fontSize: 0.04 * _screenHeight,
+                                              fontFamily: 'Gilroy',
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
                                     ),
-                                    alignment: Alignment.center,
-                                    width: 0.4 * _screenWidth,
-                                    height: 0.05 * _screenHeight,
-                                    child: Text(
-                                      'SAVE',
-                                      style: TextStyle(
-                                          fontSize: 0.04 * _screenHeight,
-                                          fontFamily: 'Gilroy',
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, HomeScreen.routeName);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.red[300],
-                                        borderRadius: BorderRadius.circular(
-                                          0.02 * _screenHeight),
-                                    ),
-                                    alignment: Alignment.center,
-                                    width: 0.4 * _screenWidth,
-                                    height: 0.05 * _screenHeight,
-                                    child: Text(
-                                      'DON\'T SAVE',
-                                      style: TextStyle(
-                                          fontSize: 0.04 * _screenHeight,
-                                          fontFamily: 'Gilroy',
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),

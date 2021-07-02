@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/Workout_provider.dart';
 import '../models/Workout_Data_Log_Model.dart';
 import 'package:intl/intl.dart';
+import './workout_history_details.dart';
 
 class WorkoutHistoryScreen extends StatelessWidget {
   static const routeName = 'workout_history';
@@ -19,9 +20,16 @@ class WorkoutHistoryScreen extends StatelessWidget {
             itemBuilder: (ctx, i) {
               String formattedDate = DateFormat('yyyy-MM-dd – kk:mm')
                   .format(DateTime.parse(workout_histories[i].date));
-              return ListTile(
-                title: Text(workout_histories[i].workoutName),
-                subtitle: Text(formattedDate),
+              return InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, Workout_History_Details.routeName,
+                      arguments: workout_histories[i].listOfSetsRepsWeights);
+                },
+                child: ListTile(
+                  title: Text(workout_histories[i].workoutName),
+                  subtitle: Text(formattedDate),
+                ),
               );
             }));
   }

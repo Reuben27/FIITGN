@@ -113,6 +113,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
   // }
 
   void workoutName_Description_Access(
+      var _screenHeight,
+      var _screenWidth,
       BuildContext context,
       List<String> listOfExercisesId,
       List<String> listOfFollowersId,
@@ -137,168 +139,158 @@ class _Create_Workout2State extends State<Create_Workout2> {
       context: context,
       builder: (ctx) {
         print("show dialog initialized");
-        return Container(color: Colors.blueGrey[200],
-        
-          child: Container(  margin: EdgeInsets.only(
-            top:(MediaQuery.of(context).size.height-MediaQuery.of(context).viewPadding.top) / 28  ,
-              left: MediaQuery.of(context).size.width / 27.5,
-              right: MediaQuery.of(context).size.width / 27.5),
+        return Container(
+          color: Colors.blueGrey[200],
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 0.03 * _screenHeight,
+              left: 0.03 * _screenWidth,
+              right: 0.03 * _screenWidth,
+            ),
             child: Column(
               // title: Text('Workout Description'),
               children: [
                 Text(
-                  'Workout Details',
+                  'Workout Details',textScaleFactor: 0.8,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                      fontSize: (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).viewPadding.top) /
-                          28,
+                    fontSize: 0.04 * _screenHeight,
                       fontFamily: 'Gilroy'),
                 ),
-              
-                      //// TAKING WORKOUT NAME
-                      Center(
-                        child: TextField(style: TextStyle(fontFamily: 'Gilroy'),
-                          controller: nameController,
-                          decoration: InputDecoration(
-                            hintText: 'Name',
-                          ),
-                        ),
-                        heightFactor: 1,
-                      ),
-                      // take_workout_name(nameController),
-                      //// TAKING WORKOUT DESCRIPTION
-                      Center(
-                        child: TextField(style: TextStyle(fontFamily: 'Gilroy'),
-                          controller: descriptionController,
-                          decoration: InputDecoration(
-                            hintText: 'Description',
-                          ),
-                        ),
-                        heightFactor: 1,
-                      ),
-                      ///// ##if is admin,
-                      is_admin(adminEmailIds)
 
-                          /// ##Asking if workout should be public or private and saving it
-                          ? Column(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2.8,
-                                  child: OutlinedButton(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Public",
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                              color: Colors.black),
-                                        ),
-                                        Icon(
-                                          Icons.people_alt_outlined,
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                    onPressed: () {
-                                      print("alpha alpha alpha");
-                                      access = 'Public';
-                                      save_workout(
-                                          nameController.text.trim(),
-                                          descriptionController.text.trim(),
-                                          access,
-                                          listOfExercisesId,
-                                          listOfFollowersId,
-                                          listOfOngoingId);
-                                      // print("i= " + index.toString());
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2.8,
-                                  child: OutlinedButton(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Private",
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20,
-                                              color: Colors.black),
-                                        ),
-                                        Icon(
-                                          Icons.lock_outline,
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                    onPressed: () {
-                                      access = 'Private';
-                                      save_workout(
-                                          nameController.text.trim(),
-                                          descriptionController.text.trim(),
-                                          access,
-                                          listOfExercisesId,
-                                          listOfFollowersId,
-                                          listOfOngoingId);
-                                      // print("i= " + index.toString());
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
-                          :
-                          /////## Save workout as private as non admin
+                //// TAKING WORKOUT NAME
+                Center(
+                  child: TextField(
+                    style: TextStyle(fontFamily: 'Gilroy'),
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                    ),
+                  ),
+                  heightFactor: 1,
+                ),
+                // take_workout_name(nameController),
+                //// TAKING WORKOUT DESCRIPTION
+                Center(
+                  child: TextField(
+                    style: TextStyle(fontFamily: 'Gilroy'),
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      hintText: 'Description',
+                    ),
+                  ),
+                  heightFactor: 1,
+                ),
+                ///// ##if is admin,
+                is_admin(adminEmailIds)
+
+                    /// ##Asking if workout should be public or private and saving it
+                    ? Column(
+                        children: [
                           Container(
-                              width: MediaQuery.of(context).size.width / 2.8,
-                              child: OutlinedButton(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Save",
-                                      style: TextStyle(
-                                          fontFamily: 'Gilroy',
-                                          fontSize:
-                                              MediaQuery.of(context).size.width /
-                                                  20,
-                                          color: Colors.black),
-                                    ),
-                                    Icon(
-                                      Icons.save_outlined,
-                                      color: Colors.black,
-                                    )
-                                  ],
-                                ),
-                                onPressed: () {
-                                  access = 'Private';
-                                  save_workout(
-                                      nameController.text.trim(),
-                                      descriptionController.text.trim(),
-                                      access,
-                                      listOfExercisesId,
-                                      listOfFollowersId,
-                                      listOfOngoingId);
-                                  // print("i= " + index.toString());
-                                },
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Public",textScaleFactor: 0.8,
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                       fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(
+                                    Icons.people_alt_outlined,
+                                    color: Colors.black,
+                                  )
+                                ],
                               ),
+                              onPressed: () {
+                                print("alpha alpha alpha");
+                                access = 'Public';
+                                save_workout(
+                                    nameController.text.trim(),
+                                    descriptionController.text.trim(),
+                                    access,
+                                    listOfExercisesId,
+                                    listOfFollowersId,
+                                    listOfOngoingId);
+                                // print("i= " + index.toString());
+                              },
                             ),
-                    
-                  
-                
+                          ),
+                          Container(
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Private",textScaleFactor: 0.8,
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                       fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(
+                                    Icons.lock_outline,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              ),
+                              onPressed: () {
+                                access = 'Private';
+                                save_workout(
+                                    nameController.text.trim(),
+                                    descriptionController.text.trim(),
+                                    access,
+                                    listOfExercisesId,
+                                    listOfFollowersId,
+                                    listOfOngoingId);
+                                // print("i= " + index.toString());
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    :
+                    /////## Save workout as private as non admin
+                    Container(
+                        width:0.3 * _screenWidth,
+                        child: OutlinedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Save",textScaleFactor: 0.8,
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                   fontSize: 0.025 * _screenHeight,
+                                    color: Colors.black),
+                              ),
+                              Icon(
+                                Icons.save_outlined,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                          onPressed: () {
+                            access = 'Private';
+                            save_workout(
+                                nameController.text.trim(),
+                                descriptionController.text.trim(),
+                                access,
+                                listOfExercisesId,
+                                listOfFollowersId,
+                                listOfOngoingId);
+                            // print("i= " + index.toString());
+                          },
+                        ),
+                      ),
               ],
             ),
           ),
@@ -314,7 +306,10 @@ class _Create_Workout2State extends State<Create_Workout2> {
     exercisesSelectedForWorkout.forEach((element) {
       listOfExercisesId.add(element.exerciseId);
     });
-
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     String creatorId = workoutDataProvider.userId;
     String creator_name = workoutDataProvider.user_name;
     List<String> listOfFollowersId = [];
@@ -323,13 +318,17 @@ class _Create_Workout2State extends State<Create_Workout2> {
     // map['listOfExercisesId'] = listOfExercisesId;
     // map['listOfFollowersId'] = listOfFollowersId;
     print("calling the funcc");
-    workoutName_Description_Access(
-        context, listOfExercisesId, listOfFollowersId, listOfOngoingId);
+    workoutName_Description_Access(_screenHeight, _screenWidth, context,
+        listOfExercisesId, listOfFollowersId, listOfOngoingId);
     // Navigator.pushNamed(context, Create_Workout1.routeName, arguments: map);
   }
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
@@ -414,9 +413,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        28,
+                    fontSize: 0.04 * _screenHeight,
                     fontFamily: 'Gilroy'),
               ),
               bottom: TabBar(
@@ -427,9 +424,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Chest",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -439,9 +434,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Core",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -451,9 +444,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Shoulder",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -463,9 +454,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Biceps",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -475,9 +464,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Triceps",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -487,9 +474,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Legs",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -499,9 +484,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                       "Back",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: (MediaQuery.of(context).size.height -
-                                  MediaQuery.of(context).viewPadding.top) /
-                              56,
+                          fontSize: 0.025 * _screenHeight,
                           color: Colors.black,
                           fontFamily: 'Gilroy'),
                     ),
@@ -528,16 +511,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -572,26 +548,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               chestExercises[i].imageUrl),
@@ -601,44 +566,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
                                           color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -646,22 +589,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -673,11 +606,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -694,38 +624,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -767,16 +683,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -811,26 +720,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               coreExercises[i].imageUrl),
@@ -840,44 +738,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
                                           color: coreColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -885,22 +761,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -912,11 +778,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -933,38 +796,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -1006,16 +855,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -1050,26 +892,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               shoulderExercises[i].imageUrl),
@@ -1079,44 +910,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: shouldersColorList[i],
+                                          color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -1125,22 +934,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -1152,11 +951,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -1173,38 +969,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -1246,16 +1028,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -1290,26 +1065,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               bicepsExercises[i].imageUrl),
@@ -1319,44 +1083,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: bicepsColorList[i],
+                                          color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -1364,22 +1106,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -1391,11 +1123,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -1412,38 +1141,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -1485,16 +1200,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -1529,26 +1237,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               tricepsExercises[i].imageUrl),
@@ -1558,44 +1255,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: tricepsColorList[i],
+                                          color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -1604,22 +1279,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -1631,11 +1296,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -1652,38 +1314,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -1725,16 +1373,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -1769,26 +1410,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               legsExercises[i].imageUrl),
@@ -1798,44 +1428,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: legsColorList[i],
+                                          color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -1843,22 +1451,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -1870,11 +1468,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -1891,38 +1486,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),
@@ -1964,16 +1545,9 @@ class _Create_Workout2State extends State<Create_Workout2> {
                           itemBuilder: (ctx, i) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      56),
+                                top: 0.007 * _screenHeight,
+                                bottom: 0.007 * _screenHeight,
+                              ),
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
@@ -2008,26 +1582,15 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57),
+                                                0.03 * _screenHeight),
                                             topRight: Radius.circular(
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20.57)),
+                                                0.03 * _screenHeight)),
                                         child: Image(
                                           image: NetworkImage(
                                               backExercises[i].imageUrl),
@@ -2037,44 +1600,22 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     Container(
                                       width: MediaQuery.of(context).size.width,
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              27.5),
+                                        left: 0.03 * _screenWidth,
+                                        right: 0.03 * _screenWidth,
+                                      ),
                                       decoration: BoxDecoration(
-                                          color: backColorList[i],
+                                          color: chestColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57),
+                                                  0.03 * _screenHeight),
                                               bottomLeft: Radius.circular(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      20.57))),
+                                                  0.03 * _screenHeight))),
                                       child: Center(
                                         child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140,
-                                              bottom: (MediaQuery.of(context)
-                                                          .size
-                                                          .height -
-                                                      MediaQuery.of(context)
-                                                          .viewPadding
-                                                          .top) /
-                                                  140),
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
                                           child: Column(
                                             children: [
                                               Text(
@@ -2082,22 +1623,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                 style: TextStyle(
                                                     fontFamily: "Gilroy",
                                                     fontSize:
-                                                        (MediaQuery.of(context)
-                                                                    .size
-                                                                    .height -
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .viewPadding
-                                                                    .top) /
-                                                            28,
+                                                        0.04 * _screenHeight,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                               Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.8,
+                                                width: 0.3 * _screenWidth,
                                                 child: OutlinedButton(
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -2109,11 +1640,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'Gilroy',
-                                                            fontSize: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                20,
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
                                                             color:
                                                                 Colors.black),
                                                       ),
@@ -2130,38 +1658,24 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                           Container(
                                                         color: Colors.grey[350],
                                                         child: Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              right: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  60,
-                                                              top: (MediaQuery.of(context)
-                                                                          .size
-                                                                          .height -
-                                                                      MediaQuery.of(context)
-                                                                          .viewPadding
-                                                                          .top) /
-                                                                  40,
-                                                              bottom:
-                                                                  (MediaQuery.of(context).size.height - MediaQuery.of(context).viewPadding.top) / 40),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 0.03 *
+                                                                _screenWidth,
+                                                            right: 0.03 *
+                                                                _screenWidth,
+                                                            top: 0.03 *
+                                                                _screenHeight,
+                                                            bottom: 0.03 *
+                                                                _screenHeight,
+                                                          ),
                                                           child: Text(
                                                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            textScaleFactor:
+                                                                0.8,
                                                             style: TextStyle(
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    20,
+                                                                fontSize: 0.025 *
+                                                                    _screenHeight,
                                                                 fontFamily:
                                                                     'Gilroy'),
                                                           ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../Providers/expansion_panel_model.dart';
@@ -16,13 +17,16 @@ class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
         appBar: AppBar(
           title: Text("This is a test"),
         ),
-        body: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            color: Colors.black,
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top - kToolbarHeight - 50,
-            width: MediaQuery.of(context).size.width,
+        body: Center(child:
+        
+          Container(height: 100,
+            child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: DateTime.now(),
+                  onDateTimeChanged: (DateTime newDateTime) {
+                    // Do something
+                  },
+                ),
           ),
         ));
   }

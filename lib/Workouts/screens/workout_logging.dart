@@ -198,24 +198,27 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     );
   }
 
-  Widget addWeights() {
+  Widget addWeights(var _screenHeight,var _screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Weights (in kilograms)",
+          "Weights (in kilograms)",textScaleFactor: 0.8,
           style: TextStyle(
             fontFamily: 'Gilroy',
-            fontSize: MediaQuery.of(context).size.width / 20,
+            fontSize: 0.025 * _screenHeight,
             fontWeight: FontWeight.bold,
           ),
         ),
         Container(
-          width: MediaQuery.of(context).size.width / 5,
+          width: 0.2 * _screenWidth,
           child: TextField(
-            keyboardType: TextInputType.number,textAlign: TextAlign.center ,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
             controller: weightsEditingController,
-            style: TextStyle(fontFamily: 'Gilroy',fontSize: MediaQuery.of(context).size.width / 23),
+            style: TextStyle(
+                fontFamily: 'Gilroy',
+                fontSize: 0.02 * _screenHeight),
           ),
         ),
       ],
@@ -223,16 +226,22 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
+     var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      width: MediaQuery.of(context).size.width / 3,
+      width: 0.3 * _screenWidth,
       child: OutlinedButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Done",
+              "Done",textScaleFactor: 0.8,
               style: TextStyle(
-                  fontFamily: 'Gilroy', fontSize: MediaQuery.of(context).size.width / 20, color: Colors.black),
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.025 * _screenHeight,
+                  color: Colors.black),
             ),
             Icon(
               Icons.check,
@@ -304,57 +313,53 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Future addSetsRepsWeights(
-      BuildContext context, List<ExerciseDbModel> exercises, int index) {
+      BuildContext context,
+      List<ExerciseDbModel> exercises,
+      int index,
+      var _screenHeight,
+      var _screenWidth) {
     return showModalBottomSheet(
       context: context,
       builder: (ctx) => Container(
-        // margin: EdgeInsets.only(top: 15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0), topRight: Radius.circular(0)),
-          color: Colors.blueGrey[200],
-        ),
+        color: Colors.blueGrey[200],
         child: Container(
           margin: EdgeInsets.only(
-            top: (MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).viewPadding.top) /
-                84.5,
+            top: 0.0125 * _screenHeight,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                exercises[index].exerciseName,
+                exercises[index].exerciseName + " LOG",
+                textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
-                  fontSize: (MediaQuery.of(context).size.height -
-                          MediaQuery.of(context).viewPadding.top) /
-                      28,
+                  fontSize: 0.04 * _screenHeight,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Divider(),
               Text(
-                "Set Number",
+                "Set Number",  textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
-                  fontSize: MediaQuery.of(context).size.width / 20,
+                  fontSize: 0.025 * _screenHeight,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Center(child: Container(child: addSet())),
               Text(
-                "Reps",
+                "Reps",  textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
-                  fontSize: MediaQuery.of(context).size.width / 20,
+                  fontSize: 0.025 * _screenHeight,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Center(child: Container(child: addRep())),
-              addWeights(),
+              addWeights(_screenHeight,_screenWidth),
               SizedBox(
-                width: MediaQuery.of(context).size.height / 50,
+                height: 0.01 * _screenHeight,
               ),
               done(context, exercises, index),
             ],
@@ -366,6 +371,10 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments as Map;
     List<ExerciseDbModel> exercises = routeArgs['exercises'];
@@ -383,14 +392,17 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             appBar: AppBar(
               bottom: PreferredSize(
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 8,
+                  // height: MediaQuery.of(context).size.height / 8,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
                           child: Text(
                         "DURATION",
-                        style: TextStyle(fontFamily: 'Gilroy'),
+                        style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.018 * _screenHeight,
+                        ),
                       )),
                       StreamBuilder<int>(
                         stream: stopWatchTimer.rawTime,
@@ -403,8 +415,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                             displayTime,
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 10,
+                                fontSize: 0.05 * _screenHeight,
                                 // color: Colors.white,
                                 fontWeight: FontWeight.w700),
                           );
@@ -412,7 +423,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                       ),
                       resume_end_flag == 0
                           ? Container(
-                              width: MediaQuery.of(context).size.width / 3,
+                              width: 0.3 * _screenWidth,
                               child: OutlinedButton(
                                 onPressed: stopTimer,
                                 child: Row(
@@ -423,10 +434,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                       "Pause",
                                       style: TextStyle(
                                           fontFamily: 'Gilroy',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              25,
+                                          fontSize: 0.025 * _screenHeight,
                                           color: Colors.black),
                                     ),
                                     Icon(
@@ -441,7 +449,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 3,
+                                  width: 0.3 * _screenWidth,
                                   child: OutlinedButton(
                                     onPressed: () =>
                                         saveData(setsAndReps, workoutName),
@@ -453,10 +461,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                           "Finish",
                                           style: TextStyle(
                                               fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  25,
+                                              fontSize: 0.025 * _screenHeight,
                                               color: Colors.black),
                                         ),
                                         Icon(
@@ -468,7 +473,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width / 3,
+                                  width: 0.3 * _screenWidth,
                                   child: OutlinedButton(
                                     onPressed: startTimer,
                                     child: Row(
@@ -479,10 +484,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                           "Resume",
                                           style: TextStyle(
                                               fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  25,
+                                              fontSize: 0.025 * _screenHeight,
                                               color: Colors.black),
                                         ),
                                         Icon(
@@ -498,19 +500,16 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                     ],
                   ),
                 ),
-                preferredSize: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height / 7),
+                preferredSize: Size(_screenWidth, 0.13 * _screenHeight),
               ),
               centerTitle: true,
               backgroundColor: Colors.blueGrey[300],
               title: Text(
-                workoutName.toUpperCase(),
+                workoutName,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    fontSize: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        28,
+                    fontSize: 0.04 * _screenHeight,
                     fontFamily: 'Gilroy'),
               ),
             ),
@@ -519,14 +518,13 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 50,
+                      height: 0.02 * _screenHeight,
                     ),
                     Expanded(
                       child: Container(
                         child: ListView.separated(
                             separatorBuilder: (ctx, i) => SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 50,
+                                  height: 0.02 * _screenHeight,
                                 ),
                             itemCount: exercises.length,
                             itemBuilder: (ctx, i) {
@@ -535,20 +533,15 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width /
-                                                27.5,
-                                        right:
-                                            MediaQuery.of(context).size.width /
-                                                27.5),
+                                      left: 0.03 * _screenWidth,
+                                      right: 0.03 * _screenWidth,
+                                    ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(
-                                            MediaQuery.of(context).size.width /
-                                                20.57),
+                                            0.02 * _screenHeight),
                                         topRight: Radius.circular(
-                                            MediaQuery.of(context).size.width /
-                                                20.57),
+                                            0.02 * _screenHeight),
                                       ),
                                       child: Image(
                                         image:
@@ -559,63 +552,35 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     margin: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          27.5,
-                                      right: MediaQuery.of(context).size.width /
-                                          27.5,
+                                      left: 0.03 * _screenWidth,
+                                      right: 0.03 * _screenWidth,
                                     ),
                                     decoration: BoxDecoration(
                                         color: Colors.blueGrey[200],
                                         borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20.57),
+                                              0.02 * _screenHeight),
                                           bottomLeft: Radius.circular(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20.57),
+                                              0.02 * _screenHeight),
                                         )),
                                     child: Center(
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            top: (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    MediaQuery.of(context)
-                                                        .viewPadding
-                                                        .top) /
-                                                140,
-                                            bottom: (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    MediaQuery.of(context)
-                                                        .viewPadding
-                                                        .top) /
-                                                140),
+                                          top: 0.00625 * _screenHeight,
+                                          bottom: 0.00625 * _screenHeight,
+                                        ),
                                         child: Column(
                                           children: [
                                             Text(
                                               exercises[i].exerciseName,
                                               style: TextStyle(
                                                   fontFamily: "Gilroy",
-                                                  fontSize: (MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .height -
-                                                          MediaQuery.of(context)
-                                                              .viewPadding
-                                                              .top) /
-                                                      28,
+                                                  fontSize:
+                                                      0.04 * _screenHeight,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.8,
+                                              width: 0.35 * _screenWidth,
                                               child: OutlinedButton(
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -626,11 +591,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                       "Record Set",
                                                       style: TextStyle(
                                                           fontFamily: 'Gilroy',
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              25,
+                                                          fontSize: 0.025 *
+                                                              _screenHeight,
                                                           color: Colors.black),
                                                     ),
                                                     Icon(
@@ -642,7 +604,11 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                 onPressed: () {
                                                   // print("i= " + index.toString());
                                                   addSetsRepsWeights(
-                                                      ctx, exercises, i);
+                                                      ctx,
+                                                      exercises,
+                                                      i,
+                                                      _screenHeight,
+                                                      _screenWidth);
                                                 },
                                               ),
                                             ),
@@ -664,35 +630,12 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 100,
+                        height: 0.01 * _screenHeight,
                       ),
-                      // SizedBox(
-                      //   height: 50,
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //       children: [
-                      //         Text(
-                      //           "Workout Details",
-                      //           style: TextStyle(
-                      //               fontSize:
-                      //                   MediaQuery.of(context).size.width / 10,
-                      //               fontWeight: FontWeight.bold),
-                      //         ),
-                      //         FloatingActionButton(
-                      //           onPressed: () {
-                      //             saveData(setsAndReps, workoutName);
-                      //           },
-                      //           child: Icon(Icons.save),
-                      //         ),
-                      //       ]),
-                      // ),
                       Expanded(
                         child: ListView.separated(
                           separatorBuilder: (ctx, j) => SizedBox(
-                            height: MediaQuery.of(context).size.height / 200,
+                            height: 0.005 * _screenHeight,
                           ),
                           itemCount: setsAndReps.length,
                           itemBuilder: (ctx, j) {
@@ -700,44 +643,24 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Colors.blueGrey[200],
-                                  borderRadius: BorderRadius.circular(
-                                      MediaQuery.of(context).size.width /
-                                          20.57)),
+                                color: Colors.blueGrey[200],
+                                borderRadius:
+                                    BorderRadius.circular(0.02 * _screenHeight),
+                              ),
                               // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
                               margin: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      84.5,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      84.5,
-                                  left:
-                                      MediaQuery.of(context).size.width / 27.5,
-                                  right:
-                                      MediaQuery.of(context).size.width / 27.5),
+                                top: 0.00625 * _screenHeight,
+                                bottom: 0.00625 * _screenHeight,
+                                left: 0.03 * _screenWidth,
+                                right: 0.03 * _screenWidth,
+                              ),
                               child: Container(
                                 margin: EdgeInsets.only(
-                                    top: 2 *
-                                        ((MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            84.5),
-                                    bottom: 2 *
-                                        ((MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            84.5),
-                                    left: MediaQuery.of(context).size.width /
-                                        27.5,
-                                    right:
-                                        MediaQuery.of(context).size.width / 25),
+                                  top: 0.00625 * _screenHeight,
+                                  bottom: 0.0125 * _screenHeight,
+                                  left: 0.03 * _screenWidth,
+                                  right: 0.03 * _screenWidth,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -745,17 +668,13 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                       setsAndReps[j].exerciseName,
                                       style: TextStyle(
                                         fontFamily: 'Gilroy',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                15,
+                                        fontSize: 0.04 * _screenHeight,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Divider(),
                                     Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              20,
+                                      height: 0.05 * _screenHeight,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -773,11 +692,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                     "Set:",
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -788,11 +704,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                         .toString(),
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -813,11 +726,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                     "Reps:",
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -828,11 +738,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                         .toString(),
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -854,11 +761,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                     "Weight:",
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),
@@ -870,11 +774,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                                         " kg",
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
                                                         color: Colors.black,
                                                         fontWeight:
                                                             FontWeight.bold),

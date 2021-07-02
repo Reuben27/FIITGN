@@ -106,6 +106,10 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
@@ -127,6 +131,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
       }
     });
     final MediaQueryData data = MediaQuery.of(context);
+
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
@@ -136,13 +141,11 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
           centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
-            'All Workouts',
+            'EXPLORE',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
-                fontSize: (MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).viewPadding.top) /
-                    28,
+                fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
         ),
@@ -153,21 +156,19 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
             itemBuilder: (ctx, i) {
               return Padding(
                 padding: EdgeInsets.only(
-                    top: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        70,
-                    bottom: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        70),
+                  top: 0.0125 * _screenHeight,
+                  bottom: 0.0125 * _screenHeight,
+                ),
                 child: Container(
                   decoration: BoxDecoration(
                       border: Border.all(
                     color: Colors.blueGrey[200],
-                    width: MediaQuery.of(context).size.width / 205,
+                    width: 0.005 * _screenWidth,
                   )),
                   margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 29,
-                      right: MediaQuery.of(context).size.width / 29),
+                    left: 0.03 * _screenWidth,
+                    right: 0.03 * _screenWidth,
+                  ),
                   child: ExpansionPanelList(
                     elevation: 0,
                     animationDuration: Duration(milliseconds: 500),
@@ -175,9 +176,11 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                       ExpansionPanel(
                         headerBuilder: (ctx, bool isExpanded) {
                           return Container(
-                            height: (MediaQuery.of(context).size.height -
-                                    MediaQuery.of(context).viewPadding.top) /
-                                8,
+                            margin: EdgeInsets.only(
+                              top: 0.00625 * _screenHeight,
+                              bottom: 0.00625 * _screenHeight,
+                            ),
+
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -187,9 +190,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                   style: TextStyle(
                                       fontFamily: 'Gilroy',
                                       //   color: Colors.red,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              12,
+                                      fontSize: 0.045 * _screenHeight,
                                       fontWeight: FontWeight.w900),
                                 ),
                                 Text(
@@ -197,31 +198,21 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                       workouts_expansion_list[i].creator_name,
                                   style: TextStyle(
                                     fontFamily: 'Gilroy',
-                                    fontSize:
-                                        MediaQuery.of(context).size.width / 25,
+                                    fontSize: 0.025 * _screenHeight,
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                    top: (MediaQuery.of(context).size.height -
-                                            MediaQuery.of(context)
-                                                .viewPadding
-                                                .top) /
-                                        120,
+                                    top: 0.00625 * _screenHeight,
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                40,
-                                            right: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                40),
+                                          left: 0.025 * _screenWidth,
+                                          right: 0.025 * _screenWidth,
+                                        ),
                                         child: InkWell(
                                           child: iconList[i],
                                           onTap: () async {
@@ -269,14 +260,9 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                40,
-                                            right: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                40),
+                                          left: 0.025 * _screenWidth,
+                                          right: 0.025 * _screenWidth,
+                                        ),
                                         child: InkWell(
                                           child: ongoing_iconList[i],
                                           // onTap: () {},
@@ -326,10 +312,8 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                         isExpanded: workouts_expansion_list[i].expanded,
                         body: Container(
                           margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 29,
-                            bottom: (MediaQuery.of(context).size.height -
-                                    MediaQuery.of(context).viewPadding.top) /
-                                120,
+                            left: 0.025 * _screenWidth,
+                            bottom: 0.0125 * _screenHeight,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,13 +321,14 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    workouts_expansion_list[i].description,
-                                    style: TextStyle(
-                                      fontFamily: 'Gilroy',
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              22,
+                                  Flexible(
+                                    child: Text(
+                                      workouts_expansion_list[i].description,
+                                      style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 0.022 * _screenHeight,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -354,8 +339,8 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                     .toString(),
                                 style: TextStyle(
                                   fontFamily: 'Gilroy',
-                                  fontSize:
-                                      MediaQuery.of(context).size.width / 22,
+                                  //   fontWeight: FontWeight.bold,
+                                  fontSize: 0.022 * _screenHeight,
                                 ),
                               ),
                             ],
