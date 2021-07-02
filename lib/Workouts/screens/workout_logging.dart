@@ -213,9 +213,12 @@ class _Workout_LoggingState extends State<Workout_Logging> {
         Container(
           width: MediaQuery.of(context).size.width / 5,
           child: TextField(
-            keyboardType: TextInputType.number,textAlign: TextAlign.center ,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
             controller: weightsEditingController,
-            style: TextStyle(fontFamily: 'Gilroy',fontSize: MediaQuery.of(context).size.width / 23),
+            style: TextStyle(
+                fontFamily: 'Gilroy',
+                fontSize: MediaQuery.of(context).size.width / 23),
           ),
         ),
       ],
@@ -232,7 +235,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             Text(
               "Done",
               style: TextStyle(
-                  fontFamily: 'Gilroy', fontSize: MediaQuery.of(context).size.width / 20, color: Colors.black),
+                  fontFamily: 'Gilroy',
+                  fontSize: MediaQuery.of(context).size.width / 20,
+                  color: Colors.black),
             ),
             Icon(
               Icons.check,
@@ -366,538 +371,448 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments as Map;
     List<ExerciseDbModel> exercises = routeArgs['exercises'];
     String workoutName = routeArgs['workoutName'];
     int pauser = 0;
     final MediaQueryData data = MediaQuery.of(context);
-    return MediaQuery(
-      data: data.copyWith(
-        textScaleFactor: 0.8,
-      ),
-      child: WillPopScope(
-        onWillPop: _onBackPressed,
-        child: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              bottom: PreferredSize(
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 8,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: Text(
-                        "DURATION",
-                        style: TextStyle(fontFamily: 'Gilroy'),
-                      )),
-                      StreamBuilder<int>(
-                        stream: stopWatchTimer.rawTime,
-                        initialData: stopWatchTimer.rawTime.value,
-                        builder: (context, snapshot) {
-                          final value = snapshot.data;
-                          displayTime = StopWatchTimer.getDisplayTime(value,
-                              hours: true, milliSecond: false);
-                          return Text(
-                            displayTime,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 10,
-                                // color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          );
-                        },
-                      ),
-                      resume_end_flag == 0
-                          ? Container(
-                              width: MediaQuery.of(context).size.width / 3,
-                              child: OutlinedButton(
-                                onPressed: stopTimer,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Pause",
-                                      style: TextStyle(
-                                          fontFamily: 'Gilroy',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              25,
-                                          color: Colors.black),
-                                    ),
-                                    Icon(
-                                      Icons.pause,
-                                      color: Colors.black,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: OutlinedButton(
-                                    onPressed: () =>
-                                        saveData(setsAndReps, workoutName),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Finish",
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  25,
-                                              color: Colors.black),
-                                        ),
-                                        Icon(
-                                          Icons.stop,
-                                          color: Colors.black,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: OutlinedButton(
-                                    onPressed: startTimer,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Resume",
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  25,
-                                              color: Colors.black),
-                                        ),
-                                        Icon(
-                                          Icons.play_arrow,
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                    ],
-                  ),
-                ),
-                preferredSize: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height / 7),
-              ),
-              centerTitle: true,
-              backgroundColor: Colors.blueGrey[300],
-              title: Text(
-                workoutName.toUpperCase(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        28,
-                    fontFamily: 'Gilroy'),
-              ),
-            ),
-            body: PageView(
-              children: [
-                Column(
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: PreferredSize(
+              child: Container(
+                // height: MediaQuery.of(context).size.height / 8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 50,
+                    Center(
+                        child: Text(
+                      "DURATION",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 0.018 * _screenHeight,
+                      ),
+                    )),
+                    StreamBuilder<int>(
+                      stream: stopWatchTimer.rawTime,
+                      initialData: stopWatchTimer.rawTime.value,
+                      builder: (context, snapshot) {
+                        final value = snapshot.data;
+                        displayTime = StopWatchTimer.getDisplayTime(value,
+                            hours: true, milliSecond: false);
+                        return Text(
+                          displayTime,
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.05 * _screenHeight,
+                              // color: Colors.white,
+                              fontWeight: FontWeight.w700),
+                        );
+                      },
                     ),
-                    Expanded(
-                      child: Container(
-                        child: ListView.separated(
-                            separatorBuilder: (ctx, i) => SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 50,
-                                ),
-                            itemCount: exercises.length,
-                            itemBuilder: (ctx, i) {
-                              return Column(
+                    resume_end_flag == 0
+                        ? Container(
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              onPressed: stopTimer,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width /
-                                                27.5,
-                                        right:
-                                            MediaQuery.of(context).size.width /
-                                                27.5),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(
-                                            MediaQuery.of(context).size.width /
-                                                20.57),
-                                        topRight: Radius.circular(
-                                            MediaQuery.of(context).size.width /
-                                                20.57),
-                                      ),
-                                      child: Image(
-                                        image:
-                                            NetworkImage(exercises[i].imageUrl),
-                                      ),
-                                    ),
+                                  Text(
+                                    "Pause",
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
                                   ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width /
-                                          27.5,
-                                      right: MediaQuery.of(context).size.width /
-                                          27.5,
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: Colors.blueGrey[200],
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20.57),
-                                          bottomLeft: Radius.circular(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  20.57),
-                                        )),
-                                    child: Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    MediaQuery.of(context)
-                                                        .viewPadding
-                                                        .top) /
-                                                140,
-                                            bottom: (MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    MediaQuery.of(context)
-                                                        .viewPadding
-                                                        .top) /
-                                                140),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              exercises[i].exerciseName,
-                                              style: TextStyle(
-                                                  fontFamily: "Gilroy",
-                                                  fontSize: (MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .height -
-                                                          MediaQuery.of(context)
-                                                              .viewPadding
-                                                              .top) /
-                                                      28,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.8,
-                                              child: OutlinedButton(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      "Record Set",
-                                                      style: TextStyle(
-                                                          fontFamily: 'Gilroy',
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              25,
-                                                          color: Colors.black),
-                                                    ),
-                                                    Icon(
-                                                      Icons.note_add_outlined,
-                                                      color: Colors.black,
-                                                    )
-                                                  ],
-                                                ),
-                                                onPressed: () {
-                                                  // print("i= " + index.toString());
-                                                  addSetsRepsWeights(
-                                                      ctx, exercises, i);
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                  Icon(
+                                    Icons.pause,
+                                    color: Colors.black,
                                   ),
                                 ],
-                              );
-                            }),
-                      ),
-                    )
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                width: 0.3 * _screenWidth,
+                                child: OutlinedButton(
+                                  onPressed: () =>
+                                      saveData(setsAndReps, workoutName),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Finish",
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.025 * _screenHeight,
+                                            color: Colors.black),
+                                      ),
+                                      Icon(
+                                        Icons.stop,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 0.3 * _screenWidth,
+                                child: OutlinedButton(
+                                  onPressed: startTimer,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Resume",
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.025 * _screenHeight,
+                                            color: Colors.black),
+                                      ),
+                                      Icon(
+                                        Icons.play_arrow,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                   ],
                 ),
-                /////// SECOND PAGE
-                Container(
-                  // color: Colors.grey[200],
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 100,
-                      ),
-                      // SizedBox(
-                      //   height: 50,
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //       children: [
-                      //         Text(
-                      //           "Workout Details",
-                      //           style: TextStyle(
-                      //               fontSize:
-                      //                   MediaQuery.of(context).size.width / 10,
-                      //               fontWeight: FontWeight.bold),
-                      //         ),
-                      //         FloatingActionButton(
-                      //           onPressed: () {
-                      //             saveData(setsAndReps, workoutName);
-                      //           },
-                      //           child: Icon(Icons.save),
-                      //         ),
-                      //       ]),
-                      // ),
-                      Expanded(
-                        child: ListView.separated(
-                          separatorBuilder: (ctx, j) => SizedBox(
-                            height: MediaQuery.of(context).size.height / 200,
-                          ),
-                          itemCount: setsAndReps.length,
-                          itemBuilder: (ctx, j) {
-                            // print("abcde");
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  color: Colors.blueGrey[200],
-                                  borderRadius: BorderRadius.circular(
-                                      MediaQuery.of(context).size.width /
-                                          20.57)),
-                              // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
-                              margin: EdgeInsets.only(
-                                  top: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      84.5,
-                                  bottom: (MediaQuery.of(context).size.height -
-                                          MediaQuery.of(context)
-                                              .viewPadding
-                                              .top) /
-                                      84.5,
-                                  left:
-                                      MediaQuery.of(context).size.width / 27.5,
-                                  right:
-                                      MediaQuery.of(context).size.width / 27.5),
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    top: 2 *
-                                        ((MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            84.5),
-                                    bottom: 2 *
-                                        ((MediaQuery.of(context).size.height -
-                                                MediaQuery.of(context)
-                                                    .viewPadding
-                                                    .top) /
-                                            84.5),
-                                    left: MediaQuery.of(context).size.width /
-                                        27.5,
-                                    right:
-                                        MediaQuery.of(context).size.width / 25),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      setsAndReps[j].exerciseName,
-                                      style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+              ),
+              preferredSize: Size(_screenWidth, 0.13 * _screenHeight),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.blueGrey[300],
+            title: Text(
+              workoutName,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
+            ),
+          ),
+          body: PageView(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 0.02 * _screenHeight,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: ListView.separated(
+                          separatorBuilder: (ctx, i) => SizedBox(
+                                height: 0.02 * _screenHeight,
+                              ),
+                          itemCount: exercises.length,
+                          itemBuilder: (ctx, i) {
+                            return Column(
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(
+                                    left: 0.03 * _screenWidth,
+                                    right: 0.03 * _screenWidth,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft:
+                                          Radius.circular(0.02 * _screenHeight),
+                                      topRight:
+                                          Radius.circular(0.02 * _screenHeight),
                                     ),
-                                    Divider(),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              20,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                    child: Image(
+                                      image:
+                                          NetworkImage(exercises[i].imageUrl),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(
+                                    left: 0.03 * _screenWidth,
+                                    right: 0.03 * _screenWidth,
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: Colors.blueGrey[200],
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(
+                                            0.02 * _screenHeight),
+                                        bottomLeft: Radius.circular(
+                                            0.02 * _screenHeight),
+                                      )),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        top: 0.00625 * _screenHeight,
+                                        bottom: 0.00625 * _screenHeight,
+                                      ),
+                                      child: Column(
                                         children: [
-                                          Row(
-                                            children: [
-                                              VerticalDivider(
-                                                color: Colors.black,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Set:",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    setsAndReps[j]
-                                                        .setNumber
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                          Text(
+                                            exercises[i].exerciseName,
+                                            style: TextStyle(
+                                                fontFamily: "Gilroy",
+                                                fontSize: 0.04 * _screenHeight,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          Row(
-                                            children: [
-                                              VerticalDivider(
-                                                  color: Colors.black),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                          Container(
+                                            width: 0.35 * _screenWidth,
+                                            child: OutlinedButton(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Reps:",
+                                                    "Record Set",
                                                     style: TextStyle(
                                                         fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black),
                                                   ),
-                                                  Text(
-                                                    setsAndReps[j]
-                                                        .numOfReps
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
+                                                  Icon(
+                                                    Icons.note_add_outlined,
+                                                    color: Colors.black,
+                                                  )
                                                 ],
                                               ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              VerticalDivider(
-                                                color: Colors.black,
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Weight:",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    setsAndReps[j]
-                                                            .weight
-                                                            .toString() +
-                                                        " kg",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Gilroy',
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            20,
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                              onPressed: () {
+                                                // print("i= " + index.toString());
+                                                addSetsRepsWeights(
+                                                    ctx, exercises, i);
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             );
-                          },
+                          }),
+                    ),
+                  )
+                ],
+              ),
+              /////// SECOND PAGE
+              Container(
+                // color: Colors.grey[200],
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 0.01 * _screenHeight,
+                    ),
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //       children: [
+                    //         Text(
+                    //           "Workout Details",
+                    //           style: TextStyle(
+                    //               fontSize:
+                    //                   MediaQuery.of(context).size.width / 10,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //         FloatingActionButton(
+                    //           onPressed: () {
+                    //             saveData(setsAndReps, workoutName);
+                    //           },
+                    //           child: Icon(Icons.save),
+                    //         ),
+                    //       ]),
+                    // ),
+                    Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (ctx, j) => SizedBox(
+                          height: 0.005 * _screenHeight,
                         ),
+                        itemCount: setsAndReps.length,
+                        itemBuilder: (ctx, j) {
+                          // print("abcde");
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.blueGrey[200],
+                              borderRadius:
+                                  BorderRadius.circular(0.02 * _screenHeight),
+                            ),
+                            // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
+                            margin: EdgeInsets.only(
+                              top: 0.00625 * _screenHeight,
+                              bottom: 0.00625 * _screenHeight,
+                              left: 0.03 * _screenWidth,
+                              right: 0.03 * _screenWidth,
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                top: 0.00625 * _screenHeight,
+                                bottom: 0.0125 * _screenHeight,
+                                left: 0.03 * _screenWidth,
+                                right: 0.03 * _screenWidth,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    setsAndReps[j].exerciseName,
+                                    style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontSize: 0.04 * _screenHeight,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Divider(),
+                                  Container(
+                                    height:
+                                      0.05 * _screenHeight,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            VerticalDivider(
+                                              color: Colors.black,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Set:",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                      fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  setsAndReps[j]
+                                                      .setNumber
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                    fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            VerticalDivider(
+                                                color: Colors.black),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Reps:",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                    fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  setsAndReps[j]
+                                                      .numOfReps
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                  fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            VerticalDivider(
+                                              color: Colors.black,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Weight:",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                     fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  setsAndReps[j]
+                                                          .weight
+                                                          .toString() +
+                                                      " kg",
+                                                  style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                     fontSize: 0.025 *
+                                                            _screenHeight,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

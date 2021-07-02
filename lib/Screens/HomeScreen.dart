@@ -135,14 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    {
-      'title': 'Activities',
-      'url': 'assets/roonn.png',
-      'routeName': ExpansionPanelDemo.routeName,
-      'description':
-          'Running can be accessed from here. Get out there and get those legs working!',
-      'heroID': 1,
-    },
+    // {
+    //   'title': 'Activities',
+    //   'url': 'assets/roonn.png',
+    //   'routeName': ExpansionPanelDemo.routeName,
+    //   'description':
+    //       'Running can be accessed from here. Get out there and get those legs working!',
+    //   'heroID': 1,
+    // },
     // {
     //   'title': 'Start Cycling',
     //   'url': 'assets/11241.png',
