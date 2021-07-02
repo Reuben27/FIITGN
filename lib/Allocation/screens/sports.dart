@@ -16,76 +16,61 @@ class _SportsState extends State<Sports> {
   // final MediaQueryData data = MediaQuery.of(context);
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
       ),
-      child: MaterialApp(
-        home: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              centerTitle: true,
-              title: Text(
-                "CHOOSE SPORT",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        28,
-                    fontFamily: 'Gilroy'),
-              ),
-              bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.label,
-                indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width /
-                            20.57), // Creates border
-                    color: Colors.deepOrange[300]),
-                tabs: [
-                  Tab(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      child: Center(
-                        child: Text(
-                          "ROOMS",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width / 20,
-                              color: Colors.black,
-                              fontFamily: 'Gilroy'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 2.2,
-                      child: Center(
-                        child: Text(
-                          "EQUIPMENT",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: MediaQuery.of(context).size.width / 20,
-                              color: Colors.black,
-                              fontFamily: 'Gilroy'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "CHOOSE SPORT",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
             ),
-            // body: DisplayData(),
-            body: TabBarView(
-              children: [
-                DisplayRoomData(),
-                DisplayEquipmentsData(),
+            bottom: TabBar(
+              indicatorWeight: 0.002 * _screenHeight,
+              tabs: [
+                Tab(
+                  child: Text(
+                    "Rooms",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 0.035 * _screenHeight,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Equipment",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 0.035 * _screenHeight,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                ),
               ],
             ),
+          ),
+          // body: DisplayData(),
+          body: TabBarView(
+            children: [
+              DisplayRoomData(),
+              DisplayEquipmentsData(),
+            ],
           ),
         ),
       ),
@@ -103,6 +88,10 @@ class DisplayRoomData extends StatefulWidget {
 class _DisplayRoomDataState extends State<DisplayRoomData> {
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     CollectionReference sports =
         FirebaseFirestore.instance.collection('Sports');
     return StreamBuilder<QuerySnapshot>(
@@ -119,13 +108,13 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
         }
 
         return new Container(
-            child: Container(
-          height: MediaQuery.of(context).size.height,
+          //   margin: EdgeInsets.only(top: 0.0125 * _screenHeight),
+          height: _screenHeight,
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 1.7,
-            //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
+              childAspectRatio: 1,
+              //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
             ),
             children: snapshot.data.docs.map((DocumentSnapshot document) {
               return GestureDetector(
@@ -147,70 +136,47 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                   }
                 },
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(
-                      0 * MediaQuery.of(context).size.width / 30,
-                      MediaQuery.of(context).size.width / 50,
-                     0 * MediaQuery.of(context).size.width / 30,
-                      0),
-                  height: MediaQuery.of(context).size.height / 8,
-                  child: Stack(children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        child: Container(
-                          alignment: Alignment.center,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top)/14,
-                              ),
-                              Text(
-                                document['sportname'].toString().toUpperCase(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:MediaQuery.of(context).size.width/16.456 ,
-                                  fontFamily: "Gilroy",
-                                ),
-                              ),
-                            ],
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        bottom: 0.0125 * _screenHeight,
+                        top: 0.0125 * _screenHeight,
+                        left: 0.0125 * _screenWidth,
+                        right: 0.00625 * _screenWidth),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[350],
+                        borderRadius:
+                            BorderRadius.circular(0.025 * _screenHeight)),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 0.11 * _screenHeight,
+                            child: Image.asset(document['description'],
+                                fit: BoxFit.contain),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     color: Colors.grey,
-                            //     offset: Offset(
-                            //       MediaQuery.of(context).size.width / 55, // Move to right 10  horizontally
-                            //       MediaQuery.of(context).size.width / 55, // Move to bottom 10 Vertically
-                            //     ),
-                            //   )
-                            // ],
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular( MediaQuery.of(context).size.width /
-                            20.57)),
-                        height: MediaQuery.of(context).size.height / 9,
-                        width: MediaQuery.of(context).size.width / 2.2,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                          width: MediaQuery.of(context).size.width / 6,
-                          child: Image.asset(document['description'],
-                              fit: BoxFit.contain)),
-                    ),
-                  ]),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0.00625 * _screenHeight),
+                            child: Text(
+                              document['sportname'].toString().toUpperCase(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 0.045 * _screenHeight,
+                                fontFamily: "Gilroy",
+                              ),
+                            ),
+                          ),
+                        ]),
+                  ),
                 ),
               );
             }).toList(),
           ),
-        )
+        );
 
-            //Text('Rooms'),
+        //Text('Rooms'),
 
-            //  Text('Equipments'),
-            );
+        //  Text('Equipments'),
       },
     );
     // return Container(
@@ -229,6 +195,10 @@ class DisplayEquipmentsData extends StatefulWidget {
 class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     CollectionReference sports =
         FirebaseFirestore.instance.collection('Sports');
 
@@ -251,8 +221,8 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
             child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 1.7,
-              //  mainAxisSpacing: MediaQuery.of(context).size.width / 20,
+                childAspectRatio: 1,
+                //  mainAxisSpacing: MediaQuery.of(context).size.width / 20,
               ),
               children: snapshot.data.docs.map((DocumentSnapshot document) {
                 return GestureDetector(
@@ -274,53 +244,38 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                     }
                   },
                   child: Container(
-                    margin: EdgeInsets.fromLTRB( 0 * MediaQuery.of(context).size.width / 30,
-                      MediaQuery.of(context).size.width / 50,
-                     0 * MediaQuery.of(context).size.width / 30,
-                      0),
-                    height: MediaQuery.of(context).size.height / 8,
-                    child: Stack(children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top)/14,
-                                ),
-                                Text(
-                                  document['sportname']
-                                      .toString()
-                                      .toUpperCase(),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: MediaQuery.of(context).size.width/16.456,
-                                    fontFamily: "Gilroy",
-                                  ),
-                                ),
-                              ],
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          bottom: 0.0125 * _screenHeight,
+                          top: 0.0125 * _screenHeight,
+                          left: 0.0125 * _screenWidth,
+                          right: 0.00625 * _screenWidth),
+                      decoration: BoxDecoration(
+                          color: Colors.grey[350],
+                          borderRadius:
+                              BorderRadius.circular(0.025 * _screenHeight)),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 0.11 * _screenHeight,
+                              child: Image.asset(document['description'],
+                                  fit: BoxFit.contain),
                             ),
-                          ),
-                          decoration: BoxDecoration(
-                             
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular( MediaQuery.of(context).size.width /
-                            20.57)),
-                          height: MediaQuery.of(context).size.height / 9,
-                          width: MediaQuery.of(context).size.width / 2.2,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width / 6,
-                            child: Image.asset(document['description'],
-                                fit: BoxFit.contain)),
-                      ),
-                    ]),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 0.00625 * _screenHeight),
+                              child: Text(
+                                document['sportname'].toString().toUpperCase(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 0.045 * _screenHeight,
+                                  fontFamily: "Gilroy",
+                                ),
+                              ),
+                            ),
+                          ]),
+                    ),
                   ),
                 );
               }).toList(),
