@@ -415,7 +415,7 @@ class _EntryState extends State<Entry> {
                         ],
                       ),
                       content: Container(
-                        height: MediaQuery.of(context).size.height / 7,
+                        height: 0.15 * _screenHeight,
                         child: Column(
                           children: [
                             OutlinedButton(
@@ -427,7 +427,7 @@ class _EntryState extends State<Entry> {
                                 style: TextStyle(
                                     fontFamily: "Gilroy",
                                     color: Colors.black,
-                                    fontSize: 20),
+                                    fontSize: 0.025 * _screenHeight),
                               ),
                               onPressed: () {
                                 Navigator.push(

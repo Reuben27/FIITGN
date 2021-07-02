@@ -16,6 +16,11 @@ class HomeScreenItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
     return Column(
       children: <Widget>[
         InkWell(
@@ -29,15 +34,14 @@ class HomeScreenItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xFF94D0CC),
               borderRadius: BorderRadius.only(
-                topLeft:
-                    Radius.circular(MediaQuery.of(context).size.width / 20.57),
-                topRight:
-                    Radius.circular(MediaQuery.of(context).size.width / 20.57),
+                topLeft: Radius.circular(0.02 * _screenHeight),
+                topRight: Radius.circular(0.02 * _screenHeight),
               ),
             ),
             margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 27.5,
-                right: MediaQuery.of(context).size.width / 27.5),
+              left: 0.03 * _screenWidth,
+              right: 0.03 * _screenWidth,
+            ),
             //   height: MediaQuery.of(context).size.height / 5,
             width: MediaQuery.of(context).size.width,
             child: ClipRRect(
@@ -56,29 +60,27 @@ class HomeScreenItem extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 27.5,
-                right: MediaQuery.of(context).size.width / 27.5),
+              left: 0.03 * _screenWidth,
+              right: 0.03 * _screenWidth,
+            ),
             decoration: BoxDecoration(
               color: Color(0xFFEEC4C4),
               borderRadius: BorderRadius.only(
-                bottomLeft:
-                    Radius.circular(MediaQuery.of(context).size.width / 20.57),
-                bottomRight:
-                    Radius.circular(MediaQuery.of(context).size.width / 20.57),
+                bottomLeft: Radius.circular(0.02 * _screenHeight),
+                bottomRight: Radius.circular(0.02 * _screenHeight),
               ),
             ),
             child: Center(
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) / 140,
-                    bottom: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) / 140),
+                  top: 0.0125 * _screenHeight,
+                  bottom: 0.0125 * _screenHeight,
+                ),
                 child: Text(
                   title.toString().toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'Gilroy',
-                    fontSize: MediaQuery.of(context).size.width / 8,
+                    fontSize: 0.07 * _screenHeight,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),

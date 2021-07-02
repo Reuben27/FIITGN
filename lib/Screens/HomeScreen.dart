@@ -1,4 +1,6 @@
+import 'package:fiitgn/Guided-Sessions/data/guidedsessions.dart';
 import 'package:googleapis/chat/v1.dart';
+import 'package:flutter/src/widgets/image.dart' as img;
 
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
@@ -17,6 +19,7 @@ import 'GAuth.dart';
 import '../Calendar-Schedule/schedueCalendar.dart';
 import '../Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:image/image.dart' as Image;
 
 //// WORKOUTS
 import '../Workouts/screens/workouts-home.dart';
@@ -52,7 +55,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   insideInIt() async {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
-    final workoutDataProvider = Provider.of<Workouts_Provider>(context, listen: false);
+    final workoutDataProvider =
+        Provider.of<Workouts_Provider>(context, listen: false);
 
     final prefs = await SharedPreferences.getInstance();
     print('got instance');
@@ -120,13 +124,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
-    {
-      'title': 'Expansion Panel',
-      'url': 'assets/roonn.png',
-      'routeName': ExpansionPanelDemo.routeName,
-      'description': 'EXPANSION',
-      'heroID': 1,
-    },
+    // {
+    //   'title': 'Expansion Panel',
+    //   'url': 'assets/roonn.png',
+    //   'routeName': ExpansionPanelDemo.routeName,
+    //   'description': 'EXPANSION',
+    //   'heroID': 1,
+    // },
     {
       'title': 'Activities',
       'url': 'assets/roonn.png',
@@ -218,6 +222,11 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
     final MediaQueryData data = MediaQuery.of(context);
     print(data);
     return MediaQuery(
@@ -225,7 +234,40 @@ class _HomeScreenState extends State<HomeScreen> {
         textScaleFactor: 0.8,
       ),
       child: Scaffold(
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                child: IconButton(
+                  icon: Icon(FontAwesomeIcons.signOutAlt),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text('Do you want to Logout?'),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              logoutUser();
+                              SystemNavigator.pop();
+                            },
+                            child: Text('Yes'),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop(true);
+                            },
+                            child: Text('No'),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         // appBar: PreferredSize(
         //   preferredSize: Size.fromHeight(100.0),
         //   child: AppBar(
@@ -244,66 +286,78 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             SliverAppBar(
               actions: [
-                Container(
-                  child: IconButton(
-                    icon: Icon(FontAwesomeIcons.signOutAlt),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: Text('Do you want to Logout?'),
-                          actions: <Widget>[
-                            FlatButton(
-                              onPressed: () {
-                                logoutUser();
-                                SystemNavigator.pop();
-                              },
-                              child: Text('Yes'),
-                            ),
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(ctx).pop(true);
-                              },
-                              child: Text('No'),
-                            )
-                          ],
-                        ),
-                      );
-                    },
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.03 * _screenWidth,
+                      vertical: 0.008 * _screenHeight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: Colors.black,
+                            width: 0.0025 * _screenHeight)),
+                    height: 0.05 * _screenHeight,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          NetworkImage(Data_Provider().user_display),
+                    ),
                   ),
-                ),
+                )
               ],
               backgroundColor: Color(0xFFD1D9D9),
+              //  centerTitle: true,
               elevation: 0,
-              title: Text(
-                "FIITGN",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) /
-                        14,
-                    fontFamily: 'Gilroy',
-                    fontWeight: FontWeight.bold),
-              ),
+              // title: Text(
+              //   "FIITGN",
+              //   style: TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 0.08 * _screenHeight,
+              //       fontFamily: 'Gilroy',
+              //       fontWeight: FontWeight.bold),
+              // ),
               // Allows the user to reveal the app bar if they begin scrolling
               // back up the list of items.
               floating: true,
               // Display a placeholder widget to visualize the shrinking size.
-              // flexibleSpace: Placeholder(),
+              flexibleSpace: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "FIITGN",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 0.085 * _screenHeight,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Welcome, " + Data_Provider().name.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 0.035 * _screenHeight,
+                          fontFamily: 'Gilroy'),
+                    ),
+                    //  Text(
+                    // "What would you like to do today?",
+                    //   style: TextStyle(
+                    //       fontSize: 0.035 * _screenHeight,
+                    //       fontFamily: 'Gilroy'),
+                    // ),
+                  ],
+                ),
+              ),
               // Make the initial height of the SliverAppBar larger than normal.
-              expandedHeight: (MediaQuery.of(context).size.height -
-                            MediaQuery.of(context).viewPadding.top) / 4.225,
+              expandedHeight: 0.25 * _screenHeight,
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                   (ctx, i) => Padding(
                         padding: EdgeInsets.only(
-                            top: (MediaQuery.of(context).size.height -
-                                    MediaQuery.of(context).viewPadding.top) /
-                                56,bottom: (MediaQuery.of(context).size.height -
-                                    MediaQuery.of(context).viewPadding.top) /
-                                56),
-                                
+                          top: 0.0125 * _screenHeight,
+                          bottom: 0.0125 * _screenHeight,
+                        ),
                         child: HomeScreenItem(
                           routeName: homeScreenList[i]['routeName'],
                           title: homeScreenList[i]['title'],
