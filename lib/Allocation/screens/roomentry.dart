@@ -64,7 +64,7 @@ class _RoomEntryState extends State<RoomEntry> {
     }
   }
 
-  void getData() async{
+  void getData() async {
     await getslots();
   }
 
@@ -90,7 +90,7 @@ class _RoomEntryState extends State<RoomEntry> {
         appBar: AppBar(
           backgroundColor: Colors.deepOrange[300],
           title: Text(
-            "CHOOSE SLOT (ROOMS)",
+            "CHOOSE SLOT",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -99,134 +99,136 @@ class _RoomEntryState extends State<RoomEntry> {
           ),
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: Size(_screenWidth, 0.22 * _screenHeight),
-            child: Column(
-              children: [
-                Container(
-                  height: 0.15 * _screenHeight,
-                  child: CupertinoDatePicker(
-                    minimumDate: DateTime.now(),
-                    maximumDate: DateTime.now().add(Duration(days: 7)),
-                    mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime.now(),
-                    onDateTimeChanged: (DateTime newDateTime) {
-                      setState(() {
-                        chosendate = newDateTime;
-                        DateTime from = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-                        DateTime to = DateTime(chosendate.year, chosendate.month, chosendate.day);
-                        day = (to.difference(from).inHours / 24).round();;                     
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  height: 0.07 * _screenHeight,
-                  child: Center(
-                    child: Container(
-                      height: 0.05 * _screenHeight,
-                      width: 0.3 * _screenWidth,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          print(chosendate);
-                          print(day);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Okay",
-                              style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 0.025 * _screenHeight,
-                                  color: Colors.black),
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.black,
-                            )
-                          ],
-                        ),
-                      ),
+            preferredSize: Size(_screenWidth, 0.24 * _screenHeight),
+            child: Container(
+              height: 0.24 * _screenHeight,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 0.15 * _screenHeight,
+                    child: CupertinoDatePicker(
+                      minimumDate: DateTime.now(),
+                      maximumDate: DateTime.now().add(Duration(days: 7)),
+                      mode: CupertinoDatePickerMode.date,
+                      initialDateTime: DateTime.now(),
+                      onDateTimeChanged: (DateTime newDateTime) {
+                        setState(
+                          () {
+                            chosendate = newDateTime;
+                            DateTime from = DateTime(DateTime.now().year,
+                                DateTime.now().month, DateTime.now().day);
+                            DateTime to = DateTime(chosendate.year,
+                                chosendate.month, chosendate.day);
+                            day = (to.difference(from).inHours / 24).round();
+                            ;
+                          },
+                        );
+                      },
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 0.0125 * _screenHeight),
+                    child: Text(
+                      "Room:",
+                      style: TextStyle(
+                          fontSize: 0.03 * _screenHeight,
+                          //      color: Colors.white,
+                          fontFamily: 'Gilroy'),
+                    ),
+                  ),
+                  Text(
+                    "Room Name",
+                    style: TextStyle(
+                        fontSize: 0.03 * _screenHeight,
+                        //      color: Colors.white,
+                        fontFamily: 'Gilroy'),
+                  )
+                ],
+              ),
             ),
           ),
         ),
-        body: Container(margin: EdgeInsets.only(left: 0.02 * _screenWidth,right: 0.02 * _screenWidth,top: 0.02*_screenHeight, ),
-                  child: GridView.builder(  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: _screenHeight/_screenWidth,
-              crossAxisSpacing: 0.01*_screenHeight,
-              mainAxisSpacing: 0.03 * _screenWidth
-              //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
-            ),
-                   
+        body: Container(
+          margin: EdgeInsets.only(
+            left: 0.02 * _screenWidth,
+            right: 0.02 * _screenWidth,
+            top: 0.02 * _screenHeight,
+          ),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: _screenHeight / _screenWidth,
+                crossAxisSpacing: 0.01 * _screenHeight,
+                mainAxisSpacing: 0.03 * _screenWidth
+                //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
+                ),
             itemCount: timeofDay.length,
-            itemBuilder: (context, timeindex) =>  GestureDetector(
-                onTap: () {
-                  if(bookedornot[day][timeindex] == 0){
-                    if (numberofslotschoosen == 0) {
-                      if (colorList[timeindex] == Colors.grey[300]) {
-                        print("Hey");
-                        setState(() {
-                          print(colorList[timeindex]);
-                          colorList[timeindex] = Colors.green;
-                          chosentimeindex = timeindex;
-                          print(colorList);
-                        });
-                        numberofslotschoosen += 1;
-                      }
-                    } else {
-                      if (colorList[timeindex] == Colors.grey[300]) {
-                        setState(() {
-                          colorList[chosentimeindex] = Colors.grey[300];
-                          colorList[timeindex] = Colors.green;
-                          chosentimeindex = timeindex;
-                          print(colorList);
-                        }); 
-                      } else {
-                        setState(() {
-                          colorList[timeindex] = Colors.grey[300];
-                          chosentimeindex = -1;
-                        });
-                        numberofslotschoosen -= 1;
-                      }
+            itemBuilder: (context, timeindex) => GestureDetector(
+              onTap: () {
+                if (bookedornot[day][timeindex] == 0) {
+                  if (numberofslotschoosen == 0) {
+                    if (colorList[timeindex] == Colors.grey[300]) {
+                      print("Hey");
+                      setState(() {
+                        print(colorList[timeindex]);
+                        colorList[timeindex] = Colors.green;
+                        chosentimeindex = timeindex;
+                        print(colorList);
+                      });
+                      numberofslotschoosen += 1;
                     }
-                  } else{
-                    print('Room already booked');
-                    return showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Row(
-                            children: [
-                              Text(
-                                "Slot not available!",
-                                style: TextStyle(fontFamily: "Gilroy"),
-                              )
-                            ],
-                          ),
-                      ),
-                    );
-                  }                  
-                },
-                child: Container(
-                  child: Center(
-                    child: Text(
-                      timeofDay[timeindex] + ":00",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 0.045 * _screenHeight,
+                  } else {
+                    if (colorList[timeindex] == Colors.grey[300]) {
+                      setState(() {
+                        colorList[chosentimeindex] = Colors.grey[300];
+                        colorList[timeindex] = Colors.green;
+                        chosentimeindex = timeindex;
+                        print(colorList);
+                      });
+                    } else {
+                      setState(() {
+                        colorList[timeindex] = Colors.grey[300];
+                        chosentimeindex = -1;
+                      });
+                      numberofslotschoosen -= 1;
+                    }
+                  }
+                } else {
+                  print('Room already booked');
+                  return showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Row(
+                        children: [
+                          Text(
+                            "Slot not available!",
+                            style: TextStyle(fontFamily: "Gilroy"),
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0.02 * _screenHeight),
-                    color: bookedornot[day][timeindex] == 0 ? colorList[timeindex] : Colors.red, 
+                  );
+                }
+              },
+              child: Container(
+                child: Center(
+                  child: Text(
+                    timeofDay[timeindex] + ":00",
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 0.045 * _screenHeight,
+                    ),
                   ),
                 ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                  color: bookedornot[day][timeindex] == 0
+                      ? colorList[timeindex]
+                      : Colors.red,
+                ),
               ),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -234,10 +236,11 @@ class _RoomEntryState extends State<RoomEntry> {
           onPressed: () async {
             print(chosentimeindex);
             //edge case
-            if (chosentimeindex == 23) {              
+            if (chosentimeindex == 23) {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
               endtime = endtime + " " + timeofDay[0] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
@@ -246,8 +249,10 @@ class _RoomEntryState extends State<RoomEntry> {
             } else {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
-              endtime = endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              endtime =
+                  endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
               print(starttime);
@@ -268,72 +273,70 @@ class _RoomEntryState extends State<RoomEntry> {
                 }
               }
               return showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    title: Row(
-                      children: [
-                        Text(
-                          "Booking Successful",
-                          style: TextStyle(fontFamily: "Gilroy"),
-                        ),
-                        Icon(
-                          Icons.check_circle,
-                          color: Colors.green[300],
-                        ),
-                      ],
-                    ),
-                    content: Container(
-                      height: 0.15 * _screenHeight,
-                      child: Column(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                      title: Row(
                         children: [
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.deepOrange[300]),
-                            ),
-                            child: Text(
-                              "Home",
-                              style: TextStyle(
-                                  fontFamily: "Gilroy",
-                                  color: Colors.black,
-                                  fontSize: 0.025 * _screenHeight),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Sports(),
-                                ),
-                              );
-                            },
+                          Text(
+                            "Booking Successful",
+                            style: TextStyle(fontFamily: "Gilroy"),
                           ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(
-                                color: Colors.deepOrange[300],
-                              ),
-                            ),
-                            child: Text(
-                              'Book Equipment',
-                              style: TextStyle(
-                                  fontFamily: "Gilroy",
-                                  color: Colors.black,
-                                  fontSize: 20),
-                            ),
-                            onPressed: () {
-                              reflag = 0;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EquipmentEntry(),
-                                ),
-                              );
-                            },
-                          )
+                          Icon(
+                            Icons.check_circle,
+                            color: Colors.green[300],
+                          ),
                         ],
                       ),
-                    )
-                  )
-                );
+                      content: Container(
+                        height: 0.15 * _screenHeight,
+                        child: Column(
+                          children: [
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(color: Colors.deepOrange[300]),
+                              ),
+                              child: Text(
+                                "Home",
+                                style: TextStyle(
+                                    fontFamily: "Gilroy",
+                                    color: Colors.black,
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Sports(),
+                                  ),
+                                );
+                              },
+                            ),
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(
+                                  color: Colors.deepOrange[300],
+                                ),
+                              ),
+                              child: Text(
+                                'Book Equipment',
+                                style: TextStyle(
+                                    fontFamily: "Gilroy",
+                                    color: Colors.black,
+                                    fontSize: 20),
+                              ),
+                              onPressed: () {
+                                reflag = 0;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EquipmentEntry(),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      )));
             } else {
               print(sportequipmentid);
               int go = await getName(sportequipmentid);

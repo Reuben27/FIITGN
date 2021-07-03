@@ -20,9 +20,8 @@ class _RoomsState extends State<Rooms> {
       data: data.copyWith(
         textScaleFactor: 0.8,
       ),
-      
-
-      child: Scaffold(appBar: AppBar(
+      child: Scaffold(
+        appBar: AppBar(
           backgroundColor: Colors.deepOrange[300],
           title: Text(
             'SPORT',
@@ -34,7 +33,6 @@ class _RoomsState extends State<Rooms> {
           ),
           centerTitle: true,
         ),
-      
         body: DisplayData(),
       ),
     );
@@ -49,7 +47,7 @@ class DisplayData extends StatefulWidget {
 class _DisplayDataState extends State<DisplayData> {
   @override
   Widget build(BuildContext context) {
-     var _screenHeight = MediaQuery.of(context).size.height -
+    var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
@@ -70,47 +68,57 @@ class _DisplayDataState extends State<DisplayData> {
           );
         }
 
-        return new SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: Column(children: [
-
-               
-              Container(
-                  child: ListView(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: snapshot.data.docs.map((DocumentSnapshot document) {
-                  return GestureDetector(
-                    onTap: () {
-                      selectedroomid = document.id;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RoomEntry(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.blueGrey[200],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: ListTile(
-                          title: new Text(
-                            document['roomname'],
-                            style:
-                                TextStyle(fontFamily: "Gilroy", fontSize: 23),
-                            textAlign: TextAlign.center,
+        return new ListView(
+          children: snapshot.data.docs.map((DocumentSnapshot document) {
+            return GestureDetector(
+              onTap: () {
+                selectedroomid = document.id;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RoomEntry(),
+                  ),
+                );
+              },
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 0.00625 * _screenHeight,
+                  bottom: 0.00625 * _screenHeight,
+                  left: 0.03 * _screenWidth,
+                  right: 0.03 * _screenWidth,
+                ),
+                child: Container(
+                  width: _screenWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrange[300],
+                    borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 0.025 * _screenHeight,
+                      bottom: 0.025 * _screenHeight,
+                      left: 0.03 * _screenWidth,
+                      right: 0.03 * _screenWidth,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          document['roomname'],
+                          style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 0.04 * _screenHeight,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  );
-                }).toList(),
-              ))
-            ]));
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        );
       },
     );
   }

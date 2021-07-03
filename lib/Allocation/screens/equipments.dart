@@ -23,6 +23,31 @@ class Equipments extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: Size(_screenWidth, 0.08 * _screenHeight),
+            child: Container(
+              height: 0.08 * _screenHeight,
+              width: _screenWidth,
+              child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Date",
+                    style: TextStyle(
+                        fontSize: 0.03 * _screenHeight,
+                        //      color: Colors.white,
+                        fontFamily: 'Gilroy'),
+                  ),
+                  Text(
+                    "Time Slot",
+                    style: TextStyle(
+                        fontSize: 0.03 * _screenHeight,
+                        //      color: Colors.white,
+                        fontFamily: 'Gilroy'),
+                  )
+                ],
+              ),
+            ),
+          ),
           backgroundColor: Colors.deepOrange[300],
           title: Text(
             'SELECT EQUIPMENT',
@@ -254,7 +279,8 @@ class _DisplayDataState extends State<DisplayData> {
                               counters[document['availabilityindex']]
                                   .toString(),
                               style: TextStyle(
-                                fontFamily: 'Gilroy',fontWeight: FontWeight.bold,
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.bold,
                                 fontSize: 0.025 * _screenHeight,
                               ),
                             ),
