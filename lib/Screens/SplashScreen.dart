@@ -90,47 +90,53 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2.5,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height / 10,
-              width: MediaQuery.of(context).size.width / 5,
-              child: Image.asset(
-                "assets/iitgnlogo-emblem.png",
+    var _screenHeight = MediaQuery.of(context).size.height;
+
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    final MediaQueryData data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(textScaleFactor: 0.8),
+      child: Scaffold(
+        backgroundColor: Colors.grey[200],
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 0.2 * _screenHeight,
+                child: Image.asset(
+                  "assets/iitgnlogo-emblem.png",
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width / 25.7125,
-                  MediaQuery.of(context).size.width / 51.425,
-                  MediaQuery.of(context).size.width / 25.7125,
-                  0),
-              child: Text(
-                "FIITGN",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: MediaQuery.of(context).size.width / 7,
-                    color: Colors.black),
+
+              Padding(
+                padding: EdgeInsets.only(bottom: 0.03 * _screenHeight),
+                child: Text(
+                  "FIITGN",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 0.1 * _screenHeight,
+                      color: Colors.black,
+                      fontFamily: 'Gilroy'),
+                ),
               ),
-            ),
-            TypewriterAnimatedTextKit(
-              onTap: () {
-                // print("Tap Event");
-              },
-              text: [
-                'loading',
-              ],
-              textStyle: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width / 15,
-                  color: Colors.grey),
-            ),
-            // CircularProgressIndicator(),
-          ],
+              TypewriterAnimatedTextKit(
+                onTap: () {
+                  // print("Tap Event");
+                },
+                text: [
+                  'good things take time to load',
+                ],
+                textStyle: TextStyle(
+                    fontSize: 0.025 * _screenHeight,
+                    color: Colors.grey[800],
+                    fontFamily: 'Gilroy'),
+              ),
+              // CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
     );
