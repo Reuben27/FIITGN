@@ -20,39 +20,87 @@ class WorkoutHistoryScreen extends StatelessWidget {
     final List<Workout_Data_Model> workout_histories =
         workouts_provider.loggedWorkouts;
     return MediaQuery(
-        data: data.copyWith(
-          textScaleFactor: 0.8,
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.blueGrey[300],
+          title: Text(
+            'WORKOUTS HISTORY',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
+          ),
         ),
-        child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.blueGrey[300],
-              title: Text(
-                'WORKOUTS HISTORY',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize: 0.04 * _screenHeight,
-                    fontFamily: 'Gilroy'),
-              ),
-            ),
-            body: ListView.builder(
-                itemCount: workout_histories.length,
-                itemBuilder: (ctx, i) {
-                  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm')
-                      .format(DateTime.parse(workout_histories[i].date));
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, Workout_History_Details.routeName,
-                          arguments:
-                              workout_histories[i].listOfSetsRepsWeights);
-                    },
-                    child: ListTile(
-                      title: Text(workout_histories[i].workoutName),
-                      subtitle: Text(formattedDate),
+        body: ListView.builder(
+          itemCount: workout_histories.length,
+          itemBuilder: (ctx, i) {
+            String formattedDate = DateFormat.MMMMEEEEd()
+                .format(DateTime.parse(workout_histories[i].date));
+                String formattedTime = DateFormat.jm().format(DateTime.parse(workout_histories[i].date));
+            return InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Workout_History_Details.routeName,
+                    arguments: workout_histories[i].listOfSetsRepsWeights);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 0.00625 * _screenHeight,
+                  bottom: 0.00625 * _screenHeight,
+                  left: 0.03 * _screenWidth,
+                  right: 0.03 * _screenWidth,
+                ),
+                child: Container(
+                  width: _screenWidth,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey[200],
+                    borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                  ),
+                  // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
+
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 0.025 * _screenHeight,
+                      bottom: 0.025 * _screenHeight,
+                      left: 0.03 * _screenWidth,
+                      right: 0.03 * _screenWidth,
                     ),
-                  );
-                })));
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              workout_histories[i].workoutName,
+                              style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.04 * _screenHeight,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              formattedDate + " at " + formattedTime,
+                              style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.025 * _screenHeight,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
