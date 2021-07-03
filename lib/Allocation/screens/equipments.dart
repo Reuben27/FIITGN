@@ -4,7 +4,7 @@ import './sports.dart';
 import '../utils/equipmentupdater.dart';
 import 'package:flutter/material.dart';
 import '../data/initialize.dart';
-import 'entry.dart';
+import 'equipmententry.dart';
 
 // ignore: must_be_immutable
 class Equipments extends StatelessWidget {
@@ -72,7 +72,7 @@ class Equipments extends StatelessWidget {
                                     MediaQuery.of(context).size.width / 20),
                           ),
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Sports(),
@@ -97,18 +97,10 @@ class Equipments extends StatelessWidget {
                           onPressed: () {
                             if (reflag == 0) {
                               reflag = 1;
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Rooms(),
-                                ),
-                              );
-                            } else {
-                              reflag = 0;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Entry(),
                                 ),
                               );
                             }
