@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:googleapis/cloudbuild/v1.dart';
 import '../data/initialize.dart';
-import 'entry.dart';
+import 'equipmententry.dart';
 import 'rooms.dart';
 
 class Sports extends StatefulWidget {
@@ -236,7 +236,7 @@ class _DisplayEquipmentsDataState extends State<DisplayEquipmentsData> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Entry(),
+                          builder: (context) => EquipmentEntry(),
                         ),
                       );
                     } else {

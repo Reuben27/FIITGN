@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/initialize.dart';
-import './entry.dart';
+import 'roomentry.dart';
 
 class Rooms extends StatefulWidget {
   @override
@@ -98,7 +98,7 @@ class _DisplayDataState extends State<DisplayData> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Entry(),
+                          builder: (context) => RoomEntry(),
                         ),
                       );
                     },
