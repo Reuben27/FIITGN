@@ -6,7 +6,7 @@
 - Create screens for nutrition. [:heavy_check_mark:]
 - Check check cases for equipments booking.
 - Feature: Allow selection of timeslot if and only if that room is available.
-- Create workouts log screen.
+- Create workouts log screen.  [:heavy_check_mark:]
 - Feature: Sharing of workouts with users.
 - Feature: Option to delete created workout
 - Create a 2-way booking system (room-equipment) [:heavy_check_mark:]
