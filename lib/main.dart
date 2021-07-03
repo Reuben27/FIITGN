@@ -173,6 +173,8 @@ class MyApp extends StatelessWidget {
 
           //// Temp Expansion list
           ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),
+          //// Splash Screen
+          SplashScreen.routeName: (_) => SplashScreen(),
         },
       ),
     );

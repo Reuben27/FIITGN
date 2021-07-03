@@ -1,6 +1,7 @@
 // import 'dart:typed_data';
 import 'dart:io';
 
+import 'package:fiitgn/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -359,8 +360,12 @@ class _MapScreenState extends State<MapScreen> {
         key: key,
         body: WillPopScope(
           onWillPop: () {
-            _showSnackBar();
-            pause_run();
+            if (pauseFlag == 0) {
+              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            } else {
+              _showSnackBar();
+              pause_run();
+            }
 
             // return _onBackPressed();
           },

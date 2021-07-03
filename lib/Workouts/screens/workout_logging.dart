@@ -170,6 +170,21 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     });
   }
 
+  removeLog(int i) {
+    setsAndReps.removeAt(i);
+    setState(() {});
+    // setsAndReps.forEach(
+    //   (element) {
+    //   //  String currentExerciseId = exercises[index].exerciseId;
+    //   //   if (element.exerciseId == currentExerciseId) {
+    //   //     workoutList.add(element);
+    //   //     print(workoutList[workoutList.length - 1]);
+    //   //     setState(() {});
+    //   //   }
+    //   },
+    // );
+  }
+
   Widget addSet() {
     /// returns a row
     return Center(
@@ -257,18 +272,30 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           ],
         ),
         onPressed: () {
-          String repVal = "";
-          String setVal = "";
-          String weightsVal = "";
+          String repVal = "0";
+          String setVal = "0";
+          String weightsVal = "0";
           repVal = Rep_CounterState.counter.toString();
           print("rep Val is " + repVal);
           setVal = Set_CounterState.counter.toString();
           weightsVal = weightsEditingController.text;
+          print("repVal-->" + repVal);
+          print("setVal-->" + setVal);
+          print("weightsVal-->" + weightsVal);
           // Resetting variables
           Rep_CounterState.counter = 0;
           Set_CounterState.counter = 0;
           weightsEditingController = new TextEditingController();
           print("rep Val is " + repVal);
+          if (repVal == "") {
+            repVal = "0";
+          }
+          if (setVal == "") {
+            setVal = "0";
+          }
+          if (weightsVal == "") {
+            weightsVal = "0";
+          }
           if (repVal == "" || setVal == "" || weightsVal == "") {
             showDialog(
               context: context,
@@ -311,8 +338,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               },
             );
             // testing
-            print(index.toString() + " ---> val of i after popping");
-            print(setsAndReps.length.toString() + "--> len of sets and reps");
+            // print(index.toString() + " ---> val of i after popping");
+            // print(setsAndReps.length.toString() + "--> len of sets and reps");
           }
         },
       ),
@@ -673,13 +700,23 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      setsAndReps[j].exerciseName,
-                                      style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                        fontSize: 0.04 * _screenHeight,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          setsAndReps[j].exerciseName,
+                                          style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.04 * _screenHeight,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete_forever),
+                                          onPressed: () {
+                                            removeLog(j);
+                                          },
+                                        )
+                                      ],
                                     ),
                                     Divider(),
                                     Container(
