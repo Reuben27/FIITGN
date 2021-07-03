@@ -42,6 +42,7 @@ import 'Workouts/screens/created_by_user.dart';
 import 'Workouts/screens/workout_logging.dart';
 import 'Notifications/Notifications.dart';
 import 'Workouts/screens/workouts_history.dart';
+import 'Workouts/screens/workout_history_details.dart';
 
 //// Allocation
 import 'Allocation/screens/sports.dart';
@@ -150,6 +151,7 @@ class MyApp extends StatelessWidget {
           Created_by_user.routeName: (_) => Created_by_user(),
           Workout_Logging.routeName: (_) => Workout_Logging(),
           Notifications.routeName: (_) => Notifications(),
+          Workout_History_Details.routeName: (_) => Workout_History_Details(),
 
           ///// Admin Section
           AdminHome.routeName: (_) => AdminHome(),

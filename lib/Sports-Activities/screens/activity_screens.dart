@@ -1,6 +1,7 @@
-import 'package:fiitgn/Widgets/stickynote.dart';
+// import 'package:fiitgn/Widgets/stickynote.dart';
 import 'package:flutter/material.dart';
 import '../data/activity_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Activity_Screen extends StatefulWidget {
   static const routeName = '\ActivitiesScreen';
@@ -10,6 +11,23 @@ class Activity_Screen extends StatefulWidget {
 
 class _Activity_ScreenState extends State<Activity_Screen> {
   List<ActivityData> activities = List<ActivityData>.empty();
+
+  Future<void> launchSocialMedia(String url) async {
+    try {
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: false,
+        );
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      print("error in opening zoom link");
+      print(e);
+    }
+  }
 
   @override
   void initState() {
@@ -27,6 +45,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
   }
 
   Widget build(BuildContext context) {
+    print(activities[1].link);
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
@@ -38,23 +57,29 @@ class _Activity_ScreenState extends State<Activity_Screen> {
         textScaleFactor: 0.8,
       ),
       child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.green[200],
-              centerTitle: true,
-              title: Text(
-                'SPORTS ACTIVITIES',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 0.04 * _screenHeight,
-                  fontFamily: 'Gilroy',
-                ),
+          appBar: AppBar(
+            backgroundColor: Colors.green[200],
+            centerTitle: true,
+            title: Text(
+              'SPORTS ACTIVITIES',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy',
               ),
             ),
-            body: ListView.builder(
-                itemCount: activities.length,
-                itemBuilder: (ctx, i) {
-                  return Container(
+          ),
+          body: ListView.builder(
+              itemCount: activities.length,
+              itemBuilder: (ctx, i) {
+                return InkWell(
+                  onTap: () {
+                    if (activities[i].link != 'Null') {
+                      launchSocialMedia(activities[i].link);
+                    }
+                  },
+                  child: Container(
                     margin: EdgeInsets.only(
                       top: 0.00625 * _screenHeight,
                       bottom: 0.00625 * _screenHeight,
@@ -161,9 +186,9 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                       ),
                       //add here
                     ),
-                  );
-                })),
-      
+                  ),
+                );
+              })),
     );
   }
 }

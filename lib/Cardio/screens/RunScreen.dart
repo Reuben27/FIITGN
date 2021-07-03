@@ -474,7 +474,9 @@ class _MapScreenState extends State<MapScreen> {
                                     ],
                                   ),
                                 ),
-                                VerticalDivider(width: 0.08 * _screenHeight,),
+                                VerticalDivider(
+                                  width: 0.08 * _screenHeight,
+                                ),
                                 Container(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -546,7 +548,8 @@ class _MapScreenState extends State<MapScreen> {
                                   ),
                                 )
                               : pauseFlag == 1 && resume_end_flag == 1
-                                  ? Container(  height: 0.08 * _screenHeight,
+                                  ? Container(
+                                      height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: Row(
                                           mainAxisAlignment:
@@ -669,7 +672,8 @@ class _MapScreenState extends State<MapScreen> {
                                         ),
                                       ),
                                     )
-                                  : Container(  height: 0.08 * _screenHeight,
+                                  : Container(
+                                      height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: InkWell(
                                           onTap: () {
