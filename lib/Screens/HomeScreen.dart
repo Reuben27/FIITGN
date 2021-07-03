@@ -1,5 +1,6 @@
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
 import 'package:fiitgn/Guided-Sessions/data/guidedsessions.dart';
+import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:flutter/src/widgets/image.dart' as img;
 
@@ -184,6 +185,16 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
+    {
+      'title': 'Developers',
+      'url': 'assets/admin.png',
+      'routeName': Developer.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 9,
+    },
+
+
   ];
 
   Widget build(BuildContext context) {

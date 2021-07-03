@@ -138,6 +138,11 @@ flutter:
     - assets/admin.png
     - assets/act.png
     - assets/stats.png
+    - assets/geddam.jpeg
+    - assets/reesab.jpg
+    - assets/aditya.jpg
+    - assets/gottam.jpg
+    - assets/rooben.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
