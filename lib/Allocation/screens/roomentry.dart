@@ -1,5 +1,5 @@
-import 'package:fiitgn/Allocation/screens/rooms.dart';
-import 'package:fiitgn/Allocation/screens/sports.dart';
+import '../screens/sports.dart';
+import '../utils/roomavailableslots.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,6 +54,7 @@ class _RoomEntryState extends State<RoomEntry> {
 
   int numberofslotschoosen = 0;
   int chosentimeindex = -1;
+  int day = 0;
   DateTime chosendate = DateTime.now();
 
   void createColorMap() {
@@ -63,8 +64,13 @@ class _RoomEntryState extends State<RoomEntry> {
     }
   }
 
+  void getData() async{
+    await getslots();
+  }
+
   @override
   void initState() {
+    getData();
     createColorMap();
     super.initState();
   }
@@ -104,7 +110,12 @@ class _RoomEntryState extends State<RoomEntry> {
                     mode: CupertinoDatePickerMode.date,
                     initialDateTime: DateTime.now(),
                     onDateTimeChanged: (DateTime newDateTime) {
-                      chosendate = newDateTime;
+                      setState(() {
+                        chosendate = newDateTime;
+                        DateTime from = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                        DateTime to = DateTime(chosendate.year, chosendate.month, chosendate.day);
+                        day = (to.difference(from).inHours / 24).round();;                     
+                      });
                     },
                   ),
                 ),
@@ -117,6 +128,7 @@ class _RoomEntryState extends State<RoomEntry> {
                       child: OutlinedButton(
                         onPressed: () {
                           print(chosendate);
+                          print(day);
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,33 +166,50 @@ class _RoomEntryState extends State<RoomEntry> {
             itemCount: timeofDay.length,
             itemBuilder: (context, timeindex) =>  GestureDetector(
                 onTap: () {
-                  if (numberofslotschoosen == 0) {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      print("Hey");
-                      setState(() {
-                        print(colorList[timeindex]);
-                        colorList[timeindex] = Colors.green;
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      });
-                      numberofslotschoosen += 1;
-                    }
-                  } else {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      setState(() {
-                        colorList[chosentimeindex] = Colors.grey[300];
-                        colorList[timeindex] = Colors.green;
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      }); 
+                  if(bookedornot[day][timeindex] == 0){
+                    if (numberofslotschoosen == 0) {
+                      if (colorList[timeindex] == Colors.grey[300]) {
+                        print("Hey");
+                        setState(() {
+                          print(colorList[timeindex]);
+                          colorList[timeindex] = Colors.green;
+                          chosentimeindex = timeindex;
+                          print(colorList);
+                        });
+                        numberofslotschoosen += 1;
+                      }
                     } else {
-                      setState(() {
-                        colorList[timeindex] = Colors.grey[300];
-                        chosentimeindex = -1;
-                      });
-                      numberofslotschoosen -= 1;
+                      if (colorList[timeindex] == Colors.grey[300]) {
+                        setState(() {
+                          colorList[chosentimeindex] = Colors.grey[300];
+                          colorList[timeindex] = Colors.green;
+                          chosentimeindex = timeindex;
+                          print(colorList);
+                        }); 
+                      } else {
+                        setState(() {
+                          colorList[timeindex] = Colors.grey[300];
+                          chosentimeindex = -1;
+                        });
+                        numberofslotschoosen -= 1;
+                      }
                     }
-                  }
+                  } else{
+                    print('Room already booked');
+                    return showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                          title: Row(
+                            children: [
+                              Text(
+                                "Slot not available!",
+                                style: TextStyle(fontFamily: "Gilroy"),
+                              )
+                            ],
+                          ),
+                      ),
+                    );
+                  }                  
                 },
                 child: Container(
                   child: Center(
@@ -194,7 +223,7 @@ class _RoomEntryState extends State<RoomEntry> {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0.02 * _screenHeight),
-                    color: colorList[timeindex], 
+                    color: bookedornot[day][timeindex] == 0 ? colorList[timeindex] : Colors.red, 
                   ),
                 ),
               ),
