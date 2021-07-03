@@ -57,18 +57,18 @@ class RunDataProvider with ChangeNotifier {
 
   Future<void> getRunStatsFromDb() async {
     String _uid = Data_Provider().uid;
-    print("Run Data Provider uid --> " + _uid);
+    // print("Run Data Provider uid --> " + _uid);
     final url =
         'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunData.json?orderBy="uid"&equalTo="$_uid"';
     try {
-      print("entered the try block");
+      // print("entered the try block");
       final response = await http.get(Uri.parse(url));
       // print("t1");
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       // print("t2");
       final List<RunModel> loadedList = [];
       // print("t3");
-      print(extractedData);
+      // print(extractedData);
       // print(extractedData['-MMvLcgO2K3wHZkueZcV']['listOfLatLng'].runtimeType);
       extractedData.forEach(
         (statId, statVal) {
@@ -124,7 +124,7 @@ class RunDataProvider with ChangeNotifier {
   ) {
     // print("The Uid Is " + _uid);
     String _uid = Data_Provider().uid;
-    print("Run Data Provider fetching uid --> " + _uid);
+    // print("Run Data Provider fetching uid --> " + _uid);
     final url = 'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunData.json';
     return http
         .post(

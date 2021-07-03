@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fiitgn/Screens/HomeScreen.dart';
 import './rooms.dart';
 import './sports.dart';
 import '../utils/equipmentupdater.dart';
@@ -28,7 +29,8 @@ class Equipments extends StatelessWidget {
             child: Container(
               height: 0.08 * _screenHeight,
               width: _screenWidth,
-              child: Column(mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "Date",
@@ -107,7 +109,7 @@ class Equipments extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Sports(),
+                                  builder: (context) => HomeScreen(),
                                 ),
                               );
                             },

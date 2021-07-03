@@ -93,77 +93,73 @@ class SignInClass {
 class _SignInGoogleState extends State<SignInGoogle> {
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height;
+
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    final MediaQueryData data = MediaQuery.of(context);
     var key = new GlobalKey<ScaffoldState>();
 
-    return Scaffold(
-      key: key,
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/iitgnCamp.jpg',
-            height: MediaQuery.of(context).size.height / 1.8,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: Scaffold(
+        key: key,
+        body: Stack(
+          children: [
+            Image.asset(
+              'assets/iitgnCamp.jpg',
+              height: 0.4 * _screenHeight,
+              width: _screenWidth,
+              fit: BoxFit.cover,
+            ),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: 0.35 * _screenHeight,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 25),
                 Expanded(
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: _screenWidth,
                     decoration: BoxDecoration(
-                      color: Color(0xFFDDDDDD),
+                      color: Colors.grey[200],
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
-                        topRight: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
+                        topLeft: Radius.circular(0.05 * _screenHeight),
+                        topRight: Radius.circular(0.05 * _screenHeight),
                       ),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 40,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height / 10,
-                          width: MediaQuery.of(context).size.width / 5,
-                          child: Image.asset(
-                            "assets/iitgnlogo-emblem.png",
+                        Padding(
+                          padding: EdgeInsets.only(top: 0.03 * _screenHeight),
+                          child: Container(
+                            height: 0.2 * _screenHeight,
+                            child: Image.asset(
+                              "assets/iitgnlogo-emblem.png",
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          padding:
+                              EdgeInsets.only(bottom: 0.04 * _screenHeight),
                           child: Text(
                             "FIITGN",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.width / 7,
-                                color: Colors.black),
+                                fontSize: 0.1 * _screenHeight,
+                                color: Colors.black,
+                                fontFamily: 'Gilroy'),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 2, 8),
-                          child: Text(
-                            "THE COMPLETE FITNESS APP",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 18,
-                                color: Colors.black),
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 20,
                         ),
                         SignInButtonBuilder(
+                          height: 0.06 * _screenHeight,
+                          width: 0.5 * _screenWidth,
                           text: 'Login with IITGN ID',
+                          fontSize: 0.02 * _screenHeight,
                           icon: Icons.email,
                           onPressed: () async {
                             await SignInClass(context: context).signIn();
@@ -180,8 +176,8 @@ class _SignInGoogleState extends State<SignInGoogle> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

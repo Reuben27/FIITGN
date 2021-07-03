@@ -1,3 +1,4 @@
+import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -175,6 +176,7 @@ class MyApp extends StatelessWidget {
           ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),
           //// Splash Screen
           SplashScreen.routeName: (_) => SplashScreen(),
+          Developer.routeName: (_) => Developer(),
         },
       ),
     );
