@@ -10,6 +10,8 @@ class WorkoutModel {
   final String access;
   final String creationDate;
   final List<String> listOfFollowersId;
+  final List<String>
+      listOfOnGoingId; // stores which users are currently doing this workout
   final List<String> listOfExercisesId;
   final String description;
   final String imageUrl;
@@ -18,6 +20,7 @@ class WorkoutModel {
     @required this.creator_name,
     @required this.creatorId,
     @required this.workoutId,
+    @required this.listOfOnGoingId,
     @required this.workoutName,
     @required this.access,
     @required this.creationDate,

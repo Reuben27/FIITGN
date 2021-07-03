@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'HomeScreen.dart';
+// import 'HomeScreen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'SplashScreen.dart';
 
 // ignore: must_be_immutable
 class SignInGoogle extends StatefulWidget {
@@ -77,8 +79,8 @@ class SignInClass {
     // print(SignInGoogle().isSignedIn);
     print("Sign In Successful");
     print("/////////////////////////");
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName,
-        result: true); // return true
+    Navigator.pushReplacementNamed(
+        context, SplashScreen.routeName); // return true
   }
 
   logoutUser() async {

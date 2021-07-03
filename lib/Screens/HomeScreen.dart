@@ -1,4 +1,7 @@
-import 'package:fiitgn/Allocation/screens/calender.dart';
+import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
+import 'package:fiitgn/Guided-Sessions/data/guidedsessions.dart';
+import 'package:googleapis/chat/v1.dart';
+import 'package:flutter/src/widgets/image.dart' as img;
 
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
@@ -17,21 +20,30 @@ import 'GAuth.dart';
 import '../Calendar-Schedule/schedueCalendar.dart';
 import '../Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+//import 'package:image/image.dart' as Image;
 
-////////////WORKOUTS
+//// WORKOUTS
 import '../Workouts/screens/workouts-home.dart';
 import '../Workouts/models/Admin_db_model.dart';
 import '../Workouts/models/Exercise_db_model.dart';
 import '../Workouts/models/Workout_provider.dart';
 
-///////////// GUIDED SESSIONS
+//// GUIDED SESSIONS
 import '../Guided-Sessions/screens/sessions.dart';
 
-///////// NUTRITION
+//// NUTRITION
 import '../Nutrition/screens/nutritionScreen.dart';
 
-//////// ACTIVITIES
+//// ACTIVITIES
 import '../Sports-Activities/screens/activity_screens.dart';
+
+//// ADMIN
+import 'package:fiitgn/Admin/screens/admin_home.dart';
+
+//// Temp Expansion Panel
+import './expansion_list.dart';
+
+import '../Screens/stopwatch.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -58,21 +70,22 @@ class _HomeScreenState extends State<HomeScreen> {
     data_provider.setDisplay(userDisplay);
     data_provider.setName(name);
     print(Data_Provider().name);
+    print(Data_Provider().email);
     print("Uids and tokens are set");
-
-    /// initializing admin and exercise dbs
+    // await workoutDataProvider.showAllWorkouts();
+    // initializing admin and exercise dbs
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
     final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
         context,
         listen: false);
-    await exerciseDataProvider.getListOfExercises();
-    print("b");
-    await adminDataProvider.getListOfAdmins();
+    // print("a");
+    // await exerciseDataProvider.getListOfExercises();
+    // print("b");
+    // await adminDataProvider.getListOfAdmins();
     //// END of initialization
-    await workoutDataProvider.showAllWorkouts();
-    print("all workouts Loaded");
+    // print("all workouts Loaded");
     print("Home Screen Inside init has succesfully run");
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }
@@ -112,10 +125,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
+    // {
+    //   'title': 'Expansion Panel',
+    //   'url': 'assets/roonn.png',
+    //   'routeName': ExpansionPanelDemo.routeName,
+    //   'description': 'EXPANSION',
+    //   'heroID': 1,
+    // },
     {
-      'title': 'Start Running',
-      'url': 'assets/10765.png',
+      'title': 'Activities',
+      'url': 'assets/roonn.png',
       'routeName': MapScreen.routeName,
+      'description':
+          'Running can be accessed from here. Get out there and get those legs working!',
+      'heroID': 1,
+    },
+    {
+      'title': 'Activity Results',
+      'url': 'assets/roonn.png',
+      'routeName': YourRuns.routeName,
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
@@ -136,23 +164,15 @@ class _HomeScreenState extends State<HomeScreen> {
     //       'Had a quick warmup or a gruelling cardio session? Whichever it is, record it here and keep a tab on all those calories you are burning!',
     //   'heroID': 3,
     // },
-    {
-      'title': 'Your Activities',
-      'url': 'assets/statLady.png',
-      'routeName': Calender.routeName,
-      'description':
-          'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
-      'heroID': 4,
-    },
     // {
-    //   'title': 'Running Buddy',
-    //   'url': 'assets/6517.png',
-    //   'routeName': '',
+    //   'title': 'Your Activities',
+    //   'url': 'assets/statLady.png',
+    //   'routeName': StatsScreen.routeName,
     //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 5,
+    //       'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
+    //   'heroID': 4,
     // },
-    // // {
+    // // // {
     // //   'title': 'Know Your Diet',
     // //   'url': 'assets/6569.png',
     // //   'routeName': '',
@@ -160,17 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // //       'This section is under construction. Check back in later to view some exciting new stuff!',
     // //   'heroID': 6,
     // // },
-    // {
-    //   'title': 'Calendarrr',
-    //   'url': 'assets/6569.png',
-    //   'routeName': CalendarScreen.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 6,
-    // },
     {
-      'title': 'Workout',
-      'url': 'assets/4805.png',
+      'title': 'Workouts',
+      'url': 'assets/twerkout.png',
       'routeName': Workouts_Home.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -178,23 +190,23 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       'title': 'Allocation',
-      'url': 'assets/statLady.png',
+      'url': 'assets/alloc.png',
       'routeName': Sports.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
     {
-      'title': 'Guided Sessions',
-      'url': 'assets/6569.png',
-      'routeName': Sessions.routeName,
+      'title': 'Admin',
+      'url': 'assets/alloc.png',
+      'routeName': AdminHome.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
     {
       'title': 'Nutrition',
-      'url': 'assets/6569.png',
+      'url': 'assets/food.png',
       'routeName': NutritionScreen.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -202,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       'title': 'Activities',
-      'url': 'assets/6569.png',
+      'url': 'assets/acti.png',
       'routeName': Activity_Screen.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
@@ -211,227 +223,199 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   Widget build(BuildContext context) {
-    var deviceSize = MediaQuery.of(context);
-    print(deviceSize);
-    return Scaffold(
-      // backgroundColor: Colors.white,
-      // body: WillPopScope(
-      //   onWillPop: () => _onBackPressed(context),
-      //   child: SafeArea(
-      //     child: Column(
-      //       // padding: const EdgeInsets.symmetric(
-      //       //   vertical: 20,
-      //       // ),
-      //       children: <Widget>[
-      //         // Padding(
-      //         //   padding: const EdgeInsets.only(left: 20.0, right: 120.0),
-      //         Stack(
-      //           children: [
-      //             Container(
-      //               decoration: BoxDecoration(
-      //                 gradient: LinearGradient(
-      //                   begin: Alignment.topCenter,
-      //                   end: Alignment.bottomCenter,
-      //                   colors: [Colors.teal[300], Colors.white],
-      //                 ),
-      //               ),
-      //               // color: Colors.green[200],
-
-      //               height: MediaQuery.of(context).size.height * 0.30,
-      //               width: MediaQuery.of(context).size.width,
-      //               //       child: Image.asset(
-      //               //       'assets/homePage.jpg',
-      //               //     fit: BoxFit.cover,
-      //             ),
-      //             //   ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 20,
-      //               top: MediaQuery.of(context).size.height / 26,
-      //               child: Text(
-      //                 'Hello.',
-      //                 style: TextStyle(
-      //                   fontFamily: 'Raleway',
-      //                   fontSize: deviceSize.size.width / 6.5,
-      //                   fontWeight: FontWeight.bold,
-      //                 ),
-      //               ),
-      //             ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 19,
-      //               top: MediaQuery.of(context).size.height / 8,
-      //               child: Text(
-      //                 'Welcome to FIITGN.',
-      //                 style: TextStyle(
-      //                   fontFamily: 'Raleway',
-      //                   fontSize: deviceSize.size.width / 16,
-      //                 ),
-      //               ),
-      //             ),
-      //             Positioned(
-      //               left: MediaQuery.of(context).size.width / 25,
-      //               top: MediaQuery.of(context).size.height / 6,
-      //               child: Container(
-      //                 child: IconButton(
-      //                   icon: Icon(FontAwesomeIcons.signOutAlt),
-      //                   onPressed: () {
-      //                     showDialog(
-      //                       context: context,
-      //                       builder: (ctx) => AlertDialog(
-      //                         title: Text('Do you want to Logout?'),
-      //                         actions: <Widget>[
-      //                           FlatButton(
-      //                             onPressed: () {
-      //                               logoutUser();
-      //                               SystemNavigator.pop();
-      //                             },
-      //                             child: Text('Yes'),
-      //                           ),
-      //                           FlatButton(
-      //                             onPressed: () {
-      //                               Navigator.of(ctx).pop(true);
-      //                             },
-      //                             child: Text('No'),
-      //                           )
-      //                         ],
-      //                       ),
-      //                     );
-      //                   },
-      //                 ),
-      //               ),
-      //             )
-      //           ],
-      //         ),
-
-      // Expanded(
-      //   child: Container(
-      //     child: GridView.builder(
-      //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //           crossAxisCount: 2,
-      //           mainAxisSpacing:
-      //               MediaQuery.of(context).size.height / 80),
-      //       shrinkWrap: true,
-      //       physics: ScrollPhysics(),
-      //       itemCount: homeScreenList.length,
-      //       itemBuilder: (ctx, i) => HomeScreenItem(
-      //         routeName: homeScreenList[i]['routeName'],
-      //         title: homeScreenList[i]['title'],
-      //         url: homeScreenList[i]['url'],
-      //         description: homeScreenList[i]['description'],
-      //         heroID: homeScreenList[i]['heroID'],
-      //       ),
-      //     ),
-      //   ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-      // OGHOMEPLSKEEP
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/iitgnCamp.jpg',
-            height: MediaQuery.of(context).size.height / 1.8,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
+    final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
+        context,
+        listen: false);
+    List<String> adminEmailIds = adminDataProvider.getAdminEmailIds();
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    final MediaQueryData data = MediaQuery.of(context);
+    print(data);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: Scaffold(
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                child: IconButton(
+                  icon: Icon(FontAwesomeIcons.signOutAlt),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text('Do you want to Logout?'),
+                        actions: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              logoutUser();
+                              SystemNavigator.pop();
+                            },
+                            child: Text('Yes'),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop(true);
+                            },
+                            child: Text('No'),
+                          )
+                        ],
+                      ),
+                    );
+                  },
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height / 25),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFDDDDDD),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
-                        topRight: Radius.circular(
-                            MediaQuery.of(context).size.height / 20),
+              ),
+            ],
+          ),
+        ),
+        // appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(100.0),
+        //   child: AppBar(
+        //     actions: [
+
+        //     ],
+        //     backgroundColor: Color(0xFFD1D9D9),
+        //     elevation: 0,
+        //     title: Text(
+        //       'FIITGN',
+
+        //     centerTitle: true,
+        //   ),
+        // ),
+        body: WillPopScope(
+          onWillPop: () {
+            SystemNavigator.pop();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 0.03 * _screenWidth,
+                        vertical: 0.008 * _screenHeight),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: Colors.black,
+                              width: 0.0025 * _screenHeight)),
+                      height: 0.05 * _screenHeight,
+                      child: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(Data_Provider().user_display),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 40,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height / 10,
-                          width: MediaQuery.of(context).size.width / 5,
-                          child: Image.asset(
-                            "assets/iitgnlogo-emblem.png",
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                          child: Text(
-                            "FIITGN",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: MediaQuery.of(context).size.width / 7,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 2, 8),
-                          child: Text(
-                            "THE COMPLETE FITNESS APP",
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width / 18,
-                                color: Colors.black),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing:
-                                          MediaQuery.of(context).size.height /
-                                              80),
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount: homeScreenList.length,
-                              itemBuilder: (ctx, i) => HomeScreenItem(
-                                routeName: homeScreenList[i]['routeName'],
-                                title: homeScreenList[i]['title'],
-                                url: homeScreenList[i]['url'],
-                                description: homeScreenList[i]['description'],
-                                heroID: homeScreenList[i]['heroID'],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // SignInButtonBuilder(
-                        //   text: 'Login with IITGN ID',
-                        //   icon: Icons.email,
-                        //   // onPressed: () async {
-                        //   //   await SignInClass(context: context).signIn();
-
-                        //     // if (outCome == false) {
-                        //     //   // _showSnackBar();
-                        //     // }
-                        //   //},
-                        //   backgroundColor: Color(0xFF3F7B70),
-                        // ),
-                      ],
-                    ),
+                  )
+                ],
+                backgroundColor: Color(0xFFD1D9D9),
+                //  centerTitle: true,
+                elevation: 0,
+                // title: Text(
+                //   "FIITGN",
+                //   style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 0.08 * _screenHeight,
+                //       fontFamily: 'Gilroy',
+                //       fontWeight: FontWeight.bold),
+                // ),
+                // Allows the user to reveal the app bar if they begin scrolling
+                // back up the list of items.
+                floating: true,
+                // Display a placeholder widget to visualize the shrinking size.
+                flexibleSpace: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "FIITGN",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 0.085 * _screenHeight,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Welcome, " + Data_Provider().name.toString(),
+                        style: TextStyle(
+                            fontSize: 0.035 * _screenHeight,
+                            fontFamily: 'Gilroy'),
+                      ),
+                      //  Text(
+                      // "What would you like to do today?",
+                      //   style: TextStyle(
+                      //       fontSize: 0.035 * _screenHeight,
+                      //       fontFamily: 'Gilroy'),
+                      // ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+                // Make the initial height of the SliverAppBar larger than normal.
+                expandedHeight: 0.25 * _screenHeight,
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (ctx, i) => Padding(
+                          padding: EdgeInsets.only(
+                            top: 0.0125 * _screenHeight,
+                            bottom: 0.0125 * _screenHeight,
+                          ),
+                          child: homeScreenList[i]['routeName'] !=
+                                  AdminHome.routeName
+                              ? HomeScreenItem(
+                                  routeName: homeScreenList[i]['routeName'],
+                                  title: homeScreenList[i]['title'],
+                                  url: homeScreenList[i]['url'],
+                                  description: homeScreenList[i]['description'],
+                                  heroID: homeScreenList[i]['heroID'],
+                                )
+                              : adminEmailIds
+                                      .contains(Data_Provider().email.trim())
+                                  ? HomeScreenItem(
+                                      routeName: homeScreenList[i]['routeName'],
+                                      title: homeScreenList[i]['title'],
+                                      url: homeScreenList[i]['url'],
+                                      description: homeScreenList[i]
+                                          ['description'],
+                                      heroID: homeScreenList[i]['heroID'],
+                                    )
+                                  : null,
+                        ),
+                    childCount: homeScreenList.length),
+              )
+            ],
+            // child: Column(
+            //   children: [
+            //     SizedBox(height: MediaQuery.of(context).size.height / 40),
+            //     Expanded(
+            //       child: Container(
+            //         child: ListView.separated(
+            //           separatorBuilder: (ctx, i) => SizedBox(
+            //             height: MediaQuery.of(context).size.height / 40,
+            //           ),
+            //           shrinkWrap: true,
+            //           physics: ScrollPhysics(),
+            //           itemCount: homeScreenList.length,
+            //           itemBuilder: (ctx, i) => HomeScreenItem(
+            //             routeName: homeScreenList[i]['routeName'],
+            //             title: homeScreenList[i]['title'],
+            //             url: homeScreenList[i]['url'],
+            //             description: homeScreenList[i]['description'],
+            //             heroID: homeScreenList[i]['heroID'],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
-        ],
+        ),
       ),
     );
   }

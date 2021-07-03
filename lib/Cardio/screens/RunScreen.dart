@@ -1,4 +1,7 @@
 // import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:fiitgn/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'dart:math';
 import 'ShowRunResults.dart';
 import 'package:background_location/background_location.dart' as bLoc;
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = 'NewMapScreen';
@@ -16,8 +20,14 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final StopWatchTimer stopWatchTimer = StopWatchTimer();
+  final isHours = true;
+
   final GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   int finishFlag = 0; // flag to check if finish should be showed or no
+  int pauseFlag = 0;
+  int resume_end_flag = 0;
+  String displayTime;
   bool isChanged = false;
   DateTime startingTime;
   DateTime endingTime;
@@ -54,92 +64,46 @@ class _MapScreenState extends State<MapScreen> {
     zoom: 18.00,
   );
 
-  void updateMarkerAndCircle(double latitude, double longitude) {
-    // print("newLocalData type is" + newLocalData.runtimeType.toString());
-    LatLng latlng = LatLng(latitude, longitude);
-    this.setState(
-      () {
-        // marker = Marker(
-        //   markerId: MarkerId("home"),
-        //   visible: false,
-        //   position: latlng,
-        //   rotation: newLocalData.heading,
-        //   draggable: false,
-        //   zIndex: 2,
-        //   flat: true,
-        //   anchor: Offset(0.5, 0.5),
-        // );
-        circle = Circle(
-          circleId: CircleId("_"),
-          radius: 2,
-          zIndex: 1,
-          strokeColor: Colors.blue,
-          center: latlng,
-          fillColor: Colors.blue.withAlpha(70),
-        );
-      },
-    );
+  pause_run() async {
+    print("Pausing RUN");
+    await bLoc.BackgroundLocation.stopLocationService();
+    // await bLoc.BackgroundLocation.stopLocationService();
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    setState(() {
+      resume_end_flag = 1;
+    });
+    print("run has been paused");
   }
 
-  double distanceCovered(double initialLatitude, double initialLongitude,
-      double finalLatitude, double finalLongitude) {
-    // converting all values to radians
-    double lat1 = initialLatitude / 57.29577951;
-    initialLongitude = initialLongitude / 57.29577951;
-    double lat2 = finalLatitude / 57.29577951;
-    finalLongitude = finalLongitude / 57.29577951;
-    double dlat = lat2 - lat1;
-    double dlon = finalLongitude - initialLongitude;
-    // finding distance in Kms using Haversine formula
-    double a =
-        pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
-    double c = 2 * asin(sqrt(a));
-
-    double r = 6371; // radius of Earth in Kms
-    double distance = r * c;
-    return (distance);
+  resume_run() async {
+    print("RESUMING RUN");
+    // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    setState(() {
+      resume_end_flag = 0;
+    });
+    start_run();
   }
 
-  void getCurrentLocation() async {
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    print("RUNNING HAS STARTED");
-    try {
-      loc.LocationData location = await _locationTracker.getLocation();
-      print("location gotten");
+  start_run() async {
+    print("starting RUN");
+    await bLoc.BackgroundLocation.startLocationService();
+    if (Platform.isAndroid) {
       await bLoc.BackgroundLocation.setAndroidNotification(
         title: 'FIITGN is running in the background',
         message: 'Please keep the device active',
         icon: "@mipmap/ic_launcher",
       );
-      // await bLoc.BackgroundLocation.setAndroidConfiguration(interval: 1000);
-      await bLoc.BackgroundLocation.startLocationService();
-      print('location services started');
-      updateMarkerAndCircle(location.latitude, location.longitude);
-      isChanged = true;
-      if (flag == 0) {
-        print("flag==0 condition");
-        initialLatitude = location.latitude;
-        initialLongitude = location.longitude;
-
-        //  storing initial Location
-        storeInitialLat = initialLatitude;
-        storeInitialLong = initialLongitude;
-        setState(() {
-          finishFlag = 1; // flag to check if finish should be showed or no
-        });
-        listOfLatLngForPoly
-            .add({'latitude': storeInitialLat, 'longitude': storeInitialLong});
-        startingTime = DateTime.now();
-        print("starting Time is " + startingTime.toString());
-        // print("This portion is being run");
-        flag = 1;
-      }
-      if (_locationSubscription != null) {
-        _locationSubscription.cancel();
-      }
-      // print("stream beginning");
-      bLoc.BackgroundLocation.getLocationUpdates((location) {
-        print("code entered the stream");
+    }
+    print('BACKGRUND location services started');
+    // print("stream beginning");
+    ///////%%%%%%%%%%%%%%%%%%
+    // STARTING stopwatch
+    stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    /////%%%%%%%%%%%%%%%%%%%%
+    // print("alpha alpha alpha");
+    bLoc.BackgroundLocation.getLocationUpdates(
+      (location) {
+        print("code entered the BACKGROUND stream");
         if (_controller != null) {
           // print("stream going on");
           _controller.animateCamera(
@@ -174,7 +138,165 @@ class _MapScreenState extends State<MapScreen> {
         // listOfLatLngForPoly.add(LatLng(initialLatitude, initialLongitude));
         listOfLatLngForPoly
             .add({'latitude': initialLatitude, 'longitude': initialLongitude});
-      });
+
+        // print("beta");
+        LatLng latlng = LatLng(initialLatitude, initialLongitude);
+        polylineCoordinates.add(latlng);
+        _polylines.add(
+          Polyline(
+            polylineId: PolylineId(initialLatitude.toString()),
+            visible: true,
+            //latlng is List<LatLng>
+            points: polylineCoordinates,
+            color: Colors.blue,
+          ),
+        );
+      },
+    );
+  }
+
+  end_run() {
+    print("ENDING RUN");
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        var actions2 = [
+          // ignore: deprecated_member_use
+          FlatButton(
+            onPressed: () async {
+              // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+              storeFinalLat = finalLatitude;
+              storeFinalLong = finalLongitude;
+              print(distance);
+              endingTime = DateTime.now();
+              passingToShowResults['initialLat'] = storeInitialLat;
+              passingToShowResults['initialLong'] = storeInitialLong;
+              passingToShowResults['finalLat'] = storeFinalLat;
+              passingToShowResults['finalLong'] = storeFinalLong;
+              passingToShowResults['initialTime'] = startingTime;
+              passingToShowResults['finalTime'] = endingTime;
+              passingToShowResults['distance'] = distance;
+              passingToShowResults['listOfLatLng'] = listOfLatLngForPoly;
+              List timeList = displayTime.split(":");
+              String duration_minutes = timeList[1];
+              String duration_hours = timeList[0];
+              String duration_seconds = timeList[2];
+              passingToShowResults['duration_minutes'] = duration_minutes;
+              passingToShowResults['duration_hours'] = duration_hours;
+              passingToShowResults['duration_seconds'] = duration_seconds;
+
+              // print("All parameters stored successfully");
+
+              // _locationSubscription.cancel();
+              // await bLoc.BackgroundLocation.stopLocationService();
+              Navigator.of(context).pushReplacementNamed(
+                  ShowResultsScreen.routeName,
+                  arguments: passingToShowResults);
+            },
+            child: Text('Yes'),
+          ),
+          // ignore: deprecated_member_use
+          FlatButton(
+            onPressed: () {
+              stopWatchTimer.onExecute.add(StopWatchExecute.start);
+              Navigator.of(ctx).pop(true);
+              resume_run();
+              // setState(() {
+              //   resume_end_flag = 0;
+              //   resume_run();
+              // });
+            },
+            child: Text('No'),
+          ),
+        ];
+        return AlertDialog(
+          title: Text('Are you sure you want to end Run?'),
+          actions: actions2,
+        );
+      },
+    );
+  }
+
+  void updateMarkerAndCircle(double latitude, double longitude) {
+    // print("newLocalData type is" + newLocalData.runtimeType.toString());
+    LatLng latlng = LatLng(latitude, longitude);
+    this.setState(
+      () {
+        circle = Circle(
+          circleId: CircleId("_"),
+          radius: 2,
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70),
+        );
+      },
+    );
+  }
+
+  double distanceCovered(double initialLatitude, double initialLongitude,
+      double finalLatitude, double finalLongitude) {
+    // converting all values to radians
+    double lat1 = initialLatitude / 57.29577951;
+    initialLongitude = initialLongitude / 57.29577951;
+    double lat2 = finalLatitude / 57.29577951;
+    finalLongitude = finalLongitude / 57.29577951;
+    double dlat = lat2 - lat1;
+    double dlon = finalLongitude - initialLongitude;
+    // finding distance in Kms using Haversine formula
+    double a =
+        pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
+    double c = 2 * asin(sqrt(a));
+
+    double r = 6371; // radius of Earth in Kms
+    double distance = r * c;
+    return (distance);
+  }
+
+  void getCurrentLocation() async {
+    print("RUNNING HAS STARTED");
+    try {
+      loc.LocationData location = await _locationTracker.getLocation();
+      print("location gotten");
+      if (Platform.isAndroid) {
+        await bLoc.BackgroundLocation.setAndroidNotification(
+          title: 'FIITGN is running in the background',
+          message: 'Please keep the device active',
+          icon: "@mipmap/ic_launcher",
+        );
+      }
+      await bLoc.BackgroundLocation.startLocationService();
+
+      print('location services started');
+      updateMarkerAndCircle(location.latitude, location.longitude);
+      isChanged = true;
+      if (flag == 0) {
+        initialLatitude = location.latitude;
+        initialLongitude = location.longitude;
+        //  storing initial Location
+        storeInitialLat = initialLatitude;
+        storeInitialLong = initialLongitude;
+        setState(() {
+          pauseFlag = 1;
+          // finishFlag = 1; // flag to check if finish should be showed or no
+        });
+        listOfLatLngForPoly
+            .add({'latitude': storeInitialLat, 'longitude': storeInitialLong});
+
+        startingTime = DateTime.now();
+        print("starting Time is " + startingTime.toString());
+        // print("This portion is being run");
+        flag = 1;
+      }
+      if (_locationSubscription != null) {
+        _locationSubscription.cancel();
+      }
+      // print("stream beginning");
+
+      ///////%%%%%%%%%%%%%%%%%%
+      // STARTING stopwatch
+      start_run();
     } on PlatformException catch (e) {
       print("error");
       print(e.toString());
@@ -185,13 +307,12 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void endRun() {}
-
   _showSnackBar() {
     // print("a");
-    final snackBar = SnackBar(content: Text("Sorry! Back button is disabled"));
+    final snackBar = SnackBar(content: Text("Pausing Run"));
     // ignore: deprecated_member_use
     key.currentState.showSnackBar(snackBar);
+
     // print('b');
   }
 
@@ -210,65 +331,53 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    // print(MediaQuery.of(context).padding.bottom);
-    return (
-        // height: height,
-        // width: width,
-        Scaffold(
-      key: key,
-      body: WillPopScope(
-        onWillPop: () {
-          _showSnackBar();
-          return _onBackPressed();
-        },
-        child: SafeArea(
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    print(_screenHeight);
+    print(_screenRatio);
+    final MediaQueryData data = MediaQuery.of(context);
+    print(data);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: (Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.blue[100],
+          centerTitle: true,
+          title: Text(
+            'ACTIVITY LOGGING',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
+          ),
+        ),
+        key: key,
+        body: WillPopScope(
+          onWillPop: () {
+            if (pauseFlag == 0) {
+              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            } else {
+              _showSnackBar();
+              pause_run();
+            }
+
+            // return _onBackPressed();
+          },
           child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             return Container(
-              height: constraints.maxHeight,
+              height: _screenHeight,
               child: Column(
                 children: [
-                  // SizedBox(height: MediaQuery.of(context).size.height / 10,),
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //       begin: Alignment.topCenter,
-                  //       end: Alignment.bottomCenter,
-                  //       colors: [Color(0xFF145374), Colors.white],
-                  //     ),
-                  //   ),
-                  //   //  color: Colors.black,
-                  //   height: MediaQuery.of(context).size.height / 5.5,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.fromLTRB(
-                  //         MediaQuery.of(context).size.width / 20,
-                  //         MediaQuery.of(context).size.width / 10,
-                  //         0,
-                  //         0),
-                  //     child: Row(
-                  //       children: [
-                  //         Container(
-                  //             height: MediaQuery.of(context).size.height / 11,
-                  //             child: Image.asset('assets/10765.png')),
-                  //         SizedBox(
-                  //           width: MediaQuery.of(context).size.width / 7,
-                  //         ),
-                  //         Text(
-                  //           'Running',
-                  //           style: TextStyle(
-                  //               fontWeight: FontWeight.bold,
-                  //               fontFamily: 'Raleway',
-                  //               fontSize: MediaQuery.of(context).size.width / 12),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Container(
-                    height: MediaQuery.of(context).size.height / 1.5,
-                    width: MediaQuery.of(context).size.width,
+                    height: 0.66 * _screenHeight,
+                    width: _screenWidth,
                     child: GoogleMap(
                       initialCameraPosition: initialPosition,
                       mapType: MapType.normal,
@@ -280,130 +389,77 @@ class _MapScreenState extends State<MapScreen> {
                       },
                     ),
                   ),
-
-                  //  Divider(),
                   Expanded(
                     child: Container(
-                      child:
-                          // child: finishFlag == 1
-                          //     ? Container()
-                          Column(
+                      decoration: BoxDecoration(
+                        color: Colors.blue[100],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(0.05 * _screenHeight),
+                          topRight: Radius.circular(0.05 * _screenHeight),
+                        ),
+                      ),
+                      child: Column(
                         children: [
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 100,
-                          // ),
-                          // Center(
-                          //   child: Container(
-                          //     decoration: BoxDecoration(
-                          //         color: Colors.grey,
-                          //         borderRadius: BorderRadius.circular(
-                          //             MediaQuery.of(context).size.height / 100)),
-                          //     height: MediaQuery.of(context).size.height / 500,
-                          //     width: MediaQuery.of(context).size.width / 3,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 80,
-                          // ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     // Padding(
-                          //     //     padding: const EdgeInsets.all(10.0),
-                          //     //     child:
-
-                          //     Container(
-                          //       child: Text(
-                          //         dateToShowOnScreen == null
-                          //             ? ''
-                          //             : DateFormat.MMMMEEEEd()
-                          //                 .format(dateToShowOnScreen)
-                          //                 .toString(),
-                          //         style: TextStyle(
-                          //             //color: Colors.white,
-                          //             fontFamily: 'Raleway',
-                          //             fontSize:
-                          //                 MediaQuery.of(context).size.height /
-                          //                     50),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          //  Divider(),
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 100,
-                          // ),
                           Container(
-                            height:
-                                0.3 * MediaQuery.of(context).size.height / 3,
+                            height: 0.12 * _screenHeight,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // SizedBox(
-                                //   width: (3 / 8) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                                 Container(
-                                  height: 0.25 *
-                                      MediaQuery.of(context).size.height /
-                                      3,
-                                  //PUT DURATION STOPWATCH HERE
-                                  // child: Text(
-                                  //   dist,
-                                  //   style: TextStyle(
-                                  //       // color: Colors.white,
-                                  //       fontSize:
-                                  //           MediaQuery.of(context).size.height /
-                                  //               25,
-                                  //       fontWeight: FontWeight.w700),
-                                  // ),
+                                  alignment: Alignment.center,
+                                  child: StreamBuilder<int>(
+                                    stream: stopWatchTimer.rawTime,
+                                    initialData: stopWatchTimer.rawTime.value,
+                                    builder: (context, snapshot) {
+                                      final value = snapshot.data;
+                                      displayTime =
+                                          StopWatchTimer.getDisplayTime(value,
+                                              hours: isHours,
+                                              milliSecond: false);
+                                      return Text(
+                                        displayTime,
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.07 * _screenHeight,
+                                            // color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 Container(
                                   child: Center(
                                     child: Text(
                                       'DURATION',
                                       style: TextStyle(
+                                          fontSize: 0.018 * _screenHeight,
                                           //      color: Colors.white,
                                           fontFamily: 'Gilroy'),
                                     ),
                                   ),
                                 ),
-                                // SizedBox(
-                                //   width: (3 / 16) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                               ],
                             ),
                           ),
-                          Divider(),
+                          Divider(height: 0.01 * _screenHeight),
                           Container(
-                            height:
-                                0.3 * MediaQuery.of(context).size.height / 3,
+                            height: 0.12 * _screenHeight,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.2,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      // SizedBox(
-                                      //   width: (3 / 8) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                       Container(
-                                        height: 0.25 *
-                                            MediaQuery.of(context).size.height /
-                                            3,
                                         child: Center(
                                           child: Text(
                                             dist,
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
-                                                fontSize: 0.15 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    3,
+                                                fontSize: 0.07 * _screenHeight,
                                                 // color: Colors.white,
                                                 fontWeight: FontWeight.w700),
                                           ),
@@ -414,46 +470,29 @@ class _MapScreenState extends State<MapScreen> {
                                           child: Text(
                                             'KILOMETRES',
                                             style: TextStyle(
+                                                fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
                                                 fontFamily: 'Gilroy'),
                                           ),
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //   width: (3 / 16) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                     ],
                                   ),
                                 ),
-                                VerticalDivider(),
-                                // SizedBox(
-                                //   width: (3 / 8) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
+                                VerticalDivider(
+                                  width: 0.08 * _screenHeight,
+                                ),
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 2.2,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      // SizedBox(
-                                      //   width: (3 / 8) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                       Container(
-                                        height: 0.25 *
-                                            MediaQuery.of(context).size.height /
-                                            3,
                                         child: Center(
                                           child: Text(
                                             speedString,
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
-                                                fontSize: 0.15 *
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    3,
+                                                fontSize: 0.07 * _screenHeight,
                                                 // color: Colors.white,
                                                 fontWeight: FontWeight.w700),
                                           ),
@@ -464,84 +503,96 @@ class _MapScreenState extends State<MapScreen> {
                                           child: Text(
                                             'MPS',
                                             style: TextStyle(
+                                                fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
                                                 fontFamily: 'Gilroy'),
                                           ),
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //   width: (3 / 16) *
-                                      //       (MediaQuery.of(context).size.width),
-                                      // ),
                                     ],
                                   ),
                                 ),
-
-                                // SizedBox(
-                                //   width: (3 / 16) *
-                                //       (MediaQuery.of(context).size.width),
-                                // ),
                               ],
                             ),
                           ),
-                          Divider(),
-                          finishFlag == 0
-                              ? Expanded(
-                                  child: Container(
-                                    child: InkWell(
-                                      // print("%%%%%%%%%%%%%%%%%");
-                                      // print("starting the run");
-                                      onTap: getCurrentLocation,
-                                      child: IntrinsicHeight(
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.stretch,
-                                          children: [
-                                            Container(
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              //  height:MediaQuery.of(context).size.height/20,
-                                              // height: 0.2 * MediaQuery.of(context).size.height / 3 ,
-
-                                              // height:
-                                              //     MediaQuery.of(context).size.height /
-                                              //         ,
-                                              child: Text(
-                                                'START RUN',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            45,
-                                                    fontFamily: 'Gilroy',
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius:
-                                              //         BorderRadius.circular(20),
-                                              color: Colors.green[300],
-                                            ),
-                                          ],
+                          Divider(height: 0.01 * _screenHeight),
+                          pauseFlag == 0
+                              ? Container(
+                                  height: 0.08 * _screenHeight,
+                                  child: Center(
+                                    child: Container(
+                                      child: InkWell(
+                                        // print("%%%%%%%%%%%%%%%%%");
+                                        // print("starting the run");
+                                        onTap: () {
+                                          getCurrentLocation();
+                                          // getCurrentLocation().then((value) {
+                                          //   print("entered run block");
+                                          //   start_run();
+                                          // });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.green[300],
+                                            borderRadius: BorderRadius.circular(
+                                                0.02 * _screenHeight),
+                                          ),
+                                          alignment: Alignment.center,
+                                          width: 0.45 * _screenWidth,
+                                          height: 0.05 * _screenHeight,
+                                          child: Text(
+                                            'BEGIN',
+                                            style: TextStyle(
+                                                fontSize: 0.04 * _screenHeight,
+                                                fontFamily: 'Gilroy',
+                                                fontWeight: FontWeight.w600),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 )
-                              : Expanded(
-                                  child: Container(
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) {
-                                            var actions2 = [
-                                              // ignore: deprecated_member_use
-                                              FlatButton(
-                                                onPressed: () {
+                              : pauseFlag == 1 && resume_end_flag == 1
+                                  ? Container(
+                                      height: 0.08 * _screenHeight,
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  resume_run();
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.green[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0.02 *
+                                                                _screenHeight),
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  width: 0.45 * _screenWidth,
+                                                  height: 0.05 * _screenHeight,
+                                                  child: Text(
+                                                    'RESUME',
+                                                    style: TextStyle(
+                                                        fontSize: 0.04 *
+                                                            _screenHeight,
+                                                        fontFamily: 'Gilroy',
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  stopWatchTimer.onExecute.add(
+                                                      StopWatchExecute.stop);
                                                   storeFinalLat = finalLatitude;
                                                   storeFinalLong =
                                                       finalLongitude;
@@ -569,79 +620,94 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'listOfLatLng'] =
                                                       listOfLatLngForPoly;
+                                                  List timeList =
+                                                      displayTime.split(":");
+                                                  String duration_minutes =
+                                                      timeList[1];
+                                                  String duration_hours =
+                                                      timeList[0];
+                                                  String duration_seconds =
+                                                      timeList[2];
+                                                  passingToShowResults[
+                                                          'duration_minutes'] =
+                                                      duration_minutes;
+                                                  passingToShowResults[
+                                                          'duration_hours'] =
+                                                      duration_hours;
+                                                  passingToShowResults[
+                                                          'duration_seconds'] =
+                                                      duration_seconds;
 
                                                   // print("All parameters stored successfully");
 
                                                   // _locationSubscription.cancel();
-                                                  bLoc.BackgroundLocation
-                                                      .stopLocationService();
+                                                  // await bLoc.BackgroundLocation.stopLocationService();
                                                   Navigator.of(context)
                                                       .pushReplacementNamed(
                                                           ShowResultsScreen
                                                               .routeName,
                                                           arguments:
                                                               passingToShowResults);
-                                                  // }
+                                                  // end_run();
                                                 },
-                                                child: Text('Yes'),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.red[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            0.02 *
+                                                                _screenHeight),
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  width: 0.45 * _screenWidth,
+                                                  height: 0.05 * _screenHeight,
+                                                  child: Text(
+                                                    'FINISH',
+                                                    style: TextStyle(
+                                                        fontSize: 0.04 *
+                                                            _screenHeight,
+                                                        fontFamily: 'Gilroy',
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
                                               ),
-                                              // ignore: deprecated_member_use
-                                              FlatButton(
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop(true);
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                            ];
-                                            return AlertDialog(
-                                              title: Text(
-                                                  'Are you sure you want to end Run?'),
-                                              actions: actions2,
-                                            );
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 0.08 * _screenHeight,
+                                      child: Center(
+                                        child: InkWell(
+                                          onTap: () {
+                                            pause_run();
                                           },
-                                        );
-                                      },
-                                      child: finishFlag == 0
-                                          ? Container()
-                                          : Container(
-                                              alignment: Alignment.center,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              // height: MediaQuery.of(context)
-                                              //         .size
-                                              //         .height /
-                                              //     25,
-                                              child: Text(
-                                                'END RUN',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            45,
-                                                    fontFamily: 'Gilroy',
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius:
-                                              //         BorderRadius.circular(20),
-                                              color: Colors.red[200],
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.red[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      0.02 * _screenHeight),
                                             ),
-                                    ),
-                                  ),
-                                ),
+                                            alignment: Alignment.center,
+                                            width: 0.45 * _screenWidth,
+                                            height: 0.05 * _screenHeight,
+                                            child: Text(
+                                              'PAUSE',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      0.04 * _screenHeight,
+                                                  fontFamily: 'Gilroy',
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
                         ],
                       ),
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.only(
-                      //       topLeft: Radius.circular(
-                      //           MediaQuery.of(context).size.width / 10),
-                      //       topRight: Radius.circular(
-                      //           MediaQuery.of(context).size.width / 10)),
-                      //   color: Colors.grey[850],
-                      // ),
                     ),
                   ),
                 ],
@@ -649,7 +715,24 @@ class _MapScreenState extends State<MapScreen> {
             );
           }),
         ),
-      ),
-    ));
+      )),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  final Color color;
+  final String label;
+  final Function onPressed;
+  CustomButton({this.color, this.label, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
+    return RaisedButton(
+      onPressed: onPressed,
+      color: color,
+      child: Text(label),
+    );
   }
 }

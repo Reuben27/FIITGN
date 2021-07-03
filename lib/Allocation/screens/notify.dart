@@ -2,7 +2,7 @@ import './rooms.dart';
 import '../data/initialize.dart';
 import 'package:flutter/material.dart';
 import './sports.dart';
-import 'entry.dart';
+import 'equipmententry.dart';
 
 // ignore: must_be_immutable
 class Notify extends StatelessWidget {
@@ -60,7 +60,7 @@ class Notify extends StatelessWidget {
                 } else{
                   reflag = 0;
                   Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => Entry(),
+                    MaterialPageRoute(builder: (context) => EquipmentEntry(),
                     ),
                   );
                 }

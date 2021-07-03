@@ -1,4 +1,4 @@
- import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 int breakfastIndex = 0;
@@ -82,11 +82,20 @@ const String url =
 // Success Status Message
 const STATUS_SUCCESS = "SUCCESS";
 
+List<NutritionData> _nutri_data_List = [];
+
 Future<List<NutritionData>> getNutritionData() async {
   return await http.get(Uri.parse(url)).then((response) {
     var jsonFeedback = convert.jsonDecode(response.body) as List;
-    return jsonFeedback.map((json) => NutritionData.fromJson(json)).toList();
+
+    _nutri_data_List =
+        jsonFeedback.map((json) => NutritionData.fromJson(json)).toList();
+    return _nutri_data_List;
   });
+}
+
+List<NutritionData> get nutri_data {
+  return _nutri_data_List;
 }
 
 void getIndices(List<NutritionData> data) {

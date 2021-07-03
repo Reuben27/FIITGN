@@ -1,10 +1,10 @@
-// import 'package:Fiitgn1/Providers/DataProvider.dart';
-import 'package:fiitgn/Sports-Activities/screens/activity_screens.dart';
-
-import './Workouts/screens/wishlist.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'Allocation/screens/calender.dart';
+////ADMIN SECTION
+import 'Admin/screens/admin_home.dart';
+
+//// CARDIO SECTION
 import 'Calendar-Schedule/calendar_try_screen.dart';
 import 'package:flutter/material.dart';
 import 'Cardio/screens/CardioScreen.dart';
@@ -24,15 +24,14 @@ import 'Cardio/screens/ShowCycleResults.dart';
 import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
-// import 'lib/Calendar-Schedule/schedueCalendar.dart';
 
-///////// WORKOUTS SECTION
+//// WORKOUTS SECTION
 import 'Workouts/screens/workouts-home.dart';
 import 'Workouts/screens/your-workouts.dart';
 import 'Workouts/screens/ongoing_workouts.dart';
 import 'Workouts/screens/wishlist.dart';
 import 'Workouts/models/Workout_provider.dart';
-import 'Workouts/screens/create_workouts2.dart';
+// import 'Workouts/screens/create_workouts2.dart';
 import 'Workouts/screens/create_workouts1.dart';
 import './Providers/DataProvider.dart';
 import 'Workouts/models/Admin_db_model.dart';
@@ -41,23 +40,43 @@ import 'Workouts/screens/explore_workouts.dart';
 import 'Workouts/screens/exercises_in_workout.dart';
 import 'Workouts/screens/created_by_user.dart';
 import 'Workouts/screens/workout_logging.dart';
+import 'Notifications/Notifications.dart';
+import 'Workouts/screens/workouts_history.dart';
+import 'Workouts/screens/workout_history_details.dart';
 
-////////Allocation
+//// Allocation
 import 'Allocation/screens/sports.dart';
 
-///// Guided Sessions
+//// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
 
 //// Nutrition
 import 'Nutrition/screens/nutritionScreen.dart';
-
-//// Activities
 import 'Sports-Activities/screens/activity_screens.dart';
+
+//// TEMP expansion panel
+import './Screens/expansion_list.dart';
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.notification.title);
+  print(message.notification.body);
+  print(message.data.toString());
+}
+
+String token;
+getToken() async {
+  token = await FirebaseMessaging.instance.getToken();
+  Data_Provider().setNotifToken(token);
+  print(token);
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); //Method needed to initialize firebase application.
   await Firebase.initializeApp();
+  getToken();
+  // When killed
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MyApp());
 }
 
@@ -67,6 +86,7 @@ class MyApp extends StatelessWidget {
     print(SignInGoogle().isSignedIn);
     return MultiProvider(
       providers: [
+        //// CARDIO
         ChangeNotifierProvider.value(
           value: RunDataProvider(),
         ),
@@ -103,7 +123,7 @@ class MyApp extends StatelessWidget {
         home: SplashScreen(),
 
         routes: {
-          ///// Cardio Section
+          //// Cardio Section
           CardioScreen.routeName: (ctx) => CardioScreen(),
           StepCounterScreen.routeName: (ctx) => StepCounterScreen(),
           MapScreen.routeName: (_) => MapScreen(),
@@ -112,27 +132,32 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (_) => HomeScreen(),
           PolyLineScreen.routeName: (_) => PolyLineScreen(),
           YourRunPolyLineScreen.routeName: (_) => YourRunPolyLineScreen(),
-          // DetailsScreen.routeName: (_) => DetailsScreen(),
           SignInGoogle.routeName: (_) => SignInGoogle(),
           StatsScreen.routeName: (_) => StatsScreen(),
           CycleScreen.routeName: (_) => CycleScreen(),
           ShowCycleResultsScreen.routeName: (_) => ShowCycleResultsScreen(),
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
-          ///// WOKROUTS SECTION
+
+          //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
           Your_Workouts.routeName: (_) => Your_Workouts(),
           Ongoing_Workouts.routeName: (_) => Ongoing_Workouts(),
           Wishlist.routeName: (_) => Wishlist(),
-          Create_Workout1.routeName: (_) => Create_Workout1(),
+          WorkoutHistoryScreen.routeName: (_) => WorkoutHistoryScreen(),
           Create_Workout2.routeName: (_) => Create_Workout2(),
           Explore_Workouts.routeName: (_) => Explore_Workouts(),
           Exercises_in_Workout.routeName: (_) => Exercises_in_Workout(),
           Created_by_user.routeName: (_) => Created_by_user(),
           Workout_Logging.routeName: (_) => Workout_Logging(),
-          ///// Allocation Section
+          Notifications.routeName: (_) => Notifications(),
+          Workout_History_Details.routeName: (_) => Workout_History_Details(),
+
+          ///// Admin Section
+          AdminHome.routeName: (_) => AdminHome(),
+
+          //// Allocation Section
           Sports.routeName: (_) => Sports(),
-          Calender.routeName: (_) => Calender(),
 
           //// Guided Sessions
           Sessions.routeName: (_) => Sessions(),
@@ -140,8 +165,16 @@ class MyApp extends StatelessWidget {
           ///// Nutrition
           NutritionScreen.routeName: (_) => NutritionScreen(),
 
-          /// Activities
+          //// Activities
           Activity_Screen.routeName: (_) => Activity_Screen(),
+
+          //// Stopwatch
+          //// StopWatchScreen.routeName: (_) => StopWatchScreen(),
+
+          //// Temp Expansion list
+          ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),
+          //// Splash Screen
+          SplashScreen.routeName: (_) => SplashScreen(),
         },
       ),
     );

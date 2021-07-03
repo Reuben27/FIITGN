@@ -1,44 +1,160 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import './rooms.dart';
+import './sports.dart';
+import '../utils/equipmentupdater.dart';
 import 'package:flutter/material.dart';
-import './orderconfirmation.dart';
-import './entry.dart';
 import '../data/initialize.dart';
+import 'equipmententry.dart';
 
-class Equipments extends StatefulWidget {
-  _EquipmentsState createState() => _EquipmentsState();
-}
-
-class _EquipmentsState extends State<Equipments> {
+// ignore: must_be_immutable
+class Equipments extends StatelessWidget {
+  // const Equipments({ Key? key }) : super(key: key);
+  String next = reflag == 0 ? "Room" : "Equipment";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Allocation System'),
-        centerTitle: true,
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    final MediaQueryData data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
       ),
-      body: Center(
-        child: DisplayData(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          orders = [];
-          //make the orders list
-          for (var i = 0; i < numberofequipments; i++) {
-            int temp = int.parse(controllers[i].text);
-            orders.add(temp);
-          }
-          print(orders);
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OrderConfirmation(),
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: Size(_screenWidth, 0.08 * _screenHeight),
+            child: Container(
+              height: 0.08 * _screenHeight,
+              width: _screenWidth,
+              child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Date",
+                    style: TextStyle(
+                        fontSize: 0.03 * _screenHeight,
+                        //      color: Colors.white,
+                        fontFamily: 'Gilroy'),
+                  ),
+                  Text(
+                    "Time Slot",
+                    style: TextStyle(
+                        fontSize: 0.03 * _screenHeight,
+                        //      color: Colors.white,
+                        fontFamily: 'Gilroy'),
+                  )
+                ],
+              ),
             ),
-          );
-        },
-        tooltip: 'Show me the value!',
-        child: Text(
-          'Next',
+          ),
+          backgroundColor: Colors.deepOrange[300],
+          title: Text(
+            'SELECT EQUIPMENT',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: DisplayData(),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            orders = [];
+            //make the orders list
+            for (var i = 0; i < numberofequipments; i++) {
+              int temp = counters[i];
+              orders.add(temp);
+            }
+            print(orders);
+            await infogetter();
+            return showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                    title: Row(
+                      children: [
+                        Text(
+                          "Booking Successful",
+                          style: TextStyle(fontFamily: "Gilroy"),
+                        ),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.green[300],
+                        ),
+                      ],
+                    ),
+                    content: Container(
+                      height: MediaQuery.of(context).size.height / 7,
+                      child: Column(
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Colors.deepOrange[300]),
+                            ),
+                            child: Text(
+                              "Home",
+                              style: TextStyle(
+                                  fontFamily: "Gilroy",
+                                  color: Colors.black,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 20),
+                            ),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Sports(),
+                                ),
+                              );
+                            },
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Colors.deepOrange[300],
+                              ),
+                            ),
+                            child: Text(
+                              'Book ' + next,
+                              style: TextStyle(
+                                  fontFamily: "Gilroy",
+                                  color: Colors.black,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width / 20),
+                            ),
+                            onPressed: () {
+                              if (reflag == 0) {
+                                reflag = 1;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Rooms(),
+                                  ),
+                                );
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    )));
+
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => Notify(),
+            //   ),
+            // );
+          },
+          tooltip: 'Show me the value!',
+          child: Icon(
+            Icons.check_sharp,
+            color: Colors.deepOrange[300],
+          ),
+          backgroundColor: Colors.grey[300],
         ),
       ),
     );
@@ -51,6 +167,26 @@ class DisplayData extends StatefulWidget {
 }
 
 class _DisplayDataState extends State<DisplayData> {
+  void incrementCounter(int i) {
+    setState(() {
+      if (counters[i] < availability[i]) {
+        counters[i] = counters[i] + 1;
+      } else {
+        print("max reached");
+      }
+    });
+  }
+
+  void decrementCounter(int i) {
+    setState(() {
+      if (counters[i] > 0) {
+        counters[i] = counters[i] - 1;
+      } else {
+        print("negative not allowed");
+      }
+    });
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -62,6 +198,11 @@ class _DisplayDataState extends State<DisplayData> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    final MediaQueryData data = MediaQuery.of(context);
     CollectionReference equipments =
         FirebaseFirestore.instance.collection(sportequipmentid);
 
@@ -78,78 +219,82 @@ class _DisplayDataState extends State<DisplayData> {
           );
         }
 
-        return new GridView(
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,childAspectRatio: 2,),
-              
+        return ListView(
           children: snapshot.data.docs.map((DocumentSnapshot document) {
-            return GestureDetector(
-              onTap: () {},
+            return Padding(
+              padding: EdgeInsets.only(
+                top: 0.00625 * _screenHeight,
+                bottom: 0.00625 * _screenHeight,
+                left: 0.03 * _screenWidth,
+                right: 0.03 * _screenWidth,
+              ),
               child: Container(
-                color: Colors.red[200],
-                child: Column(
-                  children: [
-                    Text(
-                      document['name'],
-                      // " " +
-                      // availability[document['availabilityindex']].toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Available: " +
-                          availability[document['availabilityindex']]
-                              .toString(),
-                    ),
-                    Container(
-                      width: 100,
-                      //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                      child: TextFormField(
-                        controller: controllers[document['availabilityindex']],
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Quantity',
-                        ),
+                width: _screenWidth,
+                decoration: BoxDecoration(
+                  color: Colors.deepOrange[300],
+                  borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 0.025 * _screenHeight,
+                    bottom: 0.025 * _screenHeight,
+                    left: 0.03 * _screenWidth,
+                    right: 0.03 * _screenWidth,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            document['name'],
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.04 * _screenHeight,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Available: " +
+                                availability[document['availabilityindex']]
+                                    .toString(),
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.025 * _screenHeight,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-
-                    // ListTile(
-                    //     trailing: Container(
-                    //       width: 100,
-                    //       //   margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                    //       child: TextFormField(
-                    //         controller: controllers[document['availabilityindex']],
-                    //         decoration: const InputDecoration(
-                    //           hintText: 'Enter Quantity',
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     subtitle: Text("Available: " + availability[document['availabilityindex']].toString(),),
-                    //     leading: Text(
-                    //       document['name'],
-                    //           // " " +
-                    //           // availability[document['availabilityindex']].toString(),
-                    //       textAlign: TextAlign.center,
-                    //       style: TextStyle(
-                    //        fontWeight: FontWeight.bold),
-                    //     ),
-                    //     // Container(
-                    //     //   width: 100,
-                    //     //  // margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                    //     //   color: Colors.blue[200],
-                    //     //   child: ListTile(
-                    //     //     title: new Text(
-                    //     //       document['name'] + " " + availability[document['availabilityindex']].toString(),
-                    //     //       textAlign: TextAlign.center,
-                    //     //       style: TextStyle(
-                    //     //         color: Colors.white,
-                    //     //         fontWeight: FontWeight.bold
-                    //     //       ),
-                    //     //     ),
-                    //     //   )
-                    //     // ),
-                    //   ),
-                    //   Divider(),
-                  ],
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              decrementCounter(document['availabilityindex']);
+                            },
+                            icon: Icon(Icons.arrow_back_ios),
+                          ),
+                          Center(
+                            child: Text(
+                              counters[document['availabilityindex']]
+                                  .toString(),
+                              style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 0.025 * _screenHeight,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              incrementCounter(document['availabilityindex']);
+                            },
+                            icon: Icon(Icons.arrow_forward_ios),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

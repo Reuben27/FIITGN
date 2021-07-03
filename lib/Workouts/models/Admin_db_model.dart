@@ -33,25 +33,20 @@ class GetAdminDataFromGoogleSheetProvider with ChangeNotifier {
   List<AdminDbModel> _listAdmin = List<AdminDbModel>();
   static const url =
       "https://script.google.com/macros/s/AKfycbx57muC0PlTGKmlkLTfrKP4Om9QJn1pjtVShNxc0Hxv7F5z9Sx5JB1xxhxGyiwchOw/exec";
-  Future<List<AdminDbModel>> getListOfAdmins() async {
-    print("t1");
+  getListOfAdmins() async {
     await http.get(Uri.parse(url)).then((response) {
-      print("t2");
       var jsonFeedback = convert.jsonDecode(response.body) as List;
-      print("t3");
       print(jsonFeedback);
-      print("t4");
       _listAdmin =
           jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
-      print("t5");
       notifyListeners();
     });
     // return null;
   }
 
-  List getAdminEmailIds() {
-    print(_listAdmin[0].name);
-    List adminEmailIds = [];
+  List<String> getAdminEmailIds() {
+    // print(_listAdmin[0].name);
+    List<String> adminEmailIds = [];
     _listAdmin.forEach(
       (element) {
         adminEmailIds.add(element.emailId);

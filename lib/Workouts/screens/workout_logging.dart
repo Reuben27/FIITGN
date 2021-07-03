@@ -1,10 +1,15 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../models/Exercise_db_model.dart';
 import '../models/Workouts_Log_Model.dart';
 import 'package:intl/intl.dart';
 import '../../Screens/HomeScreen.dart';
 import '../../Providers/DataProvider.dart';
 import '../models/Workout_Data_Log_Model.dart';
+import '../Widgets/rep_counter.dart';
+import '../Widgets/set_counter.dart';
+import '../models/Workout_provider.dart';
 
 class Workout_Logging extends StatefulWidget {
   static const routeName = '\Workout_Logging_Screen';
@@ -20,18 +25,30 @@ List<Workout_Log_Model> setsAndReps = List<Workout_Log_Model>();
 List<Workout_Log_Model> workoutList = List<Workout_Log_Model>();
 
 class _Workout_LoggingState extends State<Workout_Logging> {
-  TextEditingController repEditingController = TextEditingController();
-  TextEditingController setEditingController = TextEditingController();
+  int finishFlag = 0; // flag to check if finish should be showed or no
+  int pauseFlag = 0;
+  int resume_end_flag = 0;
+  final StopWatchTimer stopWatchTimer = StopWatchTimer();
+  String displayTime;
+
+  TextEditingController weightsEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    startTimer();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    repEditingController.dispose();
-    setEditingController.dispose();
+    weightsEditingController.dispose();
     super.dispose();
   }
 
   Future<bool> _onBackPressed() async {
+    stopTimer();
     return showDialog(
       context: context,
       builder: (_) {
@@ -56,6 +73,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             // ignore: deprecated_member_use
             FlatButton(
               onPressed: () {
+                startTimer();
                 Navigator.of(_).pop();
               },
               child: Text('No'),
@@ -66,398 +84,770 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     );
   }
 
-  void addNewSet(String exerciseId, int setVal, int repVal) {
+  void addNewSet(String exerciseName, String exerciseId, int setVal, int repVal,
+      int weightsVal) {
     final Workout_Log_Model newData = Workout_Log_Model(
+      exerciseName: exerciseName,
       exerciseId: exerciseId,
       numOfReps: repVal,
       setNumber: setVal,
+      weight: weightsVal,
     );
-
     setsAndReps.add(newData);
-    // testing
-    print(newData.setNumber);
-    print("Value aded " + setsAndReps[setsAndReps.length - 1].exerciseId);
   }
 
-  void saveData(String uid, String date, List<Workout_Log_Model> exercices,
-      String workoutName) {
+  void saveData(List<Workout_Log_Model> exercices, String workoutName) {
     print("save data initiated");
-    print("User UID is " + uid);
-    Workout_Data_Model data = Workout_Data_Model(
-        databaseId: "",
-        uid: uid,
-        date: date,
-        listOfSetsReps: exercices,
-        user_name: Data_Provider().name,
-        workoutName: workoutName);
-    // ignore: deprecated_member_use
-    setsAndReps = List<Workout_Log_Model>();
-    showDialog(
+    if (exercices.length == 0) {
+      print("no exercises to log");
+    } else {
+      String uid = Data_Provider().uid;
+      List time = displayTime.split(":");
+      String duration_minutes = time[1];
+      String duration_hours = time[0];
+      String duration_seconds = time[2];
+
+      /// change this date to the starting time of the workout
+      String date = DateTime.now().toIso8601String();
+      Workout_Data_Model data = Workout_Data_Model(
+          duration_seconds: duration_seconds,
+          duration_hours: duration_hours,
+          duration_minutes: duration_minutes,
+          databaseId: "",
+          uid: uid,
+          date: date,
+          listOfSetsRepsWeights: exercices,
+          user_name: Data_Provider().name,
+          workoutName: workoutName);
+      // ignore: deprecated_member_use
+      // setsAndReps = List<Workout_Log_Model>();
+
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          stopTimer();
+          return AlertDialog(
+            title: Text("Do you want to save and End?"),
+            actions: [
+              FloatingActionButton(
+                child: Text("Yes"),
+                onPressed: () async {
+                  // ignore: deprecated_member_use
+                  setsAndReps = List<Workout_Log_Model>();
+                  await Workouts_Provider().saveWorkoutToDb(data);
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              FloatingActionButton(
+                child: Text("No"),
+                onPressed: () {
+                  startTimer();
+                  Navigator.of(context).pop(true);
+                  // setState(() {
+
+                  // });
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  startTimer() {
+    stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    setState(() {
+      resume_end_flag = 0;
+    });
+  }
+
+  stopTimer() async {
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    setState(() {
+      resume_end_flag = 1;
+    });
+  }
+
+  removeLog(int i) {
+    setsAndReps.removeAt(i);
+    setState(() {});
+    // setsAndReps.forEach(
+    //   (element) {
+    //   //  String currentExerciseId = exercises[index].exerciseId;
+    //   //   if (element.exerciseId == currentExerciseId) {
+    //   //     workoutList.add(element);
+    //   //     print(workoutList[workoutList.length - 1]);
+    //   //     setState(() {});
+    //   //   }
+    //   },
+    // );
+  }
+
+  Widget addSet() {
+    /// returns a row
+    return Center(
+      child: Container(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+
+        // width: MediaQuery.of(context).size.width / 5,
+        child: Set_Counter(),
+      ),
+    );
+  }
+
+  Widget addRep() {
+    /// returns a row
+    // return Row(
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Text("Add number of reps:  "),
+    //     Container(
+    //       width: MediaQuery.of(context).size.width / 2,
+    //       child: Rep_Counter(),
+    //     )
+    //   ],
+    // );
+    return Center(
+      child: Container(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+
+        // width: MediaQuery.of(context).size.width / 5,
+        child: Rep_Counter(),
+      ),
+    );
+  }
+
+  Widget addWeights(var _screenHeight, var _screenWidth) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "Weights (in kilograms)",
+          textScaleFactor: 0.8,
+          style: TextStyle(
+            fontFamily: 'Gilroy',
+            fontSize: 0.025 * _screenHeight,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Container(
+          width: 0.2 * _screenWidth,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+            controller: weightsEditingController,
+            style:
+                TextStyle(fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    return Container(
+      width: 0.3 * _screenWidth,
+      child: OutlinedButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Done",
+              textScaleFactor: 0.8,
+              style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.025 * _screenHeight,
+                  color: Colors.black),
+            ),
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          ],
+        ),
+        onPressed: () {
+          String repVal = "0";
+          String setVal = "0";
+          String weightsVal = "0";
+          repVal = Rep_CounterState.counter.toString();
+          print("rep Val is " + repVal);
+          setVal = Set_CounterState.counter.toString();
+          weightsVal = weightsEditingController.text;
+          print("repVal-->" + repVal);
+          print("setVal-->" + setVal);
+          print("weightsVal-->" + weightsVal);
+          // Resetting variables
+          Rep_CounterState.counter = 0;
+          Set_CounterState.counter = 0;
+          weightsEditingController = new TextEditingController();
+          print("rep Val is " + repVal);
+          if (repVal == "") {
+            repVal = "0";
+          }
+          if (setVal == "") {
+            setVal = "0";
+          }
+          if (weightsVal == "") {
+            weightsVal = "0";
+          }
+          if (repVal == "" || setVal == "" || weightsVal == "") {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text('No field should be empty.'),
+                  actions: [
+                    // ignore: deprecated_member_use
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('OK'))
+                  ],
+                );
+              },
+            );
+          } else {
+            String currentExerciseId = exercises[index].exerciseId;
+            String currentExerciseName = exercises[index].exerciseName;
+            print(currentExerciseId + " is the id");
+            // print("same exercise");
+            addNewSet(
+              currentExerciseName,
+              currentExerciseId,
+              int.parse(setVal),
+              int.parse(repVal),
+              int.parse(weightsVal),
+            );
+            // print("different exercise");
+            Navigator.of(ctx).pop(true);
+
+            setsAndReps.forEach(
+              (element) {
+                if (element.exerciseId == currentExerciseId) {
+                  workoutList.add(element);
+                  print(workoutList[workoutList.length - 1]);
+                  setState(() {});
+                }
+              },
+            );
+            // testing
+            // print(index.toString() + " ---> val of i after popping");
+            // print(setsAndReps.length.toString() + "--> len of sets and reps");
+          }
+        },
+      ),
+    );
+  }
+
+  Future addSetsRepsWeights(
+      BuildContext context,
+      List<ExerciseDbModel> exercises,
+      int index,
+      var _screenHeight,
+      var _screenWidth) {
+    return showModalBottomSheet(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("Do you want to save and End?"),
-        actions: [
-          FloatingActionButton(
-            child: Text("Yes"),
-            onPressed: () {
-              //////////////////
-              //
-              ////////////
-              //
-              //
-              //
-              //
-              //
-              // ADD FUNCTION TO STORE DATA ON DB
-              // workoutDataProvider.saveToYourWorkouts(data);
-              Navigator.of(context).pop(true);
-              Navigator.of(context).pop(true);
-            },
+      builder: (ctx) => Container(
+        color: Colors.blueGrey[200],
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 0.0125 * _screenHeight,
           ),
-          FloatingActionButton(
-            child: Text("No"),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                exercises[index].exerciseName + " LOG",
+                textScaleFactor: 0.8,
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.04 * _screenHeight,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(),
+              Text(
+                "Set Number",
+                textScaleFactor: 0.8,
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.025 * _screenHeight,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(child: Container(child: addSet())),
+              Text(
+                "Reps",
+                textScaleFactor: 0.8,
+                style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.025 * _screenHeight,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(child: Container(child: addRep())),
+              addWeights(_screenHeight, _screenWidth),
+              SizedBox(
+                height: 0.01 * _screenHeight,
+              ),
+              done(context, exercises, index),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // the list of exercises in the workout clicked to be done
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments as Map;
     List<ExerciseDbModel> exercises = routeArgs['exercises'];
     String workoutName = routeArgs['workoutName'];
-    String uid = Data_Provider().uid;
-    // String uid = workoutDataProvider.getUid;
-
-    final DateTime date = DateTime.now();
-    final String dateIso = date.toIso8601String();
-    // final String day = DateFormat.EEEE().format(date);
-
-    // MOVE THIS FUNCTION outside the build method when saving is enabled again WITHOUT FAIL
-
-    return Scaffold(
-        body: WillPopScope(
-      onWillPop: _onBackPressed,
-
-      /// adding code that handles back button pressing
-      child: PageView(
-        children: [
-          ListView(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: exercises.length,
-                      itemBuilder: (ctx, index) => Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                          ),
-                          ClipRRect(
-                            child: exercises[index].imageUrl == null
-                                ? Text('No Image yet')
-                                : Image.asset(
-                                    exercises[index].imageUrl,
-                                    height: 300,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
-                          ),
-                          Positioned(
-                            left: 10,
-                            bottom: 15,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  exercises[index].exerciseName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 30),
+    int pauser = 0;
+    final MediaQueryData data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: WillPopScope(
+        onWillPop: _onBackPressed,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: PreferredSize(
+                child: Container(
+                  // height: MediaQuery.of(context).size.height / 8,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Text(
+                        "DURATION",
+                        style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.018 * _screenHeight,
+                        ),
+                      )),
+                      StreamBuilder<int>(
+                        stream: stopWatchTimer.rawTime,
+                        initialData: stopWatchTimer.rawTime.value,
+                        builder: (context, snapshot) {
+                          final value = snapshot.data;
+                          displayTime = StopWatchTimer.getDisplayTime(value,
+                              hours: true, milliSecond: false);
+                          return Text(
+                            displayTime,
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.05 * _screenHeight,
+                                // color: Colors.white,
+                                fontWeight: FontWeight.w700),
+                          );
+                        },
+                      ),
+                      resume_end_flag == 0
+                          ? Container(
+                              width: 0.3 * _screenWidth,
+                              child: OutlinedButton(
+                                onPressed: stopTimer,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Pause",
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 0.025 * _screenHeight,
+                                          color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.pause,
+                                      color: Colors.black,
+                                    ),
+                                  ],
                                 ),
-                                // ignore: deprecated_member_use
-                                RaisedButton.icon(
-                                  icon: Icon(Icons.add),
-                                  label: Text('Add Log'),
-                                  onPressed: () {
-                                    // print("i= " + index.toString());
-                                    showDialog(
-                                      context: context,
-                                      builder: (ctx) => AlertDialog(
-                                        title: Text('Add Reps'),
-                                        actions: [
-                                          Container(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text("Add Set Number:  "),
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
-                                                      child: TextField(
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        controller:
-                                                            setEditingController,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text("Add Rep Count:  "),
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              5,
-                                                      child: TextField(
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        controller:
-                                                            repEditingController,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // ignore: deprecated_member_use
-                                                FlatButton(
-                                                  child: Text("Done"),
-                                                  onPressed: () {
-                                                    String repVal = "";
-                                                    String setVal = "";
-                                                    repVal =
-                                                        repEditingController
-                                                            .text;
-                                                    setVal =
-                                                        setEditingController
-                                                            .text;
-                                                    // print(index
-                                                    // .toString() +
-                                                    // " this is the value of i ");
-                                                    if (repVal == "" ||
-                                                        setVal == "") {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (_) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'No field should be empty.'),
-                                                            actions: [
-                                                              // ignore: deprecated_member_use
-                                                              FlatButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      'OK'))
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    } else {
-                                                      String currentExerciseId =
-                                                          exercises[index]
-                                                              .exerciseId;
-                                                      print(currentExerciseId +
-                                                          " is the id");
-                                                      // print("same exercise");
-                                                      addNewSet(
-                                                        currentExerciseId,
-                                                        int.parse(setVal),
-                                                        int.parse(repVal),
-                                                      );
-                                                      repEditingController =
-                                                          TextEditingController();
-                                                      setEditingController =
-                                                          TextEditingController();
-                                                      // print("different exercise");
-                                                      Navigator.of(ctx)
-                                                          .pop(true);
-
-                                                      setsAndReps.forEach(
-                                                        (element) {
-                                                          if (element
-                                                                  .exerciseId ==
-                                                              currentExerciseId) {
-                                                            workoutList
-                                                                .add(element);
-                                                            print(workoutList[
-                                                                workoutList
-                                                                        .length -
-                                                                    1]);
-                                                            setState(() {});
-                                                          }
-                                                        },
-                                                      );
-                                                      // testing
-                                                      print(index.toString() +
-                                                          " val of i after popping");
-                                                      print(setsAndReps.length
-                                                              .toString() +
-                                                          " len");
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
+                              ),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 0.3 * _screenWidth,
+                                  child: OutlinedButton(
+                                    onPressed: () =>
+                                        saveData(setsAndReps, workoutName),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Finish",
+                                          style: TextStyle(
+                                              fontFamily: 'Gilroy',
+                                              fontSize: 0.025 * _screenHeight,
+                                              color: Colors.black),
+                                        ),
+                                        Icon(
+                                          Icons.stop,
+                                          color: Colors.black,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 0.3 * _screenWidth,
+                                  child: OutlinedButton(
+                                    onPressed: startTimer,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Resume",
+                                          style: TextStyle(
+                                              fontFamily: 'Gilroy',
+                                              fontSize: 0.025 * _screenHeight,
+                                              color: Colors.black),
+                                        ),
+                                        Icon(
+                                          Icons.play_arrow,
+                                          color: Colors.black,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                preferredSize: Size(_screenWidth, 0.13 * _screenHeight),
               ),
-            ],
-          ),
-          Container(
-            color: Colors.grey[200],
-            child: Column(
+              centerTitle: true,
+              backgroundColor: Colors.blueGrey[300],
+              title: Text(
+                workoutName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 0.04 * _screenHeight,
+                    fontFamily: 'Gilroy'),
+              ),
+            ),
+            body: PageView(
               children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Workout Details",
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width / 10,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        FloatingActionButton(
-                          onPressed: () {
-                            saveData(uid, dateIso, setsAndReps, workoutName);
-                          },
-                          child: Icon(Icons.save),
-                        ),
-                      ]),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: setsAndReps.length,
-                    itemBuilder: (ctx, t) {
-                      // print("abcde");
-                      return Container(
-                        margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        height: MediaQuery.of(context).size.height / 10,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image(
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width / 4,
-                                  height:
-                                      MediaQuery.of(context).size.height / 10,
-                                  image: AssetImage(
-                                    exercises
-                                        .firstWhere((element) =>
-                                            element.exerciseId ==
-                                            setsAndReps[t].exerciseId)
-                                        .imageUrl,
-                                  ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 0.02 * _screenHeight,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: ListView.separated(
+                            separatorBuilder: (ctx, i) => SizedBox(
+                                  height: 0.02 * _screenHeight,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 16,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                            itemCount: exercises.length,
+                            itemBuilder: (ctx, i) {
+                              return Column(
                                 children: [
-                                  Text(
-                                    setsAndReps[t].exerciseId,
-                                    style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width /
-                                                20.5,
-                                        fontWeight: FontWeight.bold),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: EdgeInsets.only(
+                                      left: 0.03 * _screenWidth,
+                                      right: 0.03 * _screenWidth,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(
+                                            0.02 * _screenHeight),
+                                        topRight: Radius.circular(
+                                            0.02 * _screenHeight),
+                                      ),
+                                      child: Image(
+                                        image:
+                                            NetworkImage(exercises[i].imageUrl),
+                                      ),
+                                    ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                          "Set - " +
-                                              setsAndReps[t]
-                                                  .setNumber
-                                                  .toString(),
-                                          style: TextStyle(fontSize: 18)),
-                                      SizedBox(
-                                        width: 5,
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: EdgeInsets.only(
+                                      left: 0.03 * _screenWidth,
+                                      right: 0.03 * _screenWidth,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Colors.blueGrey[200],
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(
+                                              0.02 * _screenHeight),
+                                          bottomLeft: Radius.circular(
+                                              0.02 * _screenHeight),
+                                        )),
+                                    child: Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 0.00625 * _screenHeight,
+                                          bottom: 0.00625 * _screenHeight,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              exercises[i].exerciseName,
+                                              style: TextStyle(
+                                                  fontFamily: "Gilroy",
+                                                  fontSize:
+                                                      0.04 * _screenHeight,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Container(
+                                              width: 0.35 * _screenWidth,
+                                              child: OutlinedButton(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Record Set",
+                                                      style: TextStyle(
+                                                          fontFamily: 'Gilroy',
+                                                          fontSize: 0.025 *
+                                                              _screenHeight,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Icon(
+                                                      Icons.note_add_outlined,
+                                                      color: Colors.black,
+                                                    )
+                                                  ],
+                                                ),
+                                                onPressed: () {
+                                                  // print("i= " + index.toString());
+                                                  addSetsRepsWeights(
+                                                      ctx,
+                                                      exercises,
+                                                      i,
+                                                      _screenHeight,
+                                                      _screenWidth);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        "|",
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Reps - " +
-                                            setsAndReps[t].numOfReps.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ],
-                              ),
-                            ],
+                              );
+                            }),
+                      ),
+                    )
+                  ],
+                ),
+                /////// SECOND PAGE
+                Container(
+                  // color: Colors.grey[200],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 0.01 * _screenHeight,
+                      ),
+                      Expanded(
+                        child: ListView.separated(
+                          separatorBuilder: (ctx, j) => SizedBox(
+                            height: 0.005 * _screenHeight,
                           ),
+                          itemCount: setsAndReps.length,
+                          itemBuilder: (ctx, j) {
+                            // print("abcde");
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey[200],
+                                borderRadius:
+                                    BorderRadius.circular(0.02 * _screenHeight),
+                              ),
+                              // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
+                              margin: EdgeInsets.only(
+                                top: 0.00625 * _screenHeight,
+                                bottom: 0.00625 * _screenHeight,
+                                left: 0.03 * _screenWidth,
+                                right: 0.03 * _screenWidth,
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  top: 0.00625 * _screenHeight,
+                                  bottom: 0.0125 * _screenHeight,
+                                  left: 0.03 * _screenWidth,
+                                  right: 0.03 * _screenWidth,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          setsAndReps[j].exerciseName,
+                                          style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.04 * _screenHeight,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete_forever),
+                                          onPressed: () {
+                                            removeLog(j);
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                    Divider(),
+                                    Container(
+                                      height: 0.05 * _screenHeight,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              VerticalDivider(
+                                                color: Colors.black,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Set:",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    setsAndReps[j]
+                                                        .setNumber
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              VerticalDivider(
+                                                  color: Colors.black),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Reps:",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    setsAndReps[j]
+                                                        .numOfReps
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              VerticalDivider(
+                                                color: Colors.black,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Weight:",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    setsAndReps[j]
+                                                            .weight
+                                                            .toString() +
+                                                        " kg",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
-    ));
+    );
   }
 }
