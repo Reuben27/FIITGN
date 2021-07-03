@@ -151,11 +151,12 @@ class _Create_Workout2State extends State<Create_Workout2> {
               // title: Text('Workout Description'),
               children: [
                 Text(
-                  'Workout Details',textScaleFactor: 0.8,
+                  'Workout Details',
+                  textScaleFactor: 0.8,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                    fontSize: 0.04 * _screenHeight,
+                      fontSize: 0.04 * _screenHeight,
                       fontFamily: 'Gilroy'),
                 ),
 
@@ -196,10 +197,11 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Public",textScaleFactor: 0.8,
+                                    "Public",
+                                    textScaleFactor: 0.8,
                                     style: TextStyle(
                                         fontFamily: 'Gilroy',
-                                       fontSize: 0.025 * _screenHeight,
+                                        fontSize: 0.025 * _screenHeight,
                                         color: Colors.black),
                                   ),
                                   Icon(
@@ -230,10 +232,11 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Private",textScaleFactor: 0.8,
+                                    "Private",
+                                    textScaleFactor: 0.8,
                                     style: TextStyle(
                                         fontFamily: 'Gilroy',
-                                       fontSize: 0.025 * _screenHeight,
+                                        fontSize: 0.025 * _screenHeight,
                                         color: Colors.black),
                                   ),
                                   Icon(
@@ -260,16 +263,17 @@ class _Create_Workout2State extends State<Create_Workout2> {
                     :
                     /////## Save workout as private as non admin
                     Container(
-                        width:0.3 * _screenWidth,
+                        width: 0.3 * _screenWidth,
                         child: OutlinedButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Save",textScaleFactor: 0.8,
+                                "Save",
+                                textScaleFactor: 0.8,
                                 style: TextStyle(
                                     fontFamily: 'Gilroy',
-                                   fontSize: 0.025 * _screenHeight,
+                                    fontSize: 0.025 * _screenHeight,
                                     color: Colors.black),
                               ),
                               Icon(
@@ -636,7 +640,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            chestExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -808,7 +813,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            coreExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -914,7 +920,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                         right: 0.03 * _screenWidth,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: chestColorList[i],
+                                          color: shouldersColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
                                                   0.03 * _screenHeight),
@@ -981,7 +987,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            shoulderExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -1087,7 +1094,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                         right: 0.03 * _screenWidth,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: chestColorList[i],
+                                          color: bicepsColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
                                                   0.03 * _screenHeight),
@@ -1153,7 +1160,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            bicepsExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -1206,6 +1214,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                               child: InkWell(
                                 onTap: () {
                                   // print(allExerciseList[i].isWeighted);
+                                  print("working with a tricep exercise");
                                   if (!exercisesSelectedForWorkout
                                       .contains(tricepsExercises[i])) {
                                     Color color = Colors.green;
@@ -1220,6 +1229,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
+                                    print("un selecting triceps");
                                     Color color = Colors.grey[350];
                                     exercisesSelectedForWorkout
                                         .remove(tricepsExercises[i]);
@@ -1259,7 +1269,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                         right: 0.03 * _screenWidth,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: chestColorList[i],
+                                          color: tricepsColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
                                                   0.03 * _screenHeight),
@@ -1326,7 +1336,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            tricepsExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -1432,7 +1443,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                         right: 0.03 * _screenWidth,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: chestColorList[i],
+                                          color: legsColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
                                                   0.03 * _screenHeight),
@@ -1498,7 +1509,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            legsExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(
@@ -1604,7 +1616,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                         right: 0.03 * _screenWidth,
                                       ),
                                       decoration: BoxDecoration(
-                                          color: chestColorList[i],
+                                          color: backColorList[i],
                                           borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(
                                                   0.03 * _screenHeight),
@@ -1670,7 +1682,8 @@ class _Create_Workout2State extends State<Create_Workout2> {
                                                                 _screenHeight,
                                                           ),
                                                           child: Text(
-                                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                            backExercises[i]
+                                                                .category,
                                                             textScaleFactor:
                                                                 0.8,
                                                             style: TextStyle(

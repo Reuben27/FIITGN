@@ -1,3 +1,5 @@
+import 'package:fiitgn/Screens/HomeScreen.dart';
+
 import '../screens/sports.dart';
 import '../utils/roomavailableslots.dart';
 import 'package:flutter/material.dart';
@@ -306,7 +308,7 @@ class _RoomEntryState extends State<RoomEntry> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Sports(),
+                                    builder: (context) => HomeScreen(),
                                   ),
                                 );
                               },
