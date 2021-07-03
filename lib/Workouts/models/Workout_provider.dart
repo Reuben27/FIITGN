@@ -67,6 +67,8 @@ class Workouts_Provider with ChangeNotifier {
   }
 
   List<Workout_Data_Model> get loggedWorkouts {
+    print("betatattata");
+    print(_loggedWorkouts[0].workoutName);
     return [..._loggedWorkouts];
   }
 
@@ -379,6 +381,7 @@ class Workouts_Provider with ChangeNotifier {
       workoutName: data.workoutName,
     );
     _loggedWorkouts.insert(0, newLog);
+    print(_loggedWorkouts[0].workoutName);
     print("Saved a log workout successfully");
     notifyListeners();
   }

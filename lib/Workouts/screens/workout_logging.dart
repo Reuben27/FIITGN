@@ -120,7 +120,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           user_name: Data_Provider().name,
           workoutName: workoutName);
       // ignore: deprecated_member_use
-      setsAndReps = List<Workout_Log_Model>();
+      // setsAndReps = List<Workout_Log_Model>();
+
       showDialog(
         context: context,
         builder: (ctx) {
@@ -131,6 +132,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               FloatingActionButton(
                 child: Text("Yes"),
                 onPressed: () async {
+                  // ignore: deprecated_member_use
+                  setsAndReps = List<Workout_Log_Model>();
                   await Workouts_Provider().saveWorkoutToDb(data);
                   Navigator.of(context).pop(true);
                   Navigator.of(context).pop(true);
@@ -141,6 +144,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 onPressed: () {
                   startTimer();
                   Navigator.of(context).pop(true);
+                  // setState(() {
+
+                  // });
                 },
               ),
             ],
@@ -198,12 +204,13 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     );
   }
 
-  Widget addWeights(var _screenHeight,var _screenWidth) {
+  Widget addWeights(var _screenHeight, var _screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Weights (in kilograms)",textScaleFactor: 0.8,
+          "Weights (in kilograms)",
+          textScaleFactor: 0.8,
           style: TextStyle(
             fontFamily: 'Gilroy',
             fontSize: 0.025 * _screenHeight,
@@ -216,9 +223,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             controller: weightsEditingController,
-            style: TextStyle(
-                fontFamily: 'Gilroy',
-                fontSize: 0.02 * _screenHeight),
+            style:
+                TextStyle(fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
           ),
         ),
       ],
@@ -226,7 +232,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
-     var _screenHeight = MediaQuery.of(context).size.height -
+    var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
@@ -237,7 +243,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Done",textScaleFactor: 0.8,
+              "Done",
+              textScaleFactor: 0.8,
               style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -340,7 +347,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               ),
               Divider(),
               Text(
-                "Set Number",  textScaleFactor: 0.8,
+                "Set Number",
+                textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -349,7 +357,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               ),
               Center(child: Container(child: addSet())),
               Text(
-                "Reps",  textScaleFactor: 0.8,
+                "Reps",
+                textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -357,7 +366,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 ),
               ),
               Center(child: Container(child: addRep())),
-              addWeights(_screenHeight,_screenWidth),
+              addWeights(_screenHeight, _screenWidth),
               SizedBox(
                 height: 0.01 * _screenHeight,
               ),
