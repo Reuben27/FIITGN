@@ -125,61 +125,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
-    // {
-    //   'title': 'Expansion Panel',
-    //   'url': 'assets/roonn.png',
-    //   'routeName': ExpansionPanelDemo.routeName,
-    //   'description': 'EXPANSION',
-    //   'heroID': 1,
-    // },
+    
     {
       'title': 'Activities',
-      'url': 'assets/roonn.png',
+      'url': 'assets/act.png',
       'routeName': MapScreen.routeName,
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
     {
-      'title': 'Activity Results',
-      'url': 'assets/roonn.png',
+      'title': 'Activity Stats',
+      'url': 'assets/stats.png',
       'routeName': YourRuns.routeName,
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    // {
-    //   'title': 'Start Cycling',
-    //   'url': 'assets/11241.png',
-    //   'routeName': CycleScreen.routeName,
-    //   'description':
-    //       'Cycling can be accessed from here. Get out there and get those legs working!',
-    //   'heroID': 2,
-    // },
-    // {
-    //   'title': 'Workout',
-    //   'url': 'assets/4805.png',
-    //   'routeName': WorkoutHomeScreen.routeName,
-    //   'description':
-    //       'Had a quick warmup or a gruelling cardio session? Whichever it is, record it here and keep a tab on all those calories you are burning!',
-    //   'heroID': 3,
-    // },
-    // {
-    //   'title': 'Your Activities',
-    //   'url': 'assets/statLady.png',
-    //   'routeName': StatsScreen.routeName,
-    //   'description':
-    //       'Your running statistics can be seen here. Keep a watch and aim to reach higher and higher everyday.',
-    //   'heroID': 4,
-    // },
-    // // // {
-    // //   'title': 'Know Your Diet',
-    // //   'url': 'assets/6569.png',
-    // //   'routeName': '',
-    // //   'description':
-    // //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    // //   'heroID': 6,
-    // // },
+    
     {
       'title': 'Workouts',
       'url': 'assets/twerkout.png',
@@ -196,14 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
-    {
-      'title': 'Admin',
-      'url': 'assets/alloc.png',
-      'routeName': AdminHome.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 9,
-    },
+   
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',
@@ -219,6 +175,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 11,
+    },
+     {
+      'title': 'Admin',
+      'url': 'assets/admin.png',
+      'routeName': AdminHome.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 9,
     },
   ];
 

@@ -141,7 +141,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                         bottom: 0.0125 * _screenHeight,
                         top: 0.0125 * _screenHeight,
                         left: 0.0125 * _screenWidth,
-                        right: 0.00625 * _screenWidth),
+                        right: 0.0125 * _screenWidth),
                     decoration: BoxDecoration(
                         color: Colors.grey[350],
                         borderRadius:
