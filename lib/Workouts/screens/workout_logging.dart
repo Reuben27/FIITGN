@@ -120,7 +120,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           user_name: Data_Provider().name,
           workoutName: workoutName);
       // ignore: deprecated_member_use
-      setsAndReps = List<Workout_Log_Model>();
+      // setsAndReps = List<Workout_Log_Model>();
+
       showDialog(
         context: context,
         builder: (ctx) {
@@ -131,6 +132,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               FloatingActionButton(
                 child: Text("Yes"),
                 onPressed: () async {
+                  // ignore: deprecated_member_use
+                  setsAndReps = List<Workout_Log_Model>();
                   await Workouts_Provider().saveWorkoutToDb(data);
                   Navigator.of(context).pop(true);
                   Navigator.of(context).pop(true);
@@ -141,6 +144,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 onPressed: () {
                   startTimer();
                   Navigator.of(context).pop(true);
+                  // setState(() {
+
+                  // });
                 },
               ),
             ],
@@ -162,6 +168,21 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     setState(() {
       resume_end_flag = 1;
     });
+  }
+
+  removeLog(int i) {
+    setsAndReps.removeAt(i);
+    setState(() {});
+    // setsAndReps.forEach(
+    //   (element) {
+    //   //  String currentExerciseId = exercises[index].exerciseId;
+    //   //   if (element.exerciseId == currentExerciseId) {
+    //   //     workoutList.add(element);
+    //   //     print(workoutList[workoutList.length - 1]);
+    //   //     setState(() {});
+    //   //   }
+    //   },
+    // );
   }
 
   Widget addSet() {
@@ -198,12 +219,13 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     );
   }
 
-  Widget addWeights(var _screenHeight,var _screenWidth) {
+  Widget addWeights(var _screenHeight, var _screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Weights (in kilograms)",textScaleFactor: 0.8,
+          "Weights (in kilograms)",
+          textScaleFactor: 0.8,
           style: TextStyle(
             fontFamily: 'Gilroy',
             fontSize: 0.025 * _screenHeight,
@@ -216,9 +238,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
             keyboardType: TextInputType.number,
             textAlign: TextAlign.center,
             controller: weightsEditingController,
-            style: TextStyle(
-                fontFamily: 'Gilroy',
-                fontSize: 0.02 * _screenHeight),
+            style:
+                TextStyle(fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
           ),
         ),
       ],
@@ -226,7 +247,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
   }
 
   Widget done(BuildContext ctx, List<ExerciseDbModel> exercises, int index) {
-     var _screenHeight = MediaQuery.of(context).size.height -
+    var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
@@ -237,7 +258,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Done",textScaleFactor: 0.8,
+              "Done",
+              textScaleFactor: 0.8,
               style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -250,18 +272,30 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           ],
         ),
         onPressed: () {
-          String repVal = "";
-          String setVal = "";
-          String weightsVal = "";
+          String repVal = "0";
+          String setVal = "0";
+          String weightsVal = "0";
           repVal = Rep_CounterState.counter.toString();
           print("rep Val is " + repVal);
           setVal = Set_CounterState.counter.toString();
           weightsVal = weightsEditingController.text;
+          print("repVal-->" + repVal);
+          print("setVal-->" + setVal);
+          print("weightsVal-->" + weightsVal);
           // Resetting variables
           Rep_CounterState.counter = 0;
           Set_CounterState.counter = 0;
           weightsEditingController = new TextEditingController();
           print("rep Val is " + repVal);
+          if (repVal == "") {
+            repVal = "0";
+          }
+          if (setVal == "") {
+            setVal = "0";
+          }
+          if (weightsVal == "") {
+            weightsVal = "0";
+          }
           if (repVal == "" || setVal == "" || weightsVal == "") {
             showDialog(
               context: context,
@@ -304,8 +338,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               },
             );
             // testing
-            print(index.toString() + " ---> val of i after popping");
-            print(setsAndReps.length.toString() + "--> len of sets and reps");
+            // print(index.toString() + " ---> val of i after popping");
+            // print(setsAndReps.length.toString() + "--> len of sets and reps");
           }
         },
       ),
@@ -340,7 +374,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               ),
               Divider(),
               Text(
-                "Set Number",  textScaleFactor: 0.8,
+                "Set Number",
+                textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -349,7 +384,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               ),
               Center(child: Container(child: addSet())),
               Text(
-                "Reps",  textScaleFactor: 0.8,
+                "Reps",
+                textScaleFactor: 0.8,
                 style: TextStyle(
                   fontFamily: 'Gilroy',
                   fontSize: 0.025 * _screenHeight,
@@ -357,7 +393,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 ),
               ),
               Center(child: Container(child: addRep())),
-              addWeights(_screenHeight,_screenWidth),
+              addWeights(_screenHeight, _screenWidth),
               SizedBox(
                 height: 0.01 * _screenHeight,
               ),
@@ -664,13 +700,23 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      setsAndReps[j].exerciseName,
-                                      style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                        fontSize: 0.04 * _screenHeight,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          setsAndReps[j].exerciseName,
+                                          style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.04 * _screenHeight,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete_forever),
+                                          onPressed: () {
+                                            removeLog(j);
+                                          },
+                                        )
+                                      ],
                                     ),
                                     Divider(),
                                     Container(

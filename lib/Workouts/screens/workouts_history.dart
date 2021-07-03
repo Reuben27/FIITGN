@@ -5,9 +5,28 @@ import '../models/Workout_Data_Log_Model.dart';
 import 'package:intl/intl.dart';
 import './workout_history_details.dart';
 
-class WorkoutHistoryScreen extends StatelessWidget {
+class WorkoutHistoryScreen extends StatefulWidget {
   static const routeName = 'workout_history';
-  // const WorkoutHistoryScreen({ Key? key }) : super(key: key);
+
+  @override
+  _WorkoutHistoryScreenState createState() => _WorkoutHistoryScreenState();
+}
+
+class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
+  List<Workout_Data_Model> workout_histories = List.empty(growable: true);
+
+  @override
+  void initState() {
+    in_init();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void in_init() async {
+    final workouts_provider =
+        Provider.of<Workouts_Provider>(context, listen: false);
+    await workouts_provider.getWorkoutLogFromDB();
+  }
 
   @override
   Widget build(BuildContext context) {

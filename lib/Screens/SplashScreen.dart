@@ -1,3 +1,5 @@
+import 'package:fiitgn/Cardio/providers/RunDataProvider.dart';
+
 import '../Providers/DataProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +17,7 @@ import '../Nutrition/data/nutrition.dart';
 import '../Sports-Activities/data/activity_data.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const routeName = 'splashScreen';
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -32,6 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isUserSignedIn == null || isUserSignedIn == false) {
         Navigator.of(context).pushReplacementNamed(SignInGoogle.routeName);
       } else if (isUserSignedIn == true) {
+        print("CODE HAS COME HERE");
         final data_provider =
             Provider.of<Data_Provider>(context, listen: false);
         final prefs = await SharedPreferences.getInstance();
@@ -59,6 +63,8 @@ class _SplashScreenState extends State<SplashScreen> {
         await workoutDataProvider.getWorkoutLogFromDB();
         await exerciseDataProvider.getListOfExercises();
         await adminDataProvider.getListOfAdmins();
+        await Provider.of<RunDataProvider>(context, listen: false)
+            .getRunStatsFromDb();
         //// END of initialization
         // await workoutDataProvider.showAllWorkouts();
         await getNutritionData();

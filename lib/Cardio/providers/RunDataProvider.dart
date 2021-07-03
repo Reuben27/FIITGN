@@ -63,16 +63,16 @@ class RunDataProvider with ChangeNotifier {
     try {
       print("entered the try block");
       final response = await http.get(Uri.parse(url));
-      print("t1");
+      // print("t1");
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      print("t2");
+      // print("t2");
       final List<RunModel> loadedList = [];
-      print("t3");
+      // print("t3");
       print(extractedData);
       // print(extractedData['-MMvLcgO2K3wHZkueZcV']['listOfLatLng'].runtimeType);
       extractedData.forEach(
         (statId, statVal) {
-          print("t4");
+          // print("t4");
           loadedList.add(
             new RunModel(
               databaseID: statId,
@@ -89,7 +89,7 @@ class RunDataProvider with ChangeNotifier {
               initialLatitude: statVal['initialLatitude'],
             ),
           );
-          print("t5");
+          // print("t5");
           _yourRunsList = loadedList;
           _yourRunsList.sort((a, b) {
             return b.dateOfRun.compareTo(a.dateOfRun);
@@ -97,8 +97,8 @@ class RunDataProvider with ChangeNotifier {
           notifyListeners();
         },
       );
-      print("Loaded List is ready");
-      print(json.decode(response.body));
+      print("Run Loaded List is ready");
+      // print(json.decode(response.body));
     } catch (e) {
       print("Error --> " + e.toString());
       throw (e);

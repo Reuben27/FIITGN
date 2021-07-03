@@ -223,6 +223,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   Widget build(BuildContext context) {
+    final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
+        context,
+        listen: false);
+    List<String> adminEmailIds = adminDataProvider.getAdminEmailIds();
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
@@ -283,117 +287,134 @@ class _HomeScreenState extends State<HomeScreen> {
         //     centerTitle: true,
         //   ),
         // ),
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              actions: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 0.03 * _screenWidth,
-                      vertical: 0.008 * _screenHeight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: Colors.black,
-                            width: 0.0025 * _screenHeight)),
-                    height: 0.05 * _screenHeight,
-                    child: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(Data_Provider().user_display),
-                    ),
-                  ),
-                )
-              ],
-              backgroundColor: Color(0xFFD1D9D9),
-              //  centerTitle: true,
-              elevation: 0,
-              // title: Text(
-              //   "FIITGN",
-              //   style: TextStyle(
-              //       color: Colors.black,
-              //       fontSize: 0.08 * _screenHeight,
-              //       fontFamily: 'Gilroy',
-              //       fontWeight: FontWeight.bold),
-              // ),
-              // Allows the user to reveal the app bar if they begin scrolling
-              // back up the list of items.
-              floating: true,
-              // Display a placeholder widget to visualize the shrinking size.
-              flexibleSpace: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "FIITGN",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 0.085 * _screenHeight,
-                          fontFamily: 'Gilroy',
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Welcome, " + Data_Provider().name.toString(),
-                      style: TextStyle(
-                         
-                          fontSize: 0.035 * _screenHeight,
-                          fontFamily: 'Gilroy'),
-                    ),
-                    //  Text(
-                    // "What would you like to do today?",
-                    //   style: TextStyle(
-                    //       fontSize: 0.035 * _screenHeight,
-                    //       fontFamily: 'Gilroy'),
-                    // ),
-                  ],
-                ),
-              ),
-              // Make the initial height of the SliverAppBar larger than normal.
-              expandedHeight: 0.25 * _screenHeight,
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (ctx, i) => Padding(
-                        padding: EdgeInsets.only(
-                          top: 0.0125 * _screenHeight,
-                          bottom: 0.0125 * _screenHeight,
-                        ),
-                        child: HomeScreenItem(
-                          routeName: homeScreenList[i]['routeName'],
-                          title: homeScreenList[i]['title'],
-                          url: homeScreenList[i]['url'],
-                          description: homeScreenList[i]['description'],
-                          heroID: homeScreenList[i]['heroID'],
-                        ),
+        body: WillPopScope(
+          onWillPop: () {
+            SystemNavigator.pop();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 0.03 * _screenWidth,
+                        vertical: 0.008 * _screenHeight),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: Colors.black,
+                              width: 0.0025 * _screenHeight)),
+                      height: 0.05 * _screenHeight,
+                      child: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(Data_Provider().user_display),
                       ),
-                  childCount: homeScreenList.length),
-            )
-          ],
-          // child: Column(
-          //   children: [
-          //     SizedBox(height: MediaQuery.of(context).size.height / 40),
-          //     Expanded(
-          //       child: Container(
-          //         child: ListView.separated(
-          //           separatorBuilder: (ctx, i) => SizedBox(
-          //             height: MediaQuery.of(context).size.height / 40,
-          //           ),
-          //           shrinkWrap: true,
-          //           physics: ScrollPhysics(),
-          //           itemCount: homeScreenList.length,
-          //           itemBuilder: (ctx, i) => HomeScreenItem(
-          //             routeName: homeScreenList[i]['routeName'],
-          //             title: homeScreenList[i]['title'],
-          //             url: homeScreenList[i]['url'],
-          //             description: homeScreenList[i]['description'],
-          //             heroID: homeScreenList[i]['heroID'],
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+                    ),
+                  )
+                ],
+                backgroundColor: Color(0xFFD1D9D9),
+                //  centerTitle: true,
+                elevation: 0,
+                // title: Text(
+                //   "FIITGN",
+                //   style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 0.08 * _screenHeight,
+                //       fontFamily: 'Gilroy',
+                //       fontWeight: FontWeight.bold),
+                // ),
+                // Allows the user to reveal the app bar if they begin scrolling
+                // back up the list of items.
+                floating: true,
+                // Display a placeholder widget to visualize the shrinking size.
+                flexibleSpace: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "FIITGN",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 0.085 * _screenHeight,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Welcome, " + Data_Provider().name.toString(),
+                        style: TextStyle(
+                            fontSize: 0.035 * _screenHeight,
+                            fontFamily: 'Gilroy'),
+                      ),
+                      //  Text(
+                      // "What would you like to do today?",
+                      //   style: TextStyle(
+                      //       fontSize: 0.035 * _screenHeight,
+                      //       fontFamily: 'Gilroy'),
+                      // ),
+                    ],
+                  ),
+                ),
+                // Make the initial height of the SliverAppBar larger than normal.
+                expandedHeight: 0.25 * _screenHeight,
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                    (ctx, i) => Padding(
+                          padding: EdgeInsets.only(
+                            top: 0.0125 * _screenHeight,
+                            bottom: 0.0125 * _screenHeight,
+                          ),
+                          child: homeScreenList[i]['routeName'] !=
+                                  AdminHome.routeName
+                              ? HomeScreenItem(
+                                  routeName: homeScreenList[i]['routeName'],
+                                  title: homeScreenList[i]['title'],
+                                  url: homeScreenList[i]['url'],
+                                  description: homeScreenList[i]['description'],
+                                  heroID: homeScreenList[i]['heroID'],
+                                )
+                              : adminEmailIds
+                                      .contains(Data_Provider().email.trim())
+                                  ? HomeScreenItem(
+                                      routeName: homeScreenList[i]['routeName'],
+                                      title: homeScreenList[i]['title'],
+                                      url: homeScreenList[i]['url'],
+                                      description: homeScreenList[i]
+                                          ['description'],
+                                      heroID: homeScreenList[i]['heroID'],
+                                    )
+                                  : null,
+                        ),
+                    childCount: homeScreenList.length),
+              )
+            ],
+            // child: Column(
+            //   children: [
+            //     SizedBox(height: MediaQuery.of(context).size.height / 40),
+            //     Expanded(
+            //       child: Container(
+            //         child: ListView.separated(
+            //           separatorBuilder: (ctx, i) => SizedBox(
+            //             height: MediaQuery.of(context).size.height / 40,
+            //           ),
+            //           shrinkWrap: true,
+            //           physics: ScrollPhysics(),
+            //           itemCount: homeScreenList.length,
+            //           itemBuilder: (ctx, i) => HomeScreenItem(
+            //             routeName: homeScreenList[i]['routeName'],
+            //             title: homeScreenList[i]['title'],
+            //             url: homeScreenList[i]['url'],
+            //             description: homeScreenList[i]['description'],
+            //             heroID: homeScreenList[i]['heroID'],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          ),
         ),
       ),
     );
