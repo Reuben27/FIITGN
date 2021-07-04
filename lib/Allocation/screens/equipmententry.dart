@@ -1,14 +1,9 @@
-import 'package:fiitgn/Allocation/screens/rooms.dart';
-import 'package:fiitgn/Allocation/screens/sports.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
+//data
 import '../data/initialize.dart';
-
-//for rooms
-import '../utils/roomchecker.dart';
-import '../utils/roomupdater.dart';
 
 //for equipments
 import '../utils/getavailability.dart';
@@ -96,44 +91,16 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
             child: Column(
               children: [
                 Container(
-                  height: 0.15 * _screenHeight,
-                  child: CupertinoDatePicker(
-                    minimumDate: DateTime.now(),
-                    maximumDate: DateTime.now().add(Duration(days: 7)),
-                    mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime.now(),
-                    onDateTimeChanged: (DateTime newDateTime) {
-                      chosendate = newDateTime;
-                    },
-                  ),
-                ),
-                Container(
-                  height: 0.07 * _screenHeight,
+                  height: 0.22 * _screenHeight,
                   child: Center(
-                    child: Container(
-                      height: 0.05 * _screenHeight,
-                      width: 0.3 * _screenWidth,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          print(chosendate);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Okay",
-                              style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 0.025 * _screenHeight,
-                                  color: Colors.black),
-                            ),
-                            Icon(
-                              Icons.check,
-                              color: Colors.black,
-                            )
-                          ],
-                        ),
-                      ),
+                    child: CupertinoDatePicker(
+                      minimumDate: DateTime.now(),
+                      maximumDate: DateTime.now().add(Duration(days: 7)),
+                      mode: CupertinoDatePickerMode.date,
+                      initialDateTime: DateTime.now(),
+                      onDateTimeChanged: (DateTime newDateTime) {
+                        chosendate = newDateTime;
+                      },
                     ),
                   ),
                 ),
@@ -155,7 +122,6 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
                 onTap: () {
                   if (numberofslotschoosen == 0) {
                     if (colorList[timeindex] == Colors.grey[300]) {
-                      print("Hey");
                       setState(() {
                         print(colorList[timeindex]);
                         colorList[timeindex] = Colors.green;
@@ -203,6 +169,7 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
           backgroundColor: Colors.deepOrange[300],
           onPressed: () async {
             print(chosentimeindex);
+
             //edge case
             if (chosentimeindex == 23) {              
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
@@ -223,96 +190,21 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
               print(starttime);
               print(endtime);
             }
+
             print(reflag);
-
-            if (reflag == 1) {
-              print(selectedroomid);
-              //go to roomchecker
-              int bookornot = await checker(starttime, endtime);
-              if (bookornot == 1) {
-                // go to room updater.
-                int updatedornot = await updater(starttime, endtime);
-
-                if (updatedornot == 1) {
-                  print("Room has been booked.");
-                }
-              }
-              return showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                    title: Row(
-                      children: [
-                        Text(
-                          "Booking Successful",
-                          style: TextStyle(fontFamily: "Gilroy"),
-                        ),
-                        Icon(
-                          Icons.check_circle,
-                          color: Colors.green[300],
-                        ),
-                      ],
-                    ),
-                    content: Container(
-                      height: 0.15 * _screenHeight,
-                      child: Column(
-                        children: [
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.deepOrange[300]),
-                            ),
-                            child: Text(
-                              "Home",
-                              style: TextStyle(
-                                  fontFamily: "Gilroy",
-                                  color: Colors.black,
-                                  fontSize: 0.025 * _screenHeight),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Sports(),
-                                ),
-                              );
-                            },
-                          ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(
-                                color: Colors.deepOrange[300],
-                              ),
-                            ),
-                            child: Text(
-                              'Book Rooms',
-                              style: TextStyle(
-                                  fontFamily: "Gilroy",
-                                  color: Colors.black,
-                                  fontSize: 20),
-                            ),
-                            onPressed: () {
-                              reflag = 1;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Rooms(),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    )
-                  )
-                );
-            } else {
+            if(reflag == 0){
               print(sportequipmentid);
               int go = await getName(sportequipmentid);
               if (go == 1) {
-                //int makecontroller = await makeTextControllers();
                 int makecounter = await makeCounters();
+                print(makecounter);
+
                 //go to getavailability.
                 availability = await checkavailability(starttime, endtime);
                 print(availability);
+
+                // int makesliders = await makeSliders();
+                // print(makesliders);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -352,6 +244,17 @@ Future<int> makeCounters() async {
   print(numberofequipments);
   for (var i = 0; i < numberofequipments; i++) {
     counters.add(0);
+  }
+
+  return 1;
+}
+
+//Function to make the list of value of sliders for the equiments.dart
+Future<int> makeSliders() async{
+  sliders = [];
+
+  for(var i = 0; i < numberofequipments; i++){
+    sliders.add(0.0);
   }
 
   return 1;

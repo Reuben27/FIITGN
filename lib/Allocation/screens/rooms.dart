@@ -52,8 +52,7 @@ class _DisplayDataState extends State<DisplayData> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
-    CollectionReference rooms =
-        FirebaseFirestore.instance.collection(sportroomid);
+    CollectionReference rooms = FirebaseFirestore.instance.collection(sportroomid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: rooms.snapshots(),
@@ -73,6 +72,7 @@ class _DisplayDataState extends State<DisplayData> {
             return GestureDetector(
               onTap: () {
                 selectedroomid = document.id;
+                selectedroomname = document['roomname'];
                 Navigator.push(
                   context,
                   MaterialPageRoute(

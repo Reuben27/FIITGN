@@ -1,20 +1,19 @@
-import 'package:fiitgn/Screens/HomeScreen.dart';
-
-import '../screens/sports.dart';
-import '../utils/roomavailableslots.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
+//data
 import '../data/initialize.dart';
+
+//home screens
+import '../../Screens/HomeScreen.dart';
 
 //for rooms
 import '../utils/roomchecker.dart';
 import '../utils/roomupdater.dart';
+import '../utils/roomavailableslots.dart';
 
 //for equipments
-import '../utils/getavailability.dart';
-import './equipments.dart';
 import 'equipmententry.dart';
 
 class RoomEntry extends StatefulWidget {
@@ -58,23 +57,26 @@ class _RoomEntryState extends State<RoomEntry> {
   int chosentimeindex = -1;
   int day = 0;
   DateTime chosendate = DateTime.now();
+  bool loading = true;
 
-  void createColorMap() {
-    //create colorList
+  void createColorList() {
     for (int i = 0; i < 24; i++) {
       colorList.add(Colors.grey[300]);
     }
   }
 
-  void getData() async {
+  Future<void> getData() async {
     await getslots();
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
   void initState() {
-    getData();
-    createColorMap();
     super.initState();
+    getData();
+    createColorList();
   }
 
   @override
@@ -123,7 +125,6 @@ class _RoomEntryState extends State<RoomEntry> {
                             DateTime to = DateTime(chosendate.year,
                                 chosendate.month, chosendate.day);
                             day = (to.difference(from).inHours / 24).round();
-                            ;
                           },
                         );
                       },
@@ -131,27 +132,20 @@ class _RoomEntryState extends State<RoomEntry> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 0.0125 * _screenHeight),
-                    child: Text(
-                      "Room:",
-                      style: TextStyle(
-                          fontSize: 0.03 * _screenHeight,
-                          //      color: Colors.white,
-                          fontFamily: 'Gilroy'),
-                    ),
                   ),
                   Text(
-                    "Room Name",
+                    "$selectedroomname",
                     style: TextStyle(
-                        fontSize: 0.03 * _screenHeight,
-                        //      color: Colors.white,
-                        fontFamily: 'Gilroy'),
+                      fontSize: 0.03 * _screenHeight,
+                      fontFamily: 'Gilroy'
+                    ),
                   )
                 ],
               ),
             ),
           ),
         ),
-        body: Container(
+        body: loading ? Center(child: CircularProgressIndicator()) : Container(
           margin: EdgeInsets.only(
             left: 0.02 * _screenWidth,
             right: 0.02 * _screenWidth,
@@ -159,12 +153,11 @@ class _RoomEntryState extends State<RoomEntry> {
           ),
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: _screenHeight / _screenWidth,
-                crossAxisSpacing: 0.01 * _screenHeight,
-                mainAxisSpacing: 0.03 * _screenWidth
-                //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
-                ),
+              crossAxisCount: 3,
+              childAspectRatio: _screenHeight / _screenWidth,
+              crossAxisSpacing: 0.01 * _screenHeight,
+              mainAxisSpacing: 0.03 * _screenWidth
+            ),
             itemCount: timeofDay.length,
             itemBuilder: (context, timeindex) => GestureDetector(
               onTap: () {
@@ -241,8 +234,7 @@ class _RoomEntryState extends State<RoomEntry> {
             if (chosentimeindex == 23) {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime =
-                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
               endtime = endtime + " " + timeofDay[0] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
@@ -251,10 +243,8 @@ class _RoomEntryState extends State<RoomEntry> {
             } else {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime =
-                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
-              endtime =
-                  endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
+              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              endtime = endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
               print(starttime);
@@ -267,7 +257,7 @@ class _RoomEntryState extends State<RoomEntry> {
               //go to roomchecker
               int bookornot = await checker(starttime, endtime);
               if (bookornot == 1) {
-                // go to room updater.
+                // go to room updater
                 int updatedornot = await updater(starttime, endtime);
 
                 if (updatedornot == 1) {
@@ -275,86 +265,72 @@ class _RoomEntryState extends State<RoomEntry> {
                 }
               }
               return showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                      title: Row(
-                        children: [
-                          Text(
-                            "Booking Successful",
-                            style: TextStyle(fontFamily: "Gilroy"),
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green[300],
-                          ),
-                        ],
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Row(
+                    children: [
+                      Text(
+                        "Booking Successful",
+                        style: TextStyle(fontFamily: "Gilroy"),
                       ),
-                      content: Container(
-                        height: 0.15 * _screenHeight,
-                        child: Column(
-                          children: [
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.deepOrange[300]),
-                              ),
-                              child: Text(
-                                "Home",
-                                style: TextStyle(
-                                    fontFamily: "Gilroy",
-                                    color: Colors.black,
-                                    fontSize: 0.025 * _screenHeight),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
-                              },
-                            ),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                  color: Colors.deepOrange[300],
-                                ),
-                              ),
-                              child: Text(
-                                'Book Equipment',
-                                style: TextStyle(
-                                    fontFamily: "Gilroy",
-                                    color: Colors.black,
-                                    fontSize: 20),
-                              ),
-                              onPressed: () {
-                                reflag = 0;
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => EquipmentEntry(),
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      )));
-            } else {
-              print(sportequipmentid);
-              int go = await getName(sportequipmentid);
-              if (go == 1) {
-                //int makecontroller = await makeTextControllers();
-                int makecounter = await makeCounters();
-                //go to getavailability.
-                availability = await checkavailability(starttime, endtime);
-                print(availability);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Equipments(),
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green[300],
+                      ),
+                    ],
                   ),
-                );
-              }
+                  content: Container(
+                    height: 0.15 * _screenHeight,
+                    child: Column(
+                      children: [
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.deepOrange[300]),
+                          ),
+                          child: Text(
+                            "Home",
+                            style: TextStyle(
+                                fontFamily: "Gilroy",
+                                color: Colors.black,
+                                fontSize: 0.025 * _screenHeight),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Colors.deepOrange[300],
+                            ),
+                          ),
+                          child: Text(
+                            'Book Equipment',
+                            style: TextStyle(
+                                fontFamily: "Gilroy",
+                                color: Colors.black,
+                                fontSize: 20),
+                          ),
+                          onPressed: () {
+                            reflag = 0;
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EquipmentEntry(),
+                              ),
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                )
+              );
             }
           },
           tooltip: 'Show me the value!',
@@ -365,29 +341,4 @@ class _RoomEntryState extends State<RoomEntry> {
       ),
     );
   }
-}
-
-//Function to make the list of text editing controllers for the equiments.dart
-Future<int> makeTextControllers() async {
-  controllers = [];
-
-  print(numberofequipments);
-  for (var i = 0; i < numberofequipments; i++) {
-    controllers.add(TextEditingController());
-    print("Hey 3");
-  }
-
-  return 1;
-}
-
-//Function to make the list of counters for the equiments.dart
-Future<int> makeCounters() async {
-  counters = [];
-
-  print(numberofequipments);
-  for (var i = 0; i < numberofequipments; i++) {
-    counters.add(0);
-  }
-
-  return 1;
 }
