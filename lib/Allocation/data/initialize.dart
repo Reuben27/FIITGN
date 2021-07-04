@@ -9,6 +9,7 @@ int reflag = 0;
 
 //To store the document id of the room chosen by the user.
 String selectedroomid;
+String selectedroomname;
 
 //Start and end time from entry.dart
 String starttime;
@@ -33,6 +34,9 @@ var controllers = [];
 
 //List of Counters
 var counters = [];
+
+//List of Sliders
+var sliders = [];
 
 //Function that initialize the collection id variables based on the sport chosen.
 Future<int> getData(String sportid) async {

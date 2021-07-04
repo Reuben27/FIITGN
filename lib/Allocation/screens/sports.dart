@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:googleapis/cloudbuild/v1.dart';
+
+//data
 import '../data/initialize.dart';
+
+//screens
 import 'equipmententry.dart';
 import 'rooms.dart';
 
@@ -65,7 +68,6 @@ class _SportsState extends State<Sports> {
               ],
             ),
           ),
-          // body: DisplayData(),
           body: TabBarView(
             children: [
               DisplayRoomData(),
@@ -79,8 +81,6 @@ class _SportsState extends State<Sports> {
 }
 
 class DisplayRoomData extends StatefulWidget {
-  // const DisplayRoomData({ Key? key }) : super(key: key);
-
   @override
   _DisplayRoomDataState createState() => _DisplayRoomDataState();
 }
