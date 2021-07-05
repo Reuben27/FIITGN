@@ -96,7 +96,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     setsAndReps.add(newData);
   }
 
-  void saveData(List<Workout_Log_Model> exercices, String workoutName) {
+  void saveData(List<Workout_Log_Model> exercices, String workoutName,
+      var _screenHeight, var _screenWeight) {
     print("save data initiated");
     if (exercices.length == 0) {
       print("no exercises to log");
@@ -127,10 +128,20 @@ class _Workout_LoggingState extends State<Workout_Logging> {
         builder: (ctx) {
           stopTimer();
           return AlertDialog(
-            title: Text("Do you want to save and End?"),
+            title: Text(
+              "Save and Exit?",
+              style: TextStyle(
+                fontFamily: 'Gilroy',
+                fontSize: 0.025 * _screenHeight,
+              ),
+            ),
             actions: [
-              FloatingActionButton(
-                child: Text("Yes"),
+              OutlinedButton(
+                child: Text(
+                  "Yes",
+                  style: TextStyle(
+                      fontFamily: 'Gilroy', fontSize: 0.025 * _screenHeight),
+                ),
                 onPressed: () async {
                   // ignore: deprecated_member_use
                   setsAndReps = List<Workout_Log_Model>();
@@ -139,8 +150,12 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                   Navigator.of(context).pop(true);
                 },
               ),
-              FloatingActionButton(
-                child: Text("No"),
+              OutlinedButton(
+                child: Text(
+                  "No",
+                  style: TextStyle(
+                      fontFamily: 'Gilroy', fontSize: 0.025 * _screenHeight),
+                ),
                 onPressed: () {
                   startTimer();
                   Navigator.of(context).pop(true);
@@ -487,8 +502,11 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                 Container(
                                   width: 0.3 * _screenWidth,
                                   child: OutlinedButton(
-                                    onPressed: () =>
-                                        saveData(setsAndReps, workoutName),
+                                    onPressed: () => saveData(
+                                        setsAndReps,
+                                        workoutName,
+                                        _screenHeight,
+                                        _screenWidth),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

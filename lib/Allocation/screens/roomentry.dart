@@ -271,7 +271,7 @@ class _RoomEntryState extends State<RoomEntry> {
                     children: [
                       Text(
                         "Booking Successful",
-                        style: TextStyle(fontFamily: "Gilroy"),
+                        style: TextStyle(fontFamily: "Gilroy",fontSize: 0.025 * _screenHeight),
                       ),
                       Icon(
                         Icons.check_circle,
@@ -280,7 +280,7 @@ class _RoomEntryState extends State<RoomEntry> {
                     ],
                   ),
                   content: Container(
-                    height: 0.15 * _screenHeight,
+                   height: 0.15 * _screenHeight,
                     child: Column(
                       children: [
                         OutlinedButton(
@@ -292,7 +292,7 @@ class _RoomEntryState extends State<RoomEntry> {
                             style: TextStyle(
                                 fontFamily: "Gilroy",
                                 color: Colors.black,
-                                fontSize: 0.025 * _screenHeight),
+                               fontSize: 0.025 * _screenHeight),
                           ),
                           onPressed: () {
                             Navigator.push(
@@ -314,7 +314,7 @@ class _RoomEntryState extends State<RoomEntry> {
                             style: TextStyle(
                                 fontFamily: "Gilroy",
                                 color: Colors.black,
-                                fontSize: 20),
+                               fontSize: 0.025 * _screenHeight),
                           ),
                           onPressed: () {
                             reflag = 0;

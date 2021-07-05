@@ -212,33 +212,67 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: Drawer(
           child: ListView(
             children: [
-              Container(
-                child: IconButton(
-                  icon: Icon(FontAwesomeIcons.signOutAlt),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: Text('Do you want to Logout?'),
-                        actions: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              logoutUser();
-                              SystemNavigator.pop();
-                            },
-                            child: Text('Yes'),
+              ListTile(
+                title: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text(
+                            'Logout?',
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.025 * _screenHeight),
                           ),
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop(true);
-                            },
-                            child: Text('No'),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          actions: <Widget>[
+                            OutlinedButton(
+                              onPressed: () {
+                                logoutUser();
+                                SystemNavigator.pop();
+                              },
+                              child: Text(
+                                'Yes',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop(true);
+                              },
+                              child: Text(
+                                'No',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.025 * _screenHeight),
+                    )),
+              ),
+              ListTile(
+                title: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Developer.routeName,
+                      );
+                    },
+                    child: Text(
+                      "Developers",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.025 * _screenHeight),
+                    )),
               ),
             ],
           ),
