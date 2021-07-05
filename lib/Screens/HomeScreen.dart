@@ -75,12 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
     print("Uids and tokens are set");
     // await workoutDataProvider.showAllWorkouts();
     // initializing admin and exercise dbs
-    final exerciseDataProvider =
-        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
-            listen: false);
-    final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
-        context,
-        listen: false);
+    // final exerciseDataProvider =
+    //     Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+    //         listen: false);
+    // final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
+    //     context,
+    //     listen: false);
     // print("a");
     // await exerciseDataProvider.getListOfExercises();
     // print("b");
@@ -126,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
-    
     {
       'title': 'Activities',
       'url': 'assets/act.png',
@@ -143,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    
     {
       'title': 'Workouts',
       'url': 'assets/twerkout.png',
@@ -160,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
-   
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',
@@ -177,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 11,
     },
-     {
+    {
       'title': 'Admin',
       'url': 'assets/admin.png',
       'routeName': AdminHome.routeName,
@@ -193,8 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
-
-
   ];
 
   Widget build(BuildContext context) {
@@ -217,33 +212,67 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: Drawer(
           child: ListView(
             children: [
-              Container(
-                child: IconButton(
-                  icon: Icon(FontAwesomeIcons.signOutAlt),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: Text('Do you want to Logout?'),
-                        actions: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              logoutUser();
-                              SystemNavigator.pop();
-                            },
-                            child: Text('Yes'),
+              ListTile(
+                title: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text(
+                            'Logout?',
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.025 * _screenHeight),
                           ),
-                          FlatButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop(true);
-                            },
-                            child: Text('No'),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          actions: <Widget>[
+                            OutlinedButton(
+                              onPressed: () {
+                                logoutUser();
+                                SystemNavigator.pop();
+                              },
+                              child: Text(
+                                'Yes',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(ctx).pop(true);
+                              },
+                              child: Text(
+                                'No',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.025 * _screenHeight),
+                    )),
+              ),
+              ListTile(
+                title: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        Developer.routeName,
+                      );
+                    },
+                    child: Text(
+                      "Developers",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.025 * _screenHeight),
+                    )),
               ),
             ],
           ),

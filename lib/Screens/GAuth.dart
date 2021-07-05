@@ -33,8 +33,9 @@ class SignInClass {
   SignInClass({this.context});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn =
-      GoogleSignIn(); //hostedDomain: 'iitgn.ac.in',
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    hostedDomain: 'iitgn.ac.in',
+  );
   //     scopes: <String>[
   //   'email',
   //   'https://www.googleapis.com/auth/calendar',

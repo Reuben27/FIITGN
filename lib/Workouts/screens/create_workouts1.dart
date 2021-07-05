@@ -316,7 +316,7 @@ class _Create_Workout2State extends State<Create_Workout2> {
     var _screenWidth = MediaQuery.of(context).size.width;
     String creatorId = workoutDataProvider.userId;
     String creator_name = workoutDataProvider.user_name;
-    List<String> listOfFollowersId = [];
+    List<String> listOfFollowersId = ['alpha'];
     List<String> listOfOngoingId = ['alpha'];
     // Map<String, dynamic> map = Map();
     // map['listOfExercisesId'] = listOfExercisesId;
