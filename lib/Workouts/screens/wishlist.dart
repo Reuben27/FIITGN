@@ -33,11 +33,11 @@ class _WishlistState extends State<Wishlist> {
   String _hourEntry, _minuteEntry, _timeEntry;
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   List<Item_Model> workouts_expansion_list = List.empty(growable: true);
+  List<WorkoutModel> workoutsList = List.empty(growable: true);
 
   @override
   void initState() {
     super.initState();
-    // TODO: implement setState
     in_init();
   }
 
@@ -45,11 +45,9 @@ class _WishlistState extends State<Wishlist> {
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     await workoutDataProvider.showAllWorkouts();
-    print(workoutDataProvider.followedWorkouts());
-    print("done");
-    final List<WorkoutModel> followedWorkouts =
-        workoutDataProvider.followedWorkouts();
-    workouts_expansion_list = Item_Model.get_list_item_model(followedWorkouts);
+    workoutsList = workoutDataProvider.followedWorkouts();
+    print(workoutsList);
+    workouts_expansion_list = Item_Model.get_list_item_model(workoutsList);
     setState(() {});
   }
 
@@ -96,7 +94,7 @@ class _WishlistState extends State<Wishlist> {
         _minuteEntry = selectedTime.minute.toString();
 
         ongoing_iconList[index] = ongoing_followIcon;
-        // print("THETAAA");
+        print("THETAAA");
       });
       await workoutDataProvider.addWorkoutToOngoingDB(
           workout, workoutId, selectedTime.hour, selectedTime.minute);
@@ -111,21 +109,29 @@ class _WishlistState extends State<Wishlist> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final workoutDataProvider = Provider.of<Workouts_Provider>(context);
-    List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
+    // List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
     // final List<Item_Model> workouts_expansion_list =
     //     Item_Model.get_list_item_model(workoutsList);
     print("alpha");
     final String user_id = workoutDataProvider.userId;
     print("checking pos");
     workoutsList.forEach((element) {
-      iconList.add(followIcon);
-      // if (element.listOfFollowersId.contains(user_id)) {
-      //   iconList.add(followIcon);
-      // } else {
-      //   iconList.add(unFollowIcon);
-      // }
+      // iconList.add(followIcon);
+
+      if (element.listOfFollowersId.contains(user_id.trim())) {
+        print("follooww");
+        print("icon should come");
+        print("followers list --> ");
+        print(element.listOfFollowersId);
+        iconList.add(followIcon);
+      } else {
+        print("icon not coming");
+        print("followers list --> ");
+        print(element.listOfFollowersId);
+
+        iconList.add(unFollowIcon);
+      }
       if (element.listOfOnGoingId.contains(user_id)) {
-        print("CODE HAS COME HERE AND HERE AND HERE");
         ongoing_iconList.add(ongoing_followIcon);
       } else {
         ongoing_iconList.add(ongoing_unfollowIcon);
@@ -184,9 +190,6 @@ class _WishlistState extends State<Wishlist> {
                                     top: 0.00625 * _screenHeight,
                                     bottom: 0.00625 * _screenHeight,
                                   ),
-                                  // height: (MediaQuery.of(context).size.height -
-                                  //         MediaQuery.of(context).viewPadding.top) /
-                                  //     8,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -241,6 +244,8 @@ class _WishlistState extends State<Wishlist> {
                                                                   .workoutId);
                                                       print(
                                                           "http unfollow done");
+                                                      print(workoutsList[i]
+                                                          .workoutName);
                                                       setState(() {
                                                         iconList[i] =
                                                             unFollowIcon;
@@ -262,6 +267,8 @@ class _WishlistState extends State<Wishlist> {
                                                             workoutsList[i]
                                                                 .workoutId);
                                                     print("http follow done");
+                                                    print(workoutsList[i]
+                                                        .workoutName);
                                                     setState(() {
                                                       iconList[i] = followIcon;
                                                       print("state set");

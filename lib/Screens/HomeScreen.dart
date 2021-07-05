@@ -75,12 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
     print("Uids and tokens are set");
     // await workoutDataProvider.showAllWorkouts();
     // initializing admin and exercise dbs
-    final exerciseDataProvider =
-        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
-            listen: false);
-    final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
-        context,
-        listen: false);
+    // final exerciseDataProvider =
+    //     Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+    //         listen: false);
+    // final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
+    //     context,
+    //     listen: false);
     // print("a");
     // await exerciseDataProvider.getListOfExercises();
     // print("b");
@@ -126,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final List homeScreenList = [
-    
     {
       'title': 'Activities',
       'url': 'assets/act.png',
@@ -143,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    
     {
       'title': 'Workouts',
       'url': 'assets/twerkout.png',
@@ -160,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 8,
     },
-   
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',
@@ -177,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 11,
     },
-     {
+    {
       'title': 'Admin',
       'url': 'assets/admin.png',
       'routeName': AdminHome.routeName,
@@ -193,8 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
-
-
   ];
 
   Widget build(BuildContext context) {

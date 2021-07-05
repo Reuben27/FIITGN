@@ -67,8 +67,6 @@ class Workouts_Provider with ChangeNotifier {
   }
 
   List<Workout_Data_Model> get loggedWorkouts {
-    print("betatattata");
-    print(_loggedWorkouts[0].workoutName);
     return [..._loggedWorkouts];
   }
 
@@ -210,18 +208,24 @@ class Workouts_Provider with ChangeNotifier {
         },
       );
       List<WorkoutModel> filteredList = [];
+      List<WorkoutModel> created_by_user = [];
       loadedList.forEach(
         (element) {
           if (element.access == 'Public' ||
               (element.access == 'Private' &&
-                  element.listOfFollowersId.contains(user_uid))) {
+                  element.creatorId == Data_Provider().uid.trim())) {
+            print("element " +
+                element.workoutName +
+                " access is " +
+                element.access);
             filteredList.add(element);
             if (element.creatorId == userId) {
-              _createdByUser.add(element);
+              created_by_user.add(element);
             }
           }
         },
       );
+      _createdByUser = created_by_user;
       _workoutsList = filteredList;
       notifyListeners();
       print("loaded workout  list is ready");
