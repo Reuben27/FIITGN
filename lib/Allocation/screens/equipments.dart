@@ -88,7 +88,7 @@ class Equipments extends StatelessWidget {
                   children: [
                     Text(
                       "Booking Successful",
-                      style: TextStyle(fontFamily: "Gilroy"),
+                      style: TextStyle(fontFamily: "Gilroy",fontSize: 0.025 * _screenHeight),
                     ),
                     Icon(
                       Icons.check_circle,
@@ -97,7 +97,7 @@ class Equipments extends StatelessWidget {
                   ],
                 ),
                 content: Container(
-                  height: MediaQuery.of(context).size.height / 7,
+                 height: 0.15 * _screenHeight,
                   child: Column(
                     children: [
                       OutlinedButton(
@@ -110,7 +110,7 @@ class Equipments extends StatelessWidget {
                               fontFamily: "Gilroy",
                               color: Colors.black,
                               fontSize:
-                                  MediaQuery.of(context).size.width / 20),
+                                   0.025 * _screenHeight),
                         ),
                         onPressed: () {
                           Navigator.pushReplacement(
@@ -133,7 +133,7 @@ class Equipments extends StatelessWidget {
                               fontFamily: "Gilroy",
                               color: Colors.black,
                               fontSize:
-                                  MediaQuery.of(context).size.width / 20),
+                                  0.025 * _screenHeight),
                         ),
                         onPressed: () {
                           if (reflag == 0) {
