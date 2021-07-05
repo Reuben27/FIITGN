@@ -34,6 +34,7 @@ class _WishlistState extends State<Wishlist> {
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   List<Item_Model> workouts_expansion_list = List.empty(growable: true);
   List<WorkoutModel> workoutsList = List.empty(growable: true);
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -48,7 +49,9 @@ class _WishlistState extends State<Wishlist> {
     workoutsList = workoutDataProvider.followedWorkouts();
     print(workoutsList);
     workouts_expansion_list = Item_Model.get_list_item_model(workoutsList);
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
@@ -155,235 +158,284 @@ class _WishlistState extends State<Wishlist> {
                 fontFamily: 'Gilroy'),
           ),
         ),
-        body: workouts_expansion_list.length == 0
+        body: isLoading == false && workouts_expansion_list.length == 0
             ? Center(
                 child: Text('No workouts followed yet'),
               )
-            : Container(
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  itemCount: workouts_expansion_list.length,
-                  itemBuilder: (ctx, i) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        top: 0.0125 * _screenHeight,
-                        bottom: 0.0125 * _screenHeight,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Colors.blueGrey[200],
-                          width: 0.005 * _screenWidth,
-                        )),
-                        margin: EdgeInsets.only(
-                          left: 0.03 * _screenWidth,
-                          right: 0.03 * _screenWidth,
-                        ),
-                        child: ExpansionPanelList(
-                          elevation: 0,
-                          animationDuration: Duration(milliseconds: 500),
-                          children: [
-                            ExpansionPanel(
-                              headerBuilder: (ctx, bool isExpanded) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                    top: 0.00625 * _screenHeight,
-                                    bottom: 0.00625 * _screenHeight,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        workouts_expansion_list[i].workoutName,
-                                        style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            //   color: Colors.red,
-                                            fontSize: 0.045 * _screenHeight,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      Text(
-                                        "by " +
-                                            workouts_expansion_list[i]
-                                                .creator_name,
-                                        style: TextStyle(
-                                          fontFamily: 'Gilroy',
-                                          fontSize: 0.025 * _screenHeight,
+            : isLoading == true
+                ?
+                // a loading spinner should come rotating
+                Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  )
+                : isLoading == false && workouts_expansion_list.length > 0
+                    ? Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: ListView.builder(
+                          itemCount: workouts_expansion_list.length,
+                          itemBuilder: (ctx, i) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                top: 0.0125 * _screenHeight,
+                                bottom: 0.0125 * _screenHeight,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                  color: Colors.blueGrey[200],
+                                  width: 0.005 * _screenWidth,
+                                )),
+                                margin: EdgeInsets.only(
+                                  left: 0.03 * _screenWidth,
+                                  right: 0.03 * _screenWidth,
+                                ),
+                                child: ExpansionPanelList(
+                                  elevation: 0,
+                                  animationDuration:
+                                      Duration(milliseconds: 500),
+                                  children: [
+                                    ExpansionPanel(
+                                      headerBuilder: (ctx, bool isExpanded) {
+                                        return Container(
+                                          margin: EdgeInsets.only(
+                                            top: 0.00625 * _screenHeight,
+                                            bottom: 0.00625 * _screenHeight,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                workouts_expansion_list[i]
+                                                    .workoutName,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    //   color: Colors.red,
+                                                    fontSize:
+                                                        0.045 * _screenHeight,
+                                                    fontWeight:
+                                                        FontWeight.w900),
+                                              ),
+                                              Text(
+                                                "by " +
+                                                    workouts_expansion_list[i]
+                                                        .creator_name,
+                                                style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize:
+                                                      0.025 * _screenHeight,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: 0.00625 * _screenHeight,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 0.025 *
+                                                            _screenWidth,
+                                                        right: 0.025 *
+                                                            _screenWidth,
+                                                      ),
+                                                      child: InkWell(
+                                                        child: iconList[i],
+                                                        onTap: () async {
+                                                          //  function to follow/unfollow the workout
+                                                          print("test");
+                                                          if (workouts_expansion_list[
+                                                                  i]
+                                                              .listOfFollowersId
+                                                              .contains(
+                                                                  user_id)) {
+                                                            if (workoutsList[i]
+                                                                        .creatorId !=
+                                                                    user_id ||
+                                                                true) {
+                                                              await workoutDataProvider
+                                                                  .unFollowWorkout(
+                                                                      workoutsList[
+                                                                          i],
+                                                                      workoutsList[
+                                                                              i]
+                                                                          .workoutId);
+                                                              print(
+                                                                  "http unfollow done");
+                                                              print(workoutsList[
+                                                                      i]
+                                                                  .workoutName);
+                                                              setState(() {
+                                                                iconList[i] =
+                                                                    unFollowIcon;
+                                                                print(
+                                                                    "state set");
+                                                              });
+                                                            }
+                                                            // } else {
+                                                            //   // cant unfollow your own workout
+                                                            //   print("cant unfollow your own workout");
+                                                            //   //
+                                                            //   // TODO Add a snackbar thats tells user they cant unfollow workouts they have created
+                                                            // }
+                                                          } else if (!workoutsList[
+                                                                  i]
+                                                              .listOfFollowersId
+                                                              .contains(
+                                                                  user_id)) {
+                                                            await workoutDataProvider
+                                                                .followWorkout(
+                                                                    workoutsList[
+                                                                        i],
+                                                                    workoutsList[
+                                                                            i]
+                                                                        .workoutId);
+                                                            print(
+                                                                "http follow done");
+                                                            print(workoutsList[
+                                                                    i]
+                                                                .workoutName);
+                                                            setState(() {
+                                                              iconList[i] =
+                                                                  followIcon;
+                                                              print(
+                                                                  "state set");
+                                                            });
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                        left: 0.025 *
+                                                            _screenWidth,
+                                                        right: 0.025 *
+                                                            _screenWidth,
+                                                      ),
+                                                      child: InkWell(
+                                                        child:
+                                                            ongoing_iconList[i],
+                                                        // onTap: () {},
+                                                        onTap: () async {
+                                                          //  function to follow/unfollow the workout
+                                                          print("test");
+                                                          if (workoutsList[i]
+                                                              .listOfOnGoingId
+                                                              .contains(
+                                                                  user_id)) {
+                                                            await workoutDataProvider
+                                                                .removeWorkoutFromOngoingDB(
+                                                                    workoutsList[
+                                                                        i],
+                                                                    workoutsList[
+                                                                            i]
+                                                                        .workoutId);
+                                                            print(
+                                                                "http removed from ongoing done");
+                                                            setState(() {
+                                                              ongoing_iconList[
+                                                                      i] =
+                                                                  ongoing_unfollowIcon;
+                                                              print(
+                                                                  "state set");
+                                                            });
+                                                          } else if (!workoutsList[
+                                                                  i]
+                                                              .listOfOnGoingId
+                                                              .contains(
+                                                                  user_id)) {
+                                                            print(
+                                                                "QQQQQQQQQQQQQQQQQQQQQ");
+                                                            await _selectTime(
+                                                                context,
+                                                                workoutsList[i],
+                                                                workoutsList[i]
+                                                                    .workoutId,
+                                                                i);
+                                                            print(_hourEntry);
+                                                            print(_minuteEntry);
+                                                            print("ZUMBAAAA");
+                                                          }
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          // Text("Creator Id - " + workoutsList[i].creatorId),
+                                        );
+                                      },
+                                      isExpanded:
+                                          workouts_expansion_list[i].expanded,
+                                      body: Container(
+                                        margin: EdgeInsets.only(
+                                          left: 0.025 * _screenWidth,
+                                          bottom: 0.0125 * _screenHeight,
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: 0.00625 * _screenHeight,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 0.025 * _screenWidth,
-                                                right: 0.025 * _screenWidth,
-                                              ),
-                                              child: InkWell(
-                                                child: iconList[i],
-                                                onTap: () async {
-                                                  //  function to follow/unfollow the workout
-                                                  print("test");
-                                                  if (workouts_expansion_list[i]
-                                                      .listOfFollowersId
-                                                      .contains(user_id)) {
-                                                    if (workoutsList[i]
-                                                                .creatorId !=
-                                                            user_id ||
-                                                        true) {
-                                                      await workoutDataProvider
-                                                          .unFollowWorkout(
-                                                              workoutsList[i],
-                                                              workoutsList[i]
-                                                                  .workoutId);
-                                                      print(
-                                                          "http unfollow done");
-                                                      print(workoutsList[i]
-                                                          .workoutName);
-                                                      setState(() {
-                                                        iconList[i] =
-                                                            unFollowIcon;
-                                                        print("state set");
-                                                      });
-                                                    }
-                                                    // } else {
-                                                    //   // cant unfollow your own workout
-                                                    //   print("cant unfollow your own workout");
-                                                    //   //
-                                                    //   // TODO Add a snackbar thats tells user they cant unfollow workouts they have created
-                                                    // }
-                                                  } else if (!workoutsList[i]
-                                                      .listOfFollowersId
-                                                      .contains(user_id)) {
-                                                    await workoutDataProvider
-                                                        .followWorkout(
-                                                            workoutsList[i],
-                                                            workoutsList[i]
-                                                                .workoutId);
-                                                    print("http follow done");
-                                                    print(workoutsList[i]
-                                                        .workoutName);
-                                                    setState(() {
-                                                      iconList[i] = followIcon;
-                                                      print("state set");
-                                                    });
-                                                  }
-                                                },
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    workouts_expansion_list[i]
+                                                        .description,
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.022 *
+                                                            _screenHeight,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 0.025 * _screenWidth,
-                                                right: 0.025 * _screenWidth,
-                                              ),
-                                              child: InkWell(
-                                                child: ongoing_iconList[i],
-                                                // onTap: () {},
-                                                onTap: () async {
-                                                  //  function to follow/unfollow the workout
-                                                  print("test");
-                                                  if (workoutsList[i]
-                                                      .listOfOnGoingId
-                                                      .contains(user_id)) {
-                                                    await workoutDataProvider
-                                                        .removeWorkoutFromOngoingDB(
-                                                            workoutsList[i],
-                                                            workoutsList[i]
-                                                                .workoutId);
-                                                    print(
-                                                        "http removed from ongoing done");
-                                                    setState(() {
-                                                      ongoing_iconList[i] =
-                                                          ongoing_unfollowIcon;
-                                                      print("state set");
-                                                    });
-                                                  } else if (!workoutsList[i]
-                                                      .listOfOnGoingId
-                                                      .contains(user_id)) {
-                                                    print(
-                                                        "QQQQQQQQQQQQQQQQQQQQQ");
-                                                    await _selectTime(
-                                                        context,
-                                                        workoutsList[i],
-                                                        workoutsList[i]
-                                                            .workoutId,
-                                                        i);
-                                                    print(_hourEntry);
-                                                    print(_minuteEntry);
-                                                    print("ZUMBAAAA");
-                                                  }
-                                                },
+                                            Text(
+                                              workouts_expansion_list[i]
+                                                  .listOfExercisesId
+                                                  .toString(),
+                                              style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.022 * _screenHeight,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-
-                                  // Text("Creator Id - " + workoutsList[i].creatorId),
-                                );
-                              },
-                              isExpanded: workouts_expansion_list[i].expanded,
-                              body: Container(
-                                margin: EdgeInsets.only(
-                                  left: 0.025 * _screenWidth,
-                                  bottom: 0.0125 * _screenHeight,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            workouts_expansion_list[i]
-                                                .description,
-                                            style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 0.022 * _screenHeight,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      workouts_expansion_list[i]
-                                          .listOfExercisesId
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                        fontSize: 0.022 * _screenHeight,
-                                      ),
                                     ),
                                   ],
+                                  expansionCallback:
+                                      (int item, bool isExpanded) {
+                                    setState(() {
+                                      print(
+                                          workouts_expansion_list[i].expanded);
+                                      workouts_expansion_list[i].expanded =
+                                          !workouts_expansion_list[i].expanded;
+                                      // print(workouts_expansion_list[i].expanded);
+                                      print(
+                                          workouts_expansion_list[i].expanded);
+                                    });
+                                  },
                                 ),
                               ),
-                            ),
-                          ],
-                          expansionCallback: (int item, bool isExpanded) {
-                            setState(() {
-                              print(workouts_expansion_list[i].expanded);
-                              workouts_expansion_list[i].expanded =
-                                  !workouts_expansion_list[i].expanded;
-                              // print(workouts_expansion_list[i].expanded);
-                              print(workouts_expansion_list[i].expanded);
-                            });
+                            );
                           },
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                      )
+                    : null,
       ),
     );
   }
