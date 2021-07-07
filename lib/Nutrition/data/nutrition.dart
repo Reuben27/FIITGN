@@ -46,7 +46,7 @@ class NutritionData {
         "${json['tuesdayCalories']}",
         "${json['wednesday']}",
         "${json['wednesdayCalories']}",
-        "${json['thurday']}",
+        "${json['thursday']}",
         "${json['thursdayCalories']}",
         "${json['friday']}",
         "${json['fridayCalories']}",
