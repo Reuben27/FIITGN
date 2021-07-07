@@ -65,7 +65,7 @@ class NutritionData {
         'wednesday': wednesday,
         'wednesdayCalories': wednesdayCalories,
         'thursday': thursday,
-        'mthursdayCalories': thursdayCalories,
+        'thursdayCalories': thursdayCalories,
         'friday': friday,
         'fridayCalories': fridayCalories,
         'saturday': saturday,
