@@ -26,6 +26,9 @@ import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
 
+//// PROFILE
+import 'Profile/screens/profile_page.dart';
+
 //// WORKOUTS SECTION
 import 'Workouts/screens/workouts-home.dart';
 import 'Workouts/screens/your-workouts.dart';
@@ -174,9 +177,13 @@ class MyApp extends StatelessWidget {
 
           //// Temp Expansion list
           ExpansionPanelDemo.routeName: (_) => ExpansionPanelDemo(),
+
           //// Splash Screen
           SplashScreen.routeName: (_) => SplashScreen(),
           Developer.routeName: (_) => Developer(),
+
+          //// Profile
+          Profile.routeName: (_) => Profile(),
         },
       ),
     );

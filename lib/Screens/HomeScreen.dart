@@ -1,5 +1,4 @@
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
-import 'package:fiitgn/Guided-Sessions/data/guidedsessions.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:flutter/src/widgets/image.dart' as img;
@@ -29,9 +28,6 @@ import '../Workouts/models/Admin_db_model.dart';
 import '../Workouts/models/Exercise_db_model.dart';
 import '../Workouts/models/Workout_provider.dart';
 
-//// GUIDED SESSIONS
-import '../Guided-Sessions/screens/sessions.dart';
-
 //// NUTRITION
 import '../Nutrition/screens/nutritionScreen.dart';
 
@@ -43,8 +39,10 @@ import 'package:fiitgn/Admin/screens/admin_home.dart';
 
 //// Temp Expansion Panel
 import './expansion_list.dart';
-
 import '../Screens/stopwatch.dart';
+
+//// PROFILE
+import '../Profile/screens/profile_page.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -303,16 +301,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 0.03 * _screenWidth,
                         vertical: 0.008 * _screenHeight),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: Colors.black,
-                              width: 0.0025 * _screenHeight)),
-                      height: 0.05 * _screenHeight,
-                      child: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(Data_Provider().user_display),
+                    child: GestureDetector(
+                      onTap: (){
+                        print("hey");
+                        Navigator.pushNamed(
+                          context,
+                          Profile.routeName,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: Colors.black,
+                                width: 0.0025 * _screenHeight)),
+                        height: 0.05 * _screenHeight,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(Data_Provider().user_display),
+                        ),
                       ),
                     ),
                   )
