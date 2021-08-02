@@ -1,4 +1,5 @@
 // import 'package:fiitgn_workouts_1/models/WorkoutModel.dart';
+import 'package:fiitgn/Workouts/models/Exercise_db_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import '../models/Workouts_providers.dart';
@@ -115,6 +116,12 @@ class _WishlistState extends State<Wishlist> {
     // List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
     // final List<Item_Model> workouts_expansion_list =
     //     Item_Model.get_list_item_model(workoutsList);
+    final exerciseDataProvider =
+        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+            listen: false);
+    Map<String, Map<String, ExerciseDbModel>> map_workoutsToExercisesId =
+        exerciseDataProvider.map_exerId_exerName_per_Workout(workoutsList);
+
     print("alpha");
     final String user_id = workoutDataProvider.userId;
     print("checking pos");
@@ -403,15 +410,34 @@ class _WishlistState extends State<Wishlist> {
                                                 ),
                                               ],
                                             ),
-                                            Text(
-                                              workouts_expansion_list[i]
-                                                  .listOfExercisesId
-                                                  .toString(),
-                                              style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 0.022 * _screenHeight,
-                                              ),
-                                            ),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    map_workoutsToExercisesId[
+                                                            workouts_expansion_list[
+                                                                    i]
+                                                                .workoutId]
+                                                        .keys
+                                                        .toList()
+                                                        .length,
+                                                itemBuilder: (ctx, j) {
+                                                  List<String> exericseNames =
+                                                      map_workoutsToExercisesId[
+                                                              workouts_expansion_list[
+                                                                      i]
+                                                                  .workoutId]
+                                                          .keys
+                                                          .toList();
+                                                  return Text(
+                                                    exericseNames[j],
+                                                    style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                      //   fontWeight: FontWeight.bold,
+                                                      fontSize:
+                                                          0.022 * _screenHeight,
+                                                    ),
+                                                  );
+                                                }),
                                           ],
                                         ),
                                       ),

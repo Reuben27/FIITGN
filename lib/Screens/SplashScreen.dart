@@ -67,8 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
             .getRunStatsFromDb();
         //// END of initialization
         // await workoutDataProvider.showAllWorkouts();
-        await getNutritionData();
-        await getActivityData();
+        // await getNutritionData();
+        // await getActivityData();
         print("all data Loaded");
         // print("Home Screen Inside init has succesfully run");
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);

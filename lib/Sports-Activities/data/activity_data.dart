@@ -2,6 +2,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class ActivityData {
+  static List<ActivityData> activites_static = [];
   String sr_no;
   String instructors;
   String time_of_class;
@@ -50,6 +51,7 @@ Future<List<ActivityData>> getActivityData() async {
     var jsonFeedback = convert.jsonDecode(response.body) as List;
     _activity_data =
         jsonFeedback.map((json) => ActivityData.fromJson(json)).toList();
+    ActivityData.activites_static = _activity_data;
     return _activity_data;
   });
 }

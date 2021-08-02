@@ -58,9 +58,6 @@ class Workouts_Provider with ChangeNotifier {
     });
     return created;
   }
-  // List<WorkoutModel> get created_by_user {
-  //   return _createdByUser;
-  // }
 
   List<WorkoutModel> get workoutList {
     return [..._workoutsList];
@@ -162,6 +159,8 @@ class Workouts_Provider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map;
+      print("extracted data");
+      print(extractedData);
       final List<WorkoutModel> loadedList = [];
       // print("####");
       // print(extractedData);
@@ -173,10 +172,17 @@ class Workouts_Provider with ChangeNotifier {
           final List<String> tempListFollowersId = [];
           final List<String> tempListOngoingId = [];
           List x = statValue['listOfExercisesId'];
+          if (x != null) {
+            x.forEach((element) {
+              tempListExerciseId.add(element.toString());
+            });
+            print("templistExerciseId");
+            print(tempListExerciseId);
+          } else {
+            print("x was null");
+          }
           // print("2");
-          x.forEach((element) {
-            tempListExerciseId.add(element.toString());
-          });
+
           // print("3");
           List y = [];
           y = statValue['listOfFollowersId'];
@@ -184,13 +190,23 @@ class Workouts_Provider with ChangeNotifier {
             y.forEach((element) {
               tempListFollowersId.add(element.toString());
             });
+            print("tempListFollowersId");
+            print(tempListFollowersId);
+          } else {
+            print("y was null");
           }
           // print("4");
           List z = statValue['listOfOngoingId'];
-          z.forEach((element) {
-            tempListOngoingId.add(element.toString());
-          });
-          // print("5");
+          if (z != null) {
+            z.forEach((element) {
+              tempListOngoingId.add(element.toString());
+            });
+          } else {
+            print("z was null");
+          }
+          print("tempListOngoingId");
+          print(tempListOngoingId);
+          print("gammmmma");
           loadedList.add(
             WorkoutModel(
               creator_name: statValue['creator_name'],
@@ -205,10 +221,16 @@ class Workouts_Provider with ChangeNotifier {
               listOfOnGoingId: tempListOngoingId,
             ),
           );
+          print("deltyaaaaa");
         },
       );
       List<WorkoutModel> filteredList = [];
       List<WorkoutModel> created_by_user = [];
+      print("print1");
+      print("print1");
+      print("print1");
+      print("print1");
+
       loadedList.forEach(
         (element) {
           if (element.access == 'Public' ||
@@ -225,6 +247,7 @@ class Workouts_Provider with ChangeNotifier {
           }
         },
       );
+      print("print2");
       _createdByUser = created_by_user;
       _workoutsList = filteredList;
       notifyListeners();

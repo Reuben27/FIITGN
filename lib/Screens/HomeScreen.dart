@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List homeScreenList = [
     {
-      'title': 'Activities',
+      'title': 'Outdoors',
       'url': 'assets/act.png',
       'routeName': MapScreen.routeName,
       'description':
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Activity Stats',
+      'title': 'Stats',
       'url': 'assets/stats.png',
       'routeName': YourRuns.routeName,
       'description':

@@ -7,6 +7,7 @@ int snacksIndex = 0;
 int dinnerIndex = 0;
 
 class NutritionData {
+  static List<NutritionData> nutrition_list_static = [];
   String monday;
   String mondayCalories;
   String tuesday;
@@ -90,6 +91,7 @@ Future<List<NutritionData>> getNutritionData() async {
 
     _nutri_data_List =
         jsonFeedback.map((json) => NutritionData.fromJson(json)).toList();
+    NutritionData.nutrition_list_static = _nutri_data_List;
     return _nutri_data_List;
   });
 }

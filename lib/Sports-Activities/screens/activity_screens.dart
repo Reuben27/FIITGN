@@ -11,6 +11,8 @@ class Activity_Screen extends StatefulWidget {
 
 class _Activity_ScreenState extends State<Activity_Screen> {
   List<ActivityData> activities = List<ActivityData>.empty();
+  bool isLoading = true;
+  var isInit = true;
 
   Future<void> launchSocialMedia(String url) async {
     try {
@@ -30,22 +32,33 @@ class _Activity_ScreenState extends State<Activity_Screen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    inInIt();
-    setState(() {});
-    print(" in init ran");
-    super.initState();
+  void didChangeDependencies() async {
+    if (ActivityData.activites_static.length == 0) {
+      await inInIt();
+    } else {
+      activities = ActivityData.activites_static;
+      setState(() {
+        isLoading = false;
+      });
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    isInit = false;
   }
 
   void inInIt() async {
-    activities = activities_data;
+    activities = await getActivityData();
+    // activities = activities_data;
     print("activities loaded");
-    setState(() {});
+    setState(() {
+      print(isLoading);
+      print("is loading became false");
+      isLoading = false;
+    });
   }
 
   Widget build(BuildContext context) {
-    print(activities[1].link);
+    // print(activities[1].link);
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
@@ -70,125 +83,137 @@ class _Activity_ScreenState extends State<Activity_Screen> {
               ),
             ),
           ),
-          body: ListView.builder(
-              itemCount: activities.length,
-              itemBuilder: (ctx, i) {
-                return InkWell(
-                  onTap: () {
-                    if (activities[i].link != 'Null') {
-                      launchSocialMedia(activities[i].link);
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 0.00625 * _screenHeight,
-                      bottom: 0.00625 * _screenHeight,
-                      left: 0.03 * _screenWidth,
-                      right: 0.03 * _screenWidth,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0.02 * _screenHeight),
-                      color: Colors.green[200],
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    //  height: MediaQuery.of(context).size.height / 3.5,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        top: 0.0125 * _screenHeight,
-                        bottom: 0.0125 * _screenHeight,
-                        left: 0.03 * _screenWidth,
-                        right: 0.03 * _screenWidth,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            //width: MediaQuery.of(context).size.width / 1.2,
-                            child: Text(
-                              activities[i].activities.toUpperCase(),
-                              style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.06 * _screenHeight,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+          body: isLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: activities.length,
+                  itemBuilder: (ctx, i) {
+                    return InkWell(
+                      onTap: () {
+                        if (activities[i].link != 'Null') {
+                          launchSocialMedia(activities[i].link);
+                        }
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: 0.00625 * _screenHeight,
+                          bottom: 0.00625 * _screenHeight,
+                          left: 0.03 * _screenWidth,
+                          right: 0.03 * _screenWidth,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(0.02 * _screenHeight),
+                          color: Colors.green[200],
+                        ),
+                        width: MediaQuery.of(context).size.width,
+                        //  height: MediaQuery.of(context).size.height / 3.5,
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: 0.0125 * _screenHeight,
+                            bottom: 0.0125 * _screenHeight,
+                            left: 0.03 * _screenWidth,
+                            right: 0.03 * _screenWidth,
                           ),
-                          SizedBox(
-                            height: 0.004 * _screenHeight,
-                          ),
-                          Container(
-                            //  width: MediaQuery.of(context).size.width / 1.5,
-                            child: Text(
-                              "with " + activities[i].instructors.toUpperCase(),
-                              style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 0.026 * _screenHeight),
-                            ),
-                          ),
-                          Divider(
-                            color: Colors.black,
-                          ),
-                          Container(
-                            height: 0.09 * _screenHeight,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 0.4 * _screenWidth,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        activities[i].schedule,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.026 * _screenHeight),
-                                      ),
-                                      Text(
-                                        activities[i]
-                                            .time_of_class
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.026 * _screenHeight),
-                                      ),
-                                    ],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                //width: MediaQuery.of(context).size.width / 1.2,
+                                child: Text(
+                                  activities[i].activities.toUpperCase(),
+                                  style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.06 * _screenHeight,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                VerticalDivider(),
-                                Expanded(
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                          child: Text(
-                                            activities[i].venue.toUpperCase(),
+                              ),
+                              SizedBox(
+                                height: 0.004 * _screenHeight,
+                              ),
+                              Container(
+                                //  width: MediaQuery.of(context).size.width / 1.5,
+                                child: Text(
+                                  "with " +
+                                      activities[i].instructors.toUpperCase(),
+                                  style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontSize: 0.026 * _screenHeight),
+                                ),
+                              ),
+                              Divider(
+                                color: Colors.black,
+                              ),
+                              Container(
+                                height: 0.09 * _screenHeight,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 0.4 * _screenWidth,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            activities[i].schedule,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: 'Gilroy',
                                                 fontSize:
                                                     0.026 * _screenHeight),
                                           ),
-                                        ),
-                                      ],
+                                          Text(
+                                            activities[i]
+                                                .time_of_class
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Gilroy',
+                                                fontSize:
+                                                    0.026 * _screenHeight),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                    VerticalDivider(),
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                activities[i]
+                                                    .venue
+                                                    .toUpperCase(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.026 * _screenHeight),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                          //add here
+                        ),
                       ),
-                      //add here
-                    ),
-                  ),
-                );
-              })),
+                    );
+                  })),
     );
   }
 }
