@@ -3,27 +3,28 @@ import '../data/nutrition.dart';
 
 class Meal {
   String dishName;
+  String serving;
   String calories;
-  String fat;
-  String cholesterol;
-  String sodium;
-  String carbs;
   String protein;
+  String fats;
+  String fiber;
+  String carbs;
 
   Meal(
-      {this.dishName,
+    {
+      this.dishName,
+      this.serving,
       this.calories,
-      this.fat,
-      this.cholesterol,
-      this.sodium,
+      this.protein,
+      this.fats,
+      this.fiber,
       this.carbs,
-      this.protein});
+    }
+  );
 }
 
 Widget getDay(BuildContext context, List<NutritionData> data, int day) {
-  var _screenHeight = MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
-      kToolbarHeight;
+  var _screenHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - kToolbarHeight;
   var _screenWidth = MediaQuery.of(context).size.width;
   List<Widget> breakfast = [];
   List<Widget> lunch = [];
@@ -42,68 +43,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 1) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].monday} ${data[i].mondayCalories}"),
+        Text("${data[i].monday} ${data[i].mondayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].monday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].mondayServing,
+          carbs: data[i].mondayCarbs,
+          fiber: data[i].mondayFiber,
+          calories: data[i].mondayCal,
+          protein: data[i].mondayProtein,
+          fats: data[i].mondayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].monday} ${data[i].mondayCalories}"),
+        Text("${data[i].monday} ${data[i].mondayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].monday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].mondayServing,
+          carbs: data[i].mondayCarbs,
+          fiber: data[i].mondayFiber,
+          calories: data[i].mondayCal,
+          protein: data[i].mondayProtein,
+          fats: data[i].mondayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].monday} ${data[i].mondayCalories}"),
+        Text("${data[i].monday} ${data[i].mondayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].monday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].mondayServing,
+          carbs: data[i].mondayCarbs,
+          fiber: data[i].mondayFiber,
+          calories: data[i].mondayCal,
+          protein: data[i].mondayProtein,
+          fats: data[i].mondayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].monday} ${data[i].mondayCalories}"),
+        Text("${data[i].monday} ${data[i].mondayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].monday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].mondayServing,
+          carbs: data[i].mondayCarbs,
+          fiber: data[i].mondayFiber,
+          calories: data[i].mondayCal,
+          protein: data[i].mondayProtein,
+          fats: data[i].mondayFats,
         ),
       );
     }
@@ -113,68 +114,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 2) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].tuesday} ${data[i].tuesdayCalories}"),
+        Text("${data[i].tuesday} ${data[i].tuesdayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].tuesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].tuesdayServing,
+          carbs: data[i].tuesdayCarbs,
+          fiber: data[i].tuesdayFiber,
+          calories: data[i].tuesdayCal,
+          protein: data[i].tuesdayProtein,
+          fats: data[i].tuesdayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].tuesday} ${data[i].tuesdayCalories}"),
+        Text("${data[i].tuesday} ${data[i].tuesdayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].tuesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].tuesdayServing,
+          carbs: data[i].tuesdayCarbs,
+          fiber: data[i].tuesdayFiber,
+          calories: data[i].tuesdayCal,
+          protein: data[i].tuesdayProtein,
+          fats: data[i].tuesdayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].tuesday} ${data[i].tuesdayCalories}"),
+        Text("${data[i].tuesday} ${data[i].tuesdayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].tuesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].tuesdayServing,
+          carbs: data[i].tuesdayCarbs,
+          fiber: data[i].tuesdayFiber,
+          calories: data[i].tuesdayCal,
+          protein: data[i].tuesdayProtein,
+          fats: data[i].tuesdayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].tuesday} ${data[i].tuesdayCalories}"),
+        Text("${data[i].tuesday} ${data[i].tuesdayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].tuesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].tuesdayServing,
+          carbs: data[i].tuesdayCarbs,
+          fiber: data[i].tuesdayFiber,
+          calories: data[i].tuesdayCal,
+          protein: data[i].tuesdayProtein,
+          fats: data[i].tuesdayFats,
         ),
       );
     }
@@ -183,68 +184,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 3) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].wednesday} ${data[i].wednesdayCalories}"),
+        Text("${data[i].wednesday} ${data[i].wednesdayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].wednesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].wednesdayServing,
+          carbs: data[i].wednesdayCarbs,
+          fiber: data[i].wednesdayFiber,
+          calories: data[i].wednesdayCal,
+          protein: data[i].wednesdayProtein,
+          fats: data[i].wednesdayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].wednesday} ${data[i].wednesdayCalories}"),
+        Text("${data[i].wednesday} ${data[i].wednesdayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].wednesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].wednesdayServing,
+          carbs: data[i].wednesdayCarbs,
+          fiber: data[i].wednesdayFiber,
+          calories: data[i].wednesdayCal,
+          protein: data[i].wednesdayProtein,
+          fats: data[i].wednesdayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].wednesday} ${data[i].wednesdayCalories}"),
+        Text("${data[i].wednesday} ${data[i].wednesdayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].wednesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].wednesdayServing,
+          carbs: data[i].wednesdayCarbs,
+          fiber: data[i].wednesdayFiber,
+          calories: data[i].wednesdayCal,
+          protein: data[i].wednesdayProtein,
+          fats: data[i].wednesdayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].wednesday} ${data[i].wednesdayCalories}"),
+        Text("${data[i].wednesday} ${data[i].wednesdayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].wednesday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].wednesdayServing,
+          carbs: data[i].wednesdayCarbs,
+          fiber: data[i].wednesdayFiber,
+          calories: data[i].wednesdayCal,
+          protein: data[i].wednesdayProtein,
+          fats: data[i].wednesdayFats,
         ),
       );
     }
@@ -253,68 +254,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 4) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].thursday} ${data[i].thursdayCalories}"),
+        Text("${data[i].thursday} ${data[i].thursdayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].thursday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].thursdayServing,
+          carbs: data[i].thursdayCarbs,
+          fiber: data[i].thursdayFiber,
+          calories: data[i].thursdayCal,
+          protein: data[i].thursdayProtein,
+          fats: data[i].thursdayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].thursday} ${data[i].thursdayCalories}"),
+        Text("${data[i].thursday} ${data[i].thursdayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].thursday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].thursdayServing,
+          carbs: data[i].thursdayCarbs,
+          fiber: data[i].thursdayFiber,
+          calories: data[i].thursdayCal,
+          protein: data[i].thursdayProtein,
+          fats: data[i].thursdayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].thursday} ${data[i].thursdayCalories}"),
+        Text("${data[i].thursday} ${data[i].thursdayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].thursday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].thursdayServing,
+          carbs: data[i].thursdayCarbs,
+          fiber: data[i].thursdayFiber,
+          calories: data[i].thursdayCal,
+          protein: data[i].thursdayProtein,
+          fats: data[i].thursdayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].thursday} ${data[i].thursdayCalories}"),
+        Text("${data[i].thursday} ${data[i].thursdayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].thursday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].thursdayServing,
+          carbs: data[i].thursdayCarbs,
+          fiber: data[i].thursdayFiber,
+          calories: data[i].thursdayCal,
+          protein: data[i].thursdayProtein,
+          fats: data[i].thursdayFats,
         ),
       );
     }
@@ -323,68 +324,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 5) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].friday} ${data[i].fridayCalories}"),
+        Text("${data[i].friday} ${data[i].fridayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].friday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].fridayServing,
+          carbs: data[i].fridayCarbs,
+          fiber: data[i].fridayFiber,
+          calories: data[i].fridayCal,
+          protein: data[i].fridayProtein,
+          fats: data[i].fridayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].friday} ${data[i].fridayCalories}"),
+        Text("${data[i].friday} ${data[i].fridayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].friday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].fridayServing,
+          carbs: data[i].fridayCarbs,
+          fiber: data[i].fridayFiber,
+          calories: data[i].fridayCal,
+          protein: data[i].fridayProtein,
+          fats: data[i].fridayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].friday} ${data[i].fridayCalories}"),
+        Text("${data[i].friday} ${data[i].fridayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].friday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].fridayServing,
+          carbs: data[i].fridayCarbs,
+          fiber: data[i].fridayFiber,
+          calories: data[i].fridayCal,
+          protein: data[i].fridayProtein,
+          fats: data[i].fridayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].friday} ${data[i].fridayCalories}"),
+        Text("${data[i].friday} ${data[i].fridayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].friday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].fridayServing,
+          carbs: data[i].fridayCarbs,
+          fiber: data[i].fridayFiber,
+          calories: data[i].fridayCal,
+          protein: data[i].fridayProtein,
+          fats: data[i].fridayFats,
         ),
       );
     }
@@ -393,68 +394,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 6) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].saturday} ${data[i].saturdayCalories}"),
+        Text("${data[i].saturday} ${data[i].saturdayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].saturday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].saturdayServing,
+          carbs: data[i].saturdayCarbs,
+          fiber: data[i].saturdayFiber,
+          calories: data[i].saturdayCal,
+          protein: data[i].saturdayProtein,
+          fats: data[i].saturdayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].saturday} ${data[i].saturdayCalories}"),
+        Text("${data[i].saturday} ${data[i].saturdayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].saturday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].saturdayServing,
+          carbs: data[i].saturdayCarbs,
+          fiber: data[i].saturdayFiber,
+          calories: data[i].saturdayCal,
+          protein: data[i].saturdayProtein,
+          fats: data[i].saturdayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].saturday} ${data[i].saturdayCalories}"),
+        Text("${data[i].saturday} ${data[i].saturdayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].saturday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].saturdayServing,
+          carbs: data[i].saturdayCarbs,
+          fiber: data[i].saturdayFiber,
+          calories: data[i].saturdayCal,
+          protein: data[i].saturdayProtein,
+          fats: data[i].saturdayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].saturday} ${data[i].saturdayCalories}"),
+        Text("${data[i].saturday} ${data[i].saturdayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].saturday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].saturdayServing,
+          carbs: data[i].saturdayCarbs,
+          fiber: data[i].saturdayFiber,
+          calories: data[i].saturdayCal,
+          protein: data[i].saturdayProtein,
+          fats: data[i].saturdayFats,
         ),
       );
     }
@@ -463,68 +464,68 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
   if (day == 7) {
     for (var i = breakfastIndex + 2; i < lunchIndex; i++) {
       breakfast.add(
-        Text("${data[i].sunday} ${data[i].sundayCalories}"),
+        Text("${data[i].sunday} ${data[i].sundayCal}"),
       );
       brakefast.add(
         Meal(
           dishName: data[i].sunday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].sundayServing,
+          carbs: data[i].sundayCarbs,
+          fiber: data[i].sundayFiber,
+          calories: data[i].sundayCal,
+          protein: data[i].sundayProtein,
+          fats: data[i].sundayFats,
         ),
       );
     }
 
     for (var i = lunchIndex + 2; i < snacksIndex; i++) {
       lunch.add(
-        Text("${data[i].sunday} ${data[i].sundayCalories}"),
+        Text("${data[i].sunday} ${data[i].sundayCal}"),
       );
       lonch.add(
         Meal(
           dishName: data[i].sunday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].sundayServing,
+          carbs: data[i].sundayCarbs,
+          fiber: data[i].sundayFiber,
+          calories: data[i].sundayCal,
+          protein: data[i].sundayProtein,
+          fats: data[i].sundayFats,
         ),
       );
     }
 
     for (var i = snacksIndex + 2; i < dinnerIndex; i++) {
       snacks.add(
-        Text("${data[i].sunday} ${data[i].sundayCalories}"),
+        Text("${data[i].sunday} ${data[i].sundayCal}"),
       );
       snek.add(
         Meal(
           dishName: data[i].sunday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].sundayServing,
+          carbs: data[i].sundayCarbs,
+          fiber: data[i].sundayFiber,
+          calories: data[i].sundayCal,
+          protein: data[i].sundayProtein,
+          fats: data[i].sundayFats,
         ),
       );
     }
 
     for (var i = dinnerIndex + 2; i < data.length; i++) {
       dinner.add(
-        Text("${data[i].sunday} ${data[i].sundayCalories}"),
+        Text("${data[i].sunday} ${data[i].sundayCal}"),
       );
       supper.add(
         Meal(
           dishName: data[i].sunday,
-          calories: 100.toString(),
-          protein: 100.toString(),
-          carbs: 100.toString(),
-          fat: 100.toString(),
-          cholesterol: 100.toString(),
-          sodium: 100.toString(),
+          serving: data[i].sundayServing,
+          carbs: data[i].sundayCarbs,
+          fiber: data[i].sundayFiber,
+          calories: data[i].sundayCal,
+          protein: data[i].sundayProtein,
+          fats: data[i].sundayFats,
         ),
       );
     }
@@ -576,12 +577,12 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
               dataRowHeight: 0.068 * _screenHeight,
               columns: [
                 DataColumn(label: Text("Meal Name")),
+                DataColumn(label: Text("Serving")),
                 DataColumn(label: Text("Calories")),
-                DataColumn(label: Text("Fat")),
+                DataColumn(label: Text("Fiber")),
                 DataColumn(label: Text("Carbohydrates")),
+                DataColumn(label: Text("Fats")),
                 DataColumn(label: Text("Protein")),
-                DataColumn(label: Text("Sodium")),
-                DataColumn(label: Text("Cholesterol")),
               ],
               rows: brakefast
                   .map(
@@ -597,6 +598,14 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                         ),
                         DataCell(
                           Text(
+                            e.serving,
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.028 * _screenHeight),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
                             e.calories,
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
@@ -605,29 +614,21 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                         ),
                         DataCell(
                           Text(
-                            e.fat,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            e.carbs,
+                            e.fiber,
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontSize: 0.028 * _screenHeight),
                           ),
                         ),
                         DataCell(Text(
-                          e.protein,
+                          e.carbs,
                           style: TextStyle(
                               fontFamily: 'Gilroy',
                               fontSize: 0.028 * _screenHeight),
                         )),
                         DataCell(
                           Text(
-                            e.sodium,
+                            e.fats,
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontSize: 0.028 * _screenHeight),
@@ -635,7 +636,7 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                         ),
                         DataCell(
                           Text(
-                            e.cholesterol,
+                            e.protein,
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontSize: 0.028 * _screenHeight),
@@ -691,12 +692,12 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
               ),
               columns: [
                 DataColumn(label: Text("Meal Name")),
+                DataColumn(label: Text("Serving")),
                 DataColumn(label: Text("Calories")),
-                DataColumn(label: Text("Fat")),
+                DataColumn(label: Text("Fiber")),
                 DataColumn(label: Text("Carbohydrates")),
+                DataColumn(label: Text("Fats")),
                 DataColumn(label: Text("Protein")),
-                DataColumn(label: Text("Sodium")),
-                DataColumn(label: Text("Cholesterol")),
               ],
               rows: lonch
                   .map(
@@ -706,20 +707,20 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                           Text(e.dishName),
                         ),
                         DataCell(
+                          Text(e.serving),
+                        ),
+                        DataCell(
                           Text(e.calories),
                         ),
                         DataCell(
-                          Text(e.fat),
+                          Text(e.fiber),
+                        ),
+                        DataCell(Text(e.carbs)),
+                        DataCell(
+                          Text(e.fats),
                         ),
                         DataCell(
-                          Text(e.carbs),
-                        ),
-                        DataCell(Text(e.protein)),
-                        DataCell(
-                          Text(e.sodium),
-                        ),
-                        DataCell(
-                          Text(e.cholesterol),
+                          Text(e.protein),
                         ),
                       ],
                     ),
@@ -771,12 +772,12 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
               ),
               columns: [
                 DataColumn(label: Text("Meal Name")),
+                DataColumn(label: Text("Serving")),
                 DataColumn(label: Text("Calories")),
-                DataColumn(label: Text("Fat")),
+                DataColumn(label: Text("Fiber")),
                 DataColumn(label: Text("Carbohydrates")),
+                DataColumn(label: Text("Fats")),
                 DataColumn(label: Text("Protein")),
-                DataColumn(label: Text("Sodium")),
-                DataColumn(label: Text("Cholesterol")),
               ],
               rows: snek
                   .map(
@@ -786,20 +787,20 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                           Text(e.dishName),
                         ),
                         DataCell(
+                          Text(e.serving),
+                        ),
+                        DataCell(
                           Text(e.calories),
                         ),
                         DataCell(
-                          Text(e.fat),
+                          Text(e.fiber),
+                        ),
+                        DataCell(Text(e.carbs)),
+                        DataCell(
+                          Text(e.fats),
                         ),
                         DataCell(
-                          Text(e.carbs),
-                        ),
-                        DataCell(Text(e.protein)),
-                        DataCell(
-                          Text(e.sodium),
-                        ),
-                        DataCell(
-                          Text(e.cholesterol),
+                          Text(e.protein),
                         ),
                       ],
                     ),
@@ -853,12 +854,12 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                 ),
                 columns: [
                   DataColumn(label: Text("Meal Name")),
+                  DataColumn(label: Text("Serving")),
                   DataColumn(label: Text("Calories")),
-                  DataColumn(label: Text("Fat")),
+                  DataColumn(label: Text("Fiber")),
                   DataColumn(label: Text("Carbohydrates")),
+                  DataColumn(label: Text("Fats")),
                   DataColumn(label: Text("Protein")),
-                  DataColumn(label: Text("Sodium")),
-                  DataColumn(label: Text("Cholesterol")),
                 ],
                 rows: supper
                     .map(
@@ -868,20 +869,20 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                             Text(e.dishName),
                           ),
                           DataCell(
+                            Text(e.serving),
+                          ),
+                          DataCell(
                             Text(e.calories),
                           ),
                           DataCell(
-                            Text(e.fat),
+                            Text(e.fiber),
+                          ),
+                          DataCell(Text(e.carbs)),
+                          DataCell(
+                            Text(e.fats),
                           ),
                           DataCell(
-                            Text(e.carbs),
-                          ),
-                          DataCell(Text(e.protein)),
-                          DataCell(
-                            Text(e.sodium),
-                          ),
-                          DataCell(
-                            Text(e.cholesterol),
+                            Text(e.protein),
                           ),
                         ],
                       ),
