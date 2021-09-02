@@ -1,4 +1,5 @@
 import 'package:fiitgn/Screens/developers_page.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -47,6 +48,15 @@ import 'Workouts/screens/workout_logging.dart';
 import 'Notifications/Notifications.dart';
 import 'Workouts/screens/workouts_history.dart';
 import 'Workouts/screens/workout_history_details.dart';
+
+/// PLAN
+import 'Workouts/screens/plan_home.dart';
+import 'Workouts/screens/weekly_plan_display.dart';
+import 'Workouts/screens/explore_plans.dart';
+import 'Workouts/screens/weekly_workout_details.dart';
+import 'Workouts/screens/plans_wishlist.dart';
+import 'Workouts/screens/plans_following_now.dart';
+import 'Workouts/screens/plans_created_by_user.dart';
 
 //// Allocation
 import 'Allocation/screens/sports.dart';
@@ -157,6 +167,8 @@ class MyApp extends StatelessWidget {
           Notifications.routeName: (_) => Notifications(),
           Workout_History_Details.routeName: (_) => Workout_History_Details(),
 
+          //// PLAN SECTION
+
           ///// Admin Section
           AdminHome.routeName: (_) => AdminHome(),
 
@@ -184,6 +196,15 @@ class MyApp extends StatelessWidget {
 
           //// Profile
           Profile.routeName: (_) => Profile(),
+
+          ///// Plan
+          Plan_Home.routeName: (_) => Plan_Home(),
+          WeeklyPlanDisplay.routeName: (_) => WeeklyPlanDisplay(),
+          Explore_Plans.routeName: (_) => Explore_Plans(),
+          WeeklyWorkoutDetails.routeName: (_) => WeeklyWorkoutDetails(),
+          Following_now_Plans.routeName: (_) => Following_now_Plans(),
+          Wishlist_Plans.routeName: (_) => Wishlist_Plans(),
+          Plans_createdByUser.routeName: (_) => Plans_createdByUser(),
         },
       ),
     );

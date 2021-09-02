@@ -4,7 +4,6 @@ import 'package:fiitgn/Workouts/models/Workouts_Log_Model.dart';
 
 import '../../Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/admin/directory_v1.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +11,7 @@ import '../models/WorkoutModel.dart';
 import '../models/Exercise_db_model.dart';
 
 import '../../Notifications/utils/addNotification.dart';
+import '../models/Plan_Model.dart';
 
 class Workouts_Provider with ChangeNotifier {
   // String _userEmailId;
@@ -473,7 +473,6 @@ class Workouts_Provider with ChangeNotifier {
   }
 
 //// functions for getting workouts that user has set reminder for
-  ///
   List<WorkoutModel> ongoingWorkouts() {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
@@ -487,18 +486,14 @@ class Workouts_Provider with ChangeNotifier {
   }
 
   Future<void> addWorkoutToOngoingDB(
-      // print("add workout to ongoing called");
-
-      WorkoutModel workout,
-      String workoutId,
-      int hour,
-      int min) async {
+      WorkoutModel workout, String workoutId, int hour, int min) async {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
     final url =
         "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
     print("add workout to ongoing called");
     print(url);
+
     List ongoing = workout.listOfOnGoingId;
     ongoing.add(user_uid);
     print(ongoing);
@@ -592,6 +587,468 @@ class Workouts_Provider with ChangeNotifier {
         String token = Data_Provider().notif_token;
         await notiRemove(token, workout.workoutName);
         print("notification successfully removed ");
+      } catch (e) {
+        print("error in removing notifs");
+        print(e);
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+/////////////////////////////////////////////////////
+  ///PLAN SECTION
+/////////////////////////////////////////////////////
+
+  String _currentPlan;
+  List<PlanModel> _plansList = [];
+  List<PlanModel> _plansCreatedByUser = [];
+
+  List<PlanModel> plans_created_by_user() {
+    print(" plan created_by_user function has been called");
+    List<PlanModel> created = [];
+    _plansList.forEach((element) {
+      if (element.creatorId == Data_Provider().uid) {
+        print("element match");
+        created.add(element);
+      } else {
+        print("element creator id --> " + element.creatorId);
+        print("uid --> " + Data_Provider().uid);
+      }
+    });
+    return created;
+  }
+
+  List<PlanModel> get plansList {
+    return [..._plansList];
+  }
+
+  createPlanAndAddToDB(
+      String creatorId,
+      String creator_name,
+      String planName,
+      int numberOfWeeks,
+      String description,
+      String access,
+      List<List<WorkoutModel>> listOfPlans,
+      List<String> listOfExercisesId,
+      List<String> listOfFollowersId,
+      List<String> listOfOngoingId) async {
+    // finding the time of creation
+    final time = DateTime.now();
+    final String dateOfCreationOfWorkout = time.toIso8601String();
+    const url = "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans.json";
+    var response;
+    // creating corresponding json for listOfPlans
+    List<List<dynamic>> converted_listOfPlans = [];
+    for (int i = 0; i < listOfPlans.length; i++) {
+      converted_listOfPlans.add([]);
+      for (int j = 0; j < listOfPlans[0].length; j++) {
+        WorkoutModel currentWorkout = listOfPlans[i][j];
+        Map convertedWorkout = currentWorkout.toJson();
+        converted_listOfPlans[i].add(jsonEncode(convertedWorkout));
+      }
+    }
+    try {
+      response = await http.post(
+        Uri.parse(url),
+        body: json.encode(
+          {
+            'numberOfWeeks': numberOfWeeks,
+            'creatorId': creatorId,
+            'creator_name': creator_name,
+            'creationDate': dateOfCreationOfWorkout,
+            'planName': planName,
+            'description': description,
+            'access': access,
+            'listOfPlans':
+                converted_listOfPlans, // by itself has custom objects which have to be flattened
+            'listOfFollowersId': listOfFollowersId,
+            'listOfOngoingId': listOfOngoingId,
+          },
+        ),
+      );
+    } catch (e) {
+      print("ERROR IN SAVING CREATED WORKOUT TO DB");
+      print(e);
+    }
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    print("plan has been added to the Database");
+    print("%%%%%%%%%%%%%%%%%%%%%%");
+    var planId = json.decode(response.body)['name'];
+    print(planId);
+    PlanModel newPlan = PlanModel(
+        numberOfWeeks: numberOfWeeks,
+        access: access,
+        creationDate: dateOfCreationOfWorkout,
+        creatorId: creatorId,
+        creator_name: creator_name,
+        description: description,
+        listOfFollowersId: listOfFollowersId,
+        listOfOnGoingId: listOfOngoingId,
+        planId: planId,
+        planName: planName,
+        imageUrl: url,
+        listOfPlans: listOfPlans);
+    _plansList.add(newPlan);
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    print("plans list has been updated");
+    print("%%%%%%%%%%%%%%%%%%%%%");
+    // notifyListeners();
+    // print(newWorkout.listOfExercisesId);
+
+    //  get the list of all exercises
+  }
+
+  Future<void> showAllPlans() async {
+    print("SHOW ALL plans CALLED");
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    const url = "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final extractedData = json.decode(response.body) as Map;
+      print("extracted data");
+      print(extractedData);
+      final List<PlanModel> loadedPlans = [];
+      final List<WorkoutModel> loadedList = [];
+      // print("####");
+      // print(extractedData);
+      // print("####");
+      extractedData.forEach(
+        (statId, statValue) {
+          final List<String> tempListFollowersId = [];
+          final List<String> tempListOngoingId = [];
+          List y = [];
+          y = statValue['listOfFollowersId'];
+          if (y != null) {
+            y.forEach((element) {
+              tempListFollowersId.add(element.toString());
+            });
+          } else {
+            print("y was null");
+          }
+          List z = statValue['listOfOngoingId'];
+          if (z != null) {
+            z.forEach((element) {
+              tempListOngoingId.add(element.toString());
+            });
+          } else {
+            print("z was null");
+          }
+          print("gammmmma");
+          List<List<WorkoutModel>> listOfPlans = [];
+          extractedData.forEach((statId, statValue) {
+            List<List<dynamic>> temp = statValue['listOfPlans'];
+            if (temp != null) {
+              for (int i = 0; i < temp.length; i++) {
+                listOfPlans.add([]);
+                for (int j = 0; j < temp[0].length; j++) {
+                  listOfPlans[i]
+                      .add(WorkoutModel.fromJson(json.decode(temp[i][j])));
+                }
+              }
+            } else {
+              print("temp was null");
+            }
+          });
+          loadedPlans.add(
+            PlanModel(
+              numberOfWeeks: statValue['numberOfWeeks'],
+              listOfPlans: listOfPlans,
+              creator_name: statValue['creator_name'],
+              creatorId: statValue['creatorId'],
+              planId: statId,
+              planName: statValue['planName'],
+              description: statValue['description'],
+              access: statValue['access'],
+              creationDate: statValue['creationDate'],
+              listOfFollowersId: tempListFollowersId,
+              listOfOnGoingId: tempListOngoingId,
+            ),
+          );
+          print("deltaaaaa");
+        },
+      );
+      List<PlanModel> filteredPlansList = [];
+      List<PlanModel> plans_created_by_user = [];
+      print("print1");
+      print("print1");
+      print("print1");
+      print("print1");
+
+      loadedPlans.forEach(
+        (element) {
+          if (element.access == 'Public' ||
+              (element.access == 'Private' &&
+                  element.creatorId == Data_Provider().uid.trim())) {
+            print(
+                "element " + element.planName + " access is " + element.access);
+            filteredPlansList.add(element);
+            if (element.creatorId == userId) {
+              plans_created_by_user.add(element);
+            }
+          }
+        },
+      );
+      print("print2");
+      _plansCreatedByUser = plans_created_by_user;
+      _plansList = filteredPlansList;
+      notifyListeners();
+      print("loaded plans list is ready");
+      // return _workoutsList;
+    } catch (e) {
+      print("ERROR IN LOADING ALL WORKOUTS");
+      print(e);
+    }
+  }
+
+  Future<void> followPlan(PlanModel plan, String planId) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
+    print(url);
+    List followers = plan.listOfFollowersId;
+    followers.add(user_uid);
+    print(followers);
+    // workout.listOfFollowersId.add(user_uid);
+    try {
+      var x = await http.patch(
+        Uri.parse(url),
+        body: json.encode(
+          {
+            'numberOfWeeks': plan.numberOfWeeks,
+            'creatorId': plan.creatorId,
+            'creator_name': plan.creator_name,
+            'creationDate': plan.creationDate,
+            'planName': plan.planName,
+            'workoutDescription': plan.description,
+            'access': plan.access,
+            'listOfPlans': plan
+                .listOfPlans, // by itself has custom objects which have to be flattened
+            'listOfFollowersId': followers,
+            'listOfOngoingId': plan.listOfOnGoingId,
+          },
+        ),
+      );
+      print(x.body);
+      print("follower list has been updated");
+      PlanModel updatedPlan = PlanModel(
+        numberOfWeeks: plan.numberOfWeeks,
+        creator_name: plan.creator_name,
+        creatorId: plan.creatorId,
+        listOfOnGoingId: plan.listOfOnGoingId,
+        planId: plan.planId,
+        planName: plan.planName,
+        description: plan.description,
+        access: plan.access,
+        creationDate: plan.creationDate,
+        listOfPlans: plan.listOfPlans,
+        listOfFollowersId: followers,
+      );
+      int index = _plansList.indexWhere((element) => element.planId == planId);
+      _plansList[index] = updatedPlan;
+      print(_plansList[index].listOfFollowersId);
+      print("plan saved locally");
+      notifyListeners();
+    } catch (e) {
+      print("ERROR OCCURED");
+      print(e);
+    }
+  }
+
+  Future<void> unFollowPlan(PlanModel plan, String planId) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
+    List followers = plan.listOfFollowersId;
+    followers.remove(user_uid);
+    try {
+      var x = await http.patch(
+        Uri.parse(url),
+        body: json.encode(
+          {
+            'numberOfWeeks': plan.numberOfWeeks,
+            'creatorId': plan.creatorId,
+            'creator_name': plan.creator_name,
+            'creationDate': plan.creationDate,
+            'planName': plan.planName,
+            'workoutDescription': plan.description,
+            'access': plan.access,
+            'listOfPlans': plan
+                .listOfPlans, // by itself has custom objects which have to be flattened
+            'listOfFollowersId': followers,
+            'listOfOngoingId': plan.listOfOnGoingId,
+          },
+        ),
+      );
+
+      print(x.body);
+      print("user has been unfollowed");
+      PlanModel updatedPlan = PlanModel(
+        numberOfWeeks: plan.numberOfWeeks,
+        creator_name: plan.creator_name,
+        creatorId: plan.creatorId,
+        listOfOnGoingId: plan.listOfOnGoingId,
+        planId: plan.planId,
+        planName: plan.planName,
+        description: plan.description,
+        access: plan.access,
+        creationDate: plan.creationDate,
+        listOfPlans: plan.listOfPlans,
+        listOfFollowersId: followers,
+      );
+      int index = _plansList.indexWhere((element) => element.planId == planId);
+      _plansList[index] = updatedPlan;
+      print(_plansList[index].listOfFollowersId);
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<PlanModel> followedPlans() {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    List<PlanModel> followedPlansList = [];
+    _plansList.forEach((element) {
+      if (element.listOfFollowersId.contains(user_uid)) {
+        followedPlansList.add(element);
+      }
+    });
+    return followedPlansList;
+  }
+
+  //// functions for getting plans that user has set reminder for
+  List<PlanModel> ongoingPlans() {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    List<PlanModel> ongoingPlansList = [];
+    _plansList.forEach((element) {
+      if (element.listOfOnGoingId.contains(user_uid)) {
+        ongoingPlansList.add(element);
+      }
+    });
+    return ongoingPlansList;
+  }
+
+  Future<void> addPlanToOngoingDB(
+      PlanModel plan, String planId, int hour, int min) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
+    print("add plan to ongoing called");
+    print(url);
+
+    List ongoing = plan.listOfOnGoingId;
+    ongoing.add(user_uid);
+    print(ongoing);
+    // workout.listOfFollowersId.add(user_uid);
+    try {
+      var x = await http.patch(Uri.parse(url),
+          body: json.encode(
+            {
+              'numberOfWeeks': plan.numberOfWeeks,
+              'creatorId': plan.creatorId,
+              'creator_name': plan.creator_name,
+              'creationDate': plan.creationDate,
+              'planName': plan.planName,
+              'workoutDescription': plan.description,
+              'access': plan.access,
+              'listOfPlans': plan
+                  .listOfPlans, // by itself has custom objects which have to be flattened
+              'listOfFollowersId': plan.listOfFollowersId,
+              'listOfOngoingId': ongoing,
+            },
+          ));
+      print(x.body);
+      print("ongoing list has been updated");
+      PlanModel updatedPlan = PlanModel(
+        numberOfWeeks: plan.numberOfWeeks,
+        creator_name: plan.creator_name,
+        creatorId: plan.creatorId,
+        listOfOnGoingId: ongoing,
+        planId: plan.planId,
+        planName: plan.planName,
+        description: plan.description,
+        access: plan.access,
+        creationDate: plan.creationDate,
+        listOfPlans: plan.listOfPlans,
+        listOfFollowersId: plan.listOfFollowersId,
+      );
+      int index = _plansList.indexWhere((element) => element.planId == planId);
+      _plansList[index] = updatedPlan;
+      print(_plansList[index].listOfOnGoingId);
+      print("added plan to Ongoing");
+      /////// SETTING NOTIFICATION FOR PLAN
+      String token = Data_Provider().notif_token;
+      try {
+        await notiAdd(token, hour, min, plan.planName);
+      } catch (e) {
+        print("error in setting notifs");
+        print(e);
+      }
+      notifyListeners();
+    } catch (e) {
+      print("ERROR OCCURED");
+      print(e);
+    }
+  }
+
+  Future<void> removePlanFromOngoingDB(PlanModel plan, String planId) async {
+    String user_uid = Data_Provider().uid;
+    String user_email = Data_Provider().email;
+
+    final url =
+        "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
+    List ongoing = plan.listOfFollowersId;
+    ongoing.remove(user_uid);
+    try {
+      var x = await http.patch(Uri.parse(url),
+          body: json.encode(
+            {
+              'numberOfWeeks': plan.numberOfWeeks,
+              'creatorId': plan.creatorId,
+              'creator_name': plan.creator_name,
+              'creationDate': plan.creationDate,
+              'planName': plan.planName,
+              'workoutDescription': plan.description,
+              'access': plan.access,
+              'listOfPlans': plan
+                  .listOfPlans, // by itself has custom objects which have to be flattened
+              'listOfFollowersId': plan.listOfFollowersId,
+              'listOfOngoingId': ongoing,
+            },
+          ));
+
+      print(x.body);
+      print("user has been unfollowed");
+      PlanModel updatedPlan = PlanModel(
+        numberOfWeeks: plan.numberOfWeeks,
+        creator_name: plan.creator_name,
+        creatorId: plan.creatorId,
+        listOfOnGoingId: ongoing,
+        planId: plan.planId,
+        planName: plan.planName,
+        description: plan.description,
+        access: plan.access,
+        creationDate: plan.creationDate,
+        listOfPlans: plan.listOfPlans,
+        listOfFollowersId: plan.listOfFollowersId,
+      );
+      int index = _plansList.indexWhere((element) => element.planId == planId);
+      _plansList[index] = updatedPlan;
+      print(_plansList[index].listOfOnGoingId);
+      print("added plan to Ongoing");
+      try {
+        String token = Data_Provider().notif_token;
+        await notiRemove(token, plan.planName);
+        print("notification successfully removed for plan " + plan.planName);
       } catch (e) {
         print("error in removing notifs");
         print(e);

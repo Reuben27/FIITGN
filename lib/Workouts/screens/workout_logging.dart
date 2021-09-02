@@ -678,6 +678,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                     )
                   ],
                 ),
+
                 /////// SECOND PAGE
                 Container(
                   // color: Colors.grey[200],
