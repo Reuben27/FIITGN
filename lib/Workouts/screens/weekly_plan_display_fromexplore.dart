@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './weekly_workout_details.dart';
 
-class WeeklyPlanDisplay extends StatelessWidget {
-  static const routeName = 'weeklyPlanDisplay';
+class WeeklyPlanDisplayFromExplore extends StatelessWidget {
+  static const routeName = 'weeklyPlanDisplayfromexplore';
   @override
   Widget build(BuildContext context) {
     final PlanModel plan =
@@ -17,9 +17,6 @@ class WeeklyPlanDisplay extends StatelessWidget {
       appBar: AppBar(
         title: Text('Plan Details'),
       ),
-
-      //this page is good structure wise, just add a function to begin logging on each outlines button
-
       body: ListView.builder(
           itemCount: plan.listOfPlans.length,
           itemBuilder: (_, i) {
@@ -31,10 +28,6 @@ class WeeklyPlanDisplay extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -50,10 +43,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -69,10 +59,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -88,10 +75,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -107,10 +91,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -126,10 +107,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
@@ -145,10 +123,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [ OutlinedButton(
-                        onPressed: () {},
-                        child: Text("Log"),
-                      ),
+                    children: [
                       InkWell(
                           onTap: () {
                             Map pass = Map();
