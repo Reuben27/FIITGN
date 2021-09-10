@@ -1,4 +1,5 @@
 import 'package:fiitgn/Providers/DataProvider.dart';
+import 'package:fiitgn/Screens/HomeScreen.dart';
 import 'package:fiitgn/Workouts/Widgets/create_passer.dart';
 import 'package:fiitgn/Workouts/models/WorkoutModel.dart';
 import 'package:fiitgn/Workouts/models/Workout_provider.dart';
@@ -63,6 +64,7 @@ class _CreatePlanState extends State<CreatePlan> {
                 listOfPlans,
                 listOfFollowersId,
                 listOfOngoingId);
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
           },
         ),
         appBar: AppBar(
