@@ -51,11 +51,22 @@ class WorkoutModel {
         creatorId: "${json['creatorId']}",
         creator_name: "${json['creator_name']}",
         description: "${json['description']}",
-        listOfExercisesId: json['listOfExercisesId'],
-        listOfFollowersId: json['listOfFollowersId'],
-        listOfOnGoingId: json['listOfOnGoingId'],
+        listOfExercisesId: _converToList_String(json['listOfExercisesId']),
+        listOfFollowersId: _converToList_String(json['listOfFollowersId']),
+        listOfOnGoingId: _converToList_String(json['listOfOnGoingId']),
         workoutId: "${json['workoutId']}",
         workoutName: "${json['workoutName']}",
         imageUrl: "${json['imageUrl']}");
   }
+}
+
+List<String> _converToList_String(List<dynamic> list) {
+  List<String> x = [];
+  list.forEach((element) {
+    if (element.runtimeType == String) {
+      x.add(element);
+      print("element added to x");
+    }
+  });
+  return x;
 }

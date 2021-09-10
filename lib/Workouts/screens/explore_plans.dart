@@ -96,7 +96,6 @@ class _Explore_PlansState extends State<Explore_Plans> {
         return alert;
       },
     );
-    
   }
 
   Future<Null> _selectTime(

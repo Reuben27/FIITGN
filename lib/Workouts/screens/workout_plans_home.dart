@@ -1,4 +1,7 @@
+import 'package:fiitgn/Workouts/Widgets/create_passer.dart';
+import 'package:fiitgn/Workouts/models/WorkoutModel.dart';
 import 'package:fiitgn/Workouts/screens/explore_plans.dart';
+import 'package:fiitgn/Workouts/screens/plans_created_by_user.dart';
 import 'package:fiitgn/Workouts/screens/plans_following_now.dart';
 
 import './create_workouts1.dart';
@@ -63,8 +66,7 @@ class Workouts_Plans extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, Explore_Plans.routeName);
+                        Navigator.pushNamed(context, Explore_Plans.routeName);
                       },
                     ),
                   ),
@@ -156,7 +158,7 @@ class Workouts_Plans extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Created_by_user.routeName);
+                                  context, Plans_createdByUser.routeName);
                             },
                             child: Container(
                               width: 0.4 * _screenWidth,
@@ -298,7 +300,14 @@ class Workouts_Plans extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, CreatePlan.routeName);
+                Map<String, WorkoutModel> workoutsForDays =
+                    Map<String, WorkoutModel>();
+                workoutsForDays['-1'] = CreateArguments.rest_model;
+                CreateArguments arguments = CreateArguments(
+                    dayNum: -1, workoutsForDays: workoutsForDays);
+                print("passed the workoutForDays to Create plan from home");
+                Navigator.pushNamed(context, CreatePlan.routeName,
+                    arguments: arguments);
               },
               child: Container(
                 width: _screenWidth,

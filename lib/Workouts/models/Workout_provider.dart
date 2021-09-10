@@ -600,7 +600,18 @@ class Workouts_Provider with ChangeNotifier {
 /////////////////////////////////////////////////////
   ///PLAN SECTION
 /////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////
+  ///PLAN SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///PLAN SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///PLAN SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///PLAN SECTION
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///PLAN SECTION
+/////////////////////////////////////////////////////
+  ///
   String _currentPlan;
   List<PlanModel> _plansList = [];
   List<PlanModel> _plansCreatedByUser = [];
@@ -632,7 +643,6 @@ class Workouts_Provider with ChangeNotifier {
       String description,
       String access,
       List<List<WorkoutModel>> listOfPlans,
-      List<String> listOfExercisesId,
       List<String> listOfFollowersId,
       List<String> listOfOngoingId) async {
     // finding the time of creation
@@ -739,14 +749,25 @@ class Workouts_Provider with ChangeNotifier {
           }
           print("gammmmma");
           List<List<WorkoutModel>> listOfPlans = [];
+          print("gammmmma2");
           extractedData.forEach((statId, statValue) {
-            List<List<dynamic>> temp = statValue['listOfPlans'];
+            print("gamma3");
+            print(statValue['listOfPlans'].runtimeType);
+            print(statValue['listOfPlans']);
+            List<dynamic> temp = statValue['listOfPlans'];
+            print(temp);
+            print("gamma4");
             if (temp != null) {
+              print("gamma5");
               for (int i = 0; i < temp.length; i++) {
                 listOfPlans.add([]);
+                print("gamma6");
                 for (int j = 0; j < temp[0].length; j++) {
+                  print(temp[i][j]);
+                  print("gamma7");
                   listOfPlans[i]
                       .add(WorkoutModel.fromJson(json.decode(temp[i][j])));
+                  print("gamma8");
                 }
               }
             } else {
@@ -777,7 +798,7 @@ class Workouts_Provider with ChangeNotifier {
       print("print1");
       print("print1");
       print("print1");
-
+      print(loadedPlans);
       loadedPlans.forEach(
         (element) {
           if (element.access == 'Public' ||
@@ -797,9 +818,10 @@ class Workouts_Provider with ChangeNotifier {
       _plansList = filteredPlansList;
       notifyListeners();
       print("loaded plans list is ready");
+      print(_plansCreatedByUser);
       // return _workoutsList;
     } catch (e) {
-      print("ERROR IN LOADING ALL WORKOUTS");
+      print("ERROR IN LOADING ALL WORKOUTS FOR PLANS");
       print(e);
     }
   }

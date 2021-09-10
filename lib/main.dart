@@ -35,7 +35,8 @@ import './Screens/SplashScreen.dart';
 //// PROFILE
 import 'Profile/screens/profile_page.dart';
 
-
+import 'Workouts/screens/explore_workouts_plan_plan.dart';
+import 'Workouts/screens/plan_plan_create_create_workout.dart';
 import 'Workouts/screens/plans_following_now.dart';
 import 'Workouts/screens/workout_plans_home.dart';
 //// WORKOUTS SECTION
@@ -172,9 +173,12 @@ class MyApp extends StatelessWidget {
           Plans_createdByUser.routeName: (_) => Plans_createdByUser(),
           Wishlist_Plans.routeName: (_) => Wishlist_Plans(),
           WeeklyPlanDisplay.routeName: (_) => WeeklyPlanDisplay(),
-          WeeklyPlanDisplayFromExplore.routeName: (_) => WeeklyPlanDisplayFromExplore(),
+          WeeklyPlanDisplayFromExplore.routeName: (_) =>
+              WeeklyPlanDisplayFromExplore(),
           CreatePlan.routeName: (_) => CreatePlan(),
-
+          Create_Workout_for_Plan.routeName: (_) => Create_Workout_for_Plan(),
+          Explore_Workouts_For_Plan.routeName: (_) =>
+              Explore_Workouts_For_Plan(),
           ///// Admin Section
           AdminHome.routeName: (_) => AdminHome(),
 
