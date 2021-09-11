@@ -149,10 +149,27 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
       ),
       child: Scaffold(
         appBar: AppBar(
+          bottom: PreferredSize(
+            preferredSize: Size(_screenWidth, 0.1 * _screenHeight),
+            child: Container(
+              margin: EdgeInsets.only(bottom: 0.010 * _screenHeight),
+
+              // in the text below, add the last plan/workout that has been logged.
+
+
+              child: Text(
+                "Last Session: Insert Plan Name, Day Number, Workout Name",
+                style: TextStyle(
+                  fontSize: 0.03 * _screenHeight,
+                  fontFamily: "Gilroy",
+                ),
+              ),
+            ),
+          ),
           centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
-            'EXPLORE PLANS',
+            'FOLLOWING PLANS',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -226,119 +243,27 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                             fontSize: 0.025 * _screenHeight,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            top: 0.00625 * _screenHeight,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 0.025 * _screenWidth,
-                                                  right: 0.025 * _screenWidth,
-                                                ),
-                                                child: InkWell(
-                                                  child: iconList[i],
-                                                  onTap: () async {
-                                                    //  function to follow/unfollow the workout
-                                                    print("test");
-                                                    if (plansList[i]
-                                                        .listOfFollowersId
-                                                        .contains(user_id)) {
-                                                      if (plansList[i]
-                                                                  .creatorId !=
-                                                              user_id ||
-                                                          true) {
-                                                        await workoutDataProvider
-                                                            .unFollowPlan(
-                                                                plansList[i],
-                                                                plansList[i]
-                                                                    .planId);
-                                                        print(
-                                                            "http unfollow plan done");
-                                                        print(plansList[i]
-                                                            .planName);
-                                                        setState(() {
-                                                          iconList[i] =
-                                                              unFollowIcon;
-                                                          print("state set");
-                                                        });
-                                                      }
-                                                      // } else {
-                                                      //   // cant unfollow your own workout
-                                                      //   print("cant unfollow your own workout");
-                                                      //   //
-                                                      //   // TODO Add a snackbar thats tells user they cant unfollow workouts they have created
-                                                      // }
-                                                    } else if (!plansList[i]
-                                                        .listOfFollowersId
-                                                        .contains(user_id)) {
-                                                      await workoutDataProvider
-                                                          .followPlan(
-                                                              plansList[i],
-                                                              plansList[i]
-                                                                  .planId);
-                                                      print(
-                                                          "http follow plan done");
-                                                      print(plansList[i]
-                                                          .planName);
-                                                      setState(() {
-                                                        iconList[i] =
-                                                            followIcon;
-                                                        print("state set");
-                                                      });
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 0.025 * _screenWidth,
-                                                  right: 0.025 * _screenWidth,
-                                                ),
-                                                child: InkWell(
-                                                  child: ongoing_iconList[i],
-                                                  // onTap: () {},
-                                                  onTap: () async {
-                                                    //  function to follow/unfollow the workout
-                                                    print("test");
-                                                    if (plansList[i]
-                                                        .listOfOnGoingId
-                                                        .contains(user_id)) {
-                                                      await workoutDataProvider
-                                                          .removePlanFromOngoingDB(
-                                                              plansList[i],
-                                                              plansList[i]
-                                                                  .planId);
-                                                      print(
-                                                          "http removed from ongoing done");
-                                                      setState(() {
-                                                        ongoing_iconList[i] =
-                                                            ongoing_unfollowIcon;
-                                                        print("state set");
-                                                      });
-                                                    } else if (!plansList[i]
-                                                        .listOfOnGoingId
-                                                        .contains(user_id)) {
-                                                      print(
-                                                          "QQQQQQQQQQQQQQQQQQQQQ");
-                                                      await _selectTime(
-                                                          context,
-                                                          plansList[i],
-                                                          plansList[i].planId,
-                                                          i);
-                                                      print(_hourEntry);
-                                                      print(_minuteEntry);
-                                                      // print("ZUMBAAAA");
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                            ],
+
+                                        //display number of weeks a plan has in the below text widget
+
+
+                                        
+                                        Text(
+                                          "Weeks: xxx",
+                                          style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.025 * _screenHeight,
                                           ),
                                         ),
+
+
+                                        // in the inkwell below add the function for removing a plan from following
+
+
+                                        InkWell(
+                                          child: Text("Remove"),
+                                          onTap: () {},
+                                        )
                                       ],
                                     ),
                                     // Text("Creator Id - " + workoutsList[i].creatorId),

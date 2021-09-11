@@ -80,20 +80,22 @@ class WeeklyWorkoutDetails extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Record Set",
+                                    "Info",
                                     style: TextStyle(
                                         fontFamily: 'Gilroy',
                                         fontSize: 0.025 * _screenHeight,
                                         color: Colors.black),
                                   ),
                                   Icon(
-                                    Icons.note_add_outlined,
+                                    Icons.info_outline,
                                     color: Colors.black,
                                   )
                                 ],
                               ),
                               onPressed: () {
                                 //// add shit here @abhiram
+                                ///yeah leave this for now i got this later on
+                                ///theres no functionality here so yeah
                               },
                             ),
                           ),

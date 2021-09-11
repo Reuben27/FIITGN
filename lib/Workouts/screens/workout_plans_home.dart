@@ -1,17 +1,20 @@
+import 'package:fiitgn/Workouts/Widgets/create_passer.dart';
+import 'package:fiitgn/Workouts/models/WorkoutModel.dart';
+import 'package:fiitgn/Workouts/screens/explore_plans.dart';
 import 'package:fiitgn/Workouts/screens/plans_created_by_user.dart';
-import 'package:fiitgn/Workouts/screens/plans_wishlist.dart';
+import 'package:fiitgn/Workouts/screens/plans_following_now.dart';
 
 import './create_workouts1.dart';
 import './wishlist.dart';
 import 'package:flutter/material.dart';
 import './explore_workouts.dart';
 import './created_by_user.dart';
-import 'explore_plans.dart';
+import 'create_plan.dart';
 import 'ongoing_workouts.dart';
 import './workouts_history.dart';
 
-class Plan_Home extends StatelessWidget {
-  static const routeName = '\Plan_Home';
+class Workouts_Plans extends StatelessWidget {
+  static const routeName = '\Workouts-Plans';
   @override
   Widget build(BuildContext context) {
     var _screenHeight = MediaQuery.of(context).size.height -
@@ -55,7 +58,7 @@ class Plan_Home extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.search),
-                          Text('Explore Plans',
+                          Text('Explore',
                               style: TextStyle(
                                 fontSize: 0.035 * _screenHeight,
                                 fontFamily: "Gilroy",
@@ -74,7 +77,7 @@ class Plan_Home extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
-            'WORKOUTS',
+            'WORKOUT PLANS',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -94,7 +97,7 @@ class Plan_Home extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Your Workouts',
+                      'Your Plans',
                       style: TextStyle(
                         fontSize: 0.04 * _screenHeight,
                         fontFamily: "Gilroy",
@@ -113,7 +116,7 @@ class Plan_Home extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, Ongoing_Workouts.routeName);
+                                  context, Following_now_Plans.routeName);
                             },
                             child: Container(
                               width: 0.4 * _screenWidth,
@@ -139,7 +142,7 @@ class Plan_Home extends StatelessWidget {
                                       padding: EdgeInsets.only(
                                           top: 0.018 * _screenHeight),
                                       child: Text(
-                                        "FOLLOWING NOW",
+                                        "FOLLOWING PLANS",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 0.022 * _screenHeight,
@@ -209,8 +212,7 @@ class Plan_Home extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(
-                                  context, Wishlist_Plans.routeName);
+                              Navigator.pushNamed(context, Wishlist.routeName);
                             },
                             child: Container(
                               width: 0.4 * _screenWidth,
@@ -294,6 +296,218 @@ class Plan_Home extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Map<String, WorkoutModel> workoutsForDays =
+                    Map<String, WorkoutModel>();
+                workoutsForDays['-1'] = CreateArguments.rest_model;
+                CreateArguments arguments = CreateArguments(
+                    dayNum: -1, workoutsForDays: workoutsForDays);
+                print("passed the workoutForDays to Create plan from home");
+                Navigator.pushNamed(context, CreatePlan.routeName,
+                    arguments: arguments);
+              },
+              child: Container(
+                width: _screenWidth,
+                margin: EdgeInsets.only(
+                    left: 0.0245 * _screenWidth, right: 0.0245 * _screenWidth),
+                //  height: MediaQuery.of(context).size.height / 6,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[300],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(0.025 * _screenHeight),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 0.0245 * _screenWidth,
+                    right: 0.0245 * _screenWidth,
+                    top: (0.02 * _screenHeight),
+                    bottom: (0.02 * _screenHeight),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Create Plan',
+                          style: TextStyle(
+                            fontSize: 0.04 * _screenHeight,
+                            fontFamily: "Gilroy",
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 0.25 * _screenWidth,
+                        child: ClipRRect(
+                          child: Image.asset(
+                            'assets/23.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 0.025 * _screenHeight,
+                bottom: 0.025 * _screenHeight,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    'Workouts',
+                    style: TextStyle(
+                      fontSize: 0.04 * _screenHeight,
+                      fontFamily: "Gilroy",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 0.0125 * _screenHeight,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 0.1 * _screenHeight,
+
+                        //   borderRadius: BorderRadius.circular(20.0),
+                        child: Image.asset(
+                          'assets/4805.png',
+                          //  height: MediaQuery.of(context).size.height / 4.87,
+                          // width: MediaQuery.of(context).size.width / 2.28,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      Container(
+                        height: 0.045 * _screenHeight,
+                        width: 0.4 * _screenWidth,
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey[300],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(0.05 * _screenHeight),
+                          ),
+                        ),
+                        child: InkWell(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.search),
+                              Text('Explore',
+                                  style: TextStyle(
+                                    fontSize: 0.035 * _screenHeight,
+                                    fontFamily: "Gilroy",
+                                  ))
+                            ],
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Explore_Workouts.routeName);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 0.0125 * _screenHeight,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 0.03 * _screenWidth, right: 0.03 * _screenWidth),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, Wishlist.routeName);
+                          },
+                          child: Container(
+                            width: 0.4 * _screenWidth,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    0.025 * _screenHeight)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: (0.02 * _screenHeight),
+                                bottom: (0.02 * _screenHeight),
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/wiss.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                    width: 0.16 * _screenWidth,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 0),
+                                    child: Text(
+                                      "WISHLIST",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 0.022 * _screenHeight,
+                                        fontFamily: "Gilroy",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, Created_by_user.routeName);
+                          },
+                          child: Container(
+                            width: 0.4 * _screenWidth,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(
+                                    0.025 * _screenHeight)),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                top: (0.02 * _screenHeight),
+                                bottom: (0.02 * _screenHeight),
+                              ),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/idea.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                    width: 0.125 * _screenWidth,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 0.018 * _screenHeight),
+                                    child: Text(
+                                      "CREATED BY YOU",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 0.022 * _screenHeight,
+                                        fontFamily: "Gilroy",
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             InkWell(

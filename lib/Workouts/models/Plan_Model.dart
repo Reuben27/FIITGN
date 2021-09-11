@@ -15,7 +15,7 @@ class PlanModel {
   final List<String>
       listOfOnGoingId; // stores which users are currently doing this workout
   final List<List<WorkoutModel>>
-      listOfPlans; // [[mon,tue,wed,...],[mon,tue,wed,..],[mon,tue,wed..]]
+      listOfPlans; // [ [mon,tue,wed,...], [mon,tue,wed,..], [mon,tue,wed..]]
   // assuming the plan can be more than a week
   final String description;
   String imageUrl;

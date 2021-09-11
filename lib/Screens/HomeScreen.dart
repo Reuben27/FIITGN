@@ -1,5 +1,6 @@
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
+import 'package:fiitgn/Workouts/screens/workout_plans_home.dart';
 import 'package:googleapis/chat/v1.dart';
 import 'package:flutter/src/widgets/image.dart' as img;
 
@@ -125,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List homeScreenList = [
     {
-      'title': 'Outdoors',
+      'title': 'Activities',
       'url': 'assets/act.png',
       'routeName': MapScreen.routeName,
       'description':
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Stats',
+      'title': 'Activity Stats',
       'url': 'assets/stats.png',
       'routeName': YourRuns.routeName,
       'description':
@@ -144,6 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': 'Workouts',
       'url': 'assets/twerkout.png',
       'routeName': Workouts_Home.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 7,
+    },
+    {
+      'title': 'Workout Plans',
+      'url': 'assets/twerkout.png',
+      'routeName': Workouts_Plans.routeName,
       'description':
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 7,
