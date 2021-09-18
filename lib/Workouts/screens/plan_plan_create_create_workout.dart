@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/Exercise_db_model.dart';
 import 'package:random_string/random_string.dart';
-//////
+////
 import '../../Providers/DataProvider.dart';
 import '../../Screens/HomeScreen.dart';
 
