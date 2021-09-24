@@ -92,7 +92,7 @@ class _RoomEntryState extends State<RoomEntry> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor:  Color(0xFF93B5C6),
           title: Text(
             "CHOOSE SLOT",
             style: TextStyle(
@@ -227,7 +227,7 @@ class _RoomEntryState extends State<RoomEntry> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor:  Color(0xFF93B5C6),
           onPressed: () async {
             print(chosentimeindex);
             //edge case

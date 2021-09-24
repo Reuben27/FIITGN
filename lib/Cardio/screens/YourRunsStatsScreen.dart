@@ -95,7 +95,7 @@ class _YourRunsState extends State<YourRuns> {
         ? Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.blue[100],
+              backgroundColor: Color(0xFF93B5C6),
               title: Text(
                 'YOUR RUNS',
                 style: TextStyle(
@@ -116,7 +116,7 @@ class _YourRunsState extends State<YourRuns> {
             child: Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                backgroundColor: Colors.blue[100],
+                backgroundColor: Color(0xFF93B5C6),
                 title: Text(
                   'YOUR RUNS',
                   style: TextStyle(
@@ -144,7 +144,7 @@ class _YourRunsState extends State<YourRuns> {
                         Container(
                           height: 0.06 * _screenHeight,
                           decoration: BoxDecoration(
-                            color: Colors.blue[100],
+                            color: Color(0xFFC9CCD5),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(0.02 * _screenHeight),
                               topRight: Radius.circular(0.02 * _screenHeight),
@@ -187,7 +187,7 @@ class _YourRunsState extends State<YourRuns> {
                             right: 0.02 * _screenWidth,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.blue[100],
+                            color: Color(0xFFC9CCD5),
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(0.02 * _screenHeight),
                               bottomRight:

@@ -244,26 +244,40 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                           ),
                                         ),
 
-                                        //display number of weeks a plan has in the below text widget
+                                     
 
 
                                         
-                                        Text(
-                                          "Weeks: xxx",
-                                          style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.025 * _screenHeight,
-                                          ),
-                                        ),
+                                        
 
 
                                         // in the inkwell below add the function for removing a plan from following
 
 
-                                        InkWell(
-                                          child: Text("Remove"),
-                                          onTap: () {},
-                                        )
+                                       Container(
+                                                width: 0.4 * _screenWidth,
+                                                child: OutlinedButton(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "REMOVE",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Gilroy',
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      Icon(Icons.remove_circle_outline,color: Colors.black,)
+                                                    ],
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
                                       ],
                                     ),
                                     // Text("Creator Id - " + workoutsList[i].creatorId),

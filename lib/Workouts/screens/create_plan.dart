@@ -42,7 +42,7 @@ class _CreatePlanState extends State<CreatePlan> {
       ),
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red[400],
+          backgroundColor: Color(0xFF93B5C6),
           child: Icon(Icons.save),
           onPressed: () async {
             List<List<WorkoutModel>> listOfPlans =
@@ -69,7 +69,7 @@ class _CreatePlanState extends State<CreatePlan> {
         ),
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'CREATE PLAN',
             style: TextStyle(
@@ -79,67 +79,127 @@ class _CreatePlanState extends State<CreatePlan> {
                 fontFamily: 'Gilroy'),
           ),
         ),
-        body: PageView.builder(
-          itemCount: 1,
-          itemBuilder: (ctx, i) => Container(
-            height: _screenHeight,
-            child: Column(children: [
-              Container(child: Text("Week " + (i + 1).toString())),
-              Container(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 7,
-                    itemBuilder: (ctx, j) => Container(
-                          child: Row(
-                            children: routeArgs.workoutsForDays
-                                        .containsKey((j + 1).toString()) ==
-                                    false // doesnt contain that data
-                                ? [
-                                    Text("Day " + (j + 1).toString()),
-                                    InkWell(
-                                      onTap: () {
-                                        routeArgs.dayNum = j + 1;
-                                        Navigator.pushReplacementNamed(context,
-                                            Create_Workout_for_Plan.routeName,
-                                            arguments: routeArgs);
-                                      }, ////send to create workout and then bring back
-                                      child: Text("Create"),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        routeArgs.dayNum = j + 1;
-                                        Navigator.pushReplacementNamed(context,
-                                            Explore_Workouts_For_Plan.routeName,
-                                            arguments: routeArgs);
-                                      }, ////send to explore workout to choose and get back
-                                      child: Text("Explore"),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        routeArgs.dayNum = j + 1;
-                                        routeArgs.workoutsForDays[
-                                                routeArgs.dayNum.toString()] =
-                                            CreateArguments.rest_model;
-                                        setState(() {});
-                                      },
-                                      child: Text("Rest"),
-                                    ),
-                                  ]
-                                : [
-                                    Text("Day " + (j + 1).toString()),
-                                    Text('Selected'),
-                                    RaisedButton(
-                                      onPressed: () {
-                                        undoFunc(j + 1, routeArgs);
-                                      },
-                                      child: Text('Undo'),
-                                    )
-                                  ],
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          ),
-                        )),
-              )
-            ]),
+        body: Container(
+          height: _screenHeight,
+          child: Container(
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 7,
+                itemBuilder: (ctx, j) => Container(
+                      margin: EdgeInsets.only(
+                        top: 0.00625 * _screenHeight,
+                        bottom: 0.00625 * _screenHeight,
+                        left: 0.03 * _screenWidth,
+                        right: 0.03 * _screenWidth,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(0.02 * _screenHeight),
+                        color: Color(0xFFC9CCD5),
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: 0.0125 * _screenHeight,
+                          bottom: 0.0125 * _screenHeight,
+                          left: 0.03 * _screenWidth,
+                          right: 0.03 * _screenWidth,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Text(
+                                "Day " + (j + 1).toString(),
+                                style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.03 * _screenHeight,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: routeArgs.workoutsForDays
+                                          .containsKey((j + 1).toString()) ==
+                                      false // doesnt contain that data
+                                  ? [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          routeArgs.dayNum = j + 1;
+                                          Navigator.pushReplacementNamed(
+                                              context,
+                                              Create_Workout_for_Plan.routeName,
+                                              arguments: routeArgs);
+                                        },
+                                        child: Text(
+                                          "CREATE",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Gilroy',
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          routeArgs.dayNum = j + 1;
+                                          Navigator.pushReplacementNamed(
+                                              context,
+                                              Explore_Workouts_For_Plan
+                                                  .routeName,
+                                              arguments: routeArgs);
+                                        },
+                                        child: Text(
+                                          "EXPLORE",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Gilroy',
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          routeArgs.dayNum = j + 1;
+                                          routeArgs.workoutsForDays[
+                                                  routeArgs.dayNum.toString()] =
+                                              CreateArguments.rest_model;
+                                          setState(() {});
+                                        },
+                                        child: Text(
+                                          "REST DAY",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Gilroy',
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ]
+                                  : [
+                                      Text(
+                                        'Selected',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Gilroy',
+                                            color: Colors.black),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          undoFunc(j + 1, routeArgs);
+                                        },
+                                        child: Text(
+                                          "UNDO",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Gilroy',
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ],
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
           ),
         ),
       ),

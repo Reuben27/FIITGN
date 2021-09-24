@@ -32,7 +32,7 @@ class _SportsState extends State<Sports> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepOrange[300],
+            backgroundColor:  Color(0xFF93B5C6),
             centerTitle: true,
             title: Text(
               "CHOOSE SPORT",
