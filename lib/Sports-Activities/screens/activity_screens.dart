@@ -71,7 +71,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
       ),
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.green[200],
+            backgroundColor: Color(0xFF93B5C6),
             centerTitle: true,
             title: Text(
               'SPORTS ACTIVITIES',
@@ -108,7 +108,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular(0.02 * _screenHeight),
-                          color: Colors.green[200],
+                          color: Color(0xFFC9CCD5),
                         ),
                         width: MediaQuery.of(context).size.width,
                         //  height: MediaQuery.of(context).size.height / 3.5,

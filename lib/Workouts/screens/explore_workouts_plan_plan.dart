@@ -135,7 +135,7 @@ class _Explore_Workouts_For_PlanState extends State<Explore_Workouts_For_Plan> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'EXPLORE',
             style: TextStyle(
@@ -171,7 +171,7 @@ class _Explore_Workouts_For_PlanState extends State<Explore_Workouts_For_Plan> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                  color: Colors.blueGrey[200],
+                                  color: Color(0xFFC9CCD5),
                                   width: 0.005 * _screenWidth,
                                 )),
                                 margin: EdgeInsets.only(
@@ -222,8 +222,15 @@ class _Explore_Workouts_For_PlanState extends State<Explore_Workouts_For_Plan> {
                                                   top: 0.00625 * _screenHeight,
                                                 ),
                                               ),
-                                              RaisedButton(
-                                                child: Text('Select Workout'),
+                                              OutlinedButton(
+                                                child: Text(
+                                                  'ADD TO DAY',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily: 'Gilroy',
+                                                      color: Colors.black),
+                                                ),
                                                 onPressed: () {
                                                   save_workout_to_specific_plan(
                                                       workoutsList[i]);
@@ -246,6 +253,14 @@ class _Explore_Workouts_For_PlanState extends State<Explore_Workouts_For_Plan> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            Text(
+                                              "Exercises:",
+                                              style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 0.022 * _screenHeight,
+                                              ),
+                                            ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,

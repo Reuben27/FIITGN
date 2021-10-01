@@ -76,7 +76,7 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor:  Color(0xFF93B5C6),
           title: Text(
             "CHOOSE SLOT (EQUIPMENTS)",
             style: TextStyle(
@@ -166,7 +166,7 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor:  Color(0xFF93B5C6),
           onPressed: () async {
             print(chosentimeindex);
 

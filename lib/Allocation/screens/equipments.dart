@@ -57,7 +57,7 @@ class Equipments extends StatelessWidget {
               ),
             ),
           ),
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'SELECT EQUIPMENTS',
             style: TextStyle(

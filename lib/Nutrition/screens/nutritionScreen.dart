@@ -53,7 +53,7 @@ class _NutritionScreenState extends State {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            backgroundColor: Colors.purple[100],
+            backgroundColor: Color(0xFF93B5C6),
             bottom: TabBar(
               indicatorWeight: 0.002 * _screenHeight,
               tabs: [

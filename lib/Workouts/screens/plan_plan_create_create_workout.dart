@@ -136,42 +136,42 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
 
     allExerciseList.forEach(
       (element) {
-        colorList.add(Colors.grey[350]);
+        colorList.add(Color(0xFFC9CCD5));
       },
     );
     chestExercises.forEach(
       (element) {
-        chestColorList.add(Colors.grey[350]);
+        chestColorList.add(Color(0xFFC9CCD5));
       },
     );
     coreExercises.forEach(
       (element) {
-        coreColorList.add(Colors.grey[350]);
+        coreColorList.add(Color(0xFFC9CCD5));
       },
     );
     backExercises.forEach(
       (element) {
-        backColorList.add(Colors.grey[350]);
+        backColorList.add(Color(0xFFC9CCD5));
       },
     );
     bicepsExercises.forEach(
       (element) {
-        bicepsColorList.add(Colors.grey[350]);
+        bicepsColorList.add(Color(0xFFC9CCD5));
       },
     );
     shoulderExercises.forEach(
       (element) {
-        shouldersColorList.add(Colors.grey[350]);
+        shouldersColorList.add(Color(0xFFC9CCD5));
       },
     );
     tricepsExercises.forEach(
       (element) {
-        tricepsColorList.add(Colors.grey[350]);
+        tricepsColorList.add(Color(0xFFC9CCD5));
       },
     );
     legsExercises.forEach(
       (element) {
-        legsColorList.add(Colors.grey[350]);
+        legsColorList.add(Color(0xFFC9CCD5));
       },
     );
     final MediaQueryData data = MediaQuery.of(context);
@@ -185,13 +185,13 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
         child: SafeArea(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.red[400],
+              backgroundColor: Color(0xFFC15050),
               child: Icon(Icons.save),
               onPressed: onTapSave,
             ),
             appBar: AppBar(
               foregroundColor: Colors.black,
-              backgroundColor: Colors.blueGrey[300],
+              backgroundColor: Color(0xFF93B5C6),
               centerTitle: true,
               title: Text(
                 'SELECT EXERCISES',
@@ -304,7 +304,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(chestExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color =Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(chestExercises[i]);
                                     // print("exercise " +
@@ -316,7 +316,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(chestExercises[i]);
                                     // print("exercise " +
@@ -407,7 +407,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -477,7 +477,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(coreExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(coreExercises[i]);
                                     // print("exercise " +
@@ -489,7 +489,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(coreExercises[i]);
                                     // print("exercise " +
@@ -580,7 +580,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -650,7 +650,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(shoulderExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color =Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(shoulderExercises[i]);
                                     // print("exercise " +
@@ -662,7 +662,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(shoulderExercises[i]);
                                     // print("exercise " +
@@ -754,7 +754,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -824,7 +824,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(bicepsExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(bicepsExercises[i]);
                                     // print("exercise " +
@@ -836,7 +836,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color =Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(bicepsExercises[i]);
                                     // print("exercise " +
@@ -927,7 +927,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -998,7 +998,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   print("working with a tricep exercise");
                                   if (!exercisesSelectedForWorkout
                                       .contains(tricepsExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(tricepsExercises[i]);
                                     // print("exercise " +
@@ -1011,7 +1011,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                     });
                                   } else {
                                     print("un selecting triceps");
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(tricepsExercises[i]);
                                     // print("exercise " +
@@ -1103,7 +1103,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -1173,7 +1173,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(legsExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(legsExercises[i]);
                                     // print("exercise " +
@@ -1185,7 +1185,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(legsExercises[i]);
                                     // print("exercise " +
@@ -1276,7 +1276,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -1346,7 +1346,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(backExercises[i])) {
-                                    Color color = Colors.green;
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(backExercises[i]);
                                     // print("exercise " +
@@ -1358,7 +1358,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color = Colors.grey[350];
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(backExercises[i]);
                                     // print("exercise " +
@@ -1449,7 +1449,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Colors.grey[350],
+                                                        color: Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(

@@ -346,7 +346,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       child: (Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue[100],
+          backgroundColor: Color(0xFF93B5C6),
           centerTitle: true,
           title: Text(
             'ACTIVITY LOGGING',
@@ -392,7 +392,7 @@ class _MapScreenState extends State<MapScreen> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.blue[100],
+                        color: Color(0xFF93B5C6),
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0.05 * _screenHeight),
                           topRight: Radius.circular(0.05 * _screenHeight),
@@ -533,7 +533,7 @@ class _MapScreenState extends State<MapScreen> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.green[300],
+                                            color: Color(0xFF5E8B7E),
                                             borderRadius: BorderRadius.circular(
                                                 0.02 * _screenHeight),
                                           ),
@@ -567,7 +567,7 @@ class _MapScreenState extends State<MapScreen> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.green[300],
+                                                    color: Color(0xFF5E8B7E),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             0.02 *
@@ -652,7 +652,7 @@ class _MapScreenState extends State<MapScreen> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red[300],
+                                                    color: Color(0xFFC15050),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             0.02 *
@@ -686,7 +686,7 @@ class _MapScreenState extends State<MapScreen> {
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: Colors.red[300],
+                                              color:Color(0xFFC15050),
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       0.02 * _screenHeight),
