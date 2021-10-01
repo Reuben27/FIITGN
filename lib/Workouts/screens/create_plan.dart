@@ -304,6 +304,20 @@ class _CreatePlanState extends State<CreatePlan> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
+          final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+     bool is_admin(List<String> adminEmailIds) {
+    print("is_admin called");
+    String user_email = Data_Provider().email;
+    print("user EMAIL ID IS " + user_email);
+    if (adminEmailIds.contains(user_email.trim())) {
+      print("user is an admin");
+      return true;
+    }
+    print("user is a bitch");
+    return false;
+  }
+  
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
@@ -312,32 +326,215 @@ class _CreatePlanState extends State<CreatePlan> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xFF93B5C6),
           child: Icon(Icons.save),
-           onPressed: onTapSave(),
+           onPressed: 
+    
 
 
 
-          //() async {
-          //   List<List<WorkoutModel>> listOfPlans =
-          //       CreateArguments.returnListWorkouts(routeArgs);
-          //   List<String> listOfFollowersId = ['alpha'];
-          //   List<String> listOfOngoingId = ['alpha'];
-          //   String creatorId = Data_Provider().uid;
-          //   String creatorName = Data_Provider().name;
-          //   String planName = 'Temp1';
-          //   String description = 'Description';
-          //   String access = 'Private';
-          //   await workoutDataProvider.createPlanAndAddToDB(
-          //       creatorId,
-          //       creatorName,
-          //       planName,
-          //       1,
-          //       description,
-          //       access,
-          //       listOfPlans,
-          //       listOfFollowersId,
-          //       listOfOngoingId);
-          //   Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-          // },
+          () async {
+            List<List<WorkoutModel>> listOfPlans =
+                CreateArguments.returnListWorkouts(routeArgs);
+            List<String> listOfFollowersId = ['alpha'];
+            List<String> listOfOngoingId = ['alpha'];
+            String creatorId = Data_Provider().uid;
+            String creatorName = Data_Provider().name;
+            
+            String access = 'Private';
+             showModalBottomSheet(
+      context: context,
+      builder: (ctx) {
+        print("show dialog initialized");
+        return Container(
+          color: Colors.blueGrey[200],
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 0.03 * _screenHeight,
+              left: 0.03 * _screenWidth,
+              right: 0.03 * _screenWidth,
+            ),
+            child: Column(
+              // title: Text('Workout Description'),
+              children: [
+                Text(
+                  'Workout Details',
+                  textScaleFactor: 0.8,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 0.04 * _screenHeight,
+                      fontFamily: 'Gilroy'),
+                ),
+
+                //// TAKING WORKOUT NAME
+                Center(
+                  child: TextField(
+                    style: TextStyle(fontFamily: 'Gilroy'),
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                    ),
+                  ),
+                  heightFactor: 1,
+                ),
+                // take_workout_name(nameController),
+                //// TAKING WORKOUT DESCRIPTION
+                Center(
+                  child: TextField(
+                    style: TextStyle(fontFamily: 'Gilroy'),
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      hintText: 'Description',
+                    ),
+                  ),
+                  heightFactor: 1,
+                ),
+                 
+                ///// ##if is admin,
+                is_admin(adminEmailIds)
+
+                    /// ##Asking if workout should be public or private and saving it
+                    ? Column(
+                        children: [
+                          Container(
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Public",
+                                    textScaleFactor: 0.8,
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(
+                                    Icons.people_alt_outlined,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              ),
+                              onPressed: () {
+                                String planName =nameController.text.trim();
+            String description = descriptionController.text.trim();
+                                print("alpha alpha alpha");
+                                access = 'Public';
+                               workoutDataProvider.createPlanAndAddToDB(
+                creatorId,
+                creatorName,
+                planName,
+                1,
+                description,
+                access,
+                listOfPlans,
+                listOfFollowersId,
+                listOfOngoingId);
+                                // print("i= " + index.toString());
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Private",
+                                    textScaleFactor: 0.8,
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(
+                                    Icons.lock_outline,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              ),
+                              onPressed: () {
+                                String planName =nameController.text.trim();
+            String description = descriptionController.text.trim();
+                                access = 'Private';
+                                workoutDataProvider.createPlanAndAddToDB(
+                creatorId,
+                creatorName,
+                planName,
+                1,
+                description,
+                access,
+                listOfPlans,
+                listOfFollowersId,
+                listOfOngoingId);
+                                // print("i= " + index.toString());
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    :
+                    /////## Save workout as private as non admin
+                    Container(
+                        width: 0.3 * _screenWidth,
+                        child: OutlinedButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Save",
+                                textScaleFactor: 0.8,
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight,
+                                    color: Colors.black),
+                              ),
+                              Icon(
+                                Icons.save_outlined,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                          onPressed: () {
+                            String planName =nameController.text.trim();
+            String description = descriptionController.text.trim();
+                            access = 'Private';
+                            workoutDataProvider.createPlanAndAddToDB(
+                creatorId,
+                creatorName,
+                planName,
+                1,
+                description,
+                access,
+                listOfPlans,
+                listOfFollowersId,
+                listOfOngoingId);
+                            // print("i= " + index.toString());
+                          },
+                        ),
+                      ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+   
+            await workoutDataProvider.createPlanAndAddToDB(
+                creatorId,
+                creatorName,
+                planName,
+                1,
+                description,
+                access,
+                listOfPlans,
+                listOfFollowersId,
+                listOfOngoingId);
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          },
 
 
           // DO NOT DELETE THIS IS PREV CODE
