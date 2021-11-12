@@ -18,12 +18,7 @@ class YourRuns extends StatefulWidget {
 
 class _YourRunsState extends State<YourRuns> {
   var isInit = true;
-  // @override
-  // void initState() {
-  //   Provider.of<RunDataProvider>(context, listen: false).getRunStatsFromDb();
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  bool isLoading = true;
 
   @override
   void didChangeDependencies() async {
@@ -32,10 +27,14 @@ class _YourRunsState extends State<YourRuns> {
       print(Data_Provider().name);
       print("^^^^^^^");
       await Provider.of<RunDataProvider>(context).getRunStatsFromDb();
+      // isLoading = false;
     }
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     isInit = false;
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget createSmallMap(int index) {
@@ -105,9 +104,15 @@ class _YourRunsState extends State<YourRuns> {
                     fontFamily: 'Gilroy'),
               ),
             ),
-            body: Center(
-              child: Text('No Runs Yet! Time to Run!'),
-            ),
+            body: isLoading == false
+                ? Center(
+                    child: Text('No Runs Yet! Time to Run!'),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  ),
           )
         : MediaQuery(
             data: data.copyWith(
@@ -203,7 +208,7 @@ class _YourRunsState extends State<YourRuns> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Column(
-                                       mainAxisAlignment:
+                                      mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
@@ -212,17 +217,15 @@ class _YourRunsState extends State<YourRuns> {
                                           alignment: Alignment.center,
                                           child: Center(
                                             child: Text(
-                                              runStats[i]
-                                                      .timeOfRunHrs
-                                                       +
+                                              runStats[i].timeOfRunHrs +
                                                   ' : ' +
-                                                  runStats[i]
-                                                      .timeOfRunMin
-                                                      + ' : '+ runStats[i].timeOfRunSec
-                                                      ,
+                                                  runStats[i].timeOfRunMin +
+                                                  ' : ' +
+                                                  runStats[i].timeOfRunSec,
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
-                                                  fontSize: 0.045 * _screenHeight,
+                                                  fontSize:
+                                                      0.045 * _screenHeight,
                                                   // color: Colors.white,
                                                   fontWeight: FontWeight.bold),
                                             ),

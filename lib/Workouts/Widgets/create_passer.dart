@@ -29,10 +29,19 @@ class CreateArguments {
   static List<List<WorkoutModel>> returnListWorkouts(CreateArguments args) {
     Map<String, WorkoutModel> workouts = args.workoutsForDays;
     List<WorkoutModel> workoutList = [];
-    workouts.forEach((key, value) {
-      workoutList.add(value);
-    });
-
+    // workouts.forEach((key, value) {
+    //   if (key != '-1') {
+    //     workoutList.add(value);
+    //   }
+    // });
+    // workoutList.add(workouts['']);
+    workoutList.add(workouts['1']);
+    workoutList.add(workouts['2']);
+    workoutList.add(workouts['3']);
+    workoutList.add(workouts['4']);
+    workoutList.add(workouts['5']);
+    workoutList.add(workouts['6']);
+    workoutList.add(workouts['7']);
     List<List<WorkoutModel>> list = [];
     list.add(workoutList);
     return list;

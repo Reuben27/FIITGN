@@ -59,19 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
 
-    final prefs = await SharedPreferences.getInstance();
-    print('got instance');
-    String uid = prefs.getString('uid');
-    String email = prefs.getString('email');
-    String name = prefs.getString('name');
-    String userDisplay = prefs.getString('userDisplay');
-    data_provider.setUid(uid);
-    data_provider.setEmailId(email);
-    data_provider.setDisplay(userDisplay);
-    data_provider.setName(name);
-    print(Data_Provider().name);
-    print(Data_Provider().email);
-    print("Uids and tokens are set");
+    // final prefs = await SharedPreferences.getInstance();
+    // print('got instance');
+    // String uid = prefs.getString('uid');
+    // String email = prefs.getString('email');
+    // String name = prefs.getString('name');
+    // String userDisplay = prefs.getString('userDisplay');
+    // data_provider.setUid(uid);
+    // data_provider.setEmailId(email);
+    // data_provider.setDisplay(userDisplay);
+    // data_provider.setName(name);
+    // print(Data_Provider().name);
+    // print(Data_Provider().email);
+    // print("Uids and tokens are set");
     // await workoutDataProvider.showAllWorkouts();
     // initializing admin and exercise dbs
     // final exerciseDataProvider =
@@ -284,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-         
+
           appBar: AppBar(
             actions: [
               Padding(
@@ -333,7 +333,8 @@ class _HomeScreenState extends State<HomeScreen> {
           body: ListView(
             physics: ScrollPhysics(),
             children: [
-              Container(color: Color(0xFFE4D8DC),
+              Container(
+                color: Color(0xFFE4D8DC),
                 height: 0.18 * _screenHeight,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,8 +1,10 @@
+import 'package:fiitgn/Providers/DataProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 // import 'HomeScreen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'SplashScreen.dart';
@@ -72,8 +74,17 @@ class SignInClass {
     prefs.setString('email', user.email);
     prefs.setString('name', user.displayName);
     prefs.setString('userDisplay', user.photoURL);
+    // String uid = prefs.getString('uid');
+    String email = user.email;
+    String name = user.displayName;
+    String userDisplay = user.photoURL;
+    final data_provider = Provider.of<Data_Provider>(context, listen: false);
+    data_provider.setUid(uid);
+    data_provider.setEmailId(email);
+    data_provider.setDisplay(userDisplay);
+    data_provider.setName(name);
     print("range 2");
-    print("All user creds have been set");
+    print("Uids and tokens are set");
     // prefs.setString('token', token);
     // SignInGoogle().isSignedIn = true;
     // isSignedInPrivate = true;

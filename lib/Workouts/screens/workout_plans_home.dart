@@ -4,14 +4,10 @@ import 'package:fiitgn/Workouts/screens/explore_plans.dart';
 import 'package:fiitgn/Workouts/screens/plans_created_by_user.dart';
 import 'package:fiitgn/Workouts/screens/plans_following_now.dart';
 
-import './create_workouts1.dart';
-import './wishlist.dart';
 import 'package:flutter/material.dart';
-import './explore_workouts.dart';
-import './created_by_user.dart';
 import 'create_plan.dart';
-import 'ongoing_workouts.dart';
 import './workouts_history.dart';
+import 'plans_wishlist.dart';
 
 class Workouts_Plans extends StatelessWidget {
   static const routeName = '\Workouts-Plans';
@@ -212,7 +208,8 @@ class Workouts_Plans extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, Wishlist.routeName);
+                              Navigator.pushNamed(
+                                  context, Wishlist_Plans.routeName);
                             },
                             child: Container(
                               width: 0.4 * _screenWidth,
@@ -356,7 +353,6 @@ class Workouts_Plans extends StatelessWidget {
             ),
 
 // DO NOT DELETE THIS SECTION
-
 
             // Container(
             //   margin: EdgeInsets.only(
@@ -515,10 +511,6 @@ class Workouts_Plans extends StatelessWidget {
             //   ),
             // ),
 
-
-
-
-
             // InkWell(
             //   onTap: () {
             //     Navigator.pushNamed(context, Create_Workout2.routeName);
@@ -569,11 +561,7 @@ class Workouts_Plans extends StatelessWidget {
             //   ),
             // ),
 
-
-
-
             //DO NOT DELETE BEOFRE THIS LETSOG
-
           ],
         ),
       ),

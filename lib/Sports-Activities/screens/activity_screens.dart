@@ -46,7 +46,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
     isInit = false;
   }
 
-  void inInIt() async {
+  inInIt() async {
     activities = await getActivityData();
     // activities = activities_data;
     print("activities loaded");

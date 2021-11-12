@@ -38,6 +38,7 @@ import 'Profile/screens/profile_page.dart';
 import 'Workouts/screens/explore_workouts_plan_plan.dart';
 import 'Workouts/screens/plan_plan_create_create_workout.dart';
 import 'Workouts/screens/plans_following_now.dart';
+import 'Workouts/screens/weekly_workout_details.dart';
 import 'Workouts/screens/workout_plans_home.dart';
 //// WORKOUTS SECTION
 import 'Workouts/screens/workouts-home.dart';
@@ -179,6 +180,7 @@ class MyApp extends StatelessWidget {
           Create_Workout_for_Plan.routeName: (_) => Create_Workout_for_Plan(),
           Explore_Workouts_For_Plan.routeName: (_) =>
               Explore_Workouts_For_Plan(),
+          WeeklyWorkoutDetails.routeName: (_) => WeeklyWorkoutDetails(),
           ///// Admin Section
           AdminHome.routeName: (_) => AdminHome(),
 

@@ -63,8 +63,8 @@ class _SplashScreenState extends State<SplashScreen> {
         await workoutDataProvider.getWorkoutLogFromDB();
         await exerciseDataProvider.getListOfExercises();
         await adminDataProvider.getListOfAdmins();
-        await Provider.of<RunDataProvider>(context, listen: false)
-            .getRunStatsFromDb();
+        // await Provider.of<RunDataProvider>(context, listen: false)
+        //     .getRunStatsFromDb();
         //// END of initialization
         // await workoutDataProvider.showAllWorkouts();
         // await getNutritionData();

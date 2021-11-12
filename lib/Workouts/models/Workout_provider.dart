@@ -12,6 +12,7 @@ import '../models/Exercise_db_model.dart';
 
 import '../../Notifications/utils/addNotification.dart';
 import '../models/Plan_Model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Workouts_Provider with ChangeNotifier {
   // String _userEmailId;
@@ -36,6 +37,7 @@ class Workouts_Provider with ChangeNotifier {
   List<WorkoutModel> _workoutsList = [];
   List<WorkoutModel> _createdByUser = [];
   List<Workout_Data_Model> _loggedWorkouts = [];
+  Map<String, Map<int, List<Workout_Data_Model>>> _logged_data = Map();
 
   // set user email id;
   //
@@ -49,11 +51,11 @@ class Workouts_Provider with ChangeNotifier {
     List<WorkoutModel> created = [];
     _workoutsList.forEach((element) {
       if (element.creatorId == Data_Provider().uid) {
-        print("element match");
+        // print("element match");
         created.add(element);
       } else {
-        print("element creator id --> " + element.creatorId);
-        print("uid --> " + Data_Provider().uid);
+        // print("element creator id --> " + element.creatorId);
+        // print("uid --> " + Data_Provider().uid);
       }
     });
     return created;
@@ -80,6 +82,10 @@ class Workouts_Provider with ChangeNotifier {
   String get user_name {
     String name = Data_Provider().name;
     return name;
+  }
+
+  Map<String, Map<int, List<Workout_Data_Model>>> get user_workout_logs {
+    return _logged_data;
   }
 
   showAllExercises() {
@@ -159,8 +165,8 @@ class Workouts_Provider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map;
-      print("extracted data");
-      print(extractedData);
+      // print("extracted data");
+      // print(extractedData);
       final List<WorkoutModel> loadedList = [];
       // print("####");
       // print(extractedData);
@@ -176,8 +182,8 @@ class Workouts_Provider with ChangeNotifier {
             x.forEach((element) {
               tempListExerciseId.add(element.toString());
             });
-            print("templistExerciseId");
-            print(tempListExerciseId);
+            // print("templistExerciseId");
+            // print(tempListExerciseId);
           } else {
             print("x was null");
           }
@@ -190,8 +196,8 @@ class Workouts_Provider with ChangeNotifier {
             y.forEach((element) {
               tempListFollowersId.add(element.toString());
             });
-            print("tempListFollowersId");
-            print(tempListFollowersId);
+            // print("tempListFollowersId");
+            // print(tempListFollowersId);
           } else {
             print("y was null");
           }
@@ -204,9 +210,9 @@ class Workouts_Provider with ChangeNotifier {
           } else {
             print("z was null");
           }
-          print("tempListOngoingId");
-          print(tempListOngoingId);
-          print("gammmmma");
+          // print("tempListOngoingId");
+          // print(tempListOngoingId);
+          // print("gammmmma");
           loadedList.add(
             WorkoutModel(
               creator_name: statValue['creator_name'],
@@ -221,25 +227,25 @@ class Workouts_Provider with ChangeNotifier {
               listOfOnGoingId: tempListOngoingId,
             ),
           );
-          print("deltyaaaaa");
+          // print("deltyaaaaa");
         },
       );
       List<WorkoutModel> filteredList = [];
       List<WorkoutModel> created_by_user = [];
-      print("print1");
-      print("print1");
-      print("print1");
-      print("print1");
+      // print("print1");
+      // print("print1");
+      // print("print1");
+      // print("print1");
 
       loadedList.forEach(
         (element) {
           if (element.access == 'Public' ||
               (element.access == 'Private' &&
                   element.creatorId == Data_Provider().uid.trim())) {
-            print("element " +
-                element.workoutName +
-                " access is " +
-                element.access);
+            // print("element " +
+            //     element.workoutName +
+            //     " access is " +
+            //     element.access);
             filteredList.add(element);
             if (element.creatorId == userId) {
               created_by_user.add(element);
@@ -247,11 +253,11 @@ class Workouts_Provider with ChangeNotifier {
           }
         },
       );
-      print("print2");
+      // print("print2");
       _createdByUser = created_by_user;
       _workoutsList = filteredList;
       notifyListeners();
-      print("loaded workout  list is ready");
+      print("loaded workout list is ready");
       // return _workoutsList;
     } catch (e) {
       print("ERROR IN LOADING ALL WORKOUTS");
@@ -264,10 +270,10 @@ class Workouts_Provider with ChangeNotifier {
     String user_email = Data_Provider().email;
     final url =
         "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Workouts/$workoutId.json";
-    print(url);
+    // print(url);
     List followers = workout.listOfFollowersId;
     followers.add(user_uid);
-    print(followers);
+    // print(followers);
     // workout.listOfFollowersId.add(user_uid);
     try {
       var x = await http.patch(Uri.parse(url),
@@ -280,7 +286,7 @@ class Workouts_Provider with ChangeNotifier {
             'listOfFollowersId': followers,
             'listOfOngoingId': workout.listOfOnGoingId,
           }));
-      print(x.body);
+      // print(x.body);
       print("follower list has been updated");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
@@ -297,7 +303,7 @@ class Workouts_Provider with ChangeNotifier {
       int index =
           _workoutsList.indexWhere((element) => element.workoutId == workoutId);
       _workoutsList[index] = updatedWorkout;
-      print(_workoutsList[index].listOfFollowersId);
+      // print(_workoutsList[index].listOfFollowersId);
       print("workout saved locally");
       notifyListeners();
     } catch (e) {
@@ -326,7 +332,7 @@ class Workouts_Provider with ChangeNotifier {
             'listOfOngoingId': workout.listOfOnGoingId,
           }));
 
-      print(x.body);
+      // print(x.body);
       print("user has been unfollowed");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
@@ -343,7 +349,7 @@ class Workouts_Provider with ChangeNotifier {
       int index =
           _workoutsList.indexWhere((element) => element.workoutId == workoutId);
       _workoutsList[index] = updatedWorkout;
-      print(_workoutsList[index].listOfFollowersId);
+      // print(_workoutsList[index].listOfFollowersId);
       notifyListeners();
     } catch (e) {
       print(e);
@@ -384,6 +390,9 @@ class Workouts_Provider with ChangeNotifier {
           'date': data.date,
           'uid': data.uid,
           'user_name': data.user_name,
+          'planName': data.planName,
+          'planDay': data.planDay,
+          'planId': data.planId,
           'workoutName': data.workoutName,
           'listOfSetsRepsWeights': listOfSetsRepsWeights,
           'duration_hours': data.duration_hours,
@@ -397,6 +406,9 @@ class Workouts_Provider with ChangeNotifier {
     }
     var databaseId = json.decode(response.body)['name'];
     Workout_Data_Model newLog = Workout_Data_Model(
+      planDay: data.planDay,
+      planId: data.planId,
+      planName: data.planName,
       duration_seconds: data.duration_seconds,
       duration_hours: data.duration_hours,
       duration_minutes: data.duration_minutes,
@@ -408,7 +420,7 @@ class Workouts_Provider with ChangeNotifier {
       workoutName: data.workoutName,
     );
     _loggedWorkouts.insert(0, newLog);
-    print(_loggedWorkouts[0].workoutName);
+    // print(_loggedWorkouts[0].workoutName);
     print("Saved a log workout successfully");
     notifyListeners();
   }
@@ -432,6 +444,9 @@ class Workouts_Provider with ChangeNotifier {
         String duration_hours = value['duration_hours'];
         String duration_minutes = value['duration_minutes'];
         String databaseId = key;
+        String planName = value['planName'];
+        String planId = value['planId'];
+        int planDay = value['planDay'];
         String workoutName = value['workoutName'];
         String date = value['date'];
         List setsRepsWeights = value['listOfSetsRepsWeights'];
@@ -448,6 +463,9 @@ class Workouts_Provider with ChangeNotifier {
         });
         // print("log created");
         Workout_Data_Model logs = Workout_Data_Model(
+            planDay: planDay,
+            planId: planId,
+            planName: planName,
             duration_seconds: duration_seconds,
             duration_hours: duration_hours,
             duration_minutes: duration_minutes,
@@ -464,6 +482,48 @@ class Workouts_Provider with ChangeNotifier {
       _loggedWorkouts.sort((a, b) {
         return b.date.compareTo(a.date);
       });
+
+      // ADD STUFF HERE FOR WORKOUT LOGS
+      // Create basic schema of inner map
+      // Map<int, List<Workout_Data_Model>> inner_map = Map();
+      // Map<String, Map<int, List<Workout_Data_Model>>> logged_data = Map();
+      // get all plan names that user has done
+      _loggedWorkouts.forEach((workout_log) {
+        String planName = workout_log.planName;
+        if (_logged_data.containsKey(planName)) {
+          int day = workout_log.planDay;
+          _logged_data[planName][day].add(workout_log);
+        } else {
+          Map<int, List<Workout_Data_Model>> inner_map = Map();
+          int day = workout_log.planDay;
+          _logged_data[planName] = inner_map;
+          _logged_data[planName][day] = [];
+          _logged_data[planName][day].add(workout_log);
+        }
+      });
+      // testing the new data saved by printing
+      // _logged_data.forEach(
+      //   (planName, value) {
+      //     print("plan name is " + planName.toString());
+      //     value.forEach(
+      //       (day, list_workouts) {
+      //         print("day is " + day.toString());
+      //         list_workouts.forEach(
+      //           (workout) {
+      //             List<Workout_Log_Model> x = workout.listOfSetsRepsWeights;
+      //             x.forEach((element) {
+      //               print(element.exerciseName);
+      //               print(element.numOfReps);
+      //               print(element.setNumber);
+      //               print(element.weight);
+      //             });
+      //           },
+      //         );
+      //       },
+      //     );
+      //   },
+      // );
+
       notifyListeners();
       print("recieved workout logs");
     } catch (e) {
@@ -496,7 +556,7 @@ class Workouts_Provider with ChangeNotifier {
 
     List ongoing = workout.listOfOnGoingId;
     ongoing.add(user_uid);
-    print(ongoing);
+    // print(ongoing);
     // workout.listOfFollowersId.add(user_uid);
     try {
       var x = await http.patch(Uri.parse(url),
@@ -509,7 +569,7 @@ class Workouts_Provider with ChangeNotifier {
             'listOfFollowersId': workout.listOfFollowersId,
             'listOfOngoingId': ongoing,
           }));
-      print(x.body);
+      // print(x.body);
       print("ongoing list has been updated");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
@@ -526,7 +586,7 @@ class Workouts_Provider with ChangeNotifier {
       int index =
           _workoutsList.indexWhere((element) => element.workoutId == workoutId);
       _workoutsList[index] = updatedWorkout;
-      print(_workoutsList[index].listOfOnGoingId);
+      // print(_workoutsList[index].listOfOnGoingId);
       print("added workout to Ongoing");
       /////// SETTING NOTIFICATION FOR WORKOUT
       String token = Data_Provider().notif_token;
@@ -565,7 +625,7 @@ class Workouts_Provider with ChangeNotifier {
             'listOfOngoingId': ongoing,
           }));
 
-      print(x.body);
+      // print(x.body);
       print("user has been unfollowed");
       WorkoutModel updatedWorkout = WorkoutModel(
         creator_name: workout.creator_name,
@@ -582,7 +642,7 @@ class Workouts_Provider with ChangeNotifier {
       int index =
           _workoutsList.indexWhere((element) => element.workoutId == workoutId);
       _workoutsList[index] = updatedWorkout;
-      print(_workoutsList[index].listOfOnGoingId);
+      // print(_workoutsList[index].listOfOnGoingId);
       try {
         String token = Data_Provider().notif_token;
         await notiRemove(token, workout.workoutName);
@@ -612,7 +672,6 @@ class Workouts_Provider with ChangeNotifier {
   ///PLAN SECTION
 /////////////////////////////////////////////////////
   ///
-  String _currentPlan;
   List<PlanModel> _plansList = [];
   List<PlanModel> _plansCreatedByUser = [];
 
@@ -621,11 +680,11 @@ class Workouts_Provider with ChangeNotifier {
     List<PlanModel> created = [];
     _plansList.forEach((element) {
       if (element.creatorId == Data_Provider().uid) {
-        print("element match");
+        // print("element match");
         created.add(element);
       } else {
-        print("element creator id --> " + element.creatorId);
-        print("uid --> " + Data_Provider().uid);
+        // print("element creator id --> " + element.creatorId);
+        // print("uid --> " + Data_Provider().uid);
       }
     });
     return created;
@@ -657,7 +716,8 @@ class Workouts_Provider with ChangeNotifier {
       for (int j = 0; j < listOfPlans[0].length; j++) {
         WorkoutModel currentWorkout = listOfPlans[i][j];
         Map convertedWorkout = currentWorkout.toJson();
-        converted_listOfPlans[i].add(jsonEncode(convertedWorkout));
+        // converted_listOfPlans[i].add(jsonEncode(convertedWorkout));
+        converted_listOfPlans[i].add(convertedWorkout);
       }
     }
     try {
@@ -672,8 +732,7 @@ class Workouts_Provider with ChangeNotifier {
             'planName': planName,
             'description': description,
             'access': access,
-            'listOfPlans':
-                converted_listOfPlans, // by itself has custom objects which have to be flattened
+            'listOfPlans': converted_listOfPlans, // custom object is flattened
             'listOfFollowersId': listOfFollowersId,
             'listOfOngoingId': listOfOngoingId,
           },
@@ -683,11 +742,11 @@ class Workouts_Provider with ChangeNotifier {
       print("ERROR IN SAVING CREATED WORKOUT TO DB");
       print(e);
     }
-    print("%%%%%%%%%%%%%%%%%%%%%");
-    print("plan has been added to the Database");
-    print("%%%%%%%%%%%%%%%%%%%%%%");
+    // print("%%%%%%%%%%%%%%%%%%%%%");
+    // print("plan has been added to the Database");
+    // print("%%%%%%%%%%%%%%%%%%%%%%");
     var planId = json.decode(response.body)['name'];
-    print(planId);
+    // print(planId);
     PlanModel newPlan = PlanModel(
         numberOfWeeks: numberOfWeeks,
         access: access,
@@ -711,6 +770,15 @@ class Workouts_Provider with ChangeNotifier {
     //  get the list of all exercises
   }
 
+  // auxillary function for showAllPlans
+  List<String> convertToListString(List<dynamic> l) {
+    List<String> x = [];
+    for (int i = 0; i < l.length; i++) {
+      x.add(l[i]);
+    }
+    return x;
+  }
+
   Future<void> showAllPlans() async {
     print("SHOW ALL plans CALLED");
     String user_uid = Data_Provider().uid;
@@ -720,14 +788,18 @@ class Workouts_Provider with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map;
       print("extracted data");
-      print(extractedData);
+      // print(extractedData.length);
       final List<PlanModel> loadedPlans = [];
       final List<WorkoutModel> loadedList = [];
-      // print("####");
-      // print(extractedData);
-      // print("####");
       extractedData.forEach(
         (statId, statValue) {
+          // print('');
+          // print('');
+          // print('');
+          // print("the statid is " + statId);
+          // print('');
+          // print('');
+          // print('');
           final List<String> tempListFollowersId = [];
           final List<String> tempListOngoingId = [];
           List y = [];
@@ -747,33 +819,82 @@ class Workouts_Provider with ChangeNotifier {
           } else {
             print("z was null");
           }
-          print("gammmmma");
+          // print("done till here");
           List<List<WorkoutModel>> listOfPlans = [];
-          print("gammmmma2");
-          extractedData.forEach((statId, statValue) {
-            print("gamma3");
-            print(statValue['listOfPlans'].runtimeType);
-            print(statValue['listOfPlans']);
-            List<dynamic> temp = statValue['listOfPlans'];
-            print(temp);
-            print("gamma4");
-            if (temp != null) {
-              print("gamma5");
-              for (int i = 0; i < temp.length; i++) {
-                listOfPlans.add([]);
-                print("gamma6");
-                for (int j = 0; j < temp[0].length; j++) {
-                  print(temp[i][j]);
-                  print("gamma7");
-                  listOfPlans[i]
-                      .add(WorkoutModel.fromJson(json.decode(temp[i][j])));
-                  print("gamma8");
-                }
-              }
-            } else {
-              print("temp was null");
+          var temp = statValue['listOfPlans'];
+          // print("temp list gotten from statValue");
+          // print(temp.length);
+          if (temp != null) {
+            for (int i = 0; i < temp.length; i++) {
+              listOfPlans.add([]);
             }
-          });
+            // print("listOfPlans is ready");
+            // print(temp.length);
+            // print(temp[0].length);
+            // for (int i = 0; i < temp.length; i++) {
+            // print("gamma6");
+            // print("temp[0] is as follows");
+            // print(temp[0]);
+            // print("temp 0 is done");
+
+            for (int j = 0; j < temp[0].length; j++) {
+              // print(temp[i][j]);
+              // print("gamma7");
+              // print(temp[0][j]);
+              // print("hello");
+              // print(j);
+              // print(temp[0][j]);
+
+              // print("This worked");
+              var json_decoded = temp[0][j];
+              final String access = json_decoded['access'];
+              // print("access done");
+              final String creator_name =
+                  json_decoded['creator_name'].toString();
+              // print("creator_name done");
+              final String creatorId = json_decoded['creatorId'];
+              // print("creatorId done");
+              final String workoutId = json_decoded['workoutId'];
+              // print("workoutId done");
+              String workoutName = json_decoded['workoutName'];
+              // print("workoutName done");
+              String creationDate = json_decoded['creationDate'];
+              // print("creationDate done");
+              List<String> listOfFollowersId =
+                  convertToListString(json_decoded['listOfFollowersId']);
+              // print("listOfFollowersId done");
+              List<String> listOfOnGoingId =
+                  convertToListString(json_decoded['listOfOnGoingId']);
+              // print("listOfOnGoingId done");
+              // stores which users are currently doing this workout
+              List<String> listOfExercisesId =
+                  convertToListString(json_decoded['listOfExercisesId']);
+              // print("listOfExercisesId done");
+              String description = json_decoded['description'];
+              // print("description done");
+              String imageUrl = json_decoded['imageUrl'];
+              // print("imageUrl done");
+              WorkoutModel x = WorkoutModel(
+                  imageUrl: imageUrl,
+                  creator_name: creator_name,
+                  creatorId: creatorId,
+                  workoutId: workoutId,
+                  listOfOnGoingId: listOfOnGoingId,
+                  workoutName: workoutName,
+                  access: access,
+                  creationDate: creationDate,
+                  listOfExercisesId: listOfExercisesId,
+                  listOfFollowersId: listOfFollowersId,
+                  description: description);
+              listOfPlans[0].add(x);
+              // print("added plan to list of plans");
+              // print("gamma8");
+            }
+            // }
+          } else {
+            print("temp was null");
+          }
+          // print("all the plans");
           loadedPlans.add(
             PlanModel(
               numberOfWeeks: statValue['numberOfWeeks'],
@@ -789,23 +910,23 @@ class Workouts_Provider with ChangeNotifier {
               listOfOnGoingId: tempListOngoingId,
             ),
           );
-          print("deltaaaaa");
+          print("added new plan to loadedPlans");
         },
       );
       List<PlanModel> filteredPlansList = [];
       List<PlanModel> plans_created_by_user = [];
-      print("print1");
-      print("print1");
-      print("print1");
-      print("print1");
-      print(loadedPlans);
+      // print("print1");
+      // print("print1");
+      // print("print1");
+      // print("print1");
+      // print(loadedPlans);
       loadedPlans.forEach(
         (element) {
           if (element.access == 'Public' ||
               (element.access == 'Private' &&
                   element.creatorId == Data_Provider().uid.trim())) {
-            print(
-                "element " + element.planName + " access is " + element.access);
+            // print(
+            //     "element " + element.planName + " access is " + element.access);
             filteredPlansList.add(element);
             if (element.creatorId == userId) {
               plans_created_by_user.add(element);
@@ -813,7 +934,7 @@ class Workouts_Provider with ChangeNotifier {
           }
         },
       );
-      print("print2");
+      // print("print2");
       _plansCreatedByUser = plans_created_by_user;
       _plansList = filteredPlansList;
       notifyListeners();
@@ -826,7 +947,7 @@ class Workouts_Provider with ChangeNotifier {
     }
   }
 
-  Future<void> followPlan(PlanModel plan, String planId) async {
+  Future<bool> followPlan(PlanModel plan, String planId) async {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
     final url =
@@ -834,7 +955,7 @@ class Workouts_Provider with ChangeNotifier {
     print(url);
     List followers = plan.listOfFollowersId;
     followers.add(user_uid);
-    print(followers);
+    // print(followers);
     // workout.listOfFollowersId.add(user_uid);
     try {
       var x = await http.patch(
@@ -855,7 +976,7 @@ class Workouts_Provider with ChangeNotifier {
           },
         ),
       );
-      print(x.body);
+      // print(x.body);
       print("follower list has been updated");
       PlanModel updatedPlan = PlanModel(
         numberOfWeeks: plan.numberOfWeeks,
@@ -872,16 +993,18 @@ class Workouts_Provider with ChangeNotifier {
       );
       int index = _plansList.indexWhere((element) => element.planId == planId);
       _plansList[index] = updatedPlan;
-      print(_plansList[index].listOfFollowersId);
+      // print(_plansList[index].listOfFollowersId);
       print("plan saved locally");
       notifyListeners();
+      return true;
     } catch (e) {
       print("ERROR OCCURED");
       print(e);
+      return false;
     }
   }
 
-  Future<void> unFollowPlan(PlanModel plan, String planId) async {
+  Future<bool> unFollowPlan(PlanModel plan, String planId) async {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
 
@@ -928,8 +1051,10 @@ class Workouts_Provider with ChangeNotifier {
       _plansList[index] = updatedPlan;
       print(_plansList[index].listOfFollowersId);
       notifyListeners();
+      return true;
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
@@ -958,21 +1083,129 @@ class Workouts_Provider with ChangeNotifier {
     return ongoingPlansList;
   }
 
-  Future<void> addPlanToOngoingDB(
+  // if this plan returns null that indicates that no current plan is chosen.
+  getcurrentPlan() async {
+    final prefs = await SharedPreferences.getInstance();
+    String currentPlan = prefs.getString('currentPlanLocal');
+    print("shared prefs get string");
+    print(currentPlan);
+    if (currentPlan == null || currentPlan == 'null') {
+      return null;
+    }
+    return currentPlan;
+  }
+
+  setcurrentPlan(String planName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('currentPlanLocal', planName);
+    print("shared prefs string set");
+  }
+
+  List<List<dynamic>> flattenPlans(List<List<WorkoutModel>> x) {
+    List<List<dynamic>> converted_listOfPlans = [];
+    for (int i = 0; i < x.length; i++) {
+      converted_listOfPlans.add([]);
+      for (int j = 0; j < x[0].length; j++) {
+        WorkoutModel currentWorkout = x[i][j];
+        Map convertedWorkout = currentWorkout.toJson();
+        converted_listOfPlans[i].add(convertedWorkout);
+      }
+    }
+    return converted_listOfPlans;
+  }
+
+  Future<String> addPlanToOngoingDB(
       PlanModel plan, String planId, int hour, int min) async {
+    print("FUNCTION IS CALLED");
     String user_uid = Data_Provider().uid;
-    String user_email = Data_Provider().email;
     final url =
         "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
     print("add plan to ongoing called");
     print(url);
+    // gives the current plan before this one is set as current
+    String currentPlanName = await getcurrentPlan();
+    PlanModel currentPlan = null;
+    if (currentPlanName != null) {
+      currentPlan = _plansList
+          .firstWhere((element) => element.planName == currentPlanName);
+    }
+    if (currentPlan == null) {
+      //  do nothing
+      print("current plan was null");
+    } else {
+      print("current plan was not null patch request initialized");
+      print(currentPlan.planName);
+      // String currentPlanName =
+      // Setting up current plan by replacing the already existing current plan
+      List<String> currentOngoingChanged = currentPlan.listOfOnGoingId;
+      currentOngoingChanged.remove(Data_Provider().uid);
+      // SEND THE FIRST PATCH REQUEST
+      try {
+        String old_current_planId = currentPlan.planId;
+        List<List<dynamic>> converted_plan =
+            flattenPlans(currentPlan.listOfPlans);
+        final url_old =
+            "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$old_current_planId.json";
+        await http.patch(Uri.parse(url_old),
+            body: json.encode({
+              'numberOfWeeks': currentPlan.numberOfWeeks,
+              'creatorId': currentPlan.creatorId,
+              'creator_name': currentPlan.creator_name,
+              'creationDate': currentPlan.creationDate,
+              'planName': currentPlan.planName,
+              'workoutDescription': currentPlan.description,
+              'access': currentPlan.access,
+              'listOfPlans': converted_plan, // custom object is flattened
+              'listOfFollowersId': currentPlan.listOfFollowersId,
+              'listOfOngoingId': currentOngoingChanged,
+            }));
+        print("old plan removed from current");
+        PlanModel updatedOldPlan = PlanModel(
+          numberOfWeeks: plan.numberOfWeeks,
+          creator_name: plan.creator_name,
+          creatorId: plan.creatorId,
+          listOfOnGoingId: currentOngoingChanged,
+          planId: plan.planId,
+          planName: plan.planName,
+          description: plan.description,
+          access: plan.access,
+          creationDate: plan.creationDate,
+          listOfPlans: plan.listOfPlans,
+          listOfFollowersId: plan.listOfFollowersId,
+        );
 
-    List ongoing = plan.listOfOnGoingId;
-    ongoing.add(user_uid);
+        int index = _plansList
+            .indexWhere((element) => element.planId == updatedOldPlan.planId);
+        _plansList[index] = updatedOldPlan;
+        // print(_plansList[index].listOfOnGoingId);
+        print("updated the old current plan");
+        /////// SETTING NOTIFICATION FOR PLAN
+        String token = Data_Provider().notif_token;
+        try {
+          await notiRemove(token, plan.planName);
+        } catch (e) {
+          print("error in setting notifs");
+          print(e);
+        }
+        notifyListeners();
+      } catch (e) {
+        print("error in removing the old current workout");
+        print(e);
+      }
+    }
+    // sending the second patch request to set the current plan
+    List<String> ongoing = plan.listOfOnGoingId;
+    print("ongoing are as follows");
     print(ongoing);
-    // workout.listOfFollowersId.add(user_uid);
+    List<String> followers = plan.listOfFollowersId;
+    print("followers are as follows");
+    print(followers);
+    ongoing.add(user_uid);
+    print("ongoing became");
+    print(ongoing);
     try {
-      var x = await http.patch(Uri.parse(url),
+      List<List<dynamic>> converted_plan2 = flattenPlans(plan.listOfPlans);
+      var t = await http.patch(Uri.parse(url),
           body: json.encode(
             {
               'numberOfWeeks': plan.numberOfWeeks,
@@ -982,14 +1215,14 @@ class Workouts_Provider with ChangeNotifier {
               'planName': plan.planName,
               'workoutDescription': plan.description,
               'access': plan.access,
-              'listOfPlans': plan
-                  .listOfPlans, // by itself has custom objects which have to be flattened
+              'listOfPlans': converted_plan2, //custom objects is flattened
               'listOfFollowersId': plan.listOfFollowersId,
               'listOfOngoingId': ongoing,
             },
           ));
-      print(x.body);
-      print("ongoing list has been updated");
+      // print("t body is ");
+      // print(t.body);
+      // print("abcdef");
       PlanModel updatedPlan = PlanModel(
         numberOfWeeks: plan.numberOfWeeks,
         creator_name: plan.creator_name,
@@ -1005,12 +1238,20 @@ class Workouts_Provider with ChangeNotifier {
       );
       int index = _plansList.indexWhere((element) => element.planId == planId);
       _plansList[index] = updatedPlan;
-      print(_plansList[index].listOfOnGoingId);
+      // print(_plansList[index].listOfOnGoingId);
       print("added plan to Ongoing");
       /////// SETTING NOTIFICATION FOR PLAN
       String token = Data_Provider().notif_token;
       try {
+        await setcurrentPlan(updatedPlan.planName);
+      } catch (e) {
+        print("error in setting current plan");
+        print(e);
+      }
+      try {
         await notiAdd(token, hour, min, plan.planName);
+        print('abc');
+        return currentPlanName; // name of the old plan that was current
       } catch (e) {
         print("error in setting notifs");
         print(e);
@@ -1019,18 +1260,20 @@ class Workouts_Provider with ChangeNotifier {
     } catch (e) {
       print("ERROR OCCURED");
       print(e);
+      return null;
     }
   }
 
-  Future<void> removePlanFromOngoingDB(PlanModel plan, String planId) async {
+  Future<bool> removePlanFromOngoingDB(PlanModel plan, String planId) async {
     String user_uid = Data_Provider().uid;
     String user_email = Data_Provider().email;
 
     final url =
         "https://fiitgn-6aee7-default-rtdb.firebaseio.com/Plans/$planId.json";
-    List ongoing = plan.listOfFollowersId;
+    List ongoing = plan.listOfOnGoingId;
     ongoing.remove(user_uid);
     try {
+      List<List<dynamic>> converted_plan = flattenPlans(plan.listOfPlans);
       var x = await http.patch(Uri.parse(url),
           body: json.encode(
             {
@@ -1041,15 +1284,14 @@ class Workouts_Provider with ChangeNotifier {
               'planName': plan.planName,
               'workoutDescription': plan.description,
               'access': plan.access,
-              'listOfPlans': plan
-                  .listOfPlans, // by itself has custom objects which have to be flattened
+              'listOfPlans': converted_plan, // custom objects is flattened
               'listOfFollowersId': plan.listOfFollowersId,
               'listOfOngoingId': ongoing,
             },
           ));
 
-      print(x.body);
-      print("user has been unfollowed");
+      // print(x.body);
+      print("user has been removed from ongoing");
       PlanModel updatedPlan = PlanModel(
         numberOfWeeks: plan.numberOfWeeks,
         creator_name: plan.creator_name,
@@ -1066,18 +1308,23 @@ class Workouts_Provider with ChangeNotifier {
       int index = _plansList.indexWhere((element) => element.planId == planId);
       _plansList[index] = updatedPlan;
       print(_plansList[index].listOfOnGoingId);
-      print("added plan to Ongoing");
+      print("removed plan from Ongoing");
       try {
         String token = Data_Provider().notif_token;
         await notiRemove(token, plan.planName);
+        await setcurrentPlan('null');
         print("notification successfully removed for plan " + plan.planName);
+        notifyListeners();
+        return true;
       } catch (e) {
         print("error in removing notifs");
         print(e);
+        return true;
       }
-      notifyListeners();
     } catch (e) {
+      print("error in removing plan from ongoing");
       print(e);
+      return false;
     }
   }
 }

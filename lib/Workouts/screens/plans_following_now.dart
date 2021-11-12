@@ -53,6 +53,7 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     await workoutDataProvider.showAllPlans();
+    print("ongoing plans are as follows");
     plansList = workoutDataProvider.ongoingPlans();
     print(plansList);
     setState(() {
@@ -119,7 +120,7 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
     var _screenWidth = MediaQuery.of(context).size.width;
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
-    List<PlanModel> plansList = workoutDataProvider.plansList;
+    // List<PlanModel> plansList = workoutDataProvider.plansList;
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
@@ -155,7 +156,6 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
               margin: EdgeInsets.only(bottom: 0.010 * _screenHeight),
 
               // in the text below, add the last plan/workout that has been logged.
-
 
               child: Text(
                 "Last Session: Insert Plan Name, Day Number, Workout Name",
@@ -244,40 +244,62 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                           ),
                                         ),
 
-                                     
-
-
-                                        
-                                        
-
-
                                         // in the inkwell below add the function for removing a plan from following
-
-
-                                       Container(
-                                                width: 0.4 * _screenWidth,
-                                                child: OutlinedButton(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        "REMOVE",
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Gilroy',
-                                                            fontSize: 0.025 *
-                                                                _screenHeight,
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      Icon(Icons.remove_circle_outline,color: Colors.black,)
-                                                    ],
-                                                  ),
-                                                  onPressed: () {},
-                                                ),
-                                              ),
+                                        // Container(
+                                        //   width: 0.4 * _screenWidth,
+                                        //   child: OutlinedButton(
+                                        //     child: Row(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment
+                                        //               .spaceBetween,
+                                        //       children: [
+                                        //         Text(
+                                        //           "REMOVE",
+                                        //           style: TextStyle(
+                                        //               fontFamily: 'Gilroy',
+                                        //               fontSize:
+                                        //                   0.025 * _screenHeight,
+                                        //               color: Colors.black),
+                                        //         ),
+                                        //         Icon(
+                                        //           Icons.remove_circle_outline,
+                                        //           color: Colors.black,
+                                        //         )
+                                        //       ],
+                                        //     ),
+                                        //     onPressed: () async {
+                                        //       //  function to follow/unfollow the workout
+                                        //       print("test");
+                                        //       if (plansList[i]
+                                        //           .listOfOnGoingId
+                                        //           .contains(user_id)) {
+                                        //         await workoutDataProvider
+                                        //             .removePlanFromOngoingDB(
+                                        //                 plansList[i],
+                                        //                 plansList[i].planId);
+                                        //         print(
+                                        //             "http removed from ongoing done");
+                                        //         setState(() {
+                                        //           ongoing_iconList[i] =
+                                        //               ongoing_unfollowIcon;
+                                        //           print("state set");
+                                        //         });
+                                        //       } else if (!plansList[i]
+                                        //           .listOfOnGoingId
+                                        //           .contains(user_id)) {
+                                        //         print("QQQQQQQQQQQQQQQQQQQQQ");
+                                        //         await _selectTime(
+                                        //             context,
+                                        //             plansList[i],
+                                        //             plansList[i].planId,
+                                        //             i);
+                                        //         print(_hourEntry);
+                                        //         print(_minuteEntry);
+                                        //         // print("ZUMBAAAA");
+                                        //       }
+                                        //     },
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                     // Text("Creator Id - " + workoutsList[i].creatorId),

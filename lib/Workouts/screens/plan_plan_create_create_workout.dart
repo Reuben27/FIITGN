@@ -60,7 +60,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
     String creatroId = Data_Provider().uid;
     String workoutId = randomString(10);
     String dateTime = DateTime.now().toIso8601String();
-    String workoutName = 'ForPlans';
+    String workoutName = 'Custom Workout';
     String description = 'None';
     WorkoutModel workout = WorkoutModel(
         creator_name: name,
@@ -304,7 +304,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(chestExercises[i])) {
-                                    Color color =Color(0xFF5E8B7E);
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(chestExercises[i]);
                                     // print("exercise " +
@@ -407,7 +407,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -580,7 +581,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -650,7 +652,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                   // print(allExerciseList[i].isWeighted);
                                   if (!exercisesSelectedForWorkout
                                       .contains(shoulderExercises[i])) {
-                                    Color color =Color(0xFF5E8B7E);
+                                    Color color = Color(0xFF5E8B7E);
                                     exercisesSelectedForWorkout
                                         .add(shoulderExercises[i]);
                                     // print("exercise " +
@@ -754,7 +756,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -836,7 +839,7 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                       // print(colorList[i].toString());
                                     });
                                   } else {
-                                    Color color =Color(0xFFC9CCD5);
+                                    Color color = Color(0xFFC9CCD5);
                                     exercisesSelectedForWorkout
                                         .remove(bicepsExercises[i]);
                                     // print("exercise " +
@@ -927,7 +930,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -1103,7 +1107,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -1276,7 +1281,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(
@@ -1449,7 +1455,8 @@ class _Create_Workout_for_PlanState extends State<Create_Workout_for_Plan> {
                                                       context: context,
                                                       builder: (context) =>
                                                           Container(
-                                                        color: Color(0xFFC9CCD5),
+                                                        color:
+                                                            Color(0xFFC9CCD5),
                                                         child: Padding(
                                                           padding:
                                                               EdgeInsets.only(

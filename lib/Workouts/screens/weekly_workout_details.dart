@@ -11,10 +11,20 @@ class WeeklyWorkoutDetails extends StatelessWidget {
             listen: false);
     final Map args = ModalRoute.of(context).settings.arguments as Map;
     final List<String> exercise_ids = args['exercise_ids'];
+    print("exercise ids are as follows");
+    print(exercise_ids);
     final String workoutName = args['workoutName'];
-    ModalRoute.of(context).settings.arguments as List<String>;
-    Map<String, ExerciseDbModel> exerciseAndNames =
-        exerciseDataProvider.map_exerId_exerName_per_exercise(exercise_ids);
+    // ModalRoute.of(context).settings.arguments as List<String>;
+    List<ExerciseDbModel> exerciseAndNames =
+        exerciseDataProvider.exercisesBasesOnId(exercise_ids);
+    // print("exercise and names");
+    // print(exerciseAndNames);
+    // print(exerciseAndNames[0].category);
+    // print(exerciseAndNames[0x`].description);
+    // print(exerciseAndNames[0].exerciseId);
+    // print(exerciseAndNames[0].exerciseName);
+    // print(exerciseAndNames[0].imageUrl);
+    // print(exerciseAndNames[0].isWeighted);
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;

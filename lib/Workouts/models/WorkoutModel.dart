@@ -65,7 +65,7 @@ List<String> _converToList_String(List<dynamic> list) {
   list.forEach((element) {
     if (element.runtimeType == String) {
       x.add(element);
-      print("element added to x");
+      // print("element added to x");
     }
   });
   return x;

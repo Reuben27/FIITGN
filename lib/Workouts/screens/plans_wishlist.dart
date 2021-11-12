@@ -60,56 +60,56 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
     });
   }
 
-  showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+  // showAlertDialog(BuildContext context, TimeOfDay selectedTime) {
+  //   // set up the button
+  //   Widget okButton = FlatButton(
+  //     child: Text("OK"),
+  //     onPressed: () {
+  //       Navigator.of(context).pop();
+  //     },
+  //   );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Notice"),
-      content: Text(
-          "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
-      actions: [
-        okButton,
-      ],
-    );
+  //   // set up the AlertDialog
+  //   AlertDialog alert = AlertDialog(
+  //     title: Text("Notice"),
+  //     content: Text(
+  //         "Your Notification is set for ${selectedTime.hour} : ${selectedTime.minute}"),
+  //     actions: [
+  //       okButton,
+  //     ],
+  //   );
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+  //   // show the dialog
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return alert;
+  //     },
+  //   );
+  // }
 
-  Future<Null> _selectTime(
-      BuildContext context, PlanModel plan, String planId, int index) async {
-    final workoutDataProvider =
-        Provider.of<Workouts_Provider>(context, listen: false);
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: 00, minute: 00),
-    );
-    if (picked != null) {
-      setState(() {
-        selectedTime = picked;
-        _hourEntry = selectedTime.hour.toString();
-        _minuteEntry = selectedTime.minute.toString();
+  // Future<Null> _selectTime(
+  //     BuildContext context, PlanModel plan, String planId, int index) async {
+  //   final workoutDataProvider =
+  //       Provider.of<Workouts_Provider>(context, listen: false);
+  //   final TimeOfDay picked = await showTimePicker(
+  //     context: context,
+  //     initialTime: TimeOfDay(hour: 00, minute: 00),
+  //   );
+  //   if (picked != null) {
+  //     setState(() {
+  //       selectedTime = picked;
+  //       _hourEntry = selectedTime.hour.toString();
+  //       _minuteEntry = selectedTime.minute.toString();
 
-        ongoing_iconList[index] = ongoing_followIcon;
-        print("THETAAA");
-      });
-      await workoutDataProvider.addPlanToOngoingDB(
-          plan, planId, selectedTime.hour, selectedTime.minute);
-      print("workout added to ongoing");
-    }
-  }
+  //       ongoing_iconList[index] = ongoing_followIcon;
+  //       print("THETAAA");
+  //     });
+  //     await workoutDataProvider.addPlanToOngoingDB(
+  //         plan, planId, selectedTime.hour, selectedTime.minute);
+  //     print("workout added to ongoing");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
     var _screenWidth = MediaQuery.of(context).size.width;
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
-    List<PlanModel> plansList = workoutDataProvider.plansList;
+    // List<PlanModel> plansList = workoutDataProvider.plansList;
     final exerciseDataProvider =
         Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
             listen: false);
@@ -324,11 +324,11 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
                                                         .contains(user_id)) {
                                                       print(
                                                           "QQQQQQQQQQQQQQQQQQQQQ");
-                                                      await _selectTime(
-                                                          context,
-                                                          plansList[i],
-                                                          plansList[i].planId,
-                                                          i);
+                                                      // await _selectTime(
+                                                      //     context,
+                                                      //     plansList[i],
+                                                      //     plansList[i].planId,
+                                                      //     i);
                                                       print(_hourEntry);
                                                       print(_minuteEntry);
                                                       // print("ZUMBAAAA");

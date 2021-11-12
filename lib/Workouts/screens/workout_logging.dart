@@ -35,6 +35,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
 
   @override
   void initState() {
+    print("workout logging has started");
     startTimer();
     // TODO: implement initState
     super.initState();
@@ -96,8 +97,8 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     setsAndReps.add(newData);
   }
 
-  void saveData(List<Workout_Log_Model> exercices, String workoutName,
-      var _screenHeight, var _screenWeight) {
+  void saveData(List<Workout_Log_Model> exercices, String planName, int planDay,
+      String planId, var _screenHeight, var _screenWeight) {
     print("save data initiated");
     if (exercices.length == 0) {
       print("no exercises to log");
@@ -111,6 +112,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
       /// change this date to the starting time of the workout
       String date = DateTime.now().toIso8601String();
       Workout_Data_Model data = Workout_Data_Model(
+          planName: planName,
+          planDay: planDay,
+          planId: planId,
           duration_seconds: duration_seconds,
           duration_hours: duration_hours,
           duration_minutes: duration_minutes,
@@ -119,7 +123,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
           date: date,
           listOfSetsRepsWeights: exercices,
           user_name: Data_Provider().name,
-          workoutName: workoutName);
+          workoutName: planName);
       // ignore: deprecated_member_use
       // setsAndReps = List<Workout_Log_Model>();
 
@@ -429,7 +433,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments as Map;
     List<ExerciseDbModel> exercises = routeArgs['exercises'];
-    String workoutName = routeArgs['workoutName'];
+    String planName = routeArgs['planName'];
+    String planId = routeArgs['planId'];
+    int planDay = routeArgs['planDay'];
     int pauser = 0;
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
@@ -504,7 +510,9 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                   child: OutlinedButton(
                                     onPressed: () => saveData(
                                         setsAndReps,
-                                        workoutName,
+                                        planName,
+                                        planDay,
+                                        planId,
                                         _screenHeight,
                                         _screenWidth),
                                     child: Row(
@@ -559,7 +567,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
               centerTitle: true,
               backgroundColor: Colors.blueGrey[300],
               title: Text(
-                workoutName,
+                planName,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
