@@ -31,11 +31,15 @@ import 'Cardio/screens/ShowCycleResults.dart';
 import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
+import 'Cardio/screens/NewRunScreen.dart';
 
 //// PROFILE
 import 'Profile/screens/profile_page.dart';
 
 import 'Workouts/screens/explore_workouts_plan_plan.dart';
+import 'Workouts/screens/historyScreen1.dart';
+import 'Workouts/screens/historyScreen2.dart';
+import 'Workouts/screens/historyScreen3.dart';
 import 'Workouts/screens/plan_plan_create_create_workout.dart';
 import 'Workouts/screens/plans_following_now.dart';
 import 'Workouts/screens/weekly_workout_details.dart';
@@ -153,6 +157,7 @@ class MyApp extends StatelessWidget {
           ShowCycleResultsScreen.routeName: (_) => ShowCycleResultsScreen(),
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
+          NewRunScreen.routeName: (_) => NewRunScreen(),
 
           //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
@@ -181,6 +186,9 @@ class MyApp extends StatelessWidget {
           Explore_Workouts_For_Plan.routeName: (_) =>
               Explore_Workouts_For_Plan(),
           WeeklyWorkoutDetails.routeName: (_) => WeeklyWorkoutDetails(),
+          WorkoutsHistory1.routeName: (_) => WorkoutsHistory1(),
+          WorkoutHistory2.routeName: (_) => WorkoutHistory2(),
+          WorkoutsHistory3.routeName: (_) => WorkoutsHistory3(),
           ///// Admin Section
           AdminHome.routeName: (_) => AdminHome(),
 

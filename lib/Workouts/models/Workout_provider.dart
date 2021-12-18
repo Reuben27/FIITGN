@@ -1,7 +1,6 @@
 import 'package:fiitgn/Notifications/utils/removeNotification.dart';
 import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
 import 'package:fiitgn/Workouts/models/Workouts_Log_Model.dart';
-
 import '../../Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -38,6 +37,8 @@ class Workouts_Provider with ChangeNotifier {
   List<WorkoutModel> _createdByUser = [];
   List<Workout_Data_Model> _loggedWorkouts = [];
   Map<String, Map<int, List<Workout_Data_Model>>> _logged_data = Map();
+
+  
 
   // set user email id;
   //

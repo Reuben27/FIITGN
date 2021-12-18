@@ -13,13 +13,13 @@ import 'ShowRunResults.dart';
 import 'package:background_location/background_location.dart' as bLoc;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-class MapScreen extends StatefulWidget {
-  static const routeName = 'RunScreen';
+class NewRunScreen extends StatefulWidget {
+  static const routeName = 'NewRunScreen';
   @override
-  _MapScreenState createState() => _MapScreenState();
+  _NewRunScreenState createState() => _NewRunScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _NewRunScreenState extends State<NewRunScreen> {
   final StopWatchTimer stopWatchTimer = StopWatchTimer();
   final isHours = true;
 
@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   int finishFlag = 0; // flag to check if finish should be showed or no
   int pauseFlag = 0;
   int resume_end_flag = 0;
-  String displayTime;
+  String displayTime = "";
   bool isChanged = false;
   DateTime startingTime;
   DateTime endingTime;
@@ -65,8 +65,24 @@ class _MapScreenState extends State<MapScreen> {
   );
 
   // ADDITIONAL STATS
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   // TIME PER KILOMETER
   // Average speed per kilometer
+  int currentKmsCovered = 0;
+  List<int> timePerKm = [];
+  List<double> speedPerKm = [];
+
+  List<double> timePerKmcomps(double time) {
+    double hours = (time + 0.0) % 3600;
+    time = time - hours * 3600;
+    double mins = (time + 0.0) % 60;
+    time = time - mins * 60;
+    double secs = time;
+    // assert hours>=0 && mins>=0 && secs>=0;
+    List<double> ret = [hours, mins, secs];
+    return ret;
+  }
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   pause_run() async {
     print("Pausing RUN");
@@ -134,6 +150,29 @@ class _MapScreenState extends State<MapScreen> {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                   finalLongitude);
+          if (distance > currentKmsCovered + 1) {
+            if (displayTime != "") {
+              List timeList = displayTime.split(":");
+              int duration_minutes_int = int.parse(timeList[1]);
+              int duration_hours_int = int.parse(timeList[0]);
+              int duration_seconds_int = int.parse(timeList[2]);
+              int totalTime = duration_seconds_int +
+                  duration_minutes_int * 60 +
+                  duration_hours_int * 3600;
+              if (timePerKm.length > 0) {
+                int timeForCurrentKm = totalTime - timePerKm.last;
+                timePerKm.add(timeForCurrentKm);
+                double speedForCurrentKm = (1000 + 0.0) / timeForCurrentKm;
+                speedPerKm.add(speedForCurrentKm);
+              } else {
+                timePerKm.add(totalTime); // total time in seconds is stored
+                // should be converted to hrs, mins, secs when displaying using timePerKmcomps()
+                double speedForCurrentKm = (1000 + 0.0) / totalTime;
+                speedPerKm.add(speedForCurrentKm);
+              }
+              currentKmsCovered += 1;
+            }
+          }
         }
         // print("Distance is $dist metres");
         double speed = location.speed;
