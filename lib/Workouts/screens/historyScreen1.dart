@@ -37,8 +37,10 @@ class _WorkoutsHistory1State extends State<WorkoutsHistory1> {
     final workouts_provider =
         Provider.of<Workouts_Provider>(context, listen: false);
 
-    await workouts_provider.getWorkoutLogFromDB();
-    plan_logs = workouts_provider.user_workout_logs;
+    plan_logs = await workouts_provider.getWorkoutLogFromDB();
+    setState(() {});
+    print(plan_logs);
+    // plan_logs = workouts_provider.user_workout_logs;
     planNames = getPlanNames(plan_logs);
   }
 
