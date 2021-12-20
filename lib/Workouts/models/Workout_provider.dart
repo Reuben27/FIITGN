@@ -38,8 +38,6 @@ class Workouts_Provider with ChangeNotifier {
   List<Workout_Data_Model> _loggedWorkouts = [];
   Map<String, Map<int, List<Workout_Data_Model>>> _logged_data = Map();
 
-  
-
   // set user email id;
   //
   // setUserEmailId(String emailId) {
@@ -527,6 +525,7 @@ class Workouts_Provider with ChangeNotifier {
 
       notifyListeners();
       print("recieved workout logs");
+      return _logged_data;
     } catch (e) {
       print("error in fetching workouts history data");
       print(e);

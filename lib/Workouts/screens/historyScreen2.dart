@@ -32,6 +32,24 @@ class _WorkoutHistory2State extends State<WorkoutHistory2> {
     return days;
   }
 
+  int getNumDay(String day) {
+    if (day == 'Monday') {
+      return 0;
+    } else if (day == 'Tuesday') {
+      return 1;
+    } else if (day == 'Wednesday') {
+      return 2;
+    } else if (day == 'Thursday') {
+      return 3;
+    } else if (day == 'Friday') {
+      return 4;
+    } else if (day == 'Saturday') {
+      return 5;
+    } else if (day == 'Sunday') {
+      return 6;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<int, List<Workout_Data_Model>> args = ModalRoute.of(context)
@@ -47,7 +65,10 @@ class _WorkoutHistory2State extends State<WorkoutHistory2> {
           itemBuilder: (ctx, i) {
             return InkWell(
                 onTap: () {
-                  List<Workout_Data_Model> toPass = args[i];
+                  int day = getNumDay(days[i]);
+                  List<Workout_Data_Model> toPass = args[day];
+                  print("args is");
+                  print(args[day]);
                   Navigator.pushNamed(context, WorkoutsHistory3.routeName,
                       arguments: toPass);
                 },
