@@ -7,6 +7,7 @@ import 'package:fiitgn/Workouts/screens/plans_following_now.dart';
 import 'package:flutter/material.dart';
 import 'create_plan.dart';
 import './workouts_history.dart';
+import 'historyScreen1.dart';
 import 'plans_wishlist.dart';
 
 class Workouts_Plans extends StatelessWidget {
@@ -250,7 +251,7 @@ class Workouts_Plans extends StatelessWidget {
                           InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, WorkoutHistoryScreen.routeName);
+                                  context, WorkoutsHistory1.routeName);
                             },
                             child: Container(
                               width: 0.4 * _screenWidth,
