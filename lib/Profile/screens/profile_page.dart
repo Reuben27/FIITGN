@@ -45,7 +45,7 @@ class _ProfileState extends State<Profile> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'PROFILE',
             style: TextStyle(
@@ -60,7 +60,7 @@ class _ProfileState extends State<Profile> {
         body: ListView(
           children: [
             Padding(
-              padding:EdgeInsets.only(
+              padding: EdgeInsets.only(
                 top: 0.025 * _screenHeight,
                 bottom: 0.025 * _screenHeight,
               ),
@@ -100,14 +100,14 @@ class _ProfileState extends State<Profile> {
             Padding(
               padding: EdgeInsets.only(
                 top: 0.00625 * _screenHeight,
-                bottom: 0.00625 * _screenHeight,
+                bottom: 0.0125 * _screenHeight,
                 left: 0.03 * _screenWidth,
                 right: 0.03 * _screenWidth,
               ),
               child: Container(
                 width: _screenWidth,
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey[200],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                 ),
                 // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),
@@ -122,156 +122,164 @@ class _ProfileState extends State<Profile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Height: ' + height.toString() + ' cm',
-                        style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.04 * _screenHeight,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Height: ' + height.toString() + ' cm',
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.04 * _screenHeight,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Height (in cm)',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextFormField(
+                                        controller: heightedit,
+                                        decoration: const InputDecoration(
+                                          icon: Icon(Icons.person),
+                                          hintText: '177',
+                                          labelText: 'Height',
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          String h = heightedit.text.trim();
+                                          double newheight = double.parse(h);
+                                          print(newheight);
+                                          await editHeight(
+                                              newheight, Data_Provider().uid);
+                                          setState(() {
+                                            height = newheight;
+                                            bmi = weight /
+                                                (height * height / 10000);
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Done'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Weight: ' + weight.toString() + ' kg',
-                        style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.04 * _screenHeight,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Weight: ' + weight.toString() + ' kg',
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.04 * _screenHeight,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Weight (in kg)',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextFormField(
+                                        controller: weightedit,
+                                        decoration: const InputDecoration(
+                                          icon: Icon(Icons.person),
+                                          hintText: '64',
+                                          labelText: 'Weight',
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          String w = weightedit.text.trim();
+                                          double newweight = double.parse(w);
+                                          print(newweight);
+                                          await editWeight(
+                                              newweight, Data_Provider().uid);
+                                          setState(() {
+                                            weight = newweight;
+                                            bmi = weight /
+                                                (height * height / 10000);
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Done'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  child: Text(
-                    'Height: ' + height.toString() + ' cm',
-                    style: TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                      fontFamily: 'Gilroy',
+            Container(
+              margin: EdgeInsets.only(
+                top: 0.00625 * _screenHeight,
+                bottom: 0.00625 * _screenHeight,
+                left: 0.03 * _screenWidth,
+                right: 0.03 * _screenWidth,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                color: Color(0xFF93B5C6),
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: 0.0125 * _screenHeight,
+                  bottom: 0.0125 * _screenHeight,
+                  left: 0.03 * _screenWidth,
+                  right: 0.03 * _screenWidth,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Your BMI is',
+                      style: TextStyle(
+                        fontSize: 0.04 * _screenHeight,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy',
+                      ),
                     ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            'Height (in cm)',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextFormField(
-                              controller: heightedit,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
-                                hintText: '177',
-                                labelText: 'Height',
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                String h = heightedit.text.trim();
-                                double newheight = double.parse(h);
-                                print(newheight);
-                                await editHeight(
-                                    newheight, Data_Provider().uid);
-                                setState(() {
-                                  height = newheight;
-                                  bmi = weight / (height * height / 10000);
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: Text('Done'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  child: Text(
-                    'Weight: ' + weight.toString() + ' kg',
-                    style: TextStyle(
-                      fontSize: 26,
-                      color: Colors.black,
-                      fontFamily: 'Gilroy',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            'Weight (in kg)',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          actions: <Widget>[
-                            TextFormField(
-                              controller: weightedit,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.person),
-                                hintText: '64',
-                                labelText: 'Weight',
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                String w = weightedit.text.trim();
-                                double newweight = double.parse(w);
-                                print(newweight);
-                                await editWeight(
-                                    newweight, Data_Provider().uid);
-                                setState(() {
-                                  weight = newweight;
-                                  bmi = weight / (height * height / 10000);
-                                });
-                                Navigator.pop(context);
-                              },
-                              child: Text('Done'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Center(
-              child: Text(
-                'BMI: ' + bmi.toStringAsFixed(2),
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.black,
-                  fontFamily: 'Gilroy',
+                    Center(
+                      child: Text(
+                        bmi.toStringAsFixed(2),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.1 * _screenHeight,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
