@@ -374,7 +374,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
     return showModalBottomSheet(
       context: context,
       builder: (ctx) => Container(
-        color: Colors.blueGrey[200],
+         color: Color(0xFF93B5C6),
         child: Container(
           margin: EdgeInsets.only(
             top: 0.0125 * _screenHeight,
@@ -565,7 +565,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                 preferredSize: Size(_screenWidth, 0.13 * _screenHeight),
               ),
               centerTitle: true,
-              backgroundColor: Colors.blueGrey[300],
+               backgroundColor: Color(0xFF93B5C6),
               title: Text(
                 planName,
                 style: TextStyle(
@@ -618,7 +618,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                                       right: 0.03 * _screenWidth,
                                     ),
                                     decoration: BoxDecoration(
-                                        color: Colors.blueGrey[200],
+                                        color: Color(0xFFC9CCD5),
                                         borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(
                                               0.02 * _screenHeight),
@@ -706,7 +706,7 @@ class _Workout_LoggingState extends State<Workout_Logging> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                color: Colors.blueGrey[200],
+                                color: Color(0xFFC9CCD5),
                                 borderRadius:
                                     BorderRadius.circular(0.02 * _screenHeight),
                               ),

@@ -150,24 +150,24 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          bottom: PreferredSize(
-            preferredSize: Size(_screenWidth, 0.1 * _screenHeight),
-            child: Container(
-              margin: EdgeInsets.only(bottom: 0.010 * _screenHeight),
+          // bottom: PreferredSize(
+          //   preferredSize: Size(_screenWidth, 0.1 * _screenHeight),
+          //   child: Container(
+          //     margin: EdgeInsets.only(bottom: 0.010 * _screenHeight),
 
-              // in the text below, add the last plan/workout that has been logged.
+          //     // in the text below, add the last plan/workout that has been logged.
 
-              child: Text(
-                "Last Session: Insert Plan Name, Day Number, Workout Name",
-                style: TextStyle(
-                  fontSize: 0.03 * _screenHeight,
-                  fontFamily: "Gilroy",
-                ),
-              ),
-            ),
-          ),
+          //     child: Text(
+          //       "Last Session: Insert Plan Name, Day Number, Workout Name",
+          //       style: TextStyle(
+          //         fontSize: 0.03 * _screenHeight,
+          //         fontFamily: "Gilroy",
+          //       ),
+          //     ),
+          //   ),
+          // ),
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+         backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'FOLLOWING PLANS',
             style: TextStyle(

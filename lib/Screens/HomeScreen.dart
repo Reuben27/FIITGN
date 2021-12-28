@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   'heroID': 7,
     // },
     {
-      'title': 'Workout Plans',
+      'title': 'Workouts',
       'url': 'assets/twerkout.png',
       'routeName': Workouts_Plans.routeName,
       'description':

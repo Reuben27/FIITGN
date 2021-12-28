@@ -364,7 +364,7 @@ class _Explore_PlansState extends State<Explore_Plans> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "WISHLIST",
+                                                "Wishlist",
                                                 style: TextStyle(
                                                     fontFamily: 'Gilroy',
                                                     fontSize:

@@ -27,11 +27,26 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
   //
   // ADD DIFFERENT SLIDING PAGES FOR PRIVATE AND PUBLIC WORKOUTS
   // SHOW OTHER DETAILS AND IMAGES AND STUFF
-  var unFollowIcon = Icon(Icons.favorite_border);
-  var followIcon = Icon(Icons.favorite);
-  var ongoing_followIcon = Icon(Icons.add_box);
-  var ongoing_unfollowIcon = Icon(Icons.add_box_outlined);
-  var icon = Icon(Icons.add_box_outlined);
+  var unFollowIcon = Icon(
+    Icons.favorite_border,
+    color: Color(0xFF5E8B7E),
+  );
+  var followIcon = Icon(
+    Icons.favorite,
+    color: Color(0xFF5E8B7E),
+  );
+  var ongoing_followIcon = Icon(
+    Icons.add_box,
+    color: Color(0xFF5E8B7E),
+  );
+  var ongoing_unfollowIcon = Icon(
+    Icons.add_box_outlined,
+    color: Color(0xFF5E8B7E),
+  );
+  var icon = Icon(
+    Icons.add_box_outlined,
+    color: Color(0xFF5E8B7E),
+  );
   List<dynamic> iconList = [];
   List<dynamic> ongoing_iconList = [];
 
@@ -150,9 +165,9 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
-            'EXPLORE PLANS',
+            'WISHLIST',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -232,16 +247,86 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
                                           ),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                MainAxisAlignment.spaceAround,
                                             children: [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 0.025 * _screenWidth,
-                                                  right: 0.025 * _screenWidth,
+                                              Container(
+                                                width: 0.4 * _screenWidth,
+                                                child: OutlinedButton(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Make Current",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Gilroy',
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      ongoing_iconList[i],
+                                                    ],
+                                                  ),
+                                                  onPressed: () async {
+                                                    //  function to follow/unfollow the workout
+                                                    print("test");
+                                                    if (plansList[i]
+                                                        .listOfOnGoingId
+                                                        .contains(user_id)) {
+                                                      await workoutDataProvider
+                                                          .removePlanFromOngoingDB(
+                                                              plansList[i],
+                                                              plansList[i]
+                                                                  .planId);
+                                                      print(
+                                                          "http removed from ongoing done");
+                                                      setState(() {
+                                                        ongoing_iconList[i] =
+                                                            ongoing_unfollowIcon;
+                                                        print("state set");
+                                                      });
+                                                    } else if (!plansList[i]
+                                                        .listOfOnGoingId
+                                                        .contains(user_id)) {
+                                                      print(
+                                                          "QQQQQQQQQQQQQQQQQQQQQ");
+                                                      // await _selectTime(
+                                                      //     context,
+                                                      //     plansList[i],
+                                                      //     plansList[i].planId,
+                                                      //     i);
+                                                      print(_hourEntry);
+                                                      print(_minuteEntry);
+                                                      // print("ZUMBAAAA");
+                                                    }
+                                                  },
                                                 ),
-                                                child: InkWell(
-                                                  child: iconList[i],
-                                                  onTap: () async {
+                                              ),
+                                              Container(
+                                                width: 0.4 * _screenWidth,
+                                                child: OutlinedButton(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Wishlist",
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Gilroy',
+                                                            fontSize: 0.025 *
+                                                                _screenHeight,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      iconList[i],
+                                                    ],
+                                                  ),
+                                                  onPressed: () async {
                                                     //  function to follow/unfollow the workout
                                                     print("test");
                                                     if (plansList[i]
@@ -289,49 +374,6 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
                                                             followIcon;
                                                         print("state set");
                                                       });
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 0.025 * _screenWidth,
-                                                  right: 0.025 * _screenWidth,
-                                                ),
-                                                child: InkWell(
-                                                  child: ongoing_iconList[i],
-                                                  // onTap: () {},
-                                                  onTap: () async {
-                                                    //  function to follow/unfollow the workout
-                                                    print("test");
-                                                    if (plansList[i]
-                                                        .listOfOnGoingId
-                                                        .contains(user_id)) {
-                                                      await workoutDataProvider
-                                                          .removePlanFromOngoingDB(
-                                                              plansList[i],
-                                                              plansList[i]
-                                                                  .planId);
-                                                      print(
-                                                          "http removed from ongoing done");
-                                                      setState(() {
-                                                        ongoing_iconList[i] =
-                                                            ongoing_unfollowIcon;
-                                                        print("state set");
-                                                      });
-                                                    } else if (!plansList[i]
-                                                        .listOfOnGoingId
-                                                        .contains(user_id)) {
-                                                      print(
-                                                          "QQQQQQQQQQQQQQQQQQQQQ");
-                                                      // await _selectTime(
-                                                      //     context,
-                                                      //     plansList[i],
-                                                      //     plansList[i].planId,
-                                                      //     i);
-                                                      print(_hourEntry);
-                                                      print(_minuteEntry);
-                                                      // print("ZUMBAAAA");
                                                     }
                                                   },
                                                 ),
