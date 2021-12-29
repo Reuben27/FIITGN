@@ -36,7 +36,8 @@ class Workouts_Provider with ChangeNotifier {
   List<WorkoutModel> _workoutsList = [];
   List<WorkoutModel> _createdByUser = [];
   List<Workout_Data_Model> _loggedWorkouts = [];
-  Map<String, Map<int, List<Workout_Data_Model>>> _logged_data = Map();
+  Map<String, Map<int, List<Workout_Data_Model>>> _logged_data =
+      Map<String, Map<int, List<Workout_Data_Model>>>();
 
   // set user email id;
   //
@@ -426,13 +427,14 @@ class Workouts_Provider with ChangeNotifier {
 
   getWorkoutLogFromDB() async {
     String uid = Data_Provider().uid;
-
+    print("1 good");
     final url =
         'https://fiitgn-6aee7-default-rtdb.firebaseio.com/Logged_Workouts.json?orderBy="uid"&equalTo="$uid"';
     try {
       final response = await http.get(Uri.parse(url));
       // print(response);
       final extractedData = json.decode(response.body);
+      print("2 good");
       // print(extractedData);
       // print("@@@@@@");
       List<Workout_Data_Model> fetched_logs = [];
@@ -450,6 +452,7 @@ class Workouts_Provider with ChangeNotifier {
         String date = value['date'];
         List setsRepsWeights = value['listOfSetsRepsWeights'];
         List<Workout_Log_Model> listOfSetsRepsWeights = [];
+        print("3 good");
         setsRepsWeights.forEach((element) {
           Workout_Log_Model log = Workout_Log_Model(
             exerciseId: element['exerciseId'],
@@ -460,7 +463,8 @@ class Workouts_Provider with ChangeNotifier {
           );
           listOfSetsRepsWeights.add(log);
         });
-        // print("log created");
+        print("4 good");
+        print("log created");
         Workout_Data_Model logs = Workout_Data_Model(
             planDay: planDay,
             planId: planId,
@@ -474,32 +478,47 @@ class Workouts_Provider with ChangeNotifier {
             workoutName: workoutName,
             date: date,
             listOfSetsRepsWeights: listOfSetsRepsWeights);
-        // print("logs created");
+        print("5 good");
         fetched_logs.add(logs);
       });
       _loggedWorkouts = fetched_logs;
       _loggedWorkouts.sort((a, b) {
         return b.date.compareTo(a.date);
       });
+      print("6 good");
 
       // ADD STUFF HERE FOR WORKOUT LOGS
       // Create basic schema of inner map
       // Map<int, List<Workout_Data_Model>> inner_map = Map();
       // Map<String, Map<int, List<Workout_Data_Model>>> logged_data = Map();
       // get all plan names that user has done
+      _logged_data = Map<String, Map<int, List<Workout_Data_Model>>>();
       _loggedWorkouts.forEach((workout_log) {
         String planName = workout_log.planName;
+        print(planName);
         if (_logged_data.containsKey(planName)) {
           int day = workout_log.planDay;
+          print("6.5 good");
           _logged_data[planName][day].add(workout_log);
+          print("7 good");
         } else {
           Map<int, List<Workout_Data_Model>> inner_map = Map();
           int day = workout_log.planDay;
           _logged_data[planName] = inner_map;
-          _logged_data[planName][day] = [];
+          _logged_data[planName][0] = List.empty(growable: true);
+          _logged_data[planName][1] = List.empty(growable: true);
+          _logged_data[planName][2] = List.empty(growable: true);
+          _logged_data[planName][3] = List.empty(growable: true);
+          _logged_data[planName][4] = List.empty(growable: true);
+          _logged_data[planName][5] = List.empty(growable: true);
+          _logged_data[planName][6] = List.empty(growable: true);
+          print("7.5 good");
           _logged_data[planName][day].add(workout_log);
+          print("8 good");
         }
+        print("9 good");
       });
+      print("10 good");
       // testing the new data saved by printing
       // _logged_data.forEach(
       //   (planName, value) {
