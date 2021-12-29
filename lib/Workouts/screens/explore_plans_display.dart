@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './weekly_workout_details.dart';
 
-class WeeklyPlanDisplay extends StatelessWidget {
+class ExplorePlanDisplay extends StatelessWidget {
   List<String> getDays(int dayNum) {
     List<String> days = [];
     if (dayNum == 0) {
@@ -28,7 +28,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
     return days;
   }
 
-  static const routeName = 'weeklyPlanDisplay';
+  static const routeName = 'explorePlanDisplay';
   @override
   Widget build(BuildContext context) {
     final exerciseDataProvider =
@@ -124,53 +124,53 @@ class WeeklyPlanDisplay extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Container(
-                          width: 0.3 * _screenWidth,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Map<String, dynamic> sendToWorkoutLogging = Map();
-                              List<String> exercise_ids =
-                                  plan.listOfPlans[0][i].listOfExercisesId;
-                              List<ExerciseDbModel> exercises =
-                                  exerciseDataProvider
-                                      .exercisesBasesOnId(exercise_ids);
-                              sendToWorkoutLogging['exercises'] = exercises;
-                              sendToWorkoutLogging['planName'] = plan.planName;
-                              sendToWorkoutLogging['planDay'] = i;
-                              sendToWorkoutLogging['planId'] = plan.planId;
-                              Navigator.pushNamed(
-                                  context, Workout_Logging.routeName,
-                                  arguments: sendToWorkoutLogging);
-                              // final Map<String, dynamic> routeArgs =
-                              //     ModalRoute.of(context).settings.arguments
-                              //         as Map;
-                              // List<ExerciseDbModel> exercises =
-                              // routeArgs['exercises'];
-                              // String workoutName = routeArgs['workoutName'];
+                        // Container(
+                        //   width: 0.3 * _screenWidth,
+                        //   child: OutlinedButton(
+                        //     onPressed: () {
+                        //       Map<String, dynamic> sendToWorkoutLogging = Map();
+                        //       List<String> exercise_ids =
+                        //           plan.listOfPlans[0][i].listOfExercisesId;
+                        //       List<ExerciseDbModel> exercises =
+                        //           exerciseDataProvider
+                        //               .exercisesBasesOnId(exercise_ids);
+                        //       sendToWorkoutLogging['exercises'] = exercises;
+                        //       sendToWorkoutLogging['planName'] = plan.planName;
+                        //       sendToWorkoutLogging['planDay'] = i;
+                        //       sendToWorkoutLogging['planId'] = plan.planId;
+                        //       Navigator.pushNamed(
+                        //           context, Workout_Logging.routeName,
+                        //           arguments: sendToWorkoutLogging);
+                        //       // final Map<String, dynamic> routeArgs =
+                        //       //     ModalRoute.of(context).settings.arguments
+                        //       //         as Map;
+                        //       // List<ExerciseDbModel> exercises =
+                        //       // routeArgs['exercises'];
+                        //       // String workoutName = routeArgs['workoutName'];
 
-                              // Navigator.pushReplacementNamed(
-                              //     context, WeeklyWorkoutDetails.routeName,
-                              //     arguments: pass);
-                              // start logging from here please
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Begin",
-                                  style: TextStyle(
-                                      fontFamily: 'Gilroy',
-                                      fontSize: 0.025 * _screenHeight,
-                                      color: Colors.black),
-                                ),
-                                Icon(
-                                  Icons.fitness_center,
-                                  color: Colors.black,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        //       // Navigator.pushReplacementNamed(
+                        //       //     context, WeeklyWorkoutDetails.routeName,
+                        //       //     arguments: pass);
+                        //       // start logging from here please
+                        //     },
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        //         Text(
+                        //           "Begin",
+                        //           style: TextStyle(
+                        //               fontFamily: 'Gilroy',
+                        //               fontSize: 0.025 * _screenHeight,
+                        //               color: Colors.black),
+                        //         ),
+                        //         Icon(
+                        //           Icons.fitness_center,
+                        //           color: Colors.black,
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
