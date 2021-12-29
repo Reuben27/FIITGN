@@ -15,7 +15,6 @@ class Workout_History_Details extends StatelessWidget {
     final MediaQueryData data = MediaQuery.of(context);
     final List<Workout_Log_Model> workout_details =
         ModalRoute.of(context).settings.arguments;
-
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
@@ -23,7 +22,7 @@ class Workout_History_Details extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             "WORKOUT NAME",
             style: TextStyle(
@@ -39,7 +38,7 @@ class Workout_History_Details extends StatelessWidget {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey[200],
+                   color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                 ),
                 // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),

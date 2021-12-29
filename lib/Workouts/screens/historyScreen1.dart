@@ -59,7 +59,14 @@ class _WorkoutsHistory1State extends State<WorkoutsHistory1> {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xFF93B5C6),
-            title: Text('History Page 1'),
+            title: Text(
+              'PLAN HISTORY',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
+            ),
           ),
           body: ListView.builder(
               itemCount: planNames.length,
@@ -72,27 +79,50 @@ class _WorkoutsHistory1State extends State<WorkoutsHistory1> {
                         arguments: args);
                   },
                   child: ListTile(
-                    title: Column(
-                      children: [
-                        Text(
-                          planNames[i],
-                          style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              //   color: Colors.red,
-                              fontSize: 0.045 * _screenHeight,
-                              fontWeight: FontWeight.w900),
+                    title: Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.00625 * _screenHeight,
+                        bottom: 0.00625 * _screenHeight,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.blueGrey[200],
+                          width: 0.005 * _screenWidth,
+                        )),
+                        margin: EdgeInsets.only(
+                          left: 0.03 * _screenWidth,
+                          right: 0.03 * _screenWidth,
                         ),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            top: 0.0125 * _screenHeight,
+                            bottom: 0.0125 * _screenHeight,
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                planNames[i],
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    //   color: Colors.red,
+                                    fontSize: 0.045 * _screenHeight,
+                                    fontWeight: FontWeight.w900),
+                              ),
 
-                        //CREATOR NAME AAYEGA IDHAR IF ITS PULLED!
+                              //CREATOR NAME AAYEGA IDHAR IF ITS PULLED!
 
-                        // Text(
-                        //   "by " + planNames[i],
-                        //   style: TextStyle(
-                        //     fontFamily: 'Gilroy',
-                        //     fontSize: 0.025 * _screenHeight,
-                        //   ),
-                        // ),
-                      ],
+                              // Text(
+                              //   "by " + planNames[i],
+                              //   style: TextStyle(
+                              //     fontFamily: 'Gilroy',
+                              //     fontSize: 0.025 * _screenHeight,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 );

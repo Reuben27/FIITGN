@@ -32,9 +32,9 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.blueGrey[300],
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
-            'History page 3',
+            "HISTORY", //need to fix
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -70,7 +70,7 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
                       child: Container(
                         width: _screenWidth,
                         decoration: BoxDecoration(
-                          color: Colors.blueGrey[200],
+                          color: Color(0xFFC9CCD5),
                           borderRadius:
                               BorderRadius.circular(0.02 * _screenHeight),
                         ),
@@ -90,7 +90,8 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    workout_histories[i].planName, //pass workout name not plan name
+                                    workout_histories[i]
+                                        .workoutName, //pass workout name not plan name
                                     style: TextStyle(
                                       fontFamily: 'Gilroy',
                                       fontSize: 0.04 * _screenHeight,

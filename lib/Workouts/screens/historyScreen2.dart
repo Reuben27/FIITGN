@@ -52,28 +52,76 @@ class _WorkoutHistory2State extends State<WorkoutHistory2> {
 
   @override
   Widget build(BuildContext context) {
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    final MediaQueryData data = MediaQuery.of(context);
     final Map<int, List<Workout_Data_Model>> args = ModalRoute.of(context)
         .settings
         .arguments as Map<int, List<Workout_Data_Model>>;
     List<String> days = getDays(args);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('History 2'),
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
       ),
-      body: ListView.builder(
-          itemCount: days.length,
-          itemBuilder: (ctx, i) {
-            return InkWell(
-                onTap: () {
-                  int day = getNumDay(days[i]);
-                  List<Workout_Data_Model> toPass = args[day];
-                  print("args is");
-                  print(args[day]);
-                  Navigator.pushNamed(context, WorkoutsHistory3.routeName,
-                      arguments: toPass);
-                },
-                child: Text(days[i]));
-          }),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFF93B5C6),
+          title: Text(
+            'DAYS IN PLAN',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
+          ),
+        ),
+        body: ListView.builder(
+            itemCount: days.length,
+            itemBuilder: (ctx, i) {
+              return Container(
+                width: _screenWidth,
+                height: _screenHeight / 7,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 0.00625 * _screenHeight,
+                    bottom: 0.00625 * _screenHeight,
+                    left: 0.03 * _screenWidth,
+                    right: 0.03 * _screenWidth,
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFC9CCD5),
+                      borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                    ),
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          int day = getNumDay(days[i]);
+                          List<Workout_Data_Model> toPass = args[day];
+                          print("args is");
+                          print(args[day]);
+                          Navigator.pushNamed(
+                              context, WorkoutsHistory3.routeName,
+                              arguments: toPass);
+                        },
+                        child: Text(
+                          days[i].toUpperCase(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 0.04 * _screenHeight,
+                              fontFamily: 'Gilroy'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+      ),
     );
   }
 }
