@@ -1,3 +1,4 @@
+import 'package:fiitgn/Workouts/models/Passer3-4.dart';
 import 'package:flutter/material.dart';
 import './workouts_history.dart';
 import '../models/Workouts_Log_Model.dart';
@@ -13,8 +14,11 @@ class Workout_History_Details extends StatelessWidget {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
-    final List<Workout_Log_Model> workout_details =
-        ModalRoute.of(context).settings.arguments;
+    final Passer3_4 p = ModalRoute.of(context).settings.arguments;
+    final List<Workout_Log_Model> workout_details = p.listOfSetsReps;
+    final duration_hours = p.duration_hours;
+    final durarion_minutes = p.duration_minutes;
+    final duration_seconds = p.duration_seconds;
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
@@ -38,7 +42,7 @@ class Workout_History_Details extends StatelessWidget {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                   color: Color(0xFFC9CCD5),
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                 ),
                 // margin: EdgeInsets.only(top:10,bottom:10,left: 10, right: 15),

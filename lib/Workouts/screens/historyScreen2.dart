@@ -1,3 +1,4 @@
+import 'package:fiitgn/Workouts/models/Passer2-3.dart';
 import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
 import 'package:fiitgn/Workouts/screens/historyScreen3.dart';
 import 'package:flutter/material.dart';
@@ -101,11 +102,15 @@ class _WorkoutHistory2State extends State<WorkoutHistory2> {
                         onTap: () {
                           int day = getNumDay(days[i]);
                           List<Workout_Data_Model> toPass = args[day];
+                          Passer p = Passer(
+                            x: toPass,
+                            dayName: days[i].toUpperCase(),
+                          );
                           print("args is");
                           print(args[day]);
                           Navigator.pushNamed(
                               context, WorkoutsHistory3.routeName,
-                              arguments: toPass);
+                              arguments: p);
                         },
                         child: Text(
                           days[i].toUpperCase(),

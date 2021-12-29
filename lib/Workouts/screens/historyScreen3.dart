@@ -1,4 +1,7 @@
+import 'package:fiitgn/Workouts/models/Passer2-3.dart';
+import 'package:fiitgn/Workouts/models/Passer3-4.dart';
 import 'package:fiitgn/Workouts/models/Workout_Data_Log_Model.dart';
+import 'package:fiitgn/Workouts/models/Workouts_Log_Model.dart';
 import 'package:fiitgn/Workouts/screens/workout_history_details.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,8 +21,9 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
-    final List<Workout_Data_Model> workout_histories =
-        ModalRoute.of(context).settings.arguments as List<Workout_Data_Model>;
+    final Passer p = ModalRoute.of(context).settings.arguments as Passer;
+    final List<Workout_Data_Model> workout_histories = p.x;
+    final String dayName = p.dayName;
     print("workout histories is ");
     print(workout_histories);
     // final workouts_provider = Provider.of<Workouts_Provider>(context);
@@ -55,10 +59,18 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
                       .format(DateTime.parse(workout_histories[i].date));
                   return InkWell(
                     onTap: () {
+                      List<Workout_Log_Model> listOfSetsReps =
+                          workout_histories[i].listOfSetsRepsWeights;
+                      Passer3_4 p = Passer3_4(
+                          listOfSetsReps: listOfSetsReps,
+                          duration_hours: workout_histories[i].duration_hours,
+                          duration_minutes:
+                              workout_histories[i].duration_minutes,
+                          duration_seconds:
+                              workout_histories[i].duration_seconds);
                       Navigator.pushNamed(
                           context, Workout_History_Details.routeName,
-                          arguments:
-                              workout_histories[i].listOfSetsRepsWeights);
+                          arguments: p);
                     },
                     child: Padding(
                       padding: EdgeInsets.only(
