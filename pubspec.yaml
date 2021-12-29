@@ -144,6 +144,13 @@ flutter:
     - assets/aditya.jpg
     - assets/gottam.jpg
     - assets/rooben.jpg
+    - assets/monday.png
+    - assets/tuesday.png
+    - assets/wednesday.png
+    - assets/thursday.png
+    - assets/friday.png
+    - assets/saturday.png
+    - assets/sunday.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

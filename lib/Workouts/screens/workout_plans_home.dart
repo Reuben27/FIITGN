@@ -71,7 +71,7 @@ class Workouts_Plans extends StatelessWidget {
               ),
             ),
           ),
-          centerTitle: true,
+         // centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'WORKOUT PLANS',

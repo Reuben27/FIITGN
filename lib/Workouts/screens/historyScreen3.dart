@@ -38,7 +38,7 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
           centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
-            "HISTORY", //need to fix
+            p.dayName, //need to fix
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,

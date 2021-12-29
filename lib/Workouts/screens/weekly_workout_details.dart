@@ -55,7 +55,7 @@ class WeeklyWorkoutDetails extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.only(
                       top: 0.0125 * _screenHeight,
-                      bottom: 0.0125 * _screenHeight,
+                     
                       left: 0.03 * _screenWidth,
                       right: 0.03 * _screenWidth,
                     ),
@@ -74,6 +74,7 @@ class WeeklyWorkoutDetails extends StatelessWidget {
                     margin: EdgeInsets.only(
                       left: 0.03 * _screenWidth,
                       right: 0.03 * _screenWidth,
+                       bottom: 0.0125 * _screenHeight,
                     ),
                     decoration: BoxDecoration(
                          color: Color(0xFFC9CCD5),

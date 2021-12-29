@@ -35,6 +35,33 @@ class Workout_History_Details extends StatelessWidget {
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
+          bottom: PreferredSize(
+            child: Container(
+              // height: MediaQuery.of(context).size.height / 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 0.02 * _screenHeight),
+                    child: Text(
+                      "DURATION: " +
+                          duration_hours +
+                          "h " +
+                          durarion_minutes +
+                          "m " +
+                          duration_seconds +
+                          "s",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 0.03 * _screenHeight,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            preferredSize: Size(_screenWidth, 0.05 * _screenHeight),
+          ),
         ),
         body: ListView.builder(
             itemCount: workout_details.length,
