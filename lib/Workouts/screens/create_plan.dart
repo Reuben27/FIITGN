@@ -17,6 +17,27 @@ class CreatePlan extends StatefulWidget {
 }
 
 class _CreatePlanState extends State<CreatePlan> {
+  List<String> getDays(int dayNum) {
+    List<String> days = [];
+    if (dayNum == 0) {
+      days.add('Monday');
+    } else if (dayNum == 1) {
+      days.add('Tuesday');
+    } else if (dayNum == 2) {
+      days.add('Wednesday');
+    } else if (dayNum == 3) {
+      days.add('Thursday');
+    } else if (dayNum == 4) {
+      days.add('Friday');
+    } else if (dayNum == 5) {
+      days.add('Saturday');
+    } else if (dayNum == 6) {
+      days.add('Sunday');
+    }
+
+    return days;
+  }
+
   undoFunc(int dayNum, CreateArguments routeArgs) {
     String day = dayNum.toString();
     print("undoed day num " + day);
@@ -280,7 +301,7 @@ class _CreatePlanState extends State<CreatePlan> {
           centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
-            'CREATE PLAN',
+            'MAKE A PLAN',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -319,7 +340,7 @@ class _CreatePlanState extends State<CreatePlan> {
                           children: [
                             Container(
                               child: Text(
-                                "Day " + (j + 1).toString(),
+                                getDays(j)[0].toString(),
                                 style: TextStyle(
                                   fontFamily: 'Gilroy',
                                   fontSize: 0.03 * _screenHeight,

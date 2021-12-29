@@ -1,6 +1,7 @@
 import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:fiitgn/Workouts/screens/create_plan.dart';
 import 'package:fiitgn/Workouts/screens/explore_plans.dart';
+import 'package:fiitgn/Workouts/screens/explore_plans_display.dart';
 import 'package:fiitgn/Workouts/screens/plans_created_by_user.dart';
 import 'package:fiitgn/Workouts/screens/plans_wishlist.dart';
 import 'package:fiitgn/Workouts/screens/weekly_plan_display.dart';
@@ -185,6 +186,7 @@ class MyApp extends StatelessWidget {
           Create_Workout_for_Plan.routeName: (_) => Create_Workout_for_Plan(),
           Explore_Workouts_For_Plan.routeName: (_) =>
               Explore_Workouts_For_Plan(),
+          ExplorePlanDisplay.routeName: (_) => ExplorePlanDisplay(),
           WeeklyWorkoutDetails.routeName: (_) => WeeklyWorkoutDetails(),
           WorkoutsHistory1.routeName: (_) => WorkoutsHistory1(),
           WorkoutHistory2.routeName: (_) => WorkoutHistory2(),

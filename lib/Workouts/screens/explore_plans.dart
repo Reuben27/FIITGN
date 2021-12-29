@@ -1,6 +1,7 @@
 // import 'package:fiitgn_workouts_1/models/WorkoutModel.dart';
 import 'package:date_format/date_format.dart';
 import 'package:fiitgn/Workouts/models/Plan_Model.dart';
+import 'package:fiitgn/Workouts/screens/explore_workouts_plan_plan.dart';
 import 'package:fiitgn/Workouts/screens/weekly_plan_display.dart';
 // import 'package:fiitgn/Notifications/LocalNotifications.dart';
 // import 'package:fiitgn/Notifications/utils/addNotification.dart';
@@ -13,6 +14,7 @@ import '../models/WorkoutModel.dart';
 import '../screens/exercises_in_workout.dart';
 import '../models/Exercise_db_model.dart';
 import '../models/expanded_panel_model.dart';
+import 'explore_plans_display.dart';
 
 class Explore_Plans extends StatefulWidget {
   static const routeName = '\explorePlans';
@@ -170,7 +172,6 @@ class _Explore_PlansState extends State<Explore_Plans> {
     return plansList.length == 0
         ? Scaffold(
             appBar: AppBar(
-              centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
                 'EXPLORE PLANS',
@@ -201,7 +202,6 @@ class _Explore_PlansState extends State<Explore_Plans> {
             ),
             child: Scaffold(
               appBar: AppBar(
-                centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
                   'EXPLORE PLANS',
@@ -221,7 +221,7 @@ class _Explore_PlansState extends State<Explore_Plans> {
                       onTap: () {
                         ///////////
                         Navigator.pushReplacementNamed(
-                            context, WeeklyPlanDisplay.routeName,
+                            context, ExplorePlanDisplay.routeName,
                             arguments: plansList[i]);
                       },
                       child: Padding(
