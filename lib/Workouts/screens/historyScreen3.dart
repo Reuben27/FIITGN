@@ -90,7 +90,7 @@ class _WorkoutsHistory3State extends State<WorkoutsHistory3> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    workout_histories[i].workoutName,
+                                    workout_histories[i].planName, //pass workout name not plan name
                                     style: TextStyle(
                                       fontFamily: 'Gilroy',
                                       fontSize: 0.04 * _screenHeight,

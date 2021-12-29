@@ -46,24 +46,57 @@ class _WorkoutsHistory1State extends State<WorkoutsHistory1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('History Page 1'),
-        ),
-        body: ListView.builder(
-            itemCount: planNames.length,
-            itemBuilder: (ctx, i) {
-              return InkWell(
-                onTap: () {
-                  Map<int, List<Workout_Data_Model>> args =
-                      plan_logs[planNames[i]];
-                  Navigator.pushNamed(context, WorkoutHistory2.routeName,
-                      arguments: args);
-                },
-                child: ListTile(
-                  title: Text(planNames[i]),
-                ),
-              );
-            }));
+    var _screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenRatio = (_screenHeight / _screenWidth);
+    final MediaQueryData data = MediaQuery.of(context);
+    return MediaQuery(
+      data: data.copyWith(
+        textScaleFactor: 0.8,
+      ),
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Color(0xFF93B5C6),
+            title: Text('History Page 1'),
+          ),
+          body: ListView.builder(
+              itemCount: planNames.length,
+              itemBuilder: (ctx, i) {
+                return InkWell(
+                  onTap: () {
+                    Map<int, List<Workout_Data_Model>> args =
+                        plan_logs[planNames[i]];
+                    Navigator.pushNamed(context, WorkoutHistory2.routeName,
+                        arguments: args);
+                  },
+                  child: ListTile(
+                    title: Column(
+                      children: [
+                        Text(
+                          planNames[i],
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              //   color: Colors.red,
+                              fontSize: 0.045 * _screenHeight,
+                              fontWeight: FontWeight.w900),
+                        ),
+
+                        //CREATOR NAME AAYEGA IDHAR IF ITS PULLED!
+
+                        // Text(
+                        //   "by " + planNames[i],
+                        //   style: TextStyle(
+                        //     fontFamily: 'Gilroy',
+                        //     fontSize: 0.025 * _screenHeight,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ),
+                );
+              })),
+    );
   }
 }
