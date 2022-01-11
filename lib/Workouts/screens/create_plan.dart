@@ -8,7 +8,7 @@ import 'package:fiitgn/Workouts/screens/explore_workouts_plan_plan.dart';
 import 'package:fiitgn/Workouts/screens/plan_plan_create_create_workout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:random_string/random_string.dart';
+// import 'package:random_string/random_string.dart';
 
 class CreatePlan extends StatefulWidget {
   static const routeName = 'createPlan';

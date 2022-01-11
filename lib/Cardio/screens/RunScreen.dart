@@ -14,7 +14,7 @@ import 'package:background_location/background_location.dart' as bLoc;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class MapScreen extends StatefulWidget {
-  static const routeName = 'RunScreen';
+  static const routeName = 'NewMapScreen';
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   int finishFlag = 0; // flag to check if finish should be showed or no
   int pauseFlag = 0;
   int resume_end_flag = 0;
-  String displayTime;
+  String displayTime = "";
   bool isChanged = false;
   DateTime startingTime;
   DateTime endingTime;
@@ -65,8 +65,24 @@ class _MapScreenState extends State<MapScreen> {
   );
 
   // ADDITIONAL STATS
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   // TIME PER KILOMETER
   // Average speed per kilometer
+  int currentKmsCovered = 0;
+  List<int> timePerKm = [];
+  List<double> speedPerKm = [];
+
+  List<double> timePerKmcomps(double time) {
+    double hours = (time + 0.0) % 3600;
+    time = time - hours * 3600;
+    double mins = (time + 0.0) % 60;
+    time = time - mins * 60;
+    double secs = time;
+    // assert hours>=0 && mins>=0 && secs>=0;
+    List<double> ret = [hours, mins, secs];
+    return ret;
+  }
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   pause_run() async {
     print("Pausing RUN");
@@ -105,11 +121,15 @@ class _MapScreenState extends State<MapScreen> {
     stopWatchTimer.onExecute.add(StopWatchExecute.start);
     /////%%%%%%%%%%%%%%%%%%%%
     // print("alpha alpha alpha");
+    // sampling paramter flip
+    int flip = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
         print("code entered the BACKGROUND stream");
+        if(flip==0){
         if (_controller != null) {
           // print("stream going on");
+          print("animation of camera happening now");
           _controller.animateCamera(
             CameraUpdate.newCameraPosition(
               new CameraPosition(
@@ -119,21 +139,51 @@ class _MapScreenState extends State<MapScreen> {
                   zoom: 18.00),
             ),
           );
+          updateMarkerAndCircle(location.latitude, location.longitude);
+          flip+=1;
         }
-        updateMarkerAndCircle(location.latitude, location.longitude);
+        }
+        else if(flip==15){
+          flip=0;
+        }
+        
+        
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
         // } else {
 
-        // adding if check to make the initial distance jump go away
+        // adding "if check" to make the initial distance jump go away
         if (distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                 finalLongitude) <
             0.2) {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                   finalLongitude);
+          if (distance > currentKmsCovered + 1) {
+            if (displayTime != "") {
+              List timeList = displayTime.split(":");
+              int duration_minutes_int = int.parse(timeList[1]);
+              int duration_hours_int = int.parse(timeList[0]);
+              int duration_seconds_int = int.parse(timeList[2]);
+              int totalTime = duration_seconds_int +
+                  duration_minutes_int * 60 +
+                  duration_hours_int * 3600;
+              if (timePerKm.length > 0) {
+                int timeForCurrentKm = totalTime - timePerKm.last;
+                timePerKm.add(timeForCurrentKm);
+                double speedForCurrentKm = (1000 + 0.0) / timeForCurrentKm;
+                speedPerKm.add(speedForCurrentKm);
+              } else {
+                timePerKm.add(totalTime); // total time in seconds is stored
+                // should be converted to hrs, mins, secs when displaying using timePerKmcomps()
+                double speedForCurrentKm = (1000 + 0.0) / totalTime;
+                speedPerKm.add(speedForCurrentKm);
+              }
+              currentKmsCovered += 1;
+            }
+          }
         }
         // print("Distance is $dist metres");
         double speed = location.speed;
@@ -394,7 +444,7 @@ class _MapScreenState extends State<MapScreen> {
                       mapType: MapType.normal,
                       // markers: Set.of((marker != null) ? [marker] : []),
                       circles: Set.of((circle != null) ? [circle] : []),
-                      polylines: _polylines,
+                      // polylines: _polylines,
                       onMapCreated: (GoogleMapController controller) {
                         _controller = controller;
                       },

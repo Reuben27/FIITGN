@@ -69,8 +69,8 @@ class _NewRunScreenState extends State<NewRunScreen> {
   // TIME PER KILOMETER
   // Average speed per kilometer
   int currentKmsCovered = 0;
-  List<int> timePerKm = [];
-  List<double> speedPerKm = [];
+  List<int> timePerKm = [];  //stat desc -  this has the time per km being stored in it
+  List<double> speedPerKm = [];  // stat desc - this has the speed per km being stored in it
 
   List<double> timePerKmcomps(double time) {
     double hours = (time + 0.0) % 3600;
@@ -121,9 +121,12 @@ class _NewRunScreenState extends State<NewRunScreen> {
     stopWatchTimer.onExecute.add(StopWatchExecute.start);
     /////%%%%%%%%%%%%%%%%%%%%
     // print("alpha alpha alpha");
+    // sampling paramter flip
+    int flip = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
         print("code entered the BACKGROUND stream");
+        if(flip==0){
         if (_controller != null) {
           // print("stream going on");
           _controller.animateCamera(
@@ -135,7 +138,13 @@ class _NewRunScreenState extends State<NewRunScreen> {
                   zoom: 18.00),
             ),
           );
+          flip+=1;
         }
+        }
+        else if(flip==15){
+          flip=0;
+        }
+        
         updateMarkerAndCircle(location.latitude, location.longitude);
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
@@ -143,7 +152,7 @@ class _NewRunScreenState extends State<NewRunScreen> {
         // print("speed too slow to count distance");
         // } else {
 
-        // adding if check to make the initial distance jump go away
+        // adding "if check" to make the initial distance jump go away
         if (distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                 finalLongitude) <
             0.2) {
@@ -425,20 +434,8 @@ class _NewRunScreenState extends State<NewRunScreen> {
               height: _screenHeight,
               child: Column(
                 children: [
-                  Container(
-                    height: 0.66 * _screenHeight,
-                    width: _screenWidth,
-                    child: GoogleMap(
-                      initialCameraPosition: initialPosition,
-                      mapType: MapType.normal,
-                      // markers: Set.of((marker != null) ? [marker] : []),
-                      circles: Set.of((circle != null) ? [circle] : []),
-                      polylines: _polylines,
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller = controller;
-                      },
-                    ),
-                  ),
+                  
+                  
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
