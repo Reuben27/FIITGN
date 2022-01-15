@@ -126,28 +126,34 @@ class _MapScreenState extends State<MapScreen> {
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
         print("code entered the BACKGROUND stream");
-        if(flip==0){
-        if (_controller != null) {
-          // print("stream going on");
-          print("animation of camera happening now");
-          _controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  target: LatLng(location.latitude, location.longitude),
-                  bearing: 192.232,
-                  tilt: 0,
-                  zoom: 18.00),
-            ),
-          );
-          updateMarkerAndCircle(location.latitude, location.longitude);
-          flip+=1;
+        if (flip == 0) {
+          print("code inside the flip condition");
+          if (_controller != null) {
+            // print("stream going on");
+            print("animation of camera happening now");
+            _controller.animateCamera(
+              CameraUpdate.newCameraPosition(
+                new CameraPosition(
+                    target: LatLng(location.latitude, location.longitude),
+                    bearing: 192.232,
+                    tilt: 0,
+                    zoom: 18.00),
+              ),
+            );
+            updateMarkerAndCircle(location.latitude, location.longitude);
+            flip += 1;
+          }
+        } else{
+          if(flip == 10){
+            flip = 0;
+            print("flip reset");
+          }
+          else {
+            print("flip counter increased");
+            flip += 1;
+          }
         }
-        }
-        else if(flip==15){
-          flip=0;
-        }
-        
-        
+
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
         // if (location.speed <= speedThreshold) {
