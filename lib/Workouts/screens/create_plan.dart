@@ -117,7 +117,7 @@ class _CreatePlanState extends State<CreatePlan> {
       builder: (ctx) {
         print("show dialog initialized");
         return Container(
-          color: Colors.blueGrey[200],
+          color: Color(0xFF93B5C6),
           child: Container(
             margin: EdgeInsets.only(
               top: 0.03 * _screenHeight,
@@ -298,7 +298,7 @@ class _CreatePlanState extends State<CreatePlan> {
               onTapSave(routeArgs);
             }),
         appBar: AppBar(
-          centerTitle: true,
+          //  centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'MAKE A PLAN',

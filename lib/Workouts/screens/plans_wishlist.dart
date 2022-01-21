@@ -13,6 +13,7 @@ import '../models/WorkoutModel.dart';
 import '../screens/exercises_in_workout.dart';
 import '../models/Exercise_db_model.dart';
 import '../models/expanded_panel_model.dart';
+import 'explore_plans_display.dart';
 
 class Wishlist_Plans extends StatefulWidget {
   static const routeName = '\WishlistPlans';
@@ -164,7 +165,7 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+        
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'WISHLIST',
@@ -196,9 +197,9 @@ class _Wishlist_PlansState extends State<Wishlist_Plans> {
                             return InkWell(
                               onTap: () {
                                 ///////////
-                                Navigator.pushReplacementNamed(
-                                    context, WeeklyPlanDisplay.routeName,
-                                    arguments: plansList[i]);
+                                 Navigator.pushReplacementNamed(
+                            context, ExplorePlanDisplay.routeName,
+                            arguments: plansList[i]);
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(

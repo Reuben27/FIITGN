@@ -13,6 +13,7 @@ import '../models/WorkoutModel.dart';
 import '../screens/exercises_in_workout.dart';
 import '../models/Exercise_db_model.dart';
 import '../models/expanded_panel_model.dart';
+import 'explore_plans_display.dart';
 
 class Plans_createdByUser extends StatefulWidget {
   static const routeName = '\Plan_createdByUser';
@@ -164,7 +165,7 @@ class _Plans_createdByUserState extends State<Plans_createdByUser> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+         // centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'CREATED BY YOU',
@@ -196,9 +197,9 @@ class _Plans_createdByUserState extends State<Plans_createdByUser> {
                             return InkWell(
                               onTap: () {
                                 ///////////
-                                Navigator.pushReplacementNamed(
-                                    context, WeeklyPlanDisplay.routeName,
-                                    arguments: plansList[i]);
+                                 Navigator.pushReplacementNamed(
+                            context, ExplorePlanDisplay.routeName,
+                            arguments: plansList[i]);
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(

@@ -142,7 +142,7 @@ class _Created_by_userState extends State<Created_by_user> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+         // centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
             'CREATED BY YOU',

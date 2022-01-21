@@ -58,6 +58,8 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   firebase_messaging: ^10.0.2
   firebase_messaging_web: ^2.0.2
+  horizontal_data_table: ^2.5.2
+  data_table_2: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -151,6 +153,7 @@ flutter:
     - assets/friday.png
     - assets/saturday.png
     - assets/sunday.png
+    - assets/following.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -51,7 +51,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
       ),
       child: Scaffold(
           appBar: AppBar(
-            centerTitle: true,
+            //centerTitle: true,
             backgroundColor: Color(0xFF93B5C6),
             title: Text(
               'WORKOUTS IN PLAN',

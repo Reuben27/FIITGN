@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/nutrition.dart';
+import 'package:data_table_2/data_table_2.dart';
 
 class Meal {
   String dishName;
@@ -10,21 +11,21 @@ class Meal {
   String fiber;
   String carbs;
 
-  Meal(
-    {
-      this.dishName,
-      this.serving,
-      this.calories,
-      this.protein,
-      this.fats,
-      this.fiber,
-      this.carbs,
-    }
-  );
+  Meal({
+    this.dishName,
+    this.serving,
+    this.calories,
+    this.protein,
+    this.fats,
+    this.fiber,
+    this.carbs,
+  });
 }
 
 Widget getDay(BuildContext context, List<NutritionData> data, int day) {
-  var _screenHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - kToolbarHeight;
+  var _screenHeight = MediaQuery.of(context).size.height -
+      MediaQuery.of(context).padding.top -
+      kToolbarHeight;
   var _screenWidth = MediaQuery.of(context).size.width;
   List<Widget> breakfast = [];
   List<Widget> lunch = [];
@@ -537,118 +538,144 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
     ),
     child: PageView(
       children: [
-        new Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(
-            height: 0.0125 * _screenHeight,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: 0.05 * _screenWidth,
-              ),
-              Container(
-                height: 0.125 * _screenHeight,
-                child: Image(
-                  fit: BoxFit.contain,
-                  image: AssetImage("assets/toaster.png"),
-                ),
-              ),
-              SizedBox(
-                width: 0.05 * _screenWidth,
-              ),
-              Text(
-                "BREAKFAST",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 0.06 * _screenHeight,
-                  fontFamily: "Gilroy",
-                ),
-              ),
-            ],
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              headingTextStyle: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Gilroy',
-                  fontSize: 0.028 * _screenHeight,
-                  fontWeight: FontWeight.bold),
-              dataRowHeight: 0.068 * _screenHeight,
-              columns: [
-                DataColumn(label: Text("Meal Name")),
-                DataColumn(label: Text("Serving")),
-                DataColumn(label: Text("Calories")),
-                DataColumn(label: Text("Fiber")),
-                DataColumn(label: Text("Carbohydrates")),
-                DataColumn(label: Text("Fats")),
-                DataColumn(label: Text("Protein")),
-              ],
-              rows: brakefast
-                  .map(
-                    (e) => DataRow(
-                      cells: [
-                        DataCell(
-                          Text(
-                            e.dishName,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            e.serving,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            e.calories,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            e.fiber,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(Text(
-                          e.carbs,
-                          style: TextStyle(
-                              fontFamily: 'Gilroy',
-                              fontSize: 0.028 * _screenHeight),
-                        )),
-                        DataCell(
-                          Text(
-                            e.fats,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                        DataCell(
-                          Text(
-                            e.protein,
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 0.028 * _screenHeight),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                  .toList(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 0.0125 * _screenHeight,
             ),
-          ),
-        ]),
+            Row(
+              children: [
+                SizedBox(
+                  width: 0.05 * _screenWidth,
+                ),
+                Container(
+                  height: 0.125 * _screenHeight,
+                  child: Image(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/toaster.png"),
+                  ),
+                ),
+                SizedBox(
+                  width: 0.05 * _screenWidth,
+                ),
+                Text(
+                  "BREAKFAST",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 0.06 * _screenHeight,
+                    fontFamily: "Gilroy",
+                  ),
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                headingTextStyle: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Gilroy',
+                    fontSize: 0.028 * _screenHeight,
+                    fontWeight: FontWeight.bold),
+                dataRowHeight: 0.068 * _screenHeight,
+                columns: [
+                  DataColumn(label: Text("Meal Name")),
+                  DataColumn(label: Text("Serving")),
+                  DataColumn(label: Text("Calories")),
+                  DataColumn(label: Text("Fiber")),
+                  DataColumn(label: Text("Carbohydrates")),
+                  DataColumn(label: Text("Fats")),
+                  DataColumn(label: Text("Protein")),
+                ],
+                rows: brakefast
+                    .map(
+                      (e) => DataRow(
+                        cells: [
+                          DataCell(
+                            Text(
+                              e.dishName,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              e.serving,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              e.calories,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              e.fiber,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                          DataCell(Text(
+                            e.carbs,
+                            style: TextStyle(
+                                fontFamily: 'Gilroy',
+                                fontSize: 0.028 * _screenHeight),
+                          )),
+                          DataCell(
+                            Text(
+                              e.fats,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                          DataCell(
+                            Text(
+                              e.protein,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontSize: 0.028 * _screenHeight),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            Container(
+              width: 0.4 * _screenWidth,
+              decoration: BoxDecoration(
+                color: Color(0xFF93B5C6),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0.05 * _screenHeight),
+                  topRight: Radius.circular(0.05 * _screenHeight),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "swipe",
+                    style: TextStyle(
+                        fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           SizedBox(
             height: 0.0125 * _screenHeight,
