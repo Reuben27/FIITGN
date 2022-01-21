@@ -1,4 +1,5 @@
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
+import 'package:fiitgn/QuickLinks/QuickLinks.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:fiitgn/Workouts/screens/workout_plans_home.dart';
 import 'package:googleapis/chat/v1.dart';
@@ -44,6 +45,8 @@ import '../Screens/stopwatch.dart';
 
 //// PROFILE
 import '../Profile/screens/profile_page.dart';
+
+import '../QuickLinks/QuickLinks.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -126,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List homeScreenList = [
     {
-      'title': 'Activities',
+      'title': 'Cardio',
       'url': 'assets/act.png',
       'routeName': MapScreen.routeName,
       'description':
@@ -281,6 +284,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 0.025 * _screenHeight),
                       )),
                 ),
+                ListTile(
+                  title: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          QuickLinks.routeName,
+                        );
+                      },
+                      child: Text(
+                        "Quick Links",
+                        style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 0.025 * _screenHeight),
+                      )),
+                ),
+
               ],
             ),
           ),
