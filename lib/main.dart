@@ -1,3 +1,4 @@
+import 'package:fiitgn/QuickLinks/QuickLinks.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:fiitgn/Workouts/screens/create_plan.dart';
 import 'package:fiitgn/Workouts/screens/explore_plans.dart';
@@ -70,6 +71,9 @@ import 'Allocation/screens/sports.dart';
 
 //// Guided Sessions
 import 'Guided-Sessions/screens/sessions.dart';
+
+//// Quick Links
+import 'QuickLinks/QuickLinks.dart';
 
 //// Nutrition
 import 'Nutrition/screens/nutritionScreen.dart';
@@ -220,6 +224,8 @@ class MyApp extends StatelessWidget {
 
           //// Profile
           Profile.routeName: (_) => Profile(),
+
+          QuickLinks.routeName: (_) => QuickLinks()
         },
       ),
     );
