@@ -69,8 +69,8 @@ class _MapScreenState extends State<MapScreen> {
   // TIME PER KILOMETER
   // Average speed per kilometer
   int currentKmsCovered = 0;
-  List<int> timePerKm = [];
-  List<double> speedPerKm = [];
+  List<int> timePerKm = [-1]; // in seconds
+  List<double> speedPerKm = [-1.0]; // in m/s
 
   List<double> timePerKmcomps(double time) {
     double hours = (time + 0.0) % 3600;
@@ -143,12 +143,11 @@ class _MapScreenState extends State<MapScreen> {
             updateMarkerAndCircle(location.latitude, location.longitude);
             flip += 1;
           }
-        } else{
-          if(flip == 10){
+        } else {
+          if (flip == 15) {
             flip = 0;
             print("flip reset");
-          }
-          else {
+          } else {
             print("flip counter increased");
             flip += 1;
           }
@@ -163,23 +162,24 @@ class _MapScreenState extends State<MapScreen> {
         // adding "if check" to make the initial distance jump go away
         if (distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                 finalLongitude) <
-            0.2) {
+            0.1) {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                   finalLongitude);
           if (distance > currentKmsCovered + 1) {
             if (displayTime != "") {
               List timeList = displayTime.split(":");
-              int duration_minutes_int = int.parse(timeList[1]);
               int duration_hours_int = int.parse(timeList[0]);
+              int duration_minutes_int = int.parse(timeList[1]);
               int duration_seconds_int = int.parse(timeList[2]);
               int totalTime = duration_seconds_int +
                   duration_minutes_int * 60 +
                   duration_hours_int * 3600;
-              if (timePerKm.length > 0) {
+              if (timePerKm.length > 1) {
                 int timeForCurrentKm = totalTime - timePerKm.last;
                 timePerKm.add(timeForCurrentKm);
-                double speedForCurrentKm = (1000 + 0.0) / timeForCurrentKm;
+                double speedForCurrentKm =
+                    (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
                 speedPerKm.add(speedForCurrentKm);
               } else {
                 timePerKm.add(totalTime); // total time in seconds is stored
@@ -250,6 +250,10 @@ class _MapScreenState extends State<MapScreen> {
               passingToShowResults['duration_minutes'] = duration_minutes;
               passingToShowResults['duration_hours'] = duration_hours;
               passingToShowResults['duration_seconds'] = duration_seconds;
+
+              // ########## ADDING NEW PARAMETERS FOR ADDITIONAL STATS
+              passingToShowResults['time_per_km'] = timePerKm;
+              passingToShowResults['speed_per_km'] = speedPerKm;
 
               // print("All parameters stored successfully");
 

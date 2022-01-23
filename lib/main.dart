@@ -33,6 +33,7 @@ import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
 import 'Cardio/screens/NewRunScreen.dart';
+import 'Cardio/screens/Additional_Stats.dart';
 
 //// PROFILE
 import 'Profile/screens/profile_page.dart';
@@ -159,6 +160,7 @@ class MyApp extends StatelessWidget {
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
           NewRunScreen.routeName: (_) => NewRunScreen(),
+          Additional_stats_screen.routeName: (_) => Additional_stats_screen(),
 
           //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
