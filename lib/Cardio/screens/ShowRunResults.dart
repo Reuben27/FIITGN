@@ -137,13 +137,16 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
         appBar: AppBar(
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
-          title: Text(
-            'SUMMARY',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                fontSize: 0.04 * _screenHeight,
-                fontFamily: 'Gilroy'),
+          title: InkWell(
+            onTap: goToStatsScreen,
+            child: Text(
+              'SUMMARY',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
+            ),
           ),
         ),
         body: _isLoading

@@ -113,10 +113,12 @@ class _MapScreenState extends State<MapScreen> {
     // print("alpha alpha alpha");
     // sampling paramter flip
     int flip = 0;
+    int setState_counter = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
         print("code entered the BACKGROUND stream");
         if (flip == 0) {
+          print("flip reached 0");
           print("code inside the flip condition");
           if (_controller != null) {
             // print("stream going on");
@@ -142,7 +144,10 @@ class _MapScreenState extends State<MapScreen> {
             flip += 1;
           }
         }
-
+        setState_counter += 1;
+        if (setState_counter % 3 == 0) {
+          setState(() {});
+        }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
         // if (location.speed <= speedThreshold) {
