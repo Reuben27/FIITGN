@@ -220,7 +220,7 @@ class _Explore_PlansState extends State<Explore_Plans> {
                     return InkWell(
                       onTap: () {
                         ///////////
-                        Navigator.pushReplacementNamed(
+                        Navigator.pushNamed(
                             context, ExplorePlanDisplay.routeName,
                             arguments: plansList[i]);
                       },

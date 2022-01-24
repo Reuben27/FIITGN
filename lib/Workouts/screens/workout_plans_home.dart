@@ -71,7 +71,7 @@ class Workouts_Plans extends StatelessWidget {
               ),
             ),
           ),
-         // centerTitle: true,
+          // centerTitle: true,
           backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'WORKOUT PLANS',
@@ -139,7 +139,7 @@ class Workouts_Plans extends StatelessWidget {
                                       padding: EdgeInsets.only(
                                           top: 0.018 * _screenHeight),
                                       child: Text(
-                                        "FOLLOWING NOW",
+                                        "CURRENT PLAN",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 0.022 * _screenHeight,

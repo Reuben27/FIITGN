@@ -44,7 +44,7 @@ class Additional_stats_screen extends StatelessWidget {
                       Text('Av speed-' + speed_per_km[i].toString()),
                       Text('Av time-' +
                           time_comps[0].toString() +
-                          '' +
+                          ':' +
                           time_comps[1].toString())
                     ],
                   );

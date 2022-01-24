@@ -106,12 +106,15 @@ class ExplorePlanDisplay extends StatelessWidget {
                 onTap: () {
                   //  THIS WILL GO TO THE PAGE WHERE DETAILS OF THE WORKOUT ARE SHOWN
                   // ADD CHECK THAT REST DAYS ARENT PRESSABLE
-                  Map pass = Map();
-                  pass['exercise_ids'] =
-                      plan.listOfPlans[0][i].listOfExercisesId;
-                  pass['workoutName'] = plan.listOfPlans[0][i].workoutName;
-                  Navigator.pushNamed(context, WeeklyWorkoutDetails.routeName,
-                      arguments: pass);
+                  if (plan.listOfPlans[0][i].workoutName != 'Rest') {
+                    Map pass = Map();
+                    pass['exercise_ids'] =
+                        plan.listOfPlans[0][i].listOfExercisesId;
+                    pass['workoutName'] = plan.listOfPlans[0][i].workoutName;
+
+                    Navigator.pushNamed(context, WeeklyWorkoutDetails.routeName,
+                        arguments: pass);
+                  }
                 },
                 child: Container(
                   width: _screenWidth,
@@ -155,14 +158,17 @@ class ExplorePlanDisplay extends StatelessWidget {
                                   onTap: () {
                                     //  THIS WILL GO TO THE PAGE WHERE DETAILS OF THE WORKOUT ARE SHOWN
                                     // ADD CHECK THAT REST DAYS ARENT PRESSABLE
-                                    Map pass = Map();
-                                    pass['exercise_ids'] = plan
-                                        .listOfPlans[0][i].listOfExercisesId;
-                                    pass['workoutName'] =
-                                        plan.listOfPlans[0][i].workoutName;
-                                    Navigator.pushNamed(
-                                        context, WeeklyWorkoutDetails.routeName,
-                                        arguments: pass);
+                                    if (plan.listOfPlans[0][i].workoutName !=
+                                        'Rest') {
+                                      Map pass = Map();
+                                      pass['exercise_ids'] = plan
+                                          .listOfPlans[0][i].listOfExercisesId;
+                                      pass['workoutName'] =
+                                          plan.listOfPlans[0][i].workoutName;
+                                      Navigator.pushNamed(context,
+                                          WeeklyWorkoutDetails.routeName,
+                                          arguments: pass);
+                                    }
                                   },
                                 ),
                                 Container(
