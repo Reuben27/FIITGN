@@ -72,60 +72,90 @@ class _WorkoutsHistory1State extends State<WorkoutsHistory1> {
               itemCount: planNames.length,
               itemBuilder: (ctx, i) {
                 return InkWell(
-                  onTap: () {
-                    Map<int, List<Workout_Data_Model>> args =
-                        plan_logs[planNames[i]];
-                    Navigator.pushNamed(context, WorkoutHistory2.routeName,
-                        arguments: args);
-                  },
-                  child: ListTile(
-                    title: Padding(
-                      padding: EdgeInsets.only(
-                        top: 0.00625 * _screenHeight,
-                        bottom: 0.00625 * _screenHeight,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                          color: Colors.blueGrey[200],
-                          width: 0.005 * _screenWidth,
-                        )),
-                        margin: EdgeInsets.only(
+                    onTap: () {
+                      Map<int, List<Workout_Data_Model>> args =
+                          plan_logs[planNames[i]];
+                      Navigator.pushNamed(context, WorkoutHistory2.routeName,
+                          arguments: args);
+                    },
+                    child: Container(
+                      width: _screenWidth,
+                      height: _screenHeight / 7,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 0.00625 * _screenHeight,
+                          bottom: 0.00625 * _screenHeight,
                           left: 0.03 * _screenWidth,
                           right: 0.03 * _screenWidth,
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(
-                            top: 0.0125 * _screenHeight,
-                            bottom: 0.0125 * _screenHeight,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFC9CCD5),
+                            borderRadius:
+                                BorderRadius.circular(0.02 * _screenHeight),
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                planNames[i],
-                                style: TextStyle(
-                                    fontFamily: 'Gilroy',
-                                    //   color: Colors.red,
-                                    fontSize: 0.045 * _screenHeight,
-                                    fontWeight: FontWeight.w900),
-                              ),
-
-                              //CREATOR NAME AAYEGA IDHAR IF ITS PULLED!
-
-                              // Text(
-                              //   "by " + planNames[i],
-                              //   style: TextStyle(
-                              //     fontFamily: 'Gilroy',
-                              //     fontSize: 0.025 * _screenHeight,
-                              //   ),
-                              // ),
-                            ],
+                          child: Center(
+                            child: Text(
+                              planNames[i],
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  //   color: Colors.red,
+                                  fontSize: 0.045 * _screenHeight,
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                );
+                    )
+
+                    // ListTile(
+                    //   title: Padding(
+                    //     padding: EdgeInsets.only(
+                    //       top: 0.00625 * _screenHeight,
+                    //       bottom: 0.00625 * _screenHeight,
+                    //     ),
+                    //     child: Container(
+                    //       decoration: BoxDecoration(
+                    //           border: Border.all(
+                    //         color: Colors.blueGrey[200],
+                    //         width: 0.005 * _screenWidth,
+                    //       )),
+                    //       margin: EdgeInsets.only(
+                    //         left: 0.03 * _screenWidth,
+                    //         right: 0.03 * _screenWidth,
+                    //       ),
+                    //       child: Container(
+                    //         margin: EdgeInsets.only(
+                    //           top: 0.0125 * _screenHeight,
+                    //           bottom: 0.0125 * _screenHeight,
+                    //         ),
+                    //         child: Column(
+                    //           children: [
+                    //             Text(
+                    //               planNames[i],
+                    //               style: TextStyle(
+                    //                   fontFamily: 'Gilroy',
+                    //                   //   color: Colors.red,
+                    //                   fontSize: 0.045 * _screenHeight,
+                    //                   fontWeight: FontWeight.w900),
+                    //             ),
+
+                    //             //CREATOR NAME AAYEGA IDHAR IF ITS PULLED!
+
+                    //             // Text(
+                    //             //   "by " + planNames[i],
+                    //             //   style: TextStyle(
+                    //             //     fontFamily: 'Gilroy',
+                    //             //     fontSize: 0.025 * _screenHeight,
+                    //             //   ),
+                    //             // ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    );
               })),
     );
   }
