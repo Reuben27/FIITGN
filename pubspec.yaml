@@ -154,6 +154,8 @@ flutter:
     - assets/saturday.png
     - assets/sunday.png
     - assets/following.png
+    - assets/report.png
+    - assets/suggest.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -52,7 +52,7 @@ class _NutritionScreenState extends State {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            centerTitle: true,
+            //centerTitle: true,
             backgroundColor: Color(0xFF93B5C6),
             bottom: TabBar(
               indicatorWeight: 0.002 * _screenHeight,
@@ -95,6 +95,7 @@ class _NutritionScreenState extends State {
                   ),
                 )
               : TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     // SizedBox(height: 26),
 

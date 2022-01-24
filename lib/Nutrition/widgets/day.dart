@@ -651,27 +651,32 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                     .toList(),
               ),
             ),
-            Container(
-              width: 0.4 * _screenWidth,
-              decoration: BoxDecoration(
-                color: Color(0xFF93B5C6),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(0.05 * _screenHeight),
-                  topRight: Radius.circular(0.05 * _screenHeight),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "swipe",
-                    style: TextStyle(
-                        fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+            Padding(
+              padding: EdgeInsets.only(right: _screenWidth * 0.025),
+              child: Container(
+                width: 0.3 * _screenWidth,
+                decoration: BoxDecoration(
+                  color: Color(0xFFC9CCD5),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(0.05 * _screenHeight),
+                    topRight: Radius.circular(0.05 * _screenHeight),
+                    bottomLeft: Radius.circular(0.05 * _screenHeight),
+                    bottomRight: Radius.circular(0.05 * _screenHeight),
                   ),
-                  Icon(
-                    Icons.arrow_forward,
-                  )
-                ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "swipe",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                    )
+                  ],
+                ),
               ),
             ),
           ],
@@ -755,6 +760,34 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                   .toList(),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(right: _screenWidth * 0.025),
+            child: Container(
+              width: 0.3 * _screenWidth,
+              decoration: BoxDecoration(
+                color: Color(0xFFC9CCD5),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0.05 * _screenHeight),
+                  topRight: Radius.circular(0.05 * _screenHeight),
+                  bottomLeft: Radius.circular(0.05 * _screenHeight),
+                  bottomRight: Radius.circular(0.05 * _screenHeight),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "swipe",
+                    style: TextStyle(
+                        fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                  )
+                ],
+              ),
+            ),
+          ),
         ]),
         Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           SizedBox(
@@ -833,6 +866,34 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                     ),
                   )
                   .toList(),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(right: _screenWidth * 0.025),
+            child: Container(
+              width: 0.3 * _screenWidth,
+              decoration: BoxDecoration(
+                color: Color(0xFFC9CCD5),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0.05 * _screenHeight),
+                  topRight: Radius.circular(0.05 * _screenHeight),
+                  bottomLeft: Radius.circular(0.05 * _screenHeight),
+                  bottomRight: Radius.circular(0.05 * _screenHeight),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "swipe",
+                    style: TextStyle(
+                        fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+                  ),
+                  Icon(
+                    Icons.arrow_forward,
+                  )
+                ],
+              ),
             ),
           ),
         ]),
@@ -915,6 +976,34 @@ Widget getDay(BuildContext context, List<NutritionData> data, int day) {
                       ),
                     )
                     .toList(),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: _screenWidth * 0.025),
+              child: Container(
+                width: 0.3 * _screenWidth,
+                decoration: BoxDecoration(
+                  color: Color(0xFFC9CCD5),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(0.05 * _screenHeight),
+                    topRight: Radius.circular(0.05 * _screenHeight),
+                    bottomLeft: Radius.circular(0.05 * _screenHeight),
+                    bottomRight: Radius.circular(0.05 * _screenHeight),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "swipe",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy', fontSize: 0.02 * _screenHeight),
+                    ),
+                    Icon(
+                      Icons.arrow_forward,
+                    )
+                  ],
+                ),
               ),
             ),
           ],

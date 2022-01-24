@@ -143,12 +143,11 @@ class _MapScreenState extends State<MapScreen> {
             updateMarkerAndCircle(location.latitude, location.longitude);
             flip += 1;
           }
-        } else{
-          if(flip == 10){
+        } else {
+          if (flip == 10) {
             flip = 0;
             print("flip reset");
-          }
-          else {
+          } else {
             print("flip counter increased");
             flip += 1;
           }
@@ -414,7 +413,7 @@ class _MapScreenState extends State<MapScreen> {
       child: (Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF93B5C6),
-         // centerTitle: true,
+          //centerTitle: true,
           title: Text(
             'ACTIVITY LOGGING',
             style: TextStyle(
@@ -440,10 +439,10 @@ class _MapScreenState extends State<MapScreen> {
               builder: (BuildContext context, BoxConstraints constraints) {
             return Container(
               height: _screenHeight,
-              child: Column(
+              child: Stack(
                 children: [
                   Container(
-                    height: 0.66 * _screenHeight,
+                    height: 0.75 * _screenHeight,
                     width: _screenWidth,
                     child: GoogleMap(
                       initialCameraPosition: initialPosition,
@@ -456,8 +455,11 @@ class _MapScreenState extends State<MapScreen> {
                       },
                     ),
                   ),
-                  Expanded(
+                  Positioned(
+                    bottom: 0,
                     child: Container(
+                      height: 0.34 * _screenHeight,
+                      width: _screenWidth,
                       decoration: BoxDecoration(
                         color: Color(0xFF93B5C6),
                         borderRadius: BorderRadius.only(
