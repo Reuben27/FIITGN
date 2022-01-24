@@ -102,7 +102,7 @@ class Equipments extends StatelessWidget {
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Colors.deepOrange[300]),
+                          side: BorderSide(color: Color(0xFF93B5C6),),
                         ),
                         child: Text(
                           "Home",

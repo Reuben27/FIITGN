@@ -51,7 +51,7 @@ class WeeklyPlanDisplay extends StatelessWidget {
       ),
       child: Scaffold(
           appBar: AppBar(
-            centerTitle: true,
+            //centerTitle: true,
             backgroundColor: Color(0xFF93B5C6),
             title: Text(
               'WORKOUTS IN PLAN',
@@ -65,113 +65,128 @@ class WeeklyPlanDisplay extends StatelessWidget {
           body: ListView.builder(
             itemCount: 7,
             itemBuilder: (_, i) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  top: 0.00625 * _screenHeight,
-                  bottom: 0.00625 * _screenHeight,
-                  left: 0.03 * _screenWidth,
-                  right: 0.03 * _screenWidth,
-                ),
-                child: Container(
-                  width: _screenWidth,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFC9CCD5),
-                    borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+              return InkWell(
+                onTap: () {
+                  //  THIS WILL GO TO THE PAGE WHERE DETAILS OF THE WORKOUT ARE SHOWN
+                  // ADD CHECK THAT REST DAYS ARENT PRESSABLE
+                  Map pass = Map();
+                  pass['exercise_ids'] =
+                      plan.listOfPlans[0][i].listOfExercisesId;
+                  pass['workoutName'] = plan.listOfPlans[0][i].workoutName;
+                  Navigator.pushNamed(context, WeeklyWorkoutDetails.routeName,
+                      arguments: pass);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: 0.00625 * _screenHeight,
+                    bottom: 0.00625 * _screenHeight,
+                    left: 0.03 * _screenWidth,
+                    right: 0.03 * _screenWidth,
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 0.025 * _screenHeight,
-                      bottom: 0.025 * _screenHeight,
-                      left: 0.03 * _screenWidth,
-                      right: 0.03 * _screenWidth,
+                  child: Container(
+                    width: _screenWidth,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFC9CCD5),
+                      borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              child: Text(
-                                plan.listOfPlans[0][i].workoutName,
-                                style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 0.04 * _screenHeight,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onTap: () {
-                                //  THIS WILL GO TO THE PAGE WHERE DETAILS OF THE WORKOUT ARE SHOWN
-                                // ADD CHECK THAT REST DAYS ARENT PRESSABLE
-                                Map pass = Map();
-                                pass['exercise_ids'] =
-                                    plan.listOfPlans[0][i].listOfExercisesId;
-                                pass['workoutName'] =
-                                    plan.listOfPlans[0][i].workoutName;
-                                Navigator.pushNamed(
-                                    context, WeeklyWorkoutDetails.routeName,
-                                    arguments: pass);
-                              },
-                            ),
-                            Container(
-                              child: Text(
-                                getDays(i)[0].toString(),
-                                style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontSize: 0.025 * _screenHeight,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 0.3 * _screenWidth,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              Map<String, dynamic> sendToWorkoutLogging = Map();
-                              List<String> exercise_ids =
-                                  plan.listOfPlans[0][i].listOfExercisesId;
-                              List<ExerciseDbModel> exercises =
-                                  exerciseDataProvider
-                                      .exercisesBasesOnId(exercise_ids);
-                              sendToWorkoutLogging['exercises'] = exercises;
-                              sendToWorkoutLogging['planName'] = plan.planName;
-                              sendToWorkoutLogging['planDay'] = i;
-                              sendToWorkoutLogging['planId'] = plan.planId;
-                              Navigator.pushNamed(
-                                  context, Workout_Logging.routeName,
-                                  arguments: sendToWorkoutLogging);
-                              // final Map<String, dynamic> routeArgs =
-                              //     ModalRoute.of(context).settings.arguments
-                              //         as Map;
-                              // List<ExerciseDbModel> exercises =
-                              // routeArgs['exercises'];
-                              // String workoutName = routeArgs['workoutName'];
-
-                              // Navigator.pushReplacementNamed(
-                              //     context, WeeklyWorkoutDetails.routeName,
-                              //     arguments: pass);
-                              // start logging from here please
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Begin",
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.025 * _screenHeight,
+                        bottom: 0.025 * _screenHeight,
+                        left: 0.03 * _screenWidth,
+                        right: 0.03 * _screenWidth,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                child: Text(
+                                  plan.listOfPlans[0][i].workoutName,
                                   style: TextStyle(
-                                      fontFamily: 'Gilroy',
-                                      fontSize: 0.025 * _screenHeight,
-                                      color: Colors.black),
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.04 * _screenHeight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                Icon(
-                                  Icons.fitness_center,
-                                  color: Colors.black,
-                                )
-                              ],
+                                onTap: () {
+                                  //  THIS WILL GO TO THE PAGE WHERE DETAILS OF THE WORKOUT ARE SHOWN
+                                  // ADD CHECK THAT REST DAYS ARENT PRESSABLE
+                                  Map pass = Map();
+                                  pass['exercise_ids'] =
+                                      plan.listOfPlans[0][i].listOfExercisesId;
+                                  pass['workoutName'] =
+                                      plan.listOfPlans[0][i].workoutName;
+                                  Navigator.pushNamed(
+                                      context, WeeklyWorkoutDetails.routeName,
+                                      arguments: pass);
+                                },
+                              ),
+                              Container(
+                                child: Text(
+                                  getDays(i)[0].toString(),
+                                  style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontSize: 0.025 * _screenHeight,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: 0.3 * _screenWidth,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Map<String, dynamic> sendToWorkoutLogging =
+                                    Map();
+                                List<String> exercise_ids =
+                                    plan.listOfPlans[0][i].listOfExercisesId;
+                                List<ExerciseDbModel> exercises =
+                                    exerciseDataProvider
+                                        .exercisesBasesOnId(exercise_ids);
+                                sendToWorkoutLogging['exercises'] = exercises;
+                                sendToWorkoutLogging['planName'] =
+                                    plan.planName;
+                                sendToWorkoutLogging['planDay'] = i;
+                                sendToWorkoutLogging['planId'] = plan.planId;
+                                Navigator.pushNamed(
+                                    context, Workout_Logging.routeName,
+                                    arguments: sendToWorkoutLogging);
+                                // final Map<String, dynamic> routeArgs =
+                                //     ModalRoute.of(context).settings.arguments
+                                //         as Map;
+                                // List<ExerciseDbModel> exercises =
+                                // routeArgs['exercises'];
+                                // String workoutName = routeArgs['workoutName'];
+
+                                // Navigator.pushReplacementNamed(
+                                //     context, WeeklyWorkoutDetails.routeName,
+                                //     arguments: pass);
+                                // start logging from here please
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Begin",
+                                    style: TextStyle(
+                                        fontFamily: 'Gilroy',
+                                        fontSize: 0.025 * _screenHeight,
+                                        color: Colors.black),
+                                  ),
+                                  Icon(
+                                    Icons.fitness_center,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -93,10 +93,10 @@ class _YourRunsState extends State<YourRuns> {
     return runStats.length == 0
         ? Scaffold(
             appBar: AppBar(
-              centerTitle: true,
+             // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
-                'YOUR RUNS',
+                'YOUR ACTIVTIES',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -120,10 +120,10 @@ class _YourRunsState extends State<YourRuns> {
             ),
             child: Scaffold(
               appBar: AppBar(
-                centerTitle: true,
+               // centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
-                  'YOUR RUNS',
+                  'YOUR ACTIVTIES',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

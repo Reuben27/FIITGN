@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Activity Stats',
+      'title': 'Cardio Stats',
       'url': 'assets/stats.png',
       'routeName': YourRuns.routeName,
       'description':
@@ -286,20 +286,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ListTile(
                   title: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          QuickLinks.routeName,
-                        );
-                      },
-                      child: Text(
-                        "Quick Links",
-                        style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            fontSize: 0.025 * _screenHeight),
-                      )),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        QuickLinks.routeName,
+                      );
+                    },
+                    child: Text(
+                      "Quick Links",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.025 * _screenHeight),
+                    ),
+                  ),
                 ),
-
               ],
             ),
           ),

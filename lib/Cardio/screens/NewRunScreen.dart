@@ -406,7 +406,7 @@ class _NewRunScreenState extends State<NewRunScreen> {
       child: (Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF93B5C6),
-          centerTitle: true,
+         // centerTitle: true,
           title: Text(
             'ACTIVITY LOGGING',
             style: TextStyle(

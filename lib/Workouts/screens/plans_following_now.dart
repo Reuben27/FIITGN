@@ -166,10 +166,10 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
           //     ),
           //   ),
           // ),
-          centerTitle: true,
-         backgroundColor: Color(0xFF93B5C6),
+
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
-            'FOLLOWING PLANS',
+            'CURRENT PLAN',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -191,27 +191,30 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                   )
                 : isLoading == false && plansList.length > 0
                     ? Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: ListView.builder(
-                          itemCount: plansList.length,
-                          itemBuilder: (ctx, i) {
-                            return InkWell(
-                              onTap: () {
-                                ///////////
-                                Navigator.pushReplacementNamed(
-                                    context, WeeklyPlanDisplay.routeName,
-                                    arguments: plansList[i]);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: 0.0125 * _screenHeight,
-                                  bottom: 0.0125 * _screenHeight,
+                        height: _screenHeight,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: 0.05 * _screenHeight,
+                              ),
+                              child: Container(
+                                height: 0.45 * _screenHeight,
+                                child: Image.asset(
+                                  'assets/following.png',
                                 ),
-                                child: Container(
+                              ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: plansList.length,
+                              itemBuilder: (ctx, i) {
+                                return Container(
                                   decoration: BoxDecoration(
+                                       color: Color(0xFFC9CCD5),
                                       border: Border.all(
-                                    color: Colors.blueGrey[200],
-                                    width: 0.005 * _screenWidth,
+                                    color: Color(0xFF93B5C6),
+                                    width: 0.01 * _screenWidth,
                                   )),
                                   margin: EdgeInsets.only(
                                     left: 0.03 * _screenWidth,
@@ -219,8 +222,8 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                   ),
                                   child: Container(
                                     margin: EdgeInsets.only(
-                                      top: 0.00625 * _screenHeight,
-                                      bottom: 0.00625 * _screenHeight,
+                                      top: 0.0125 * _screenHeight,
+                                      bottom: 0.0125 * _screenHeight,
                                     ),
                                     child: Column(
                                       mainAxisAlignment:
@@ -241,6 +244,40 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                           style: TextStyle(
                                             fontFamily: 'Gilroy',
                                             fontSize: 0.025 * _screenHeight,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: 0.4 * _screenWidth,
+                                          child: OutlinedButton(
+                                            child: Container(
+                                           
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Start Plan",
+                                                    style: TextStyle(
+                                                        fontFamily: 'Gilroy',
+                                                        fontSize: 0.025 *
+                                                            _screenHeight,
+                                                        color: Colors.black),
+                                                  ),
+                                                  Icon(
+                                                    Icons.panorama_fish_eye,
+                                                    color: Colors.black,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                  context,
+                                                  WeeklyPlanDisplay.routeName,
+                                                  arguments: plansList[i]);
+                                              //  function to follow/unfollow the workout
+                                            },
                                           ),
                                         ),
 
@@ -304,10 +341,10 @@ class _Following_now_PlansState extends State<Following_now_Plans> {
                                     ),
                                     // Text("Creator Id - " + workoutsList[i].creatorId),
                                   ),
-                                ),
-                              ),
-                            );
-                          },
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       )
                     : null,
