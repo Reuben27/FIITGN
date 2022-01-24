@@ -136,17 +136,14 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF93B5C6),
-          centerTitle: true,
-          title: InkWell(
-            onTap: goToStatsScreen,
-            child: Text(
-              'SUMMARY',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 0.04 * _screenHeight,
-                  fontFamily: 'Gilroy'),
-            ),
+          //centerTitle: true,
+          title: Text(
+            'SUMMARY',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 0.04 * _screenHeight,
+                fontFamily: 'Gilroy'),
           ),
         ),
         body: _isLoading
@@ -155,17 +152,20 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
               )
             : Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                height: _screenHeight,
+                child: Stack(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.66 * _screenHeight,
+                      height: 0.75 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
-                    Expanded(
+                    Positioned(
+                      bottom: 0,
                       child: Container(
+                        height: 0.34 * _screenHeight,
+                        width: _screenWidth,
                         decoration: BoxDecoration(
                           color: Color(0xFF93B5C6),
                           borderRadius: BorderRadius.only(
