@@ -120,7 +120,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFF93B5C6),
-          centerTitle: true,
+          //centerTitle: true,
           title: Text(
             'SUMMARY',
             style: TextStyle(
@@ -136,230 +136,232 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
               )
             : Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                height: _screenHeight,
+                child: Stack(
+                 // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.66 * _screenHeight,
+                      height: 0.75 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF93B5C6),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(0.05 * _screenHeight),
-                            topRight: Radius.circular(0.05 * _screenHeight),
+                    Positioned(bottom: 0,
+                      child: Container(height: 0.34*_screenHeight,
+                      width: _screenWidth,
+                          decoration: BoxDecoration(
+                            color: Color(0xFF93B5C6),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(0.05 * _screenHeight),
+                              topRight: Radius.circular(0.05 * _screenHeight),
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 0.12 * _screenHeight,
-                              child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      duration_hours +
-                                          ":" +
-                                          duration_minutes +
-                                          ":" +
-                                          duration_seconds,
-                                      style: TextStyle(
-                                          fontFamily: 'Gilroy',
-                                          fontSize: 0.07 * _screenHeight,
-                                          // color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Center(
-                                      child: Text(
-                                        'DURATION',
-                                        style: TextStyle(
-                                            fontSize: 0.018 * _screenHeight,
-                                            //      color: Colors.white,
-                                            fontFamily: 'Gilroy'),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(height: 0.01 * _screenHeight),
-                            Container(
-                              height: 0.12 * _screenHeight,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              "$distanceString",
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize:
-                                                      0.07 * _screenHeight,
-                                                  // color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              'KILOMETRES',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      0.018 * _screenHeight,
-                                                  //      color: Colors.white,
-                                                  fontFamily: 'Gilroy'),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  VerticalDivider(),
-                                  Container(
-                                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              avgSpeedString,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize:
-                                                      0.07 * _screenHeight,
-                                                  // color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              'MPS',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      0.018 * _screenHeight,
-                                                  //      color: Colors.white,
-                                                  fontFamily: 'Gilroy'),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(height: 0.01 * _screenHeight),
-                            Container(height: 0.08 * _screenHeight,
-                              child: Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 0.12 * _screenHeight,
+                                child: Column(mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        // Add function to add code to database
-                                        _isLoading = true;
-                                        runStatsProvider
-                                            .addNewRunData(
-                                          dateOfRun,
-                                          avgSpeedString,
-                                          distanceString,
-                                          startTime,
-                                          duration_hours,
-                                          duration_minutes,
-                                          duration_seconds,
-                                          listOfLatLng,
-                                          initialLat,
-                                          initialLong,
-                                        )
-                                            .catchError((error) {
-                                          print(error);
-                                          return showDialog<Null>(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              title: Text('An error occured'),
-                                              content: Text('Something went wrong'),
-                                              actions: [
-                                                FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: Text('Okay'))
-                                              ],
-                                            ),
-                                          );
-                                        }).then(
-                                          (_) {
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
-                                            Navigator.pushReplacementNamed(
-                                                context, HomeScreen.routeName);
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFF5E8B7E),
-                                          borderRadius: BorderRadius.circular(
-                                              0.02 * _screenHeight),
-                                        ),
-                                        alignment: Alignment.center,
-                                        width: 0.45 * _screenWidth,
-                                        height: 0.05 * _screenHeight,
-                                        child: Text(
-                                          'SAVE',
-                                          style: TextStyle(
-                                              fontSize: 0.04 * _screenHeight,
-                                              fontFamily: 'Gilroy',
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        duration_hours +
+                                            ":" +
+                                            duration_minutes +
+                                            ":" +
+                                            duration_seconds,
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.07 * _screenHeight,
+                                            // color: Colors.white,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, HomeScreen.routeName);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFC15050),
-                                          borderRadius: BorderRadius.circular(
-                                              0.02 * _screenHeight),
-                                        ),
-                                        alignment: Alignment.center,
-                                        width: 0.45 * _screenWidth,
-                                        height: 0.05 * _screenHeight,
+                                    Container(
+                                      child: Center(
                                         child: Text(
-                                          'DON\'T SAVE',
+                                          'DURATION',
                                           style: TextStyle(
-                                              fontSize: 0.04 * _screenHeight,
-                                              fontFamily: 'Gilroy',
-                                              fontWeight: FontWeight.w600),
+                                              fontSize: 0.018 * _screenHeight,
+                                              //      color: Colors.white,
+                                              fontFamily: 'Gilroy'),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          ],
+                              Divider(height: 0.01 * _screenHeight),
+                              Container(
+                                height: 0.12 * _screenHeight,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                "$distanceString",
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.07 * _screenHeight,
+                                                    // color: Colors.white,
+                                                    fontWeight: FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                'KILOMETRES',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        0.018 * _screenHeight,
+                                                    //      color: Colors.white,
+                                                    fontFamily: 'Gilroy'),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    VerticalDivider(),
+                                    Container(
+                                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                avgSpeedString,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.07 * _screenHeight,
+                                                    // color: Colors.white,
+                                                    fontWeight: FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                'MPS',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        0.018 * _screenHeight,
+                                                    //      color: Colors.white,
+                                                    fontFamily: 'Gilroy'),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Divider(height: 0.01 * _screenHeight),
+                              Container(height: 0.08 * _screenHeight,
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          // Add function to add code to database
+                                          _isLoading = true;
+                                          runStatsProvider
+                                              .addNewRunData(
+                                            dateOfRun,
+                                            avgSpeedString,
+                                            distanceString,
+                                            startTime,
+                                            duration_hours,
+                                            duration_minutes,
+                                            duration_seconds,
+                                            listOfLatLng,
+                                            initialLat,
+                                            initialLong,
+                                          )
+                                              .catchError((error) {
+                                            print(error);
+                                            return showDialog<Null>(
+                                              context: context,
+                                              builder: (ctx) => AlertDialog(
+                                                title: Text('An error occured'),
+                                                content: Text('Something went wrong'),
+                                                actions: [
+                                                  FlatButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      child: Text('Okay'))
+                                                ],
+                                              ),
+                                            );
+                                          }).then(
+                                            (_) {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              Navigator.pushReplacementNamed(
+                                                  context, HomeScreen.routeName);
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFF5E8B7E),
+                                            borderRadius: BorderRadius.circular(
+                                                0.02 * _screenHeight),
+                                          ),
+                                          alignment: Alignment.center,
+                                          width: 0.45 * _screenWidth,
+                                          height: 0.05 * _screenHeight,
+                                          child: Text(
+                                            'SAVE',
+                                            style: TextStyle(
+                                                fontSize: 0.04 * _screenHeight,
+                                                fontFamily: 'Gilroy',
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pushReplacementNamed(
+                                              context, HomeScreen.routeName);
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(0xFFC15050),
+                                            borderRadius: BorderRadius.circular(
+                                                0.02 * _screenHeight),
+                                          ),
+                                          alignment: Alignment.center,
+                                          width: 0.45 * _screenWidth,
+                                          height: 0.05 * _screenHeight,
+                                          child: Text(
+                                            'DON\'T SAVE',
+                                            style: TextStyle(
+                                                fontSize: 0.04 * _screenHeight,
+                                                fontFamily: 'Gilroy',
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                     ),
+                    
                   ],
                 ),
               ),
