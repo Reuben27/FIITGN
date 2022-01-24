@@ -93,8 +93,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       Map<dynamic, dynamic> toPassToStatsScreen = Map();
       print("time per km is");
       print(time_per_km);
-      List<int> new_time_per_km = time_per_km.sublist(1);
-      List<double> new_speed_per_km = speed_per_km.sublist(1);
+      // List<int> new_time_per_km = time_per_km.sublist(1);
+      // List<double> new_speed_per_km = speed_per_km.sublist(1);
       toPassToStatsScreen['time_per_km'] = time_per_km;
       toPassToStatsScreen['speed_per_km'] = speed_per_km;
       Navigator.pushNamed(context, Additional_stats_screen.routeName,

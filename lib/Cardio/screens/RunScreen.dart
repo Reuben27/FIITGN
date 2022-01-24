@@ -68,20 +68,10 @@ class _MapScreenState extends State<MapScreen> {
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   // TIME PER KILOMETER
   // Average speed per kilometer
-  int currentKmsCovered = 0;
-  List<int> timePerKm = [-1]; // in seconds
-  List<double> speedPerKm = [-1.0]; // in m/s
+  double currentKmsCovered = 0;
+  List<int> timePerKm = []; // in seconds
+  List<double> speedPerKm = []; // in m/s
 
-  List<double> timePerKmcomps(double time) {
-    double hours = (time + 0.0) % 3600;
-    time = time - hours * 3600;
-    double mins = (time + 0.0) % 60;
-    time = time - mins * 60;
-    double secs = time;
-    // assert hours>=0 && mins>=0 && secs>=0;
-    List<double> ret = [hours, mins, secs];
-    return ret;
-  }
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   pause_run() async {
@@ -144,7 +134,7 @@ class _MapScreenState extends State<MapScreen> {
             flip += 1;
           }
         } else {
-          if (flip == 15) {
+          if (flip == 12) {
             flip = 0;
             print("flip reset");
           } else {
@@ -167,6 +157,7 @@ class _MapScreenState extends State<MapScreen> {
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                   finalLongitude);
           if (distance > currentKmsCovered + 1) {
+            print('First km covered');
             if (displayTime != "") {
               List timeList = displayTime.split(":");
               int duration_hours_int = int.parse(timeList[0]);
@@ -175,7 +166,7 @@ class _MapScreenState extends State<MapScreen> {
               int totalTime = duration_seconds_int +
                   duration_minutes_int * 60 +
                   duration_hours_int * 3600;
-              if (timePerKm.length > 1) {
+              if (timePerKm.length > 0) {
                 int timeForCurrentKm = totalTime - timePerKm.last;
                 timePerKm.add(timeForCurrentKm);
                 double speedForCurrentKm =
@@ -220,72 +211,74 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  end_run() {
-    print("ENDING RUN");
-    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        var actions2 = [
-          // ignore: deprecated_member_use
-          FlatButton(
-            onPressed: () async {
-              // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-              storeFinalLat = finalLatitude;
-              storeFinalLong = finalLongitude;
-              print(distance);
-              endingTime = DateTime.now();
-              passingToShowResults['initialLat'] = storeInitialLat;
-              passingToShowResults['initialLong'] = storeInitialLong;
-              passingToShowResults['finalLat'] = storeFinalLat;
-              passingToShowResults['finalLong'] = storeFinalLong;
-              passingToShowResults['initialTime'] = startingTime;
-              passingToShowResults['finalTime'] = endingTime;
-              passingToShowResults['distance'] = distance;
-              passingToShowResults['listOfLatLng'] = listOfLatLngForPoly;
-              List timeList = displayTime.split(":");
-              String duration_minutes = timeList[1];
-              String duration_hours = timeList[0];
-              String duration_seconds = timeList[2];
-              passingToShowResults['duration_minutes'] = duration_minutes;
-              passingToShowResults['duration_hours'] = duration_hours;
-              passingToShowResults['duration_seconds'] = duration_seconds;
+  // end_run() {
+  //   print("ENDING RUN");
+  //   stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+  //   showDialog(
+  //     context: context,
+  //     builder: (ctx) {
+  //       var actions2 = [
+  //         // ignore: deprecated_member_use
+  //         FlatButton(
+  //           onPressed: () async {
+  //             // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+  //             storeFinalLat = finalLatitude;
+  //             storeFinalLong = finalLongitude;
+  //             print(distance);
+  //             endingTime = DateTime.now();
+  //             passingToShowResults['initialLat'] = storeInitialLat;
+  //             passingToShowResults['initialLong'] = storeInitialLong;
+  //             passingToShowResults['finalLat'] = storeFinalLat;
+  //             passingToShowResults['finalLong'] = storeFinalLong;
+  //             passingToShowResults['initialTime'] = startingTime;
+  //             passingToShowResults['finalTime'] = endingTime;
+  //             passingToShowResults['distance'] = distance;
+  //             passingToShowResults['listOfLatLng'] = listOfLatLngForPoly;
+  //             List timeList = displayTime.split(":");
+  //             String duration_minutes = timeList[1];
+  //             String duration_hours = timeList[0];
+  //             String duration_seconds = timeList[2];
+  //             passingToShowResults['duration_minutes'] = duration_minutes;
+  //             passingToShowResults['duration_hours'] = duration_hours;
+  //             passingToShowResults['duration_seconds'] = duration_seconds;
 
-              // ########## ADDING NEW PARAMETERS FOR ADDITIONAL STATS
-              passingToShowResults['time_per_km'] = timePerKm;
-              passingToShowResults['speed_per_km'] = speedPerKm;
+  //             // ########## ADDING NEW PARAMETERS FOR ADDITIONAL STATS
+  //             passingToShowResults['time_per_km'] = timePerKm;
+  //             passingToShowResults['speed_per_km'] = speedPerKm;
+  //             print("Additional stats testt");
+  //             print(timePerKm);
+  //             print(speedPerKm);
+  //             // print("All parameters stored successfully");
 
-              // print("All parameters stored successfully");
-
-              // _locationSubscription.cancel();
-              // await bLoc.BackgroundLocation.stopLocationService();
-              Navigator.of(context).pushReplacementNamed(
-                  ShowResultsScreen.routeName,
-                  arguments: passingToShowResults);
-            },
-            child: Text('Yes'),
-          ),
-          // ignore: deprecated_member_use
-          FlatButton(
-            onPressed: () {
-              stopWatchTimer.onExecute.add(StopWatchExecute.start);
-              Navigator.of(ctx).pop(true);
-              resume_run();
-              // setState(() {
-              //   resume_end_flag = 0;
-              //   resume_run();
-              // });
-            },
-            child: Text('No'),
-          ),
-        ];
-        return AlertDialog(
-          title: Text('Are you sure you want to end Run?'),
-          actions: actions2,
-        );
-      },
-    );
-  }
+  //             // _locationSubscription.cancel();
+  //             // await bLoc.BackgroundLocation.stopLocationService();
+  //             Navigator.of(context).pushReplacementNamed(
+  //                 ShowResultsScreen.routeName,
+  //                 arguments: passingToShowResults);
+  //           },
+  //           child: Text('Yes'),
+  //         ),
+  //         // ignore: deprecated_member_use
+  //         FlatButton(
+  //           onPressed: () {
+  //             stopWatchTimer.onExecute.add(StopWatchExecute.start);
+  //             Navigator.of(ctx).pop(true);
+  //             resume_run();
+  //             // setState(() {
+  //             //   resume_end_flag = 0;
+  //             //   resume_run();
+  //             // });
+  //           },
+  //           child: Text('No'),
+  //         ),
+  //       ];
+  //       return AlertDialog(
+  //         title: Text('Are you sure you want to end Run?'),
+  //         actions: actions2,
+  //       );
+  //     },
+  //   );
+  // }
 
   void updateMarkerAndCircle(double latitude, double longitude) {
     // print("newLocalData type is" + newLocalData.runtimeType.toString());
@@ -708,6 +701,19 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'duration_seconds'] =
                                                       duration_seconds;
+
+                                                  // Additional Stats
+                                                  passingToShowResults[
+                                                          'time_per_km'] =
+                                                      timePerKm;
+                                                  passingToShowResults[
+                                                          'speed_per_km'] =
+                                                      speedPerKm;
+                                                  print(
+                                                      "Additional stats testt");
+                                                  print(timePerKm);
+                                                  print("and");
+                                                  print(speedPerKm);
 
                                                   // print("All parameters stored successfully");
 

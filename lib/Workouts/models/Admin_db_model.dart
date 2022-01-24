@@ -33,14 +33,23 @@ class GetAdminDataFromGoogleSheetProvider with ChangeNotifier {
   List<AdminDbModel> _listAdmin = List<AdminDbModel>();
   static const url =
       "https://script.google.com/macros/s/AKfycbx57muC0PlTGKmlkLTfrKP4Om9QJn1pjtVShNxc0Hxv7F5z9Sx5JB1xxhxGyiwchOw/exec";
-  getListOfAdmins() async {
-    await http.get(Uri.parse(url)).then((response) {
-      var jsonFeedback = convert.jsonDecode(response.body) as List;
-      print(jsonFeedback);
-      _listAdmin =
-          jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
-      notifyListeners();
-    });
+  getListOfAdmins() {
+    // await http.get(Uri.parse(url)).then((response) {
+    //   var jsonFeedback = convert.jsonDecode(response.body) as List;
+    //   print(jsonFeedback);
+    //   _listAdmin =
+    //       jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
+    _listAdmin.add(AdminDbModel(
+        emailId: 'madhu.vadali@iitgn.ac.in',
+        name: 'Madhu Vadali',
+        uniqueId: 'madhu.vadali@iitgn.ac.in'));
+    _listAdmin.add(AdminDbModel(
+        emailId: 'gautam.pv@iitgn.ac.in',
+        name: 'Gautam Vashishtha',
+        uniqueId: 'gautam.pv@iitgn.ac.in'));
+
+    notifyListeners();
+    // });
     // return null;
   }
 

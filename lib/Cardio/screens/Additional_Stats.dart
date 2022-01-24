@@ -30,16 +30,22 @@ class Additional_stats_screen extends StatelessWidget {
             : ListView.builder(
                 itemCount: time_per_km.length,
                 itemBuilder: (ctx, i) {
-                  List time_comps = timePerKmcomponent(time_per_km[i]);
+                  List<int> time_comps = timePerKmcomponent(time_per_km[i]);
+                  print('Km :' + (i + 1).toString());
+                  print('Av speed- ' + (speed_per_km[i].toString()));
+                  print('Av time-' +
+                      time_comps[0].toString() +
+                      'mins' +
+                      time_comps[1].toString() +
+                      'secs');
                   return Row(
                     children: [
                       Text('Km ' + (i + 1).toString()),
-                      Text('Av speed' + speed_per_km[i].toString() + ' m/s'),
+                      Text('Av speed-' + speed_per_km[i].toString()),
                       Text('Av time-' +
-                          time_comps[0] +
-                          ' mins' +
-                          time_comps[1] +
-                          ' secs')
+                          time_comps[0].toString() +
+                          '' +
+                          time_comps[1].toString())
                     ],
                   );
                 }));
