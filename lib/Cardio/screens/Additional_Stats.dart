@@ -4,8 +4,8 @@ class Additional_stats_screen extends StatelessWidget {
   List<int> timePerKmcomponent(int time) {
     // double hours = (time + 0.0) % 3600;
     // time = time - hours * 3600;
-    int mins = (time) % 60;
-    time = time - mins * 60;
+    int mins = ((time) / 60).floor();
+    time = time - (mins * 60);
     int secs = time;
     // assert hours>=0 && mins>=0 && secs>=0;
     List<int> ret = [mins, secs];

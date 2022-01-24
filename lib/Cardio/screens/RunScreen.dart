@@ -161,7 +161,7 @@ class _MapScreenState extends State<MapScreen> {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
                   finalLongitude);
-          if (distance > currentKmsCovered + 1) {
+          if (distance > currentKmsCovered + 0.1) {
             print('First km covered');
             if (displayTime != "") {
               List timeList = displayTime.split(":");
@@ -176,14 +176,22 @@ class _MapScreenState extends State<MapScreen> {
                 timePerKm.add(timeForCurrentKm);
                 double speedForCurrentKm =
                     (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
-                speedPerKm.add(speedForCurrentKm);
+                speedPerKm.add(
+                  double.parse(
+                    speedForCurrentKm.toStringAsFixed(2),
+                  ),
+                );
               } else {
                 timePerKm.add(totalTime); // total time in seconds is stored
                 // should be converted to hrs, mins, secs when displaying using timePerKmcomps()
                 double speedForCurrentKm = (1000 + 0.0) / totalTime;
-                speedPerKm.add(speedForCurrentKm);
+                speedPerKm.add(
+                  double.parse(
+                    speedForCurrentKm.toStringAsFixed(2),
+                  ),
+                );
               }
-              currentKmsCovered += 1;
+              currentKmsCovered += 0.1;
             }
           }
         }
@@ -719,8 +727,11 @@ class _MapScreenState extends State<MapScreen> {
                                                       speedPerKm;
                                                   print(
                                                       "Additional stats testt");
+                                                  print(
+                                                      "time per kilometer is");
                                                   print(timePerKm);
-                                                  print("and");
+                                                  print(
+                                                      "and speed per kilometer is");
                                                   print(speedPerKm);
 
                                                   // print("All parameters stored successfully");
