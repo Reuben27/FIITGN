@@ -79,15 +79,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
 
     var _isLoading = false;
     // for storing list of Lat Longs in the database
-    // List<latLng.LatLng> listOfPolyLineLatLng = [];
-
-    // for (int i = 0; i < listOfLatLng.length; i++) {
-    //   listOfPolyLineLatLng.add(
-    //     latLng.LatLng(
-    //       listOfLatLng[i]['latitude'],
-    //       listOfLatLng[i]['longitude'],
-    //     ),
-    //   );
 
     goToStatsScreen() {
       Map<dynamic, dynamic> toPassToStatsScreen = Map();
@@ -121,7 +112,10 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
         double.parse(duration_minutes) * 60 +
         double.parse(duration_hours) * 3600;
     double avgSpeed = (distance * 1000) / allTimeInSec;
+    double av_pace = ((allTimeInSec / 60.0)) / distance;
+    String av_pace_string = av_pace.toStringAsFixed(2);
     String avgSpeedString = avgSpeed.toStringAsFixed(2);
+
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
@@ -261,7 +255,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              avgSpeedString,
+                                              av_pace_string,
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
                                                   fontSize:
@@ -274,7 +268,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              'MPS',
+                                              'mins/km',
                                               style: TextStyle(
                                                   fontSize:
                                                       0.018 * _screenHeight,
@@ -304,7 +298,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         runStatsProvider
                                             .addNewRunData(
                                           dateOfRun,
-                                          avgSpeedString,
+                                          av_pace_string,
                                           distanceString,
                                           startTime,
                                           duration_hours,

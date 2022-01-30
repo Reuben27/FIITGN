@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Additional_stats_screen extends StatelessWidget {
+  List<double> pace_calculator(List<int> time) {
+    List<double> paces = [];
+    for (int time_val in time) {
+      // time val is in secs we need to get it in minutes
+      double minutes =
+          double.parse(((time_val + 0.0) / 60.0).toStringAsFixed(2));
+      // double pace = double.parse((minutes/1000).toString());
+      paces.add(minutes);
+    }
+    return paces;
+  }
+
   List<int> timePerKmcomponent(int time) {
     // double hours = (time + 0.0) % 3600;
     // time = time - hours * 3600;
@@ -18,7 +30,8 @@ class Additional_stats_screen extends StatelessWidget {
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context).settings.arguments as Map;
     List<int> time_per_km = routeArgs['time_per_km'];
-    List<double> speed_per_km = routeArgs['speed_per_km'];
+    // List<double> speed_per_km = routeArgs['speed_per_km'];
+    List<double> pace_list = pace_calculator(time_per_km);
     return Scaffold(
         appBar: AppBar(
           title: Text('Additional Stats'),
@@ -32,17 +45,18 @@ class Additional_stats_screen extends StatelessWidget {
                 itemBuilder: (ctx, i) {
                   List<int> time_comps = timePerKmcomponent(time_per_km[i]);
                   print('Km :' + (i + 1).toString());
-                  print('Av speed- ' + (speed_per_km[i].toString()));
-                  print('Av time-' +
+                  print('Av pace- ' + pace_list[i].toString());
+                  // print('Av speed- ' + (speed_per_km[i].toString()));
+                  print('Av time- ' +
                       time_comps[0].toString() +
                       'mins' +
                       time_comps[1].toString() +
                       'secs');
                   return Row(
                     children: [
-                      Text('Km ' + (i + 1).toString()),
-                      Text('Av speed-' + speed_per_km[i].toString()),
-                      Text('Av time-' +
+                      Text('Km- ' + (i + 1).toString()),
+                      Text('Av pace- ' + pace_list[i].toString()),
+                      Text('Av time- ' +
                           time_comps[0].toString() +
                           ':' +
                           time_comps[1].toString())
