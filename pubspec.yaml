@@ -33,6 +33,7 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   flutter_map:
   flutter_signin_button: ^1.1.0
+  fl_chart: ^0.41.0
   font_awesome_flutter: ^8.9.0
   form_field_validator: ^1.0.1
   googleapis_auth: ^1.1.0

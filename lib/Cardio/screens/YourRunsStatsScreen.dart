@@ -93,7 +93,7 @@ class _YourRunsState extends State<YourRuns> {
     return runStats.length == 0
         ? Scaffold(
             appBar: AppBar(
-             // centerTitle: true,
+              // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
                 'YOUR ACTIVTIES',
@@ -120,7 +120,7 @@ class _YourRunsState extends State<YourRuns> {
             ),
             child: Scaffold(
               appBar: AppBar(
-               // centerTitle: true,
+                // centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
                   'YOUR ACTIVTIES',
@@ -134,7 +134,9 @@ class _YourRunsState extends State<YourRuns> {
               body: ListView.builder(
                 itemBuilder: (ctx, i) {
                   String distance = runStats[i].distanceCovered;
-                  String avgSpeed = runStats[i].avgSpeed;
+                  // String avgSpeed = runStats[i].avgSpeed;
+                  // IMP THAT NOW IN runStats[i] av pace is stored in the name of avgSpeed
+                  String av_pace = runStats[i].avgSpeed;
                   // String avgSpeedInKmph =
                   // (double.parse(avgSpeed) * 5 / 18).toStringAsFixed(2);
                   // print(timeInHrs + " : " + timeInMins + " : " + tim);
@@ -285,7 +287,7 @@ class _YourRunsState extends State<YourRuns> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              avgSpeed,
+                                              av_pace,
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
                                                   fontSize:
@@ -298,7 +300,7 @@ class _YourRunsState extends State<YourRuns> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              'KMPH',
+                                              'Mins/Km',
                                               style: TextStyle(
                                                   fontSize:
                                                       0.018 * _screenHeight,

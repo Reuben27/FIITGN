@@ -73,6 +73,16 @@ class RunDataProvider with ChangeNotifier {
       extractedData.forEach(
         (statId, statVal) {
           // print("t4");
+          List<double> altitude_list = statVal['altitude_list'];
+          if (altitude_list == null) {
+            altitude_list = [];
+          }
+          List<double> pace_list = statVal['pace_list'];
+          if (pace_list == null) {
+            pace_list = [];
+          }
+          // print(altitude_list);
+          // print("GAMMMA");
           loadedList.add(
             new RunModel(
               databaseID: statId,
@@ -87,6 +97,8 @@ class RunDataProvider with ChangeNotifier {
               listOfLatLng: statVal['listOfLatLng'],
               initialLongitude: statVal['initialLongitude'],
               initialLatitude: statVal['initialLatitude'],
+              altitude_list: altitude_list,
+              pace_list: pace_list,
             ),
           );
           // print("t5");
@@ -121,6 +133,8 @@ class RunDataProvider with ChangeNotifier {
     List<Map<String, double>> listOfLatLng,
     double initialLatitude,
     double initialLongitude,
+    List<double> pace_list,
+    List<double> altitude_list,
   ) {
     // print("The Uid Is " + _uid);
     String _uid = Data_Provider().uid;
@@ -141,7 +155,9 @@ class RunDataProvider with ChangeNotifier {
           'timeOfRunHrs': timeOfRunHrs,
           'listOfLatLng': listOfLatLng,
           'initialLatitude': initialLatitude,
-          'initialLongitude': initialLongitude
+          'initialLongitude': initialLongitude,
+          'pace_list': pace_list,
+          'altitude_list': altitude_list,
         },
       ),
     )
@@ -163,6 +179,8 @@ class RunDataProvider with ChangeNotifier {
             listOfLatLng: listOfLatLng,
             initialLatitude: initialLatitude,
             initialLongitude: initialLongitude,
+            altitude_list: altitude_list,
+            pace_list: pace_list,
           ),
         );
         notifyListeners();
