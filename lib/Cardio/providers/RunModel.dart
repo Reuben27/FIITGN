@@ -14,6 +14,8 @@ class RunModel {
   final List<dynamic> listOfLatLng;
   final double initialLatitude;
   final double initialLongitude;
+  final List<double> altitude_list;
+  final List<double> pace_list;
   // final List<String> speed_per_km;
   // final List<String> time_per_km;
 
@@ -30,6 +32,8 @@ class RunModel {
     @required this.listOfLatLng,
     @required this.initialLongitude,
     @required this.initialLatitude,
+    @required this.altitude_list,
+    @required this.pace_list,
     this.caloriesBurned = 'Upcoming Feature',
     // @required this.speed_per_km,
     // @required this.time_per_km,

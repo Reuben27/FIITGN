@@ -152,14 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
     //       'This section is under construction. Check back in later to view some exciting new stuff!',
     //   'heroID': 7,
     // },
-    {
-      'title': 'Workouts',
-      'url': 'assets/twerkout.png',
-      'routeName': Workouts_Plans.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 7,
-    },
+    // {
+    //   'title': 'Workouts',
+    //   'url': 'assets/twerkout.png',
+    //   'routeName': Workouts_Plans.routeName,
+    //   'description':
+    //       'This section is under construction. Check back in later to view some exciting new stuff!',
+    //   'heroID': 7,
+    // },
     {
       'title': 'Allocation',
       'url': 'assets/alloc.png',

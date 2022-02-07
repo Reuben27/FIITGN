@@ -50,6 +50,7 @@ class _MapScreenState extends State<MapScreen> {
   String dist = "";
   String speedString = "";
   String pace_string = "";
+  List<double> altitude_list = [];
 
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
@@ -146,11 +147,12 @@ class _MapScreenState extends State<MapScreen> {
           }
         }
         setState_counter += 1;
-        if (setState_counter % 3 == 0) {
+        if (setState_counter % 5 == 0) {
           setState(() {});
         }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
+        altitude_list.add(location.altitude);
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
         // } else {
@@ -198,9 +200,18 @@ class _MapScreenState extends State<MapScreen> {
         }
         // print("Distance is $dist metres");
         double speed = location.speed;
-        speedString = speed.toStringAsFixed(1);
-        double pace = (1 / speed) * (100.0 / 6);
-        String pace_string = pace.toStringAsFixed(1);
+        // speedString = speed.toStringAsFixed(1);
+        // double pace = (1 / speed) * (100.0 / 6);
+        List t_list = displayTime.split(":");
+        // List timeList = displayTime.split(":");
+        String duration_minutes = t_list[1];
+        String duration_hours = t_list[0];
+        String duration_seconds = t_list[2];
+        int time_in_secs = int.parse(duration_hours) * 3600 +
+            int.parse(duration_minutes) * 60 +
+            int.parse(duration_seconds);
+        double pace = (time_in_secs / 60.0);
+        pace_string = pace.toStringAsFixed(1);
         dist = distance.toStringAsFixed(2);
         initialLatitude = finalLatitude;
         initialLongitude = finalLongitude;
@@ -634,6 +645,9 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'listOfLatLng'] =
                                                       listOfLatLngForPoly;
+                                                  passingToShowResults[
+                                                          'altitude_list'] =
+                                                      altitude_list;
                                                   List timeList =
                                                       displayTime.split(":");
                                                   String duration_minutes =
@@ -656,17 +670,17 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'time_per_km'] =
                                                       timePerKm;
-                                                  passingToShowResults[
-                                                          'speed_per_km'] =
-                                                      speedPerKm;
-                                                  print(
-                                                      "Additional stats testt");
-                                                  print(
-                                                      "time per kilometer is");
-                                                  print(timePerKm);
-                                                  print(
-                                                      "and speed per kilometer is");
-                                                  print(speedPerKm);
+                                                  // passingToShowResults[
+                                                  //         'speed_per_km'] =
+                                                  //     speedPerKm;
+                                                  // print(
+                                                  //     "Additional stats testt");
+                                                  // print(
+                                                  //     "time per kilometer is");
+                                                  // print(timePerKm);
+                                                  // print(
+                                                  //     "and speed per kilometer is");
+                                                  // print(speedPerKm);
 
                                                   // print("All parameters stored successfully");
 

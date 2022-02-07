@@ -60,8 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
             Provider.of<GetAdminDataFromGoogleSheetProvider>(context,
                 listen: false);
         // await workoutDataProvider.showAllWorkouts();
-        await workoutDataProvider.getWorkoutLogFromDB();
-        await exerciseDataProvider.getListOfExercises();
+        // await workoutDataProvider.getWorkoutLogFromDB();
+        // await exerciseDataProvider.getListOfExercises();
         await adminDataProvider.getListOfAdmins();
         // await Provider.of<RunDataProvider>(context, listen: false)
         //     .getRunStatsFromDb();

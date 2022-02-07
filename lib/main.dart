@@ -160,10 +160,10 @@ class MyApp extends StatelessWidget {
           SignInGoogle.routeName: (_) => SignInGoogle(),
           StatsScreen.routeName: (_) => StatsScreen(),
           CycleScreen.routeName: (_) => CycleScreen(),
-          ShowCycleResultsScreen.routeName: (_) => ShowCycleResultsScreen(),
+          // ShowCycleResultsScreen.routeName: (_) => ShowCycleResultsScreen(),
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
-          NewRunScreen.routeName: (_) => NewRunScreen(),
+          // NewRunScreen.routeName: (_) => NewRunScreen(),
           Additional_stats_screen.routeName: (_) => Additional_stats_screen(),
 
           //// WOKROUTS SECTION

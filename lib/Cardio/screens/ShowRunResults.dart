@@ -20,6 +20,18 @@ class ShowResultsScreen extends StatefulWidget {
 }
 
 class _ShowResultsScreenState extends State<ShowResultsScreen> {
+  List<double> pace_calculator(List<int> time) {
+    List<double> paces = [];
+    for (int time_val in time) {
+      // time val is in secs we need to get it in minutes
+      double minutes =
+          double.parse(((time_val + 0.0) / 60.0).toStringAsFixed(2));
+      // double pace = double.parse((minutes/1000).toString());
+      paces.add(minutes);
+    }
+    return paces;
+  }
+
   final primaryColorThisScreen = Color(0XFF6D3FFF);
 
   final accentColorThisScreen = Color(0XFF233C63);
@@ -28,6 +40,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     final double initialLatitude = args['initialLat'];
     final double initialLongitude = args['initialLong'];
     List<dynamic> listOfCoordinates = args['listOfLatLng'];
+
     // final runStatsProvider = Provider.of<RunDataProvider>(context);
     // final List<RunModel> runStats = runStatsProvider.yourRunsList;
     // final double initialLatitude = runStats[index].initialLatitude;
@@ -42,7 +55,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
           listOfCoordinates[i]['longitude'],
         ),
       );
-      // print("Heehahahahahahahah");
     }
     Polyline _polyline = Polyline(
         points: listOfPolyLineLatLng, strokeWidth: 3.5, color: Colors.amber);
@@ -75,8 +87,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     String duration_hours = routeArgs['duration_hours'];
     String duration_seconds = routeArgs['duration_seconds'];
     List<int> time_per_km = routeArgs['time_per_km'] as List<int>;
-    List<double> speed_per_km = routeArgs['speed_per_km'] as List<double>;
-
+    List<double> pace_list = pace_calculator(time_per_km);
+    List<double> altitude_list = routeArgs['altitude_list'];
     var _isLoading = false;
     // for storing list of Lat Longs in the database
 
@@ -86,8 +98,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       print(time_per_km);
       // List<int> new_time_per_km = time_per_km.sublist(1);
       // List<double> new_speed_per_km = speed_per_km.sublist(1);
-      toPassToStatsScreen['time_per_km'] = time_per_km;
-      toPassToStatsScreen['speed_per_km'] = speed_per_km;
+      toPassToStatsScreen['pace_list'] = pace_list;
+      toPassToStatsScreen['altitude_list'] = altitude_list;
       Navigator.pushNamed(context, Additional_stats_screen.routeName,
           arguments: toPassToStatsScreen);
     }
@@ -113,6 +125,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
         double.parse(duration_hours) * 3600;
     double avgSpeed = (distance * 1000) / allTimeInSec;
     double av_pace = ((allTimeInSec / 60.0)) / distance;
+    if (distance == 0) {
+      av_pace = 0.0;
+    }
     String av_pace_string = av_pace.toStringAsFixed(2);
     String avgSpeedString = avgSpeed.toStringAsFixed(2);
 
@@ -295,6 +310,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       onTap: () {
                                         // Add function to add code to database
                                         _isLoading = true;
+                                        // SUS - AV PACE STRING IS WRITTEN IN AV SPEED
                                         runStatsProvider
                                             .addNewRunData(
                                           dateOfRun,
@@ -307,6 +323,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                           listOfLatLng,
                                           initialLat,
                                           initialLong,
+                                          pace_list,
+                                          altitude_list,
                                         )
                                             .catchError((error) {
                                           print(error);
