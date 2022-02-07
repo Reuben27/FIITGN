@@ -16,7 +16,7 @@ class Time_BarChartWidget extends StatelessWidget {
         BarChartGroupData(x: i + 1, barRods: [
           BarChartRodData(
             y: time_per_km[i] + 0.0,
-            width: 10,
+            width: 20,
             colors: [Colors.amber],
             // borderRadius:
           )
@@ -26,25 +26,8 @@ class Time_BarChartWidget extends StatelessWidget {
   }
 
   List pace_list = [
-    6.02,
-    6.01,
-    5.41,
-    4.72,
-    7.88,
-    7.21,
-    8.22,
-    9.22,
-    5.01,
+
     6.31,
-    5.33,
-    8.54,
-    9.87,
-    8.76,
-    8.22,
-    9.22,
-    5.01,
-    6.31,
-    5.33,
   ];
 
   List<BarChartGroupData> go(List<double> l) {
@@ -75,13 +58,14 @@ class Time_BarChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     List<BarChartGroupData> l = go(pace_list);
     return BarChart(BarChartData(
-      alignment: BarChartAlignment.center,
-      maxY: (speed_per_km.length + 1.0),
-      minY: 0.0,
-      groupsSpace: 12,
-      barTouchData: BarTouchData(enabled: true),
-      backgroundColor: Colors.white,
-      barGroups: l,
-    ));
+        alignment: BarChartAlignment.center,
+        maxY: (speed_per_km.length + 1.0),
+        minY: 0.0,
+        groupsSpace: 12,
+        barTouchData: BarTouchData(enabled: true),
+        backgroundColor: Colors.white,
+        barGroups: l,
+      ),
+    );
   }
 }

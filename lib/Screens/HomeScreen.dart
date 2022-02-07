@@ -1,4 +1,5 @@
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
+import 'package:fiitgn/Important-Contacts/important-contacts.dart';
 import 'package:fiitgn/QuickLinks/QuickLinks.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
 import 'package:fiitgn/Workouts/screens/workout_plans_home.dart';
@@ -61,34 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
-
-    // final prefs = await SharedPreferences.getInstance();
-    // print('got instance');
-    // String uid = prefs.getString('uid');
-    // String email = prefs.getString('email');
-    // String name = prefs.getString('name');
-    // String userDisplay = prefs.getString('userDisplay');
-    // data_provider.setUid(uid);
-    // data_provider.setEmailId(email);
-    // data_provider.setDisplay(userDisplay);
-    // data_provider.setName(name);
-    // print(Data_Provider().name);
-    // print(Data_Provider().email);
-    // print("Uids and tokens are set");
-    // await workoutDataProvider.showAllWorkouts();
-    // initializing admin and exercise dbs
-    // final exerciseDataProvider =
-    //     Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
-    //         listen: false);
-    // final adminDataProvider = Provider.of<GetAdminDataFromGoogleSheetProvider>(
-    //     context,
-    //     listen: false);
-    // print("a");
-    // await exerciseDataProvider.getListOfExercises();
-    // print("b");
-    // await adminDataProvider.getListOfAdmins();
-    //// END of initialization
-    // print("all workouts Loaded");
     print("Home Screen Inside init has succesfully run");
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }
@@ -143,6 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
+    },
+    {
+      'title': 'Important Contacts',
+      'url': 'assets/twerkout.png',
+      'routeName': ImportantContacts.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 7,
     },
     // {
     //   'title': 'Workouts',

@@ -140,6 +140,7 @@ class _MapScreenState extends State<MapScreen> {
         } else {
           if (flip == 10) {
             flip = 0;
+            altitude_list.add(location.altitude);
             print("flip reset");
           } else {
             print("flip counter increased");
@@ -152,7 +153,7 @@ class _MapScreenState extends State<MapScreen> {
         }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
-        altitude_list.add(location.altitude);
+        
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
         // } else {
@@ -175,7 +176,11 @@ class _MapScreenState extends State<MapScreen> {
                   duration_minutes_int * 60 +
                   duration_hours_int * 3600;
               if (timePerKm.length > 0) {
-                int timeForCurrentKm = totalTime - timePerKm.last;
+                int preceeding_sum = 0;
+                for (int time in timePerKm){
+                  preceeding_sum+=time;
+                }
+                int timeForCurrentKm = totalTime - preceeding_sum;
                 timePerKm.add(timeForCurrentKm);
                 double speedForCurrentKm =
                     (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
@@ -210,7 +215,7 @@ class _MapScreenState extends State<MapScreen> {
         int time_in_secs = int.parse(duration_hours) * 3600 +
             int.parse(duration_minutes) * 60 +
             int.parse(duration_seconds);
-        double pace = (time_in_secs / 60.0);
+        double pace = (time_in_secs / 60.0)/distance;
         pace_string = pace.toStringAsFixed(1);
         dist = distance.toStringAsFixed(2);
         initialLatitude = finalLatitude;

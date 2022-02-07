@@ -82,6 +82,9 @@ import 'Sports-Activities/screens/activity_screens.dart';
 //// TEMP expansion panel
 import './Screens/expansion_list.dart';
 
+// Important contacts
+import './Important-Contacts/important-contacts.dart';
+
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.notification.title);
   print(message.notification.body);
@@ -164,7 +167,7 @@ class MyApp extends StatelessWidget {
           YourCycleStats.routeName: (_) => YourCycleStats(),
           CalendarScreen.routeName: (_) => CalendarScreen(),
           // NewRunScreen.routeName: (_) => NewRunScreen(),
-          Additional_stats_screen.routeName: (_) => Additional_stats_screen(),
+          Additional_stats.routeName: (_) => Additional_stats(),
 
           //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
@@ -225,7 +228,10 @@ class MyApp extends StatelessWidget {
           //// Profile
           Profile.routeName: (_) => Profile(),
 
-          QuickLinks.routeName: (_) => QuickLinks()
+          QuickLinks.routeName: (_) => QuickLinks(),
+
+          /// Important contacts
+          ImportantContacts.routeName:(_)=>ImportantContacts()
         },
       ),
     );

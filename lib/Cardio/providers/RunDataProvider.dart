@@ -73,13 +73,25 @@ class RunDataProvider with ChangeNotifier {
       extractedData.forEach(
         (statId, statVal) {
           // print("t4");
-          List<double> altitude_list = statVal['altitude_list'];
-          if (altitude_list == null) {
-            altitude_list = [];
+          List<double> altitude_list = [];
+
+          List r_altList = statVal['altitude_list'];
+          if (r_altList == null) {
+            print("NULLLL");
+          } else {
+            r_altList.forEach((element) {
+              altitude_list.add(element);
+            });
+            print("Altitude list is not null");
+            print(altitude_list);
           }
-          List<double> pace_list = statVal['pace_list'];
-          if (pace_list == null) {
-            pace_list = [];
+          List<double> pace_list = [];
+          List r_pace_list = statVal['pace_list'];
+          if (r_pace_list == null) {
+          } else {
+            r_pace_list.forEach((element) {
+              pace_list.add(element);
+            });
           }
           // print(altitude_list);
           // print("GAMMMA");

@@ -1,148 +1,261 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class Additional_stats_screen extends StatelessWidget {
-  List<double> pace_calculator(List<int> time) {
-    List<double> paces = [];
-    for (int time_val in time) {
-      // time val is in secs we need to get it in minutes
-      double minutes =
-          double.parse(((time_val + 0.0) / 60.0).toStringAsFixed(2));
-      // double pace = double.parse((minutes/1000).toString());
-      paces.add(minutes);
-    }
-    return paces;
+class Additional_stats extends StatefulWidget {
+  // Additional_stats({Key? key}) : super(key: key);
+  static const routeName = '\Additional_stats';
+  @override
+  State<Additional_stats> createState() => _Additional_statsState();
+}
+
+class _Additional_statsState extends State<Additional_stats> {
+  @override
+  Widget build(BuildContext context) {
+    final routeArgs = ModalRoute.of(context).settings.arguments as Map;
+    List<double> altitude_list = routeArgs['altitude_list'] as List<double>;
+    List<double> pace_list = routeArgs['pace_list'] as List<double>;
+    String distance = routeArgs['distance'];
+    String max_elevation = routeArgs['max_elevation'];
+    String av_pace = routeArgs['average_pace'];
+    String time = routeArgs['time'];
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Cardio Details'),
+        ),
+        body: //(pace_list.length == 0 && altitude_list.length == 0)
+            (false)
+                ? Center(
+                    child: Text('Insufficient Data, sorry!'),
+                  )
+                :
+                // ListView(
+                //     children: [
+                //       Container(
+                //           child: ElevationWidget(
+                //               altitude_list: altitude_list,
+                //               max_alt: max_elevation)),
+                //       Container(child: PaceChartWidget(pace_list: pace_list))
+                //     ],
+                //   )
+                Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: PaceChartWidget(pace_list: pace_list,),
+                  // child: ElevationWidget(
+                  //     altitude_list: altitude_list, max_alt: max_elevation),
+                ));
   }
+}
 
-  List<int> timePerKmcomponent(int time) {
-    // double hours = (time + 0.0) % 3600;
-    // time = time - hours * 3600;
-    int mins = ((time) / 60).floor();
-    time = time - (mins * 60);
-    int secs = time;
-    // assert hours>=0 && mins>=0 && secs>=0;
-    List<int> ret = [mins, secs];
-    return ret;
-  }
+class ElevationWidget extends StatelessWidget {
+  final List<double> altitude_list;
+  final String max_alt;
 
-  List<double> pace_list = [
-    6.02,
-    6.01,
-    5.41,
-    4.72,
-    7.88,
-    7.21,
-    8.22,
-    9.22,
-    5.01,
-    6.31,
-    5.33,
-    8.54,
-    9.87,
-    8.76,
-    8.22,
-    // 9.22,
-    // 5.01,
-    // 6.31,
-    // 5.33,
-  ];
+  ElevationWidget({
+    @required this.altitude_list,
+    @required this.max_alt,
+  });
 
-  List<BarChartGroupData> ret = [];
-  conv_time_into_bardata(List<int> time_per_km) {
-    for (int i = 0; i < time_per_km.length; i++) {
-      ret.add(
-        BarChartGroupData(x: i + 1, barRods: [
-          BarChartRodData(
-            y: time_per_km[i] + 0.0,
-            width: 10,
-            colors: [Colors.amber],
-            // borderRadius:
-          )
-        ]),
-      );
-    }
-  }
-
-  List<BarChartGroupData> go(List<double> l) {
-    Map m = {};
-    List<BarChartGroupData> ret = [];
-    for (int i = 0; i < l.length; i++) {
-      m[i + 1] = l[i];
-    }
-    m.forEach((key, value) {
-      ret.add(
-        BarChartGroupData(
-          x: key,
-          barRods: [
-            BarChartRodData(
-                y: value,
-                colors: [Colors.amber],
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(6),
-                )),
-          ],
+  List<FlSpot> get_spots(List<double> altitude_list) {
+    List<FlSpot> spots = [];
+    for (int i = 0; i < altitude_list.length; i++) {
+      spots.add(
+        FlSpot(
+          i + 0.0,
+          altitude_list[i],
         ),
       );
-    });
-    return ret;
+    }
+    return spots;
   }
 
-  // const Additional_stats_screen({ Key? key }) : super(key: key);
-  static const routeName = '\additional_stats_screen';
-  @override
-  // Widget build(BuildContext context) {
-  //   final routeArgs = ModalRoute.of(context).settings.arguments as Map;
-  //   List<int> time_per_km = routeArgs['time_per_km'];
-  //   // List<double> speed_per_km = routeArgs['speed_per_km'];
-  //   List<double> pace_list = pace_calculator(time_per_km);
+  // use this while testing the graph
+  final List<FlSpot> dummy_data = [
+    FlSpot(0, 2.3),
+    FlSpot(1, 2.3),
+    FlSpot(2, 1.3),
+    FlSpot(3, 1.5),
+    FlSpot(4, 3),
+    FlSpot(5, 5.2),
+    FlSpot(6, 4.5),
+    FlSpot(7, 6.5),
+    FlSpot(8, 7.2),
+    FlSpot(9, 7.1),
+    FlSpot(10, 7.0),
+    FlSpot(11, 7.6),
+    FlSpot(12, 1.3),
+    FlSpot(13, 1.5),
+    FlSpot(14, 3),
+    FlSpot(15, 5.2),
+    FlSpot(16, 4.5),
+    FlSpot(17, 6.5),
+    FlSpot(18, 7.2),
+    FlSpot(19, 7.1),
+    FlSpot(20, 7.0),
+    FlSpot(21, 7.6),
+    FlSpot(22, 7.6),
+    FlSpot(23, 1.3),
+    FlSpot(24, 1.5),
+    FlSpot(25, 3),
+    FlSpot(26, 5.2),
+    FlSpot(27, 4.5),
+    FlSpot(28, 6.5),
+    FlSpot(29, 7.2),
+    FlSpot(30, 7.1),
+    FlSpot(31, 7.0),
+    FlSpot(32, 7.6),
+  ];
 
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Additional Stats'),
-  //     ),
-  //     body: time_per_km.length == 0
-  //         ? Center(
-  //             child: Text('Distance covered to less to generate stats'),
-  //           )
-  //         : ListView.builder(
-  //             itemCount: time_per_km.length,
-  //             itemBuilder: (ctx, i) {
-  //               List<int> time_comps = timePerKmcomponent(time_per_km[i]);
-  //               print('Km :' + (i + 1).toString());
-  //               print('Av pace- ' + pace_list[i].toString());
-  //               // print('Av speed- ' + (speed_per_km[i].toString()));
-  //               print('Av time- ' +
-  //                   time_comps[0].toString() +
-  //                   'mins' +
-  //                   time_comps[1].toString() +
-  //                   'secs');
-  //               return Row(
-  //                 children: [
-  //                   Text('Km- ' + (i + 1).toString()),
-  //                   Text('Av pace- ' + pace_list[i].toString()),
-  //                   Text('Av time- ' +
-  //                       time_comps[0].toString() +
-  //                       ':' +
-  //                       time_comps[1].toString())
-  //                 ],
-  //               );
-  //             },
-  //           ),
-  //   );
-  // }
+  final List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a)
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    List<BarChartGroupData> l = go(pace_list);
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: BarChart(BarChartData(
-          alignment: BarChartAlignment.center,
-          // maxY: (speed_per_km.length + 1.0),
-          groupsSpace: 5,
-          barTouchData: BarTouchData(enabled: true),
-          backgroundColor: Colors.black,
-          barGroups: l,
-        )),
+    double max_altitude = double.parse(max_alt);
+    double min_altitude = 0.0;
+    // Use this in real
+    // List<FlSpot> spots = get_spots(altitude_list);
+    // This is for testing
+    List<FlSpot> spots = dummy_data;
+    return LineChart(
+      LineChartData(
+        minX: 0,
+        maxX: altitude_list.length + 0.0,
+        minY: min_altitude,
+        maxY: max_altitude,
+        gridData: FlGridData(
+            show: true,
+            getDrawingHorizontalLine: (value) =>
+                FlLine(color: const Color(0xff37434d), strokeWidth: 1),
+            drawHorizontalLine: true),
+        borderData: FlBorderData(
+            show: true,
+            border: Border.all(color: const Color(0xff37434d), width: 1)),
+        lineBarsData: [
+          LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              colors: gradientColors,
+              barWidth: 5,
+              belowBarData: BarAreaData(
+                show: true,
+                colors: gradientColors
+                    .map(
+                      (color) => color.withOpacity(0.3),
+                    )
+                    .toList(),
+              )),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class PaceChartWidget extends StatelessWidget {
+  final List<double> pace_list;
+
+  PaceChartWidget({
+    @required this.pace_list,
+  });
+
+  List<FlSpot> get_spots(List<double> pace_list) {
+    List<FlSpot> spots = [];
+    for (int i = 0; i < pace_list.length; i++) {
+      spots.add(
+        FlSpot(
+          i + 1.0,
+          pace_list[i],
+        ),
+      );
+    }
+    return spots;
+  }
+
+  // use this while testing the graph
+  final List<FlSpot> dummy_data = [
+    FlSpot(0, 6.3),
+    FlSpot(1, 7.3),
+    FlSpot(2, 5.3),
+    FlSpot(3, 3.5),
+    FlSpot(4, 6),
+    FlSpot(5, 7.2),
+    FlSpot(6, 6.5),
+    FlSpot(7, 6.5),
+    FlSpot(8, 5.2),
+    FlSpot(9, 7.1),
+    FlSpot(10,6.0),
+    FlSpot(11, 7.6),
+    FlSpot(12, 6.3),
+    FlSpot(13, 5.5),
+    FlSpot(14, 7),
+    FlSpot(15, 6.2),
+    FlSpot(16, 6.5),
+    FlSpot(17, 6.5),
+    FlSpot(18, 7.2),
+    FlSpot(19, 7.1),
+    FlSpot(20, 7.0),
+  ];
+
+  final List<Color> gradientColors = [
+    const Color(0xff23b6e6),
+    const Color(0xff02d39a)
+  ];
+
+  get_max_pace(List<double> pace_list){
+    double max_pace = 0.0;
+    for (double pace in pace_list){
+      if(pace>max_pace){
+        max_pace = pace;
+      }
+    }
+    return max_pace;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // This is dummy
+    double max_pace = 10;
+
+    // Use this instead
+    // double max_pace = get_max_pace(pace_list);
+    double min_pace = 0.0;
+    // Use this in real
+    // List<FlSpot> spots = get_spots(pace_list);
+    // This is for testing
+    List<FlSpot> spots = dummy_data;
+    return LineChart(
+      LineChartData(
+        minX: 0,
+        maxX: pace_list.length + 1.0,
+        minY: min_pace,
+        maxY: max_pace,
+        gridData: FlGridData(
+            show: true,
+            getDrawingHorizontalLine: (value) =>
+                FlLine(color: const Color(0xff37434d), strokeWidth: 1),
+            drawHorizontalLine: true),
+        borderData: FlBorderData(
+            show: true,
+            border: Border.all(color: const Color(0xff37434d), width: 1)),
+        lineBarsData: [
+          LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              colors: gradientColors,
+              barWidth: 5,
+              belowBarData: BarAreaData(
+                show: true,
+                colors: gradientColors
+                    .map(
+                      (color) => color.withOpacity(0.3),
+                    )
+                    .toList(),
+              )),
+        ],
       ),
     );
   }

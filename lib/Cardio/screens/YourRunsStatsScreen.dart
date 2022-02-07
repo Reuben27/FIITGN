@@ -1,3 +1,5 @@
+import 'package:fiitgn/Cardio/screens/Additional_Stats.dart';
+
 import '../../Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -140,207 +142,253 @@ class _YourRunsState extends State<YourRuns> {
                   // String avgSpeedInKmph =
                   // (double.parse(avgSpeed) * 5 / 18).toStringAsFixed(2);
                   // print(timeInHrs + " : " + timeInMins + " : " + tim);
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      top: 0.0125 * _screenHeight,
-                      bottom: 0.0125 * _screenHeight,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 0.06 * _screenHeight,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFC9CCD5),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(0.02 * _screenHeight),
-                              topRight: Radius.circular(0.02 * _screenHeight),
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                          context, YourRunPolyLineScreen.routeName,
+                          arguments: i);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: 0.0125 * _screenHeight,
+                        bottom: 0.0125 * _screenHeight,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 0.06 * _screenHeight,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFC9CCD5),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(0.02 * _screenHeight),
+                                topRight: Radius.circular(0.02 * _screenHeight),
+                              ),
                             ),
+                            margin: EdgeInsets.only(
+                              left: 0.02 * _screenWidth,
+                              right: 0.02 * _screenWidth,
+                            ),
+                            //   height: MediaQuery.of(context).size.height / 5,
+                            width: MediaQuery.of(context).size.width,
+                            child: runStats[i].dateOfRun == null
+                                ? Center(child: Text("Problem"))
+                                : Center(
+                                    child: Text(
+                                      DateFormat.MMMMEEEEd()
+                                          .format(DateTime.parse(
+                                              runStats[i].dateOfRun))
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 0.04 * _screenHeight,
+                                          // color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                           ),
-                          margin: EdgeInsets.only(
-                            left: 0.02 * _screenWidth,
-                            right: 0.02 * _screenWidth,
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 0.02 * _screenWidth,
+                              right: 0.02 * _screenWidth,
+                            ),
+                            height: 0.3 * _screenHeight,
+                            width: _screenWidth,
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, YourRunPolyLineScreen.routeName,
+                                      arguments: i);
+                                },
+                                child: createSmallMap(i)),
                           ),
-                          //   height: MediaQuery.of(context).size.height / 5,
-                          width: MediaQuery.of(context).size.width,
-                          child: runStats[i].dateOfRun == null
-                              ? Center(child: Text("Problem"))
-                              : Center(
-                                  child: Text(
-                                    DateFormat.MMMMEEEEd()
-                                        .format(DateTime.parse(
-                                            runStats[i].dateOfRun))
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontFamily: 'Gilroy',
-                                        fontSize: 0.04 * _screenHeight,
-                                        // color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 0.02 * _screenWidth,
+                              right: 0.02 * _screenWidth,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFC9CCD5),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft:
+                                    Radius.circular(0.02 * _screenHeight),
+                                bottomRight:
+                                    Radius.circular(0.02 * _screenHeight),
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 0.1 * _screenHeight,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            alignment: Alignment.center,
+                                            child: Center(
+                                              child: Text(
+                                                runStats[i].timeOfRunHrs +
+                                                    ' : ' +
+                                                    runStats[i].timeOfRunMin +
+                                                    ' : ' +
+                                                    runStats[i].timeOfRunSec,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.045 * _screenHeight,
+                                                    // color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                'DURATION',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        0.018 * _screenHeight,
+                                                    //      color: Colors.white,
+                                                    fontFamily: 'Gilroy'),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                distance,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.045 * _screenHeight,
+                                                    // color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                'KILOMETRES',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        0.018 * _screenHeight,
+                                                    //      color: Colors.white,
+                                                    fontFamily: 'Gilroy'),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                av_pace,
+                                                style: TextStyle(
+                                                    fontFamily: 'Gilroy',
+                                                    fontSize:
+                                                        0.045 * _screenHeight,
+                                                    // color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            child: Center(
+                                              child: Text(
+                                                'Mins/Km',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        0.018 * _screenHeight,
+                                                    //      color: Colors.white,
+                                                    fontFamily: 'Gilroy'),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 0.02 * _screenWidth,
-                            right: 0.02 * _screenWidth,
-                          ),
-                          height: 0.3 * _screenHeight,
-                          width: _screenWidth,
-                          child: createSmallMap(i),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 0.02 * _screenWidth,
-                            right: 0.02 * _screenWidth,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFC9CCD5),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(0.02 * _screenHeight),
-                              bottomRight:
-                                  Radius.circular(0.02 * _screenHeight),
+                                Container(
+                                  height: 0.08 * _screenHeight,
+                                  child: Center(
+                                    child: Container(
+                                        width: 0.4 * _screenWidth,
+                                        height: 0.05 * _screenHeight,
+                                        child: OutlinedButton(
+                                          onPressed: () {
+                                            print("MUMYYYY");
+                                            print(runStats[i].altitude_list);
+                                            List<double> altitude_list =
+                                                runStats[i].altitude_list;
+                                            List<double> pace_list =
+                                                runStats[i].pace_list;
+                                            Map<String, dynamic> pass = {};
+                                            pass['altitude_list'] =
+                                                altitude_list;
+                                            pass['pace_list'] = pace_list;
+                                            pass['distance'] = distance;
+                                            double max_elevation = 0.0;
+                                            for (double elevation
+                                                in altitude_list) {
+                                              if (elevation > max_elevation) {
+                                                max_elevation = elevation;
+                                              }
+                                            }
+                                            pass['max_elevation'] =
+                                                max_elevation
+                                                    .toStringAsFixed(1);
+                                            pass['average_pace'] = av_pace;
+                                            pass['time'] =
+                                                runStats[i].timeOfRunHrs +
+                                                    ' : ' +
+                                                    runStats[i].timeOfRunMin +
+                                                    ' : ' +
+                                                    runStats[i].timeOfRunSec;
+
+                                            Navigator.pushNamed(context,
+                                                Additional_stats.routeName,
+                                                arguments: pass);
+                                          },
+                                          child: Text(
+                                            'EXPAND',
+                                            style: TextStyle(
+                                                fontSize: 0.04 * _screenHeight,
+                                                fontFamily: 'Gilroy',
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 0.1 * _screenHeight,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          child: Center(
-                                            child: Text(
-                                              runStats[i].timeOfRunHrs +
-                                                  ' : ' +
-                                                  runStats[i].timeOfRunMin +
-                                                  ' : ' +
-                                                  runStats[i].timeOfRunSec,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize:
-                                                      0.045 * _screenHeight,
-                                                  // color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              'DURATION',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      0.018 * _screenHeight,
-                                                  //      color: Colors.white,
-                                                  fontFamily: 'Gilroy'),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              distance,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize:
-                                                      0.045 * _screenHeight,
-                                                  // color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              'KILOMETRES',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      0.018 * _screenHeight,
-                                                  //      color: Colors.white,
-                                                  fontFamily: 'Gilroy'),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              av_pace,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontSize:
-                                                      0.045 * _screenHeight,
-                                                  // color: Colors.white,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Center(
-                                            child: Text(
-                                              'Mins/Km',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      0.018 * _screenHeight,
-                                                  //      color: Colors.white,
-                                                  fontFamily: 'Gilroy'),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 0.08 * _screenHeight,
-                                child: Center(
-                                  child: Container(
-                                      width: 0.4 * _screenWidth,
-                                      height: 0.05 * _screenHeight,
-                                      child: OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.pushNamed(context,
-                                              YourRunPolyLineScreen.routeName,
-                                              arguments: i);
-                                        },
-                                        child: Text(
-                                          'EXPAND',
-                                          style: TextStyle(
-                                              fontSize: 0.04 * _screenHeight,
-                                              fontFamily: 'Gilroy',
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      )),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },

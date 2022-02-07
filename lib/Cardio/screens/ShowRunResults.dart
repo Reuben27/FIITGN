@@ -88,7 +88,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     String duration_seconds = routeArgs['duration_seconds'];
     List<int> time_per_km = routeArgs['time_per_km'] as List<int>;
     List<double> pace_list = pace_calculator(time_per_km);
-    List<double> altitude_list = routeArgs['altitude_list'];
+    List<double> altitude_list = routeArgs['altitude_list'] as List<double>;
     var _isLoading = false;
     // for storing list of Lat Longs in the database
 
@@ -100,7 +100,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       // List<double> new_speed_per_km = speed_per_km.sublist(1);
       toPassToStatsScreen['pace_list'] = pace_list;
       toPassToStatsScreen['altitude_list'] = altitude_list;
-      Navigator.pushNamed(context, Additional_stats_screen.routeName,
+      Navigator.pushNamed(context, Additional_stats.routeName,
           arguments: toPassToStatsScreen);
     }
 
