@@ -11,14 +11,14 @@ import 'YourRunsPolyLines.dart';
 import "package:latlong/latlong.dart" as latLng;
 import 'package:flutter_map/flutter_map.dart';
 
-class YourRuns extends StatefulWidget {
-  static const routeName = 'YourRunsScreen';
+class CommunityRuns extends StatefulWidget {
+  static const routeName = 'Community_Stats';
 
   @override
-  _YourRunsState createState() => _YourRunsState();
+  _CommunityRunsState createState() => _CommunityRunsState();
 }
 
-class _YourRunsState extends State<YourRuns> {
+class _CommunityRunsState extends State<CommunityRuns> {
   var isInit = true;
   bool isLoading = true;
 
@@ -28,7 +28,7 @@ class _YourRunsState extends State<YourRuns> {
       print("^^^^^^");
       print(Data_Provider().name);
       print("^^^^^^^");
-      await Provider.of<RunDataProvider>(context).getRunStatsFromDb();
+      await Provider.of<RunDataProvider>(context).getCommunityStatsFromDb();
       // isLoading = false;
     }
     // TODO: implement didChangeDependencies
@@ -41,7 +41,7 @@ class _YourRunsState extends State<YourRuns> {
 
   Widget createSmallMap(int index) {
     final runStatsProvider = Provider.of<RunDataProvider>(context);
-    final List<RunModel> runStats = runStatsProvider.yourRunsList;
+    final List<RunModel> runStats = runStatsProvider.communityRuns;
     final double initialLatitude = runStats[index].initialLatitude;
     final double initialLongitude = runStats[index].initialLongitude;
     List<dynamic> listOfCoordinates = runStats[index].listOfLatLng;
@@ -86,19 +86,14 @@ class _YourRunsState extends State<YourRuns> {
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
     final runStatsProvider = Provider.of<RunDataProvider>(context);
-    final List<RunModel> runStats = runStatsProvider.yourRunsList;
-    // runStats.sort((a, b) {
-    //   return b.dateOfRun.compareTo(a.dateOfRun);
-    // });
-    // print("yo yo " + runStats.toString());
-    // final temp = runStatsProvider.getRunStatsFromDb();
+    final List<RunModel> runStats = runStatsProvider.communityRuns;
     return runStats.length == 0
         ? Scaffold(
             appBar: AppBar(
               // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
-                'YOUR ACTIVTIES',
+                'COMMUNITY ACTIVTIES',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -125,7 +120,7 @@ class _YourRunsState extends State<YourRuns> {
                 // centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
-                  'YOUR ACTIVTIES',
+                  'COMMUNITY ACTIVTIES',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -145,9 +140,6 @@ class _YourRunsState extends State<YourRuns> {
                       ":" +
                       ((av_pace_double - av_pace_double.floor())*60)
                           .toStringAsFixed(0);
-                  // String avgSpeedInKmph =
-                  // (double.parse(avgSpeed) * 5 / 18).toStringAsFixed(2);
-                  // print(timeInHrs + " : " + timeInMins + " : " + tim);
                   return InkWell(
                     onTap: () {
                       Navigator.pushNamed(

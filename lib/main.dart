@@ -35,6 +35,7 @@ import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
 import 'Cardio/screens/NewRunScreen.dart';
 import 'Cardio/screens/Additional_Stats.dart';
+import 'Cardio/screens/Community_Stats.dart';
 
 //// PROFILE
 import 'Profile/screens/profile_page.dart';
@@ -168,6 +169,7 @@ class MyApp extends StatelessWidget {
           CalendarScreen.routeName: (_) => CalendarScreen(),
           // NewRunScreen.routeName: (_) => NewRunScreen(),
           Additional_stats.routeName: (_) => Additional_stats(),
+          CommunityRuns.routeName: (_) => CommunityRuns(),
 
           //// WOKROUTS SECTION
           Workouts_Home.routeName: (_) => Workouts_Home(),
@@ -231,7 +233,7 @@ class MyApp extends StatelessWidget {
           QuickLinks.routeName: (_) => QuickLinks(),
 
           /// Important contacts
-          ImportantContacts.routeName:(_)=>ImportantContacts()
+          ImportantContacts.routeName: (_) => ImportantContacts()
         },
       ),
     );

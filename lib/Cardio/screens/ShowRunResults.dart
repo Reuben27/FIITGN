@@ -1,4 +1,5 @@
 import 'package:fiitgn/Cardio/screens/Additional_Stats.dart';
+import 'package:fiitgn/Providers/DataProvider.dart';
 
 import '../providers/RunModel.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     List<int> time_per_km = routeArgs['time_per_km'] as List<int>;
     List<double> pace_list = pace_calculator(time_per_km);
     List<double> altitude_list = routeArgs['altitude_list'] as List<double>;
+
     var _isLoading = false;
     // for storing list of Lat Longs in the database
 
@@ -129,7 +131,12 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       av_pace = 0.0;
     }
     String av_pace_string = av_pace.toStringAsFixed(2);
-    String avgSpeedString = avgSpeed.toStringAsFixed(2);
+    double av_pace_double = double.parse(av_pace_string);
+    // Changing the form of av pace
+    av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
+        ":" +
+        ((av_pace_double - av_pace_double.floor()) * 60).toStringAsFixed(0);
+    // String avgSpeedString = avgSpeed.toStringAsFixed(2);
 
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
@@ -311,48 +318,319 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         // Add function to add code to database
                                         _isLoading = true;
                                         // SUS - AV PACE STRING IS WRITTEN IN AV SPEED
-                                        runStatsProvider
-                                            .addNewRunData(
-                                          dateOfRun,
-                                          av_pace_string,
-                                          distanceString,
-                                          startTime,
-                                          duration_hours,
-                                          duration_minutes,
-                                          duration_seconds,
-                                          listOfLatLng,
-                                          initialLat,
-                                          initialLong,
-                                          pace_list,
-                                          altitude_list,
-                                        )
-                                            .catchError((error) {
-                                          print(error);
-                                          return showDialog<Null>(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              title: Text('An error occured'),
-                                              content:
-                                                  Text('Something went wrong'),
-                                              actions: [
-                                                FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: Text('Okay'))
-                                              ],
-                                            ),
-                                          );
-                                        }).then(
-                                          (_) {
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
-                                            Navigator.pushReplacementNamed(
-                                                context, HomeScreen.routeName);
+                                        final activity_name_controller =
+                                            TextEditingController();
+                                        String is_private = "true";
+                                        String activity_name =
+                                            Data_Provider().name + " run";
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (ctx) {
+                                            print("show dialog initialized");
+                                            return Container(
+                                              color: Color(0xFF93B5C6),
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                  top: 0.03 * _screenHeight,
+                                                  left: 0.03 * _screenWidth,
+                                                  right: 0.03 * _screenWidth,
+                                                ),
+                                                child: Column(
+                                                  // title: Text('Workout Description'),
+                                                  children: [
+                                                    Text(
+                                                      'Activity Details',
+                                                      textScaleFactor: 0.8,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black,
+                                                          fontSize: 0.04 *
+                                                              _screenHeight,
+                                                          fontFamily: 'Gilroy'),
+                                                    ),
+
+                                                    //// TAKING WORKOUT NAME
+                                                    Center(
+                                                      child: TextField(
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Gilroy'),
+                                                        controller:
+                                                            activity_name_controller,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          hintText:
+                                                              'Activity Title',
+                                                        ),
+                                                      ),
+                                                      heightFactor: 1,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          width: 0.3 *
+                                                              _screenWidth,
+                                                          child: OutlinedButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  "Public",
+                                                                  textScaleFactor:
+                                                                      0.8,
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'Gilroy',
+                                                                      fontSize:
+                                                                          0.025 *
+                                                                              _screenHeight,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                Icon(
+                                                                  Icons
+                                                                      .people_alt_outlined,
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+                                                              is_private =
+                                                                  "false";
+                                                              if (activity_name_controller
+                                                                      .text
+                                                                      .trim() !=
+                                                                  "") {
+                                                                activity_name =
+                                                                    activity_name_controller
+                                                                        .text
+                                                                        .trim();
+                                                              }
+
+                                                              runStatsProvider
+                                                                  .addNewRunData(
+                                                                Data_Provider()
+                                                                    .name,
+                                                                activity_name,
+                                                                is_private,
+                                                                dateOfRun,
+                                                                av_pace_string,
+                                                                distanceString,
+                                                                startTime,
+                                                                duration_hours,
+                                                                duration_minutes,
+                                                                duration_seconds,
+                                                                listOfLatLng,
+                                                                initialLat,
+                                                                initialLong,
+                                                                pace_list,
+                                                                altitude_list,
+                                                              )
+                                                                  .catchError(
+                                                                      (error) {
+                                                                print(error);
+                                                                return showDialog<
+                                                                    Null>(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (ctx) =>
+                                                                      AlertDialog(
+                                                                    title: Text(
+                                                                        'An error occured'),
+                                                                    content: Text(
+                                                                        'Something went wrong'),
+                                                                    actions: [
+                                                                      FlatButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                          child:
+                                                                              Text('Okay'))
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              }).then(
+                                                                (_) {
+                                                                  setState(() {
+                                                                    _isLoading =
+                                                                        false;
+                                                                  });
+                                                                  Navigator.pushReplacementNamed(
+                                                                      context,
+                                                                      HomeScreen
+                                                                          .routeName);
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          width: 0.3 *
+                                                              _screenWidth,
+                                                          child: OutlinedButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  "Private",
+                                                                  textScaleFactor:
+                                                                      0.8,
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'Gilroy',
+                                                                      fontSize:
+                                                                          0.025 *
+                                                                              _screenHeight,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                Icon(
+                                                                  Icons
+                                                                      .lock_outline,
+                                                                  color: Colors
+                                                                      .black,
+                                                                )
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+                                                              is_private =
+                                                                  "true";
+
+                                                              if (activity_name_controller
+                                                                      .text
+                                                                      .trim() !=
+                                                                  "") {
+                                                                activity_name =
+                                                                    activity_name_controller
+                                                                        .text
+                                                                        .trim();
+                                                              }
+
+                                                              runStatsProvider
+                                                                  .addNewRunData(
+                                                                Data_Provider()
+                                                                    .name,
+                                                                activity_name,
+                                                                is_private,
+                                                                dateOfRun,
+                                                                av_pace_string,
+                                                                distanceString,
+                                                                startTime,
+                                                                duration_hours,
+                                                                duration_minutes,
+                                                                duration_seconds,
+                                                                listOfLatLng,
+                                                                initialLat,
+                                                                initialLong,
+                                                                pace_list,
+                                                                altitude_list,
+                                                              )
+                                                                  .catchError(
+                                                                      (error) {
+                                                                print(error);
+                                                                return showDialog<
+                                                                    Null>(
+                                                                  context:
+                                                                      context,
+                                                                  builder: (ctx) =>
+                                                                      AlertDialog(
+                                                                    title: Text(
+                                                                        'An error occured'),
+                                                                    content: Text(
+                                                                        'Something went wrong'),
+                                                                    actions: [
+                                                                      FlatButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.of(context).pop();
+                                                                          },
+                                                                          child:
+                                                                              Text('Okay'))
+                                                                    ],
+                                                                  ),
+                                                                );
+                                                              }).then(
+                                                                (_) {
+                                                                  setState(() {
+                                                                    _isLoading =
+                                                                        false;
+                                                                  });
+                                                                  Navigator.pushReplacementNamed(
+                                                                      context,
+                                                                      HomeScreen
+                                                                          .routeName);
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
                                           },
                                         );
+                                        // if (activity_name_controller.text
+                                        //         .trim() !=
+                                        //     "") {
+                                        //   activity_name =
+                                        //       activity_name_controller.text
+                                        //           .trim();
+                                        // }
+
+                                        // runStatsProvider
+                                        //     .addNewRunData(
+                                        //   activity_name,
+                                        //   is_private,
+                                        //   dateOfRun,
+                                        //   av_pace_string,
+                                        //   distanceString,
+                                        //   startTime,
+                                        //   duration_hours,
+                                        //   duration_minutes,
+                                        //   duration_seconds,
+                                        //   listOfLatLng,
+                                        //   initialLat,
+                                        //   initialLong,
+                                        //   pace_list,
+                                        //   altitude_list,
+                                        // )
+                                        //     .catchError((error) {
+                                        //   print(error);
+                                        //   return showDialog<Null>(
+                                        //     context: context,
+                                        //     builder: (ctx) => AlertDialog(
+                                        //       title: Text('An error occured'),
+                                        //       content:
+                                        //           Text('Something went wrong'),
+                                        //       actions: [
+                                        //         FlatButton(
+                                        //             onPressed: () {
+                                        //               Navigator.of(context)
+                                        //                   .pop();
+                                        //             },
+                                        //             child: Text('Okay'))
+                                        //       ],
+                                        //     ),
+                                        //   );
+                                        // }).then(
+                                        //   (_) {
+                                        //     setState(() {
+                                        //       _isLoading = false;
+                                        //     });
+                                        //     Navigator.pushReplacementNamed(
+                                        //         context, HomeScreen.routeName);
+                                        //   },
+                                        // );
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:fiitgn/Cardio/screens/Community_Stats.dart';
 import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
 import 'package:fiitgn/Important-Contacts/important-contacts.dart';
 import 'package:fiitgn/QuickLinks/QuickLinks.dart';
@@ -118,6 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
+      'title': 'Community',
+      'url': 'assets/stats.png',
+      'routeName': CommunityRuns.routeName,
+      'description':
+          'Running can be accessed from here. Get out there and get those legs working!',
+      'heroID': 1,
+    },
+    {
       'title': 'Contacts',
       'url': 'assets/twerkout.png',
       'routeName': ImportantContacts.routeName,
@@ -125,6 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 7,
     },
+    
     // {
     //   'title': 'Workouts',
     //   'url': 'assets/twerkout.png',
