@@ -115,6 +115,7 @@ class _MapScreenState extends State<MapScreen> {
     // print("alpha alpha alpha");
     // sampling paramter flip
     int flip = 0;
+    int altitude_flip = 0;
     int setState_counter = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
@@ -136,11 +137,16 @@ class _MapScreenState extends State<MapScreen> {
             );
             updateMarkerAndCircle(location.latitude, location.longitude);
             flip += 1;
+            altitude_flip += 1;
           }
         } else {
+          if (altitude_flip == 25) {
+            altitude_list.add(location.altitude);
+            altitude_flip = 0;
+          }
           if (flip == 10) {
             flip = 0;
-            altitude_list.add(location.altitude);
+
             print("flip reset");
           } else {
             print("flip counter increased");
@@ -153,7 +159,7 @@ class _MapScreenState extends State<MapScreen> {
         }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
-        
+
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
         // } else {
@@ -177,8 +183,8 @@ class _MapScreenState extends State<MapScreen> {
                   duration_hours_int * 3600;
               if (timePerKm.length > 0) {
                 int preceeding_sum = 0;
-                for (int time in timePerKm){
-                  preceeding_sum+=time;
+                for (int time in timePerKm) {
+                  preceeding_sum += time;
                 }
                 int timeForCurrentKm = totalTime - preceeding_sum;
                 timePerKm.add(timeForCurrentKm);
@@ -215,7 +221,7 @@ class _MapScreenState extends State<MapScreen> {
         int time_in_secs = int.parse(duration_hours) * 3600 +
             int.parse(duration_minutes) * 60 +
             int.parse(duration_seconds);
-        double pace = (time_in_secs / 60.0)/distance;
+        double pace = (time_in_secs / 60.0) / distance;
         pace_string = pace.toStringAsFixed(1);
         dist = distance.toStringAsFixed(2);
         initialLatitude = finalLatitude;
@@ -373,7 +379,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       child: (Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF93B5C6),
+          backgroundColor: Color(0xFFF6F5F5),
           //centerTitle: true,
           title: Text(
             'ACTIVITY LOGGING',
@@ -422,7 +428,8 @@ class _MapScreenState extends State<MapScreen> {
                       height: 0.34 * _screenHeight,
                       width: _screenWidth,
                       decoration: BoxDecoration(
-                        color: Color(0xFF93B5C6),
+                        color: Color(0xFFC8C6C6),
+                       
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0.05 * _screenHeight),
                           topRight: Radius.circular(0.05 * _screenHeight),

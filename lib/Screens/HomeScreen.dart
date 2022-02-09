@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Important Contacts',
+      'title': 'Contacts',
       'url': 'assets/twerkout.png',
       'routeName': ImportantContacts.routeName,
       'description':
