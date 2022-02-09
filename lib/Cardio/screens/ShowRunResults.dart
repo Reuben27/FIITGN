@@ -127,7 +127,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
         double.parse(duration_hours) * 3600;
     double avgSpeed = (distance * 1000) / allTimeInSec;
     double av_pace = ((allTimeInSec / 60.0)) / distance;
-    if (distance == 0) {
+    if (distance == 0.0) {
       av_pace = 0.0;
     }
     String av_pace_string = av_pace.toStringAsFixed(2);
