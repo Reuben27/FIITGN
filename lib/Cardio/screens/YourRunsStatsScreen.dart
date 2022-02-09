@@ -139,12 +139,15 @@ class _YourRunsState extends State<YourRuns> {
                   // String avgSpeed = runStats[i].avgSpeed;
                   // IMP THAT NOW IN runStats[i] av pace is stored in the name of avgSpeed
                   String av_pace = runStats[i].avgSpeed;
-                  double av_pace_double = double.parse(runStats[i].avgSpeed);
-                  // Changing the form of av pace
-                  av_pace = (av_pace_double.floor()).toStringAsFixed(0) +
-                      ":" +
-                      ((av_pace_double - av_pace_double.floor())*60)
-                          .toStringAsFixed(0);
+                  if (runStats[i].avgSpeed.contains(':')==false) {
+                    double av_pace_double = double.parse(runStats[i].avgSpeed);
+                    // Changing the form of av pace
+                    av_pace = (av_pace_double.floor()).toStringAsFixed(0) +
+                        ":" +
+                        ((av_pace_double - av_pace_double.floor()) * 60)
+                            .toStringAsFixed(0);
+                  }
+
                   // String avgSpeedInKmph =
                   // (double.parse(avgSpeed) * 5 / 18).toStringAsFixed(2);
                   // print(timeInHrs + " : " + timeInMins + " : " + tim);
