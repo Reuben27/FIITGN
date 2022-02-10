@@ -168,12 +168,13 @@ class _YourRunsState extends State<YourRuns> {
                           max_elevation = elevation;
                         }
                       }
+                      pass['index'] = i;
                       pass['max_elevation'] = max_elevation.toStringAsFixed(1);
                       pass['average_pace'] = av_pace;
                       pass['time'] = runStats[i].timeOfRunHrs +
-                          ' : ' +
+                          ':' +
                           runStats[i].timeOfRunMin +
-                          ' : ' +
+                          ':' +
                           runStats[i].timeOfRunSec;
 
                       Navigator.pushNamed(context, Additional_stats.routeName,

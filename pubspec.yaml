@@ -130,7 +130,10 @@ flutter:
     - assets/foot.png
     - assets/tt.png
     - assets/squash.png
-    - assets/empty.png
+    - assets/bad.png
+    - assets/bb.png
+    - assets/cricket.png
+    - assets/vb.png
     - assets/toaster.png
     - assets/sandwich.png
     - assets/coffee-bean.png

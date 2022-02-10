@@ -29,7 +29,8 @@ class _SportsState extends State<Sports> {
         textScaleFactor: 0.8,
       ),
       child: DefaultTabController(
-        length: 2,
+        length: 1, //make this 2 when adding tabs
+        
         child: Scaffold(
           appBar: AppBar(
             backgroundColor:  Color(0xFF93B5C6),
@@ -55,23 +56,23 @@ class _SportsState extends State<Sports> {
                         fontFamily: 'Gilroy'),
                   ),
                 ),
-                Tab(
-                  child: Text(
-                    "Equipment",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 0.035 * _screenHeight,
-                        color: Colors.black,
-                        fontFamily: 'Gilroy'),
-                  ),
-                ),
+                // Tab(
+                //   child: Text(
+                //     "Equipment",
+                //     style: TextStyle(
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 0.035 * _screenHeight,
+                //         color: Colors.black,
+                //         fontFamily: 'Gilroy'),
+                //   ),
+                // ),
               ],
             ),
           ),
           body: TabBarView(
             children: [
               DisplayRoomData(),
-              DisplayEquipmentsData(),
+              //DisplayEquipmentsData(),
             ],
           ),
         ),

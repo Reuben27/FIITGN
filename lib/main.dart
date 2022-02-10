@@ -33,7 +33,7 @@ import 'Cardio/screens/ShowCycleResults.dart';
 import 'Cardio/screens/yourCycleStatsScreen.dart';
 import 'Cardio/providers/CycleDataProvider.dart';
 import './Screens/SplashScreen.dart';
-import 'Cardio/screens/NewRunScreen.dart';
+// import 'Cardio/screens/NewRunScreen.dart';
 import 'Cardio/screens/Additional_Stats.dart';
 import 'Cardio/screens/Community_Stats.dart';
 
