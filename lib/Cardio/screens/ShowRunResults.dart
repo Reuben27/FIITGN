@@ -127,13 +127,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
         double.parse(duration_hours) * 3600;
     double avgSpeed = (distance * 1000) / allTimeInSec;
     double av_pace = ((allTimeInSec / 60.0)) / distance;
-    if (distance == 0) {
+    if (distance == 0.0) {
       av_pace = 0.0;
     }
     String av_pace_string = av_pace.toStringAsFixed(2);
     double av_pace_double = double.parse(av_pace_string);
     // Changing the form of av pace
-    av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
+    String show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
         ":" +
         ((av_pace_double - av_pace_double.floor()) * 60).toStringAsFixed(0);
     // String avgSpeedString = avgSpeed.toStringAsFixed(2);
@@ -314,7 +314,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              av_pace_string,
+                                              show_av_pace_string,
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
                                                   fontSize:

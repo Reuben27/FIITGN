@@ -140,12 +140,15 @@ class _YourRunsState extends State<YourRuns> {
                   // String avgSpeed = runStats[i].avgSpeed;
                   // IMP THAT NOW IN runStats[i] av pace is stored in the name of avgSpeed
                   String av_pace = runStats[i].avgSpeed;
-                  double av_pace_double = double.parse(runStats[i].avgSpeed);
-                  // Changing the form of av pace
-                  av_pace = (av_pace_double.floor()).toStringAsFixed(0) +
-                      ":" +
-                      ((av_pace_double - av_pace_double.floor()) * 60)
-                          .toStringAsFixed(0);
+                  if (runStats[i].avgSpeed.contains(':') == false) {
+                    double av_pace_double = double.parse(runStats[i].avgSpeed);
+                    // Changing the form of av pace
+                    av_pace = (av_pace_double.floor()).toStringAsFixed(0) +
+                        ":" +
+                        ((av_pace_double - av_pace_double.floor()) * 60)
+                            .toStringAsFixed(0);
+                  }
+
                   // String avgSpeedInKmph =
                   // (double.parse(avgSpeed) * 5 / 18).toStringAsFixed(2);
                   // print(timeInHrs + " : " + timeInMins + " : " + tim);
@@ -207,33 +210,45 @@ class _YourRunsState extends State<YourRuns> {
                                   margin: EdgeInsets.only(
                                     left: 0.025 * _screenWidth,
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  child: Row(
                                     children: [
-                                      Text(
-                                        runStats[i].user_name,
-                                        style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.04 * _screenHeight,
-                                            // color: Colors.white,
-                                           // fontWeight: FontWeight.bold
-                                            ),
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            Data_Provider().user_display),
                                       ),
-                                      Text(
-                                        runStats[i].activity_name +
-                                            " on " +
-                                            DateFormat.yMd()
-                                                .add_jm()
-                                                .format(DateTime.parse(
-                                                    runStats[i].dateOfRun))
-                                                .toString(),
-                                        style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.02 * _screenHeight,
-                                            // color: Colors.white,
-                                            fontWeight: FontWeight.bold),
+                                      SizedBox(
+                                        width: 0.025 * _screenWidth,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            runStats[i].user_name,
+                                            style: TextStyle(
+                                              fontFamily: 'Gilroy',
+                                              fontSize: 0.04 * _screenHeight,
+                                              // color: Colors.white,
+                                              // fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                          Text(
+                                            runStats[i].activity_name +
+                                                " on " +
+                                                DateFormat.yMd()
+                                                    .add_jm()
+                                                    .format(DateTime.parse(
+                                                        runStats[i].dateOfRun))
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.02 * _screenHeight,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

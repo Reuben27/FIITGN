@@ -170,7 +170,10 @@ class _MapScreenState extends State<MapScreen> {
             0.1) {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                  finalLongitude);
+                  finalLongitude);  
+          if(distance == 0.00){
+           pace_string = "0.0";
+          }
           if (distance > currentKmsCovered + 1) {
             print('First km covered');
             if (displayTime != "") {
