@@ -170,72 +170,96 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                 child: CircularProgressIndicator(),
               )
             : Container(
-                width: MediaQuery.of(context).size.width,
+                // width: MediaQuery.of(context).size.width,
                 height: _screenHeight,
-                child: Stack(
+                child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.75 * _screenHeight,
+                      height: 0.6 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      child: Container(
-                        height: 0.34 * _screenHeight,
-                        width: _screenWidth,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF93B5C6),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(0.05 * _screenHeight),
-                            topRight: Radius.circular(0.05 * _screenHeight),
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 0.12 * _screenHeight,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      duration_hours +
-                                          ":" +
-                                          duration_minutes +
-                                          ":" +
-                                          duration_seconds,
-                                      style: TextStyle(
-                                          fontFamily: 'Gilroy',
-                                          fontSize: 0.07 * _screenHeight,
-                                          // color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                    Container(
+                      height: 0.4 * _screenHeight,
+                      width: _screenWidth,
+                      decoration: BoxDecoration(
+                       // color: Color(0xFF93B5C6),
+                        // borderRadius: BorderRadius.only(
+                        //   topLeft: Radius.circular(0.05 * _screenHeight),
+                        //   topRight: Radius.circular(0.05 * _screenHeight),
+                        // ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 0.165 * _screenHeight,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 0.025 * _screenWidth,
+                                  right: 0.025 * _screenWidth,
+                                  top: 0.01 * _screenHeight,
+                                  bottom: 0.005 * _screenHeight),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFEFEFEF),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(0.015 * _screenHeight),
                                   ),
-                                  Container(
-                                    child: Center(
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
                                       child: Text(
-                                        'DURATION',
+                                        duration_hours +
+                                            ":" +
+                                            duration_minutes +
+                                            ":" +
+                                            duration_seconds,
                                         style: TextStyle(
-                                            fontSize: 0.018 * _screenHeight,
-                                            //      color: Colors.white,
-                                            fontFamily: 'Gilroy'),
+                                            fontFamily: 'Gilroy',
+                                            fontSize: 0.07 * _screenHeight,
+                                            // color: Colors.white,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                      child: Center(
+                                        child: Text(
+                                          'DURATION',
+                                          style: TextStyle(
+                                              fontSize: 0.018 * _screenHeight,
+                                              //      color: Colors.white,
+                                              fontFamily: 'Gilroy'),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Divider(height: 0.01 * _screenHeight),
-                            Container(
-                              height: 0.12 * _screenHeight,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
+                          ),
+                          // Divider(height: 0.01 * _screenHeight),
+                          Container(
+                            height: 0.165 * _screenHeight,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0.025 * _screenWidth,
+                                      right: 0.0125 * _screenWidth,
+                                      top: 0.005 * _screenHeight,
+                                      bottom: 0.01 * _screenHeight),
+                                  child: Container( width: 0.45 * _screenWidth,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFEFEFEF),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(0.015 * _screenHeight),
+                                      ),
+                                    ),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -268,8 +292,21 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       ],
                                     ),
                                   ),
-                                  VerticalDivider(),
-                                  Container(
+                                ),
+                                //VerticalDivider(),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 0.025 * _screenWidth,
+                                      left: 0.0125 * _screenWidth,
+                                      top: 0.005 * _screenHeight,
+                                      bottom: 0.01 * _screenHeight),
+                                  child: Container( width: 0.45 * _screenWidth,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFFEFEFEF),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(0.015 * _screenHeight),
+                                      ),
+                                    ),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -302,12 +339,14 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            Divider(height: 0.01 * _screenHeight),
-                            Container(
-                              height: 0.08 * _screenHeight,
+                          ),
+                          // Divider(height: 0.01 * _screenHeight),
+                          Expanded(
+                            child: Container(
+                              // height: 0.08 * _screenHeight,
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment:
@@ -634,13 +673,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Color(0xFF5E8B7E),
-                                          borderRadius: BorderRadius.circular(
-                                              0.02 * _screenHeight),
+                                          color: Color(0xFFE4D8DC),
+                                          // borderRadius: BorderRadius.circular(
+                                          //     0.02 * _screenHeight),
                                         ),
                                         alignment: Alignment.center,
-                                        width: 0.45 * _screenWidth,
-                                        height: 0.05 * _screenHeight,
+                                        width: 0.5 * _screenWidth,
+                                       // height: 0.05 * _screenHeight,
                                         child: Text(
                                           'SAVE',
                                           style: TextStyle(
@@ -657,13 +696,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Color(0xFFC15050),
-                                          borderRadius: BorderRadius.circular(
-                                              0.02 * _screenHeight),
+                                         color: Color(0xFFC9CCD5),
+                                          // borderRadius: BorderRadius.circular(
+                                          //     0.02 * _screenHeight),
                                         ),
                                         alignment: Alignment.center,
-                                        width: 0.45 * _screenWidth,
-                                        height: 0.05 * _screenHeight,
+                                        width: 0.5 * _screenWidth,
+                                       // height: 0.05 * _screenHeight,
                                         child: Text(
                                           'DON\'T SAVE',
                                           style: TextStyle(
@@ -677,8 +716,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
