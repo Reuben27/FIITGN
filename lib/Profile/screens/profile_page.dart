@@ -55,7 +55,7 @@ class _ProfileState extends State<Profile> {
               fontFamily: 'Gilroy',
             ),
           ),
-          centerTitle: true,
+         // centerTitle: true,
         ),
         body: ListView(
           children: [

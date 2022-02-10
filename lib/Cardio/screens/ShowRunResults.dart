@@ -132,10 +132,16 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     }
     String av_pace_string = av_pace.toStringAsFixed(2);
     double av_pace_double = double.parse(av_pace_string);
+    String show_av_pace_string = "";
+    if (av_pace_double.isInfinite || av_pace_double.isNaN) {
+      show_av_pace_string = "0:0";
+    }
     // Changing the form of av pace
-    String show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
-        ":" +
-        ((av_pace_double - av_pace_double.floor()) * 60).toStringAsFixed(0);
+    else {
+      show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
+          ":" +
+          ((av_pace_double - av_pace_double.floor()) * 60).toStringAsFixed(0);
+    }
     // String avgSpeedString = avgSpeed.toStringAsFixed(2);
 
     var _screenHeight = MediaQuery.of(context).size.height -
@@ -176,20 +182,20 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.6 * _screenHeight,
+                      height: 0.55 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
                     Container(
-                      height: 0.4 * _screenHeight,
+                      height: 0.45 * _screenHeight,
                       width: _screenWidth,
                       decoration: BoxDecoration(
-                       // color: Color(0xFF93B5C6),
-                        // borderRadius: BorderRadius.only(
-                        //   topLeft: Radius.circular(0.05 * _screenHeight),
-                        //   topRight: Radius.circular(0.05 * _screenHeight),
-                        // ),
-                      ),
+                          // color: Color(0xFF93B5C6),
+                          // borderRadius: BorderRadius.only(
+                          //   topLeft: Radius.circular(0.05 * _screenHeight),
+                          //   topRight: Radius.circular(0.05 * _screenHeight),
+                          // ),
+                          ),
                       child: Column(
                         children: [
                           Container(
@@ -202,7 +208,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                   bottom: 0.005 * _screenHeight),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Color(0xFFEFEFEF),
+                                  color: Color(0xFFEFEFEF),
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(0.015 * _screenHeight),
                                   ),
@@ -241,7 +247,41 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                               ),
                             ),
                           ),
-                          // Divider(height: 0.01 * _screenHeight),
+                          //Divider(height: 0.01 * _screenHeight),
+                          // InkWell(
+                          //   onTap: () {
+                          //     Map pass = Map();
+                          //     pass['altitude_list'] = altitude_list;
+                          //     pass['pace_list'] = pace_list;
+                          //     pass['distance'] = distanceString;
+                          //     pass['initialLat'] = initialLat;
+                          //     pass['initialLong'] = initialLong;
+                          //     pass['listOfLatLng'] = listOfLatLng;
+                          //     pass['index'] = -1;
+
+                          //     double max_elevation = 0.0;
+                          //     altitude_list.forEach((element) {
+                          //       if (element > max_elevation) {
+                          //         max_elevation = element;
+                          //       }
+                          //     });
+                          //     pass['max_elevation'] =
+                          //         max_elevation.toStringAsFixed(2);
+                          //     pass['average_pace'] = show_av_pace_string;
+                          //     pass['time'] = duration_hours +
+                          //         ':' +
+                          //         duration_minutes +
+                          //         ':' +
+                          //         duration_seconds;
+
+                          //     Navigator.pushNamed(
+                          //         context, Additional_stats.routeName,
+                          //         arguments: pass);
+                          //   },
+                          //   child: Container(
+                          //     child: Text('Detailed Stats'),
+                          //   ),
+                          // ),
                           Container(
                             height: 0.165 * _screenHeight,
                             child: Row(
@@ -249,11 +289,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      left: 0.025 * _screenWidth,
-                                      right: 0.0125 * _screenWidth,
-                                      top: 0.005 * _screenHeight,
-                                      bottom: 0.01 * _screenHeight),
-                                  child: Container( width: 0.45 * _screenWidth,
+                                    left: 0.025 * _screenWidth,
+                                    right: 0.0125 * _screenWidth,
+                                    top: 0.005 * _screenHeight,
+                                    //bottom: 0.01 * _screenHeight
+                                  ),
+                                  child: Container(
+                                    width: 0.45 * _screenWidth,
                                     decoration: BoxDecoration(
                                       color: Color(0xFFEFEFEF),
                                       borderRadius: BorderRadius.all(
@@ -296,11 +338,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                 //VerticalDivider(),
                                 Padding(
                                   padding: EdgeInsets.only(
-                                      right: 0.025 * _screenWidth,
-                                      left: 0.0125 * _screenWidth,
-                                      top: 0.005 * _screenHeight,
-                                      bottom: 0.01 * _screenHeight),
-                                  child: Container( width: 0.45 * _screenWidth,
+                                    right: 0.025 * _screenWidth,
+                                    left: 0.0125 * _screenWidth,
+                                    top: 0.005 * _screenHeight,
+                                    //bottom: 0.01 * _screenHeight
+                                  ),
+                                  child: Container(
+                                    width: 0.45 * _screenWidth,
                                     decoration: BoxDecoration(
                                       color: Color(0xFFEFEFEF),
                                       borderRadius: BorderRadius.all(
@@ -327,7 +371,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         Container(
                                           child: Center(
                                             child: Text(
-                                              'mins/km',
+                                              'AVG PACE',
                                               style: TextStyle(
                                                   fontSize:
                                                       0.018 * _screenHeight,
@@ -344,6 +388,96 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                             ),
                           ),
                           // Divider(height: 0.01 * _screenHeight),
+                          Container(
+                            width: 0.4 * _screenWidth,
+                            child: OutlinedButton(
+                              child: Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Detailed Stats',
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontSize: 0.025 * _screenHeight,
+                                          color: Colors.black),
+                                    ),
+                                    Icon(
+                                      Icons.bar_chart,
+                                      color: Colors.black,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                Map pass = Map();
+                                pass['altitude_list'] = altitude_list;
+                                pass['pace_list'] = pace_list;
+                                pass['distance'] = distanceString;
+                                pass['initialLat'] = initialLat;
+                                pass['initialLong'] = initialLong;
+                                pass['listOfLatLng'] = listOfLatLng;
+                                pass['index'] = -1;
+
+                                double max_elevation = 0.0;
+                                altitude_list.forEach((element) {
+                                  if (element > max_elevation) {
+                                    max_elevation = element;
+                                  }
+                                });
+                                pass['max_elevation'] =
+                                    max_elevation.toStringAsFixed(2);
+                                pass['average_pace'] = show_av_pace_string;
+                                pass['time'] = duration_hours +
+                                    ':' +
+                                    duration_minutes +
+                                    ':' +
+                                    duration_seconds;
+
+                                Navigator.pushNamed(
+                                    context, Additional_stats.routeName,
+                                    arguments: pass);
+                              },
+                            ),
+                          ),
+
+                          // Container(
+                          //   child: OutlinedButton(
+                          //     onPressed: () {
+                          //       Map pass = Map();
+                          //       pass['altitude_list'] = altitude_list;
+                          //       pass['pace_list'] = pace_list;
+                          //       pass['distance'] = distanceString;
+                          //       pass['initialLat'] = initialLat;
+                          //       pass['initialLong'] = initialLong;
+                          //       pass['listOfLatLng'] = listOfLatLng;
+                          //       pass['index'] = -1;
+
+                          //       double max_elevation = 0.0;
+                          //       altitude_list.forEach((element) {
+                          //         if (element > max_elevation) {
+                          //           max_elevation = element;
+                          //         }
+                          //       });
+                          //       pass['max_elevation'] =
+                          //           max_elevation.toStringAsFixed(2);
+                          //       pass['average_pace'] = show_av_pace_string;
+                          //       pass['time'] = duration_hours +
+                          //           ':' +
+                          //           duration_minutes +
+                          //           ':' +
+                          //           duration_seconds;
+
+                          //       Navigator.pushNamed(
+                          //           context, Additional_stats.routeName,
+                          //           arguments: pass);
+                          //     },
+                          //     child: Container(
+                          //         width: 0.3 * _screenWidth,
+                          //         child: Text('Detailed Stats')),
+                          //   ),
+                          // ),
                           Expanded(
                             child: Container(
                               // height: 0.08 * _screenHeight,
@@ -679,7 +813,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                         ),
                                         alignment: Alignment.center,
                                         width: 0.5 * _screenWidth,
-                                       // height: 0.05 * _screenHeight,
+                                        // height: 0.05 * _screenHeight,
                                         child: Text(
                                           'SAVE',
                                           style: TextStyle(
@@ -696,13 +830,13 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                         color: Color(0xFFC9CCD5),
+                                          color: Color(0xFFC9CCD5),
                                           // borderRadius: BorderRadius.circular(
                                           //     0.02 * _screenHeight),
                                         ),
                                         alignment: Alignment.center,
                                         width: 0.5 * _screenWidth,
-                                       // height: 0.05 * _screenHeight,
+                                        // height: 0.05 * _screenHeight,
                                         child: Text(
                                           'DON\'T SAVE',
                                           style: TextStyle(
@@ -727,5 +861,3 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     );
   }
 }
-//  Text(
-//                      "$distanceString kms",timeMin,avgSpeedString

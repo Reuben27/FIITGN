@@ -49,7 +49,11 @@ class _MapScreenState extends State<MapScreen> {
   int buttonFlag = 0;
   String dist = "";
   String speedString = "";
-  String pace_string = "";
+  String pace_string = "0.0";
+
+  String show_av_pace_string = "";
+
+  String current_pace_string = "0:0";
   List<double> altitude_list = [];
 
   StreamSubscription _locationSubscription;
@@ -154,11 +158,19 @@ class _MapScreenState extends State<MapScreen> {
           }
         }
         setState_counter += 1;
-        if (setState_counter % 5 == 0) {
+        if (setState_counter % 4 == 0) {
           setState(() {});
         }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
+        double av_pace_double = double.parse(pace_string);
+        // Changing the form of av pace
+        if(av_pace_double.isFinite) {
+          show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
+              ":" +
+              ((av_pace_double - av_pace_double.floor()) * 60)
+                  .toStringAsFixed(0);
+        }
 
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
@@ -170,9 +182,9 @@ class _MapScreenState extends State<MapScreen> {
             0.1) {
           distance = distance +
               distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                  finalLongitude);  
-          if(distance == 0.00){
-           pace_string = "0.0";
+                  finalLongitude);
+          if (distance == 0.00) {
+            pace_string = "0.0";
           }
           if (distance > currentKmsCovered + 1) {
             print('First km covered');
@@ -214,6 +226,14 @@ class _MapScreenState extends State<MapScreen> {
         }
         // print("Distance is $dist metres");
         double speed = location.speed;
+        if (speed > 0.0 && speed.isFinite) {
+          double current_pace = (1 / speed) * (100 / 6);
+          current_pace_string = (current_pace.floor()).toStringAsFixed(0) +
+              ":" +
+              ((current_pace - current_pace.floor()) * 60).toStringAsFixed(0);
+        } else {
+          current_pace_string = '0:0';
+        }
         // speedString = speed.toStringAsFixed(1);
         // double pace = (1 / speed) * (100.0 / 6);
         List t_list = displayTime.split(":");
@@ -429,12 +449,12 @@ class _MapScreenState extends State<MapScreen> {
                     height: 0.4 * _screenHeight,
                     width: _screenWidth,
                     decoration: BoxDecoration(
-                     // color: Color(0xFFC8C6C6),
-                      // borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.circular(0.05 * _screenHeight),
-                      //   topRight: Radius.circular(0.05 * _screenHeight),
-                      // ),
-                    ),
+                        // color: Color(0xFFC8C6C6),
+                        // borderRadius: BorderRadius.only(
+                        //   topLeft: Radius.circular(0.05 * _screenHeight),
+                        //   topRight: Radius.circular(0.05 * _screenHeight),
+                        // ),
+                        ),
                     child: Column(
                       children: [
                         Container(
@@ -496,7 +516,7 @@ class _MapScreenState extends State<MapScreen> {
                                     bottom: 0.005 * _screenHeight),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                   color: Color(0xFFEFEFEF),
+                                    color: Color(0xFFEFEFEF),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(0.015 * _screenHeight),
                                     ),
@@ -508,7 +528,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            pace_string,
+                                            show_av_pace_string,
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
                                                 fontSize: 0.07 * _screenHeight,
@@ -520,7 +540,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'mins/km',
+                                            'AVG PACE',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -548,7 +568,7 @@ class _MapScreenState extends State<MapScreen> {
                                     bottom: 0.01 * _screenHeight),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                   color: Color(0xFFEFEFEF),
+                                    color: Color(0xFFEFEFEF),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(0.015 * _screenHeight),
                                     ),
@@ -576,7 +596,7 @@ class _MapScreenState extends State<MapScreen> {
                                               style: TextStyle(
                                                   fontFamily: 'Gilroy',
                                                   fontSize:
-                                                      0.05 * _screenHeight,
+                                                      0.06 * _screenHeight,
                                                   // color: Colors.white,
                                                   fontWeight: FontWeight.bold),
                                             );
@@ -606,7 +626,7 @@ class _MapScreenState extends State<MapScreen> {
                                     bottom: 0.01 * _screenHeight),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                  color: Color(0xFFEFEFEF),
+                                    color: Color(0xFFEFEFEF),
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(0.015 * _screenHeight),
                                     ),
@@ -618,7 +638,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            pace_string,
+                                            current_pace_string,
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
                                                 fontSize: 0.07 * _screenHeight,
@@ -630,7 +650,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'mins/km',
+                                            'CURR PACE',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -686,11 +706,11 @@ class _MapScreenState extends State<MapScreen> {
                         //     ],
                         //   ),
                         // ),
-                    
+
                         pauseFlag == 0
                             ? Expanded(
-                              child: Container(
-                                 // height: 0.04 * _screenHeight,
+                                child: Container(
+                                  // height: 0.04 * _screenHeight,
                                   child: Center(
                                     child: Container(
                                       child: InkWell(
@@ -710,7 +730,7 @@ class _MapScreenState extends State<MapScreen> {
                                             //     0.02 * _screenHeight),
                                           ),
                                           alignment: Alignment.center,
-                                          width:  _screenWidth,
+                                          width: _screenWidth,
                                           //height: 0.04 * _screenHeight,
                                           child: Text(
                                             'BEGIN',
@@ -724,11 +744,11 @@ class _MapScreenState extends State<MapScreen> {
                                     ),
                                   ),
                                 ),
-                            )
+                              )
                             : pauseFlag == 1 && resume_end_flag == 1
                                 ? Expanded(
-                                  child: Container(
-                                    //  height: 0.08 * _screenHeight,
+                                    child: Container(
+                                      //  height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: Row(
                                           mainAxisAlignment:
@@ -748,12 +768,12 @@ class _MapScreenState extends State<MapScreen> {
                                                   ),
                                                   alignment: Alignment.center,
                                                   width: 0.5 * _screenWidth,
-                                                //  height: 0.05 * _screenHeight,
+                                                  //  height: 0.05 * _screenHeight,
                                                   child: Text(
                                                     'RESUME',
                                                     style: TextStyle(
-                                                        fontSize:
-                                                            0.04 * _screenHeight,
+                                                        fontSize: 0.04 *
+                                                            _screenHeight,
                                                         fontFamily: 'Gilroy',
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -764,10 +784,11 @@ class _MapScreenState extends State<MapScreen> {
                                             Container(
                                               child: InkWell(
                                                 onTap: () async {
-                                                  stopWatchTimer.onExecute
-                                                      .add(StopWatchExecute.stop);
+                                                  stopWatchTimer.onExecute.add(
+                                                      StopWatchExecute.stop);
                                                   storeFinalLat = finalLatitude;
-                                                  storeFinalLong = finalLongitude;
+                                                  storeFinalLong =
+                                                      finalLongitude;
                                                   print(distance);
                                                   endingTime = DateTime.now();
                                                   passingToShowResults[
@@ -777,7 +798,8 @@ class _MapScreenState extends State<MapScreen> {
                                                           'initialLong'] =
                                                       storeInitialLong;
                                                   passingToShowResults[
-                                                      'finalLat'] = storeFinalLat;
+                                                          'finalLat'] =
+                                                      storeFinalLat;
                                                   passingToShowResults[
                                                           'finalLong'] =
                                                       storeFinalLong;
@@ -811,10 +833,11 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'duration_seconds'] =
                                                       duration_seconds;
-                                
+
                                                   // Additional Stats
                                                   passingToShowResults[
-                                                      'time_per_km'] = timePerKm;
+                                                          'time_per_km'] =
+                                                      timePerKm;
                                                   // passingToShowResults[
                                                   //         'speed_per_km'] =
                                                   //     speedPerKm;
@@ -826,9 +849,9 @@ class _MapScreenState extends State<MapScreen> {
                                                   // print(
                                                   //     "and speed per kilometer is");
                                                   // print(speedPerKm);
-                                
+
                                                   // print("All parameters stored successfully");
-                                
+
                                                   // _locationSubscription.cancel();
                                                   // await bLoc.BackgroundLocation.stopLocationService();
                                                   Navigator.of(context)
@@ -848,12 +871,12 @@ class _MapScreenState extends State<MapScreen> {
                                                   ),
                                                   alignment: Alignment.center,
                                                   width: 0.5 * _screenWidth,
-                                                 // height: 0.05 * _screenHeight,
+                                                  // height: 0.05 * _screenHeight,
                                                   child: Text(
                                                     'FINISH',
                                                     style: TextStyle(
-                                                        fontSize:
-                                                            0.04 * _screenHeight,
+                                                        fontSize: 0.04 *
+                                                            _screenHeight,
                                                         fontFamily: 'Gilroy',
                                                         fontWeight:
                                                             FontWeight.w600),
@@ -865,10 +888,10 @@ class _MapScreenState extends State<MapScreen> {
                                         ),
                                       ),
                                     ),
-                                )
+                                  )
                                 : Expanded(
-                                  child: Container(
-                                   //   height: 0.08 * _screenHeight,
+                                    child: Container(
+                                      //   height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: InkWell(
                                           onTap: () {
@@ -881,12 +904,13 @@ class _MapScreenState extends State<MapScreen> {
                                               //     0.02 * _screenHeight),
                                             ),
                                             alignment: Alignment.center,
-                                            width:   _screenWidth,
+                                            width: _screenWidth,
                                             //height: 0.05 * _screenHeight,
                                             child: Text(
                                               'PAUSE',
                                               style: TextStyle(
-                                                  fontSize: 0.04 * _screenHeight,
+                                                  fontSize:
+                                                      0.04 * _screenHeight,
                                                   fontFamily: 'Gilroy',
                                                   fontWeight: FontWeight.w600),
                                             ),
@@ -894,7 +918,7 @@ class _MapScreenState extends State<MapScreen> {
                                         ),
                                       ),
                                     ),
-                                )
+                                  )
                       ],
                     ),
                   ),

@@ -94,6 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     var _screenWidth = MediaQuery.of(context).size.width;
     var _screenRatio = (_screenHeight / _screenWidth);
+    print(_screenRatio);
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(textScaleFactor: 0.8),

@@ -34,9 +34,9 @@ class _SportsState extends State<Sports> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor:  Color(0xFF93B5C6),
-            centerTitle: true,
+            //centerTitle: true,
             title: Text(
-              "CHOOSE SPORT",
+              "SPORTS",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -144,7 +144,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                         left: 0.0125 * _screenWidth,
                         right: 0.0125 * _screenWidth),
                     decoration: BoxDecoration(
-                        color: Colors.grey[350],
+                         color: Color(0xFFC9CCD5),
                         borderRadius:
                             BorderRadius.circular(0.025 * _screenHeight)),
                     child: Column(

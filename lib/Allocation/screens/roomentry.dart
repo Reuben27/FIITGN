@@ -94,14 +94,14 @@ class _RoomEntryState extends State<RoomEntry> {
         appBar: AppBar(
           backgroundColor:  Color(0xFF93B5C6),
           title: Text(
-            "CHOOSE SLOT",
+            "SLOTS",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-          centerTitle: true,
+          //centerTitle: true,
           bottom: PreferredSize(
             preferredSize: Size(_screenWidth, 0.24 * _screenHeight),
             child: Container(
@@ -167,7 +167,7 @@ class _RoomEntryState extends State<RoomEntry> {
                       print("Hey");
                       setState(() {
                         print(colorList[timeindex]);
-                        colorList[timeindex] = Colors.green;
+                        colorList[timeindex] = Color(0xFF93B5C6);
                         chosentimeindex = timeindex;
                         print(colorList);
                       });
@@ -177,7 +177,7 @@ class _RoomEntryState extends State<RoomEntry> {
                     if (colorList[timeindex] == Colors.grey[300]) {
                       setState(() {
                         colorList[chosentimeindex] = Colors.grey[300];
-                        colorList[timeindex] = Colors.green;
+                        colorList[timeindex] = Color(0xFF93B5C6);
                         chosentimeindex = timeindex;
                         print(colorList);
                       });
@@ -220,7 +220,7 @@ class _RoomEntryState extends State<RoomEntry> {
                   borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                   color: bookedornot[day][timeindex] == 0
                       ? colorList[timeindex]
-                      : Colors.red,
+                      : Colors.red[200],
                 ),
               ),
             ),
@@ -280,12 +280,12 @@ class _RoomEntryState extends State<RoomEntry> {
                     ],
                   ),
                   content: Container(
-                   height: 0.15 * _screenHeight,
+                   height: 0.1 * _screenHeight,
                     child: Column(
                       children: [
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Colors.deepOrange[300]),
+                            side: BorderSide(color: Color(0xFF93B5C6)),
                           ),
                           child: Text(
                             "Home",
@@ -303,29 +303,29 @@ class _RoomEntryState extends State<RoomEntry> {
                             );
                           },
                         ),
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                              color: Colors.deepOrange[300],
-                            ),
-                          ),
-                          child: Text(
-                            'Book Equipment',
-                            style: TextStyle(
-                                fontFamily: "Gilroy",
-                                color: Colors.black,
-                               fontSize: 0.025 * _screenHeight),
-                          ),
-                          onPressed: () {
-                            reflag = 0;
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EquipmentEntry(),
-                              ),
-                            );
-                          },
-                        )
+                        // OutlinedButton(
+                        //   style: OutlinedButton.styleFrom(
+                        //     side: BorderSide(
+                        //       color: Colors.deepOrange[300],
+                        //     ),
+                        //   ),
+                        //   child: Text(
+                        //     'Book Equipment',
+                        //     style: TextStyle(
+                        //         fontFamily: "Gilroy",
+                        //         color: Colors.black,
+                        //        fontSize: 0.025 * _screenHeight),
+                        //   ),
+                        //   onPressed: () {
+                        //     reflag = 0;
+                        //     Navigator.pushReplacement(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => EquipmentEntry(),
+                        //       ),
+                        //     );
+                        //   },
+                        // )
                       ],
                     ),
                   )

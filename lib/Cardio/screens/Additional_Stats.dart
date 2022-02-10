@@ -15,6 +15,41 @@ class Additional_stats extends StatefulWidget {
 }
 
 class _Additional_statsState extends State<Additional_stats> {
+  Widget createSmallMap2(Map args) {
+    final double initialLatitude = args['initialLat'];
+    final double initialLongitude = args['initialLong'];
+    List<dynamic> listOfCoordinates = args['listOfLatLng'];
+    List<latLng.LatLng> listOfPolyLineLatLng = [];
+
+    for (int i = 0; i < listOfCoordinates.length; i++) {
+      listOfPolyLineLatLng.add(
+        latLng.LatLng(
+          listOfCoordinates[i]['latitude'],
+          listOfCoordinates[i]['longitude'],
+        ),
+      );
+    }
+    Polyline _polyline = Polyline(
+        points: listOfPolyLineLatLng, strokeWidth: 3.5, color: Colors.amber);
+
+    return FlutterMap(
+      options: MapOptions(
+        center: latLng.LatLng(initialLatitude, initialLongitude),
+        minZoom: 15.0,
+      ),
+      layers: [
+        TileLayerOptions(
+          urlTemplate:
+              "https://api.mapbox.com/styles/v1/gauti234/ckgovqsac39zk19o5vytzgreo/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ2F1dGkyMzQiLCJhIjoiY2tnbnA3ZHFvMjNwbzMwdGV1cGVtZWZqciJ9.jO2FxWNXXWh1Q8t_BaNs4g",
+          additionalOptions: {
+            'accessToken':
+                'pk.eyJ1IjoiZ2F1dGkyMzQiLCJhIjoiY2tnbnBlaWE2MHgzbDJ4bzFsb2x5ZnRjaCJ9.W3WKN9f1Uc5v4FT5om3-9g',
+          },
+        ),
+        PolylineLayerOptions(polylines: [_polyline]),
+      ],
+    );
+  }
   Widget createSmallMap(int index) {
     final runStatsProvider = Provider.of<RunDataProvider>(context);
     final List<RunModel> runStats = runStatsProvider.yourRunsList;
@@ -72,7 +107,10 @@ class _Additional_statsState extends State<Additional_stats> {
     String av_pace = routeArgs['average_pace'];
     String time = routeArgs['time'];
     int index = routeArgs['index'];
-
+    print("PACE LIST IS ");
+    print(pace_list);
+    print("ELEVATION LIST IS ");
+    print(altitude_list);
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
@@ -85,6 +123,8 @@ class _Additional_statsState extends State<Additional_stats> {
               style: TextStyle(
                 fontFamily: 'Gilroy',
                 fontSize: 0.04 * _screenHeight,
+                color: Colors.black,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
@@ -102,7 +142,10 @@ class _Additional_statsState extends State<Additional_stats> {
                           // ),
                           height: 0.45 * _screenHeight,
                           width: _screenWidth,
-                          child: createSmallMap(index),
+                          child: index == -1?
+                          createSmallMap2(routeArgs)
+                          :
+                          createSmallMap(index),
                         ),
                         //SizedBox(height: 30),
                         Container(
@@ -188,7 +231,7 @@ class _Additional_statsState extends State<Additional_stats> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'mins/km',
+                                            'AVG PACE',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -384,48 +427,55 @@ class _Additional_statsState extends State<Additional_stats> {
                         //   ],
                         // ),
                         // SizedBox(height: 40),
-                        Center(
-                            child: Text(
-                          'PACE',
-                          style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 0.05 * _screenHeight,
-                          ),
-                          textAlign: TextAlign.center,
-                        )),
-                        SizedBox(
-                            width: _screenWidth,
-                            height: 0.4 * _screenHeight,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 0.05 * _screenWidth,
-                                  vertical: 0.01 * _screenHeight),
-                              child: PaceChartWidget(pace_list: pace_list),
-                            )),
-
-                        //SizedBox(height: 30),
-                        Center(
-                            child: Text(
-                          'ELEVATION',
-                          style: TextStyle(
-                            fontFamily: 'Gilroy', fontWeight: FontWeight.bold,
-                            fontSize: 0.05 * _screenHeight,
-                          ),
-                          textAlign: TextAlign.center,
-                        )),
-                        SizedBox(
-                          width: _screenWidth,
-                          height: 0.4 * _screenHeight,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 0.05 * _screenWidth,
-                                vertical: 0.01 * _screenHeight),
-                            child: ElevationWidget(
-                                altitude_list: altitude_list,
-                                max_alt: max_elevation),
-                          ),
-                        ),
+                        pace_list.length > 0
+                            ? Center(
+                                child: Text(
+                                'PACE',
+                                style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 0.05 * _screenHeight,
+                                ),
+                                textAlign: TextAlign.center,
+                              ))
+                            : Container(),
+                        pace_list.length > 0
+                            ? SizedBox(
+                                width: _screenWidth,
+                                height: 0.4 * _screenHeight,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 0.05 * _screenWidth,
+                                      vertical: 0.01 * _screenHeight),
+                                  child: PaceChartWidget(pace_list: pace_list),
+                                ))
+                            : Container(),
+                        altitude_list.length > 0
+                            ? Center(
+                                child: Text(
+                                'ELEVATION',
+                                style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 0.05 * _screenHeight,
+                                ),
+                                textAlign: TextAlign.center,
+                              ))
+                            : Container(),
+                        altitude_list.length > 0
+                            ? SizedBox(
+                                width: _screenWidth,
+                                height: 0.4 * _screenHeight,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 0.05 * _screenWidth,
+                                      vertical: 0.01 * _screenHeight),
+                                  child: ElevationWidget(
+                                      altitude_list: altitude_list,
+                                      max_alt: max_elevation),
+                                ),
+                              )
+                            : Container(),
                       ],
                     )),
     );
@@ -447,7 +497,7 @@ class ElevationWidget extends StatelessWidget {
       spots.add(
         FlSpot(
           i + 0.0,
-          altitude_list[i],
+          double.parse(altitude_list[i].toStringAsFixed(2)),
         ),
       );
     }
@@ -515,12 +565,12 @@ class ElevationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double max_altitude = double.parse('10.0');
+    double max_altitude = double.parse(max_alt) + 2;
     double min_altitude = 0.0;
     // Use this in real
-    // List<FlSpot> spots = get_spots(altitude_list);
+    List<FlSpot> spots = get_spots(altitude_list);
     // This is for testing
-    List<FlSpot> spots = dummy_data;
+    // List<FlSpot> spots = dummy_data;
     return LineChart(
       LineChartData(
         minX: 0,
@@ -650,15 +700,15 @@ class PaceChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This is dummy
-    double max_pace = 10;
+    // double max_pace = 10;
 
     // Use this instead
-    // double max_pace = get_max_pace(pace_list);
+    double max_pace = get_max_pace(pace_list) + 2;
     double min_pace = 0.0;
     // Use this in real
-    // List<FlSpot> spots = get_spots(pace_list);
+    List<FlSpot> spots = get_spots(pace_list);
     // This is for testing
-    List<FlSpot> spots = dummy_data;
+    // List<FlSpot> spots = dummy_data;
     return LineChart(
       LineChartData(
         minX: 0,
@@ -673,7 +723,7 @@ class PaceChartWidget extends StatelessWidget {
             showTitles: true,
             reservedSize: 40,
             margin: 8,
-            interval: 5,
+            interval: 1,
             getTitles: (value) {
               return (value.toInt().toString() + 'km');
             },

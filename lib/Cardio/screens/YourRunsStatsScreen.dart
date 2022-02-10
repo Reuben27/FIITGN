@@ -213,12 +213,12 @@ class _YourRunsState extends State<YourRuns> {
                                   ),
                                   child: Row(
                                     children: [
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            Data_Provider().user_display),
-                                      ),
+                                      // CircleAvatar(
+                                      //   backgroundImage: NetworkImage(
+                                      //       Data_Provider().user_display),
+                                      // ),
                                       SizedBox(
-                                        width: 0.025 * _screenWidth,
+                                        width: 0.0125 * _screenWidth,
                                       ),
                                       Column(
                                         mainAxisAlignment:

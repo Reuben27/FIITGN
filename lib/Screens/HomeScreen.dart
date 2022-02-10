@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Cardio Stats',
+      'title': 'statistics',
       'url': 'assets/stats.png',
       'routeName': YourRuns.routeName,
       'description':

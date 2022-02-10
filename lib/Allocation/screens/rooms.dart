@@ -24,14 +24,14 @@ class _RoomsState extends State<Rooms> {
         appBar: AppBar(
           backgroundColor:  Color(0xFF93B5C6),
           title: Text(
-            'SPORT',
+            'ROOMS',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-          centerTitle: true,
+         // centerTitle: true,
         ),
         body: DisplayData(),
       ),
