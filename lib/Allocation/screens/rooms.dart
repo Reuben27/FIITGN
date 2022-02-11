@@ -22,16 +22,16 @@ class _RoomsState extends State<Rooms> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrange[300],
+          backgroundColor:  Color(0xFF93B5C6),
           title: Text(
-            'SPORT',
+            'ROOMS',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-          centerTitle: true,
+         // centerTitle: true,
         ),
         body: DisplayData(),
       ),
@@ -90,7 +90,7 @@ class _DisplayDataState extends State<DisplayData> {
                 child: Container(
                   width: _screenWidth,
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange[300],
+                    color: Color(0xFFC9CCD5),
                     borderRadius: BorderRadius.circular(0.02 * _screenHeight),
                   ),
                   child: Padding(

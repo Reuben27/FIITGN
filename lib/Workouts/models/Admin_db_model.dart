@@ -39,9 +39,10 @@ class GetAdminDataFromGoogleSheetProvider with ChangeNotifier {
       print(jsonFeedback);
       _listAdmin =
           jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
+
       notifyListeners();
     });
-    // return null;
+    return null;
   }
 
   List<String> getAdminEmailIds() {
@@ -60,3 +61,12 @@ class GetAdminDataFromGoogleSheetProvider with ChangeNotifier {
     return [..._listAdmin];
   }
 }
+
+ // _listAdmin.add(AdminDbModel(
+    //     emailId: 'madhu.vadali@iitgn.ac.in',
+    //     name: 'Madhu Vadali',
+    //     uniqueId: 'madhu.vadali@iitgn.ac.in'));
+    // _listAdmin.add(AdminDbModel(
+    //     emailId: 'gautam.pv@iitgn.ac.in',
+    //     name: 'Gautam Vashishtha',
+    //     uniqueId: 'gautam.pv@iitgn.ac.in'));

@@ -33,6 +33,7 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   flutter_map:
   flutter_signin_button: ^1.1.0
+  fl_chart: ^0.41.0
   font_awesome_flutter: ^8.9.0
   form_field_validator: ^1.0.1
   googleapis_auth: ^1.1.0
@@ -46,9 +47,11 @@ dependencies:
   pedometer: ^2.0.2
   percent_indicator: ^2.1.7+4
   provider: ^4.3.2+2
+  random_string: ^2.3.1
   sensors: ^0.4.2+6
   shared_preferences: ^2.0.6
   stop_watch_timer: ^0.7.0
+  syncfusion_flutter_charts: ^18.3.52
   url_launcher: ^6.0.8
 
   # The following adds the Cupertino Icons font to your application.
@@ -57,6 +60,8 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   firebase_messaging: ^10.0.2
   firebase_messaging_web: ^2.0.2
+  horizontal_data_table: ^2.5.2
+  data_table_2: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -125,7 +130,10 @@ flutter:
     - assets/foot.png
     - assets/tt.png
     - assets/squash.png
-    - assets/empty.png
+    - assets/bad.png
+    - assets/bb.png
+    - assets/cricket.png
+    - assets/vb.png
     - assets/toaster.png
     - assets/sandwich.png
     - assets/coffee-bean.png
@@ -143,6 +151,16 @@ flutter:
     - assets/aditya.jpg
     - assets/gottam.jpg
     - assets/rooben.jpg
+    - assets/monday.png
+    - assets/tuesday.png
+    - assets/wednesday.png
+    - assets/thursday.png
+    - assets/friday.png
+    - assets/saturday.png
+    - assets/sunday.png
+    - assets/following.png
+    - assets/report.png
+    - assets/suggest.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

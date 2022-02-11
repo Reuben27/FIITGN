@@ -10,83 +10,106 @@ class NutritionScreen extends StatefulWidget {
 
 class _NutritionScreenState extends State {
   List<NutritionData> items = List<NutritionData>.empty();
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    print(items);
+  bool isLoading = true;
+  var isInit = true;
+
+ @override
+  void didChangeDependencies() async {
+    if (NutritionData.nutrition_list_static.length == 0) {
+      await getData();
+      NutritionData.nutrition_list_static = items;
+    } else {
+      items = NutritionData.nutrition_list_static;
+      getIndices(items);
+       setState(() {
+        this.items = items;
+        isLoading = false;
+      });
+    }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    isInit = false;
   }
 
-  void getData() async {
-    items = nutri_data;
+
+  getData() async {
+    items = await getNutritionData();
+    // items = nutri_data;
     getIndices(items);
     setState(() {
       this.items = items;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var _screenHeight = MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
-      kToolbarHeight;
-  var _screenWidth = MediaQuery.of(context).size.width;
+        MediaQuery.of(context).padding.top -
+        kToolbarHeight;
+    var _screenWidth = MediaQuery.of(context).size.width;
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
         textScaleFactor: 0.8,
       ),
       child: DefaultTabController(
         length: 2,
-        child:  Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.purple[100],
-              bottom: TabBar(
-                indicatorWeight: 0.002* _screenHeight,
-                tabs: [
-                  Tab(
-                    child: Text(
-                      "Today",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 0.035 * _screenHeight,
-                          color: Colors.black,
-                          fontFamily: 'Gilroy'),
-                    ),
+        child: Scaffold(
+          appBar: AppBar(
+            //centerTitle: true,
+            backgroundColor: Color(0xFF93B5C6),
+            bottom: TabBar(
+              indicatorWeight: 0.002 * _screenHeight,
+              tabs: [
+                Tab(
+                  child: Text(
+                    "Today",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 0.035 * _screenHeight,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
                   ),
-                  Tab(
-                    child: Text(
-                      "Tomorrow",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 0.035 * _screenHeight,
-                          color: Colors.black,
-                          fontFamily: 'Gilroy'),
-                    ),
-                  )
-                ],
-              ),
-              title: Text(
-                "MESS MENU",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontSize:0.04 * _screenHeight,
-                    fontFamily: 'Gilroy'),
-              ),
-            ),
-            body: TabBarView(
-              children: [
-                // SizedBox(height: 26),
-
-                getDay(context, items, DateTime.now().weekday),
-
-                getDay(context, items, DateTime.now().weekday + 1),
-                // SizedBox(height: 26),
+                ),
+                Tab(
+                  child: Text(
+                    "Tomorrow",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 0.035 * _screenHeight,
+                        color: Colors.black,
+                        fontFamily: 'Gilroy'),
+                  ),
+                )
               ],
             ),
+            title: Text(
+              "MESS MENU",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 0.04 * _screenHeight,
+                  fontFamily: 'Gilroy'),
+            ),
           ),
-        
+          body: isLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                )
+              : TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    // SizedBox(height: 26),
+
+                    getDay(context, items, DateTime.now().weekday),
+
+                    getDay(context, items, DateTime.now().weekday + 1),
+                    // SizedBox(height: 26),
+                  ],
+                ),
+        ),
       ),
     );
   }

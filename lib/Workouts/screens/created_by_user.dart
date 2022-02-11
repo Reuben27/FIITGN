@@ -1,3 +1,4 @@
+import 'package:fiitgn/Workouts/models/Exercise_db_model.dart';
 import 'package:flutter/material.dart';
 import '../models/Workout_provider.dart';
 import 'package:provider/provider.dart';
@@ -104,6 +105,11 @@ class _Created_by_userState extends State<Created_by_user> {
     var _screenWidth = MediaQuery.of(context).size.width;
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
+    final exerciseDataProvider =
+        Provider.of<GetExerciseDataFromGoogleSheetProvider>(context,
+            listen: false);
+    Map<String, Map<String, ExerciseDbModel>> map_workoutsToExercisesId =
+        exerciseDataProvider.map_exerId_exerName_per_Workout(workoutsList);
     // final List<Item_Model> workouts_expansion_list =
     //     Item_Model.get_list_item_model(workoutsList);
     print("alpha");
@@ -136,7 +142,7 @@ class _Created_by_userState extends State<Created_by_user> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+         // centerTitle: true,
           backgroundColor: Colors.blueGrey[300],
           title: Text(
             'CREATED BY YOU',
@@ -395,15 +401,34 @@ class _Created_by_userState extends State<Created_by_user> {
                                                 ),
                                               ],
                                             ),
-                                            Text(
-                                              workouts_expansion_list[i]
-                                                  .listOfExercisesId
-                                                  .toString(),
-                                              style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                fontSize: 0.022 * _screenHeight,
-                                              ),
-                                            ),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount:
+                                                    map_workoutsToExercisesId[
+                                                            workouts_expansion_list[
+                                                                    i]
+                                                                .workoutId]
+                                                        .keys
+                                                        .toList()
+                                                        .length,
+                                                itemBuilder: (ctx, j) {
+                                                  List<String> exericseNames =
+                                                      map_workoutsToExercisesId[
+                                                              workouts_expansion_list[
+                                                                      i]
+                                                                  .workoutId]
+                                                          .keys
+                                                          .toList();
+                                                  return Text(
+                                                    exericseNames[j],
+                                                    style: TextStyle(
+                                                      fontFamily: 'Gilroy',
+                                                      //   fontWeight: FontWeight.bold,
+                                                      fontSize:
+                                                          0.022 * _screenHeight,
+                                                    ),
+                                                  );
+                                                }),
                                           ],
                                         ),
                                       ),

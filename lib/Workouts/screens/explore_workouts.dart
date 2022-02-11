@@ -39,6 +39,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   List<Item_Model> workouts_expansion_list = List.empty(growable: true);
   bool isLoading = true;
+  List<WorkoutModel> workoutsList = List.empty(growable: true);
 
   // TextEditingController _timeController = TextEditingController();
 
@@ -52,7 +53,7 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     await workoutDataProvider.showAllWorkouts();
-    List<WorkoutModel> workoutsList = workoutDataProvider.workoutList;
+    workoutsList = workoutDataProvider.workoutList;
     print(workoutsList);
     workouts_expansion_list = Item_Model.get_list_item_model(workoutsList);
     setState(() {
@@ -446,25 +447,6 @@ class _Explore_WorkoutsState extends State<Explore_Workouts> {
                                                     ),
                                                   );
                                                 }),
-                                            // ListView.builder(
-                                            //     itemCount:
-                                            //         giveExerciseNamesFromExercisesIds(
-                                            //                 workouts_expansion_list[i]
-                                            //                     .listOfExercisesId)
-                                            //             .length,
-                                            //     itemBuilder: (ctx, j) {
-                                            //       return Text(
-                                            //         giveExerciseNamesFromExercisesIds(
-                                            //                 workouts_expansion_list[i]
-                                            //                     .listOfExercisesId)[j]
-                                            //             .exerciseName,
-                                            //         style: TextStyle(
-                                            //           fontFamily: 'Gilroy',
-                                            //           //   fontWeight: FontWeight.bold,
-                                            //           fontSize: 0.022 * _screenHeight,
-                                            //         ),
-                                            //       );
-                                            //     }),
                                           ],
                                         ),
                                       ),

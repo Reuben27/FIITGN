@@ -60,15 +60,15 @@ class _SplashScreenState extends State<SplashScreen> {
             Provider.of<GetAdminDataFromGoogleSheetProvider>(context,
                 listen: false);
         // await workoutDataProvider.showAllWorkouts();
-        await workoutDataProvider.getWorkoutLogFromDB();
-        await exerciseDataProvider.getListOfExercises();
+        // await workoutDataProvider.getWorkoutLogFromDB();
+        // await exerciseDataProvider.getListOfExercises();
         await adminDataProvider.getListOfAdmins();
-        await Provider.of<RunDataProvider>(context, listen: false)
-            .getRunStatsFromDb();
+        // await Provider.of<RunDataProvider>(context, listen: false)
+        //     .getRunStatsFromDb();
         //// END of initialization
         // await workoutDataProvider.showAllWorkouts();
-        await getNutritionData();
-        await getActivityData();
+        // await getNutritionData();
+        // await getActivityData();
         print("all data Loaded");
         // print("Home Screen Inside init has succesfully run");
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -94,6 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     var _screenWidth = MediaQuery.of(context).size.width;
     var _screenRatio = (_screenHeight / _screenWidth);
+    print(_screenRatio);
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(textScaleFactor: 0.8),

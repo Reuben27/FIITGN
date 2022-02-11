@@ -29,13 +29,14 @@ class _SportsState extends State<Sports> {
         textScaleFactor: 0.8,
       ),
       child: DefaultTabController(
-        length: 2,
+        length: 1, //make this 2 when adding tabs
+        
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.deepOrange[300],
-            centerTitle: true,
+            backgroundColor:  Color(0xFF93B5C6),
+            //centerTitle: true,
             title: Text(
-              "CHOOSE SPORT",
+              "SPORTS",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -55,23 +56,23 @@ class _SportsState extends State<Sports> {
                         fontFamily: 'Gilroy'),
                   ),
                 ),
-                Tab(
-                  child: Text(
-                    "Equipment",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 0.035 * _screenHeight,
-                        color: Colors.black,
-                        fontFamily: 'Gilroy'),
-                  ),
-                ),
+                // Tab(
+                //   child: Text(
+                //     "Equipment",
+                //     style: TextStyle(
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 0.035 * _screenHeight,
+                //         color: Colors.black,
+                //         fontFamily: 'Gilroy'),
+                //   ),
+                // ),
               ],
             ),
           ),
           body: TabBarView(
             children: [
               DisplayRoomData(),
-              DisplayEquipmentsData(),
+              //DisplayEquipmentsData(),
             ],
           ),
         ),
@@ -143,7 +144,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                         left: 0.0125 * _screenWidth,
                         right: 0.0125 * _screenWidth),
                     decoration: BoxDecoration(
-                        color: Colors.grey[350],
+                         color: Color(0xFFC9CCD5),
                         borderRadius:
                             BorderRadius.circular(0.025 * _screenHeight)),
                     child: Column(

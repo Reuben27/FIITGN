@@ -32,7 +32,7 @@ class HomeScreenItem extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Color(0xFF94D0CC),
+              color: Color(0xFF93B5C6),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(0.02 * _screenHeight),
                 topRight: Radius.circular(0.02 * _screenHeight),
@@ -64,7 +64,7 @@ class HomeScreenItem extends StatelessWidget {
               right: 0.03 * _screenWidth,
             ),
             decoration: BoxDecoration(
-              color: Color(0xFFEEC4C4),
+              color: Color(0xFFC9CCD5),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(0.02 * _screenHeight),
                 bottomRight: Radius.circular(0.02 * _screenHeight),

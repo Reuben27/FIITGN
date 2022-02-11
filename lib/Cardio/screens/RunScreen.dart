@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   int finishFlag = 0; // flag to check if finish should be showed or no
   int pauseFlag = 0;
   int resume_end_flag = 0;
-  String displayTime;
+  String displayTime = "";
   bool isChanged = false;
   DateTime startingTime;
   DateTime endingTime;
@@ -49,6 +49,12 @@ class _MapScreenState extends State<MapScreen> {
   int buttonFlag = 0;
   String dist = "";
   String speedString = "";
+  String pace_string = "0.0";
+
+  String show_av_pace_string = "";
+
+  String current_pace_string = "0:0";
+  List<double> altitude_list = [];
 
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
@@ -63,6 +69,16 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(23.210672, 72.684402),
     zoom: 18.00,
   );
+
+  // ADDITIONAL STATS
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  // TIME PER KILOMETER
+  // Average speed per kilometer
+  double currentKmsCovered = 0.0;
+  List<int> timePerKm = []; // in seconds
+  List<double> speedPerKm = []; // in m/s
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   pause_run() async {
     print("Pausing RUN");
@@ -101,35 +117,135 @@ class _MapScreenState extends State<MapScreen> {
     stopWatchTimer.onExecute.add(StopWatchExecute.start);
     /////%%%%%%%%%%%%%%%%%%%%
     // print("alpha alpha alpha");
+    // sampling paramter flip
+    int flip = 0;
+    int altitude_flip = 0;
+    int setState_counter = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
         print("code entered the BACKGROUND stream");
-        if (_controller != null) {
-          // print("stream going on");
-          _controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  target: LatLng(location.latitude, location.longitude),
-                  bearing: 192.232,
-                  tilt: 0,
-                  zoom: 18.00),
-            ),
-          );
+        if (flip == 0) {
+          print("flip reached 0");
+          print("code inside the flip condition");
+          if (_controller != null) {
+            // print("stream going on");
+            print("animation of camera happening now");
+            _controller.animateCamera(
+              CameraUpdate.newCameraPosition(
+                new CameraPosition(
+                    target: LatLng(location.latitude, location.longitude),
+                    bearing: 192.232,
+                    tilt: 0,
+                    zoom: 18.00),
+              ),
+            );
+            updateMarkerAndCircle(location.latitude, location.longitude);
+            flip += 1;
+            altitude_flip += 1;
+          }
+        } else {
+          if (altitude_flip == 25) {
+            altitude_list.add(location.altitude);
+            altitude_flip = 0;
+          }
+          if (flip == 10) {
+            flip = 0;
+
+            print("flip reset");
+          } else {
+            print("flip counter increased");
+            flip += 1;
+          }
         }
-        updateMarkerAndCircle(location.latitude, location.longitude);
+        setState_counter += 1;
+        if (setState_counter % 4 == 0) {
+          setState(() {});
+        }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
+        double av_pace_double = double.parse(pace_string);
+        // Changing the form of av pace
+        if(av_pace_double.isFinite) {
+          show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
+              ":" +
+              ((av_pace_double - av_pace_double.floor()) * 60)
+                  .toStringAsFixed(0);
+        }
+
         // if (location.speed <= speedThreshold) {
         // print("speed too slow to count distance");
         // } else {
-        distance = distance +
-            distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                finalLongitude);
-        // }
+
+        // adding "if check" to make the initial distance jump go away
+        if (distanceCovered(initialLatitude, initialLongitude, finalLatitude,
+                finalLongitude) <
+            0.1) {
+          distance = distance +
+              distanceCovered(initialLatitude, initialLongitude, finalLatitude,
+                  finalLongitude);
+          if (distance == 0.00) {
+            pace_string = "0.0";
+          }
+          if (distance > currentKmsCovered + 1) {
+            print('First km covered');
+            if (displayTime != "") {
+              List timeList = displayTime.split(":");
+              int duration_hours_int = int.parse(timeList[0]);
+              int duration_minutes_int = int.parse(timeList[1]);
+              int duration_seconds_int = int.parse(timeList[2]);
+              int totalTime = duration_seconds_int +
+                  duration_minutes_int * 60 +
+                  duration_hours_int * 3600;
+              if (timePerKm.length > 0) {
+                int preceeding_sum = 0;
+                for (int time in timePerKm) {
+                  preceeding_sum += time;
+                }
+                int timeForCurrentKm = totalTime - preceeding_sum;
+                timePerKm.add(timeForCurrentKm);
+                double speedForCurrentKm =
+                    (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
+                speedPerKm.add(
+                  double.parse(
+                    speedForCurrentKm.toStringAsFixed(2),
+                  ),
+                );
+              } else {
+                timePerKm.add(totalTime); // total time in seconds is stored
+                // should be converted to hrs, mins, secs when displaying using timePerKmcomps()
+                double speedForCurrentKm = (1000 + 0.0) / totalTime;
+                speedPerKm.add(
+                  double.parse(
+                    speedForCurrentKm.toStringAsFixed(2),
+                  ),
+                );
+              }
+              currentKmsCovered += 1;
+            }
+          }
+        }
         // print("Distance is $dist metres");
         double speed = location.speed;
-        speedString = speed.toStringAsFixed(1);
-
+        if (speed > 0.0 && speed.isFinite) {
+          double current_pace = (1 / speed) * (100 / 6);
+          current_pace_string = (current_pace.floor()).toStringAsFixed(0) +
+              ":" +
+              ((current_pace - current_pace.floor()) * 60).toStringAsFixed(0);
+        } else {
+          current_pace_string = '0:0';
+        }
+        // speedString = speed.toStringAsFixed(1);
+        // double pace = (1 / speed) * (100.0 / 6);
+        List t_list = displayTime.split(":");
+        // List timeList = displayTime.split(":");
+        String duration_minutes = t_list[1];
+        String duration_hours = t_list[0];
+        String duration_seconds = t_list[2];
+        int time_in_secs = int.parse(duration_hours) * 3600 +
+            int.parse(duration_minutes) * 60 +
+            int.parse(duration_seconds);
+        double pace = (time_in_secs / 60.0) / distance;
+        pace_string = pace.toStringAsFixed(1);
         dist = distance.toStringAsFixed(2);
         initialLatitude = finalLatitude;
         initialLongitude = finalLongitude;
@@ -150,69 +266,6 @@ class _MapScreenState extends State<MapScreen> {
             points: polylineCoordinates,
             color: Colors.blue,
           ),
-        );
-      },
-    );
-  }
-
-  end_run() {
-    print("ENDING RUN");
-    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        var actions2 = [
-          // ignore: deprecated_member_use
-          FlatButton(
-            onPressed: () async {
-              // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-              storeFinalLat = finalLatitude;
-              storeFinalLong = finalLongitude;
-              print(distance);
-              endingTime = DateTime.now();
-              passingToShowResults['initialLat'] = storeInitialLat;
-              passingToShowResults['initialLong'] = storeInitialLong;
-              passingToShowResults['finalLat'] = storeFinalLat;
-              passingToShowResults['finalLong'] = storeFinalLong;
-              passingToShowResults['initialTime'] = startingTime;
-              passingToShowResults['finalTime'] = endingTime;
-              passingToShowResults['distance'] = distance;
-              passingToShowResults['listOfLatLng'] = listOfLatLngForPoly;
-              List timeList = displayTime.split(":");
-              String duration_minutes = timeList[1];
-              String duration_hours = timeList[0];
-              String duration_seconds = timeList[2];
-              passingToShowResults['duration_minutes'] = duration_minutes;
-              passingToShowResults['duration_hours'] = duration_hours;
-              passingToShowResults['duration_seconds'] = duration_seconds;
-
-              // print("All parameters stored successfully");
-
-              // _locationSubscription.cancel();
-              // await bLoc.BackgroundLocation.stopLocationService();
-              Navigator.of(context).pushReplacementNamed(
-                  ShowResultsScreen.routeName,
-                  arguments: passingToShowResults);
-            },
-            child: Text('Yes'),
-          ),
-          // ignore: deprecated_member_use
-          FlatButton(
-            onPressed: () {
-              stopWatchTimer.onExecute.add(StopWatchExecute.start);
-              Navigator.of(ctx).pop(true);
-              resume_run();
-              // setState(() {
-              //   resume_end_flag = 0;
-              //   resume_run();
-              // });
-            },
-            child: Text('No'),
-          ),
-        ];
-        return AlertDialog(
-          title: Text('Are you sure you want to end Run?'),
-          actions: actions2,
         );
       },
     );
@@ -326,6 +379,8 @@ class _MapScreenState extends State<MapScreen> {
       // print("Heeheehaa");
       _locationSubscription.cancel();
     }
+    // For disposing controller
+    _controller.dispose();
     super.dispose();
   }
 
@@ -340,14 +395,15 @@ class _MapScreenState extends State<MapScreen> {
     print(_screenRatio);
     final MediaQueryData data = MediaQuery.of(context);
     print(data);
+
     return MediaQuery(
       data: data.copyWith(
         textScaleFactor: 0.8,
       ),
       child: (Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue[100],
-          centerTitle: true,
+          backgroundColor: Color(0xFF93B5C6),
+          //centerTitle: true,
           title: Text(
             'ACTIVITY LOGGING',
             style: TextStyle(
@@ -376,78 +432,50 @@ class _MapScreenState extends State<MapScreen> {
               child: Column(
                 children: [
                   Container(
-                    height: 0.66 * _screenHeight,
+                    height: 0.60 * _screenHeight,
                     width: _screenWidth,
                     child: GoogleMap(
                       initialCameraPosition: initialPosition,
                       mapType: MapType.normal,
                       // markers: Set.of((marker != null) ? [marker] : []),
                       circles: Set.of((circle != null) ? [circle] : []),
-                      polylines: _polylines,
+                      // polylines: _polylines,
                       onMapCreated: (GoogleMapController controller) {
                         _controller = controller;
                       },
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(0.05 * _screenHeight),
-                          topRight: Radius.circular(0.05 * _screenHeight),
+                  Container(
+                    height: 0.4 * _screenHeight,
+                    width: _screenWidth,
+                    decoration: BoxDecoration(
+                        // color: Color(0xFFC8C6C6),
+                        // borderRadius: BorderRadius.only(
+                        //   topLeft: Radius.circular(0.05 * _screenHeight),
+                        //   topRight: Radius.circular(0.05 * _screenHeight),
+                        // ),
                         ),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 0.12 * _screenHeight,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: StreamBuilder<int>(
-                                    stream: stopWatchTimer.rawTime,
-                                    initialData: stopWatchTimer.rawTime.value,
-                                    builder: (context, snapshot) {
-                                      final value = snapshot.data;
-                                      displayTime =
-                                          StopWatchTimer.getDisplayTime(value,
-                                              hours: isHours,
-                                              milliSecond: false);
-                                      return Text(
-                                        displayTime,
-                                        style: TextStyle(
-                                            fontFamily: 'Gilroy',
-                                            fontSize: 0.07 * _screenHeight,
-                                            // color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  child: Center(
-                                    child: Text(
-                                      'DURATION',
-                                      style: TextStyle(
-                                          fontSize: 0.018 * _screenHeight,
-                                          //      color: Colors.white,
-                                          fontFamily: 'Gilroy'),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 0.165 * _screenHeight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.025 * _screenWidth,
+                                    right: 0.0125 * _screenWidth,
+                                    top: 0.01 * _screenHeight,
+                                    bottom: 0.005 * _screenHeight),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFEFEFEF),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(0.015 * _screenHeight),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Divider(height: 0.01 * _screenHeight),
-                          Container(
-                            height: 0.12 * _screenHeight,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
+                                  width: 0.45 * _screenWidth,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -479,17 +507,28 @@ class _MapScreenState extends State<MapScreen> {
                                     ],
                                   ),
                                 ),
-                                VerticalDivider(
-                                  width: 0.08 * _screenHeight,
-                                ),
-                                Container(
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    right: 0.025 * _screenWidth,
+                                    left: 0.0125 * _screenWidth,
+                                    top: 0.01 * _screenHeight,
+                                    bottom: 0.005 * _screenHeight),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFEFEFEF),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(0.015 * _screenHeight),
+                                    ),
+                                  ),
+                                  width: 0.45 * _screenWidth,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            speedString,
+                                            show_av_pace_string,
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
                                                 fontSize: 0.07 * _screenHeight,
@@ -501,7 +540,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'MPS',
+                                            'AVG PACE',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -512,13 +551,166 @@ class _MapScreenState extends State<MapScreen> {
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          Divider(height: 0.01 * _screenHeight),
-                          pauseFlag == 0
-                              ? Container(
-                                  height: 0.08 * _screenHeight,
+                        ),
+                        Container(
+                          height: 0.165 * _screenHeight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.025 * _screenWidth,
+                                    right: 0.0125 * _screenWidth,
+                                    top: 0.005 * _screenHeight,
+                                    bottom: 0.01 * _screenHeight),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFEFEFEF),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(0.015 * _screenHeight),
+                                    ),
+                                  ),
+                                  width: 0.45 * _screenWidth,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        child: StreamBuilder<int>(
+                                          stream: stopWatchTimer.rawTime,
+                                          initialData:
+                                              stopWatchTimer.rawTime.value,
+                                          builder: (context, snapshot) {
+                                            final value = snapshot.data;
+                                            displayTime =
+                                                StopWatchTimer.getDisplayTime(
+                                                    value,
+                                                    hours: isHours,
+                                                    milliSecond: false);
+                                            return Text(
+                                              displayTime,
+                                              style: TextStyle(
+                                                  fontFamily: 'Gilroy',
+                                                  fontSize:
+                                                      0.06 * _screenHeight,
+                                                  // color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      // Container(
+                                      //   child: Center(
+                                      //     child: Text(
+                                      //       'DURATION',
+                                      //       style: TextStyle(
+                                      //           fontSize: 0.018 * _screenHeight,
+                                      //           //      color: Colors.white,
+                                      //           fontFamily: 'Gilroy'),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    right: 0.025 * _screenWidth,
+                                    left: 0.0125 * _screenWidth,
+                                    top: 0.005 * _screenHeight,
+                                    bottom: 0.01 * _screenHeight),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFEFEFEF),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(0.015 * _screenHeight),
+                                    ),
+                                  ),
+                                  width: 0.45 * _screenWidth,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            current_pace_string,
+                                            style: TextStyle(
+                                                fontFamily: 'Gilroy',
+                                                fontSize: 0.07 * _screenHeight,
+                                                // color: Colors.white,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            'CURR PACE',
+                                            style: TextStyle(
+                                                fontSize: 0.018 * _screenHeight,
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Container(
+                        //   height: 0.15 * _screenHeight,
+                        //   child: Column(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       Container(
+                        //         alignment: Alignment.center,
+                        //         child: StreamBuilder<int>(
+                        //           stream: stopWatchTimer.rawTime,
+                        //           initialData: stopWatchTimer.rawTime.value,
+                        //           builder: (context, snapshot) {
+                        //             final value = snapshot.data;
+                        //             displayTime = StopWatchTimer.getDisplayTime(
+                        //                 value,
+                        //                 hours: isHours,
+                        //                 milliSecond: false);
+                        //             return Text(
+                        //               displayTime,
+                        //               style: TextStyle(
+                        //                   fontFamily: 'Gilroy',
+                        //                   fontSize: 0.07 * _screenHeight,
+                        //                   // color: Colors.white,
+                        //                   fontWeight: FontWeight.bold),
+                        //             );
+                        //           },
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         child: Center(
+                        //           child: Text(
+                        //             'DURATION',
+                        //             style: TextStyle(
+                        //                 fontSize: 0.018 * _screenHeight,
+                        //                 //      color: Colors.white,
+                        //                 fontFamily: 'Gilroy'),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+
+                        pauseFlag == 0
+                            ? Expanded(
+                                child: Container(
+                                  // height: 0.04 * _screenHeight,
                                   child: Center(
                                     child: Container(
                                       child: InkWell(
@@ -533,13 +725,13 @@ class _MapScreenState extends State<MapScreen> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.green[300],
-                                            borderRadius: BorderRadius.circular(
-                                                0.02 * _screenHeight),
+                                            color: Color(0xFFE4D8DC),
+                                            // borderRadius: BorderRadius.circular(
+                                            //     0.02 * _screenHeight),
                                           ),
                                           alignment: Alignment.center,
-                                          width: 0.45 * _screenWidth,
-                                          height: 0.05 * _screenHeight,
+                                          width: _screenWidth,
+                                          //height: 0.04 * _screenHeight,
                                           child: Text(
                                             'BEGIN',
                                             style: TextStyle(
@@ -551,10 +743,12 @@ class _MapScreenState extends State<MapScreen> {
                                       ),
                                     ),
                                   ),
-                                )
-                              : pauseFlag == 1 && resume_end_flag == 1
-                                  ? Container(
-                                      height: 0.08 * _screenHeight,
+                                ),
+                              )
+                            : pauseFlag == 1 && resume_end_flag == 1
+                                ? Expanded(
+                                    child: Container(
+                                      //  height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: Row(
                                           mainAxisAlignment:
@@ -567,15 +761,14 @@ class _MapScreenState extends State<MapScreen> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.green[300],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.02 *
-                                                                _screenHeight),
+                                                    color: Color(0xFFE4D8DC),
+                                                    // borderRadius:
+                                                    //     BorderRadius.circular(
+                                                    //         0.02 * _screenHeight),
                                                   ),
                                                   alignment: Alignment.center,
-                                                  width: 0.45 * _screenWidth,
-                                                  height: 0.05 * _screenHeight,
+                                                  width: 0.5 * _screenWidth,
+                                                  //  height: 0.05 * _screenHeight,
                                                   child: Text(
                                                     'RESUME',
                                                     style: TextStyle(
@@ -620,6 +813,9 @@ class _MapScreenState extends State<MapScreen> {
                                                   passingToShowResults[
                                                           'listOfLatLng'] =
                                                       listOfLatLngForPoly;
+                                                  passingToShowResults[
+                                                          'altitude_list'] =
+                                                      altitude_list;
                                                   List timeList =
                                                       displayTime.split(":");
                                                   String duration_minutes =
@@ -638,6 +834,22 @@ class _MapScreenState extends State<MapScreen> {
                                                           'duration_seconds'] =
                                                       duration_seconds;
 
+                                                  // Additional Stats
+                                                  passingToShowResults[
+                                                          'time_per_km'] =
+                                                      timePerKm;
+                                                  // passingToShowResults[
+                                                  //         'speed_per_km'] =
+                                                  //     speedPerKm;
+                                                  // print(
+                                                  //     "Additional stats testt");
+                                                  // print(
+                                                  //     "time per kilometer is");
+                                                  // print(timePerKm);
+                                                  // print(
+                                                  //     "and speed per kilometer is");
+                                                  // print(speedPerKm);
+
                                                   // print("All parameters stored successfully");
 
                                                   // _locationSubscription.cancel();
@@ -652,15 +864,14 @@ class _MapScreenState extends State<MapScreen> {
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
-                                                    color: Colors.red[300],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            0.02 *
-                                                                _screenHeight),
+                                                    color: Color(0xFFC9CCD5),
+                                                    // borderRadius:
+                                                    //     BorderRadius.circular(
+                                                    //         0.02 * _screenHeight),
                                                   ),
                                                   alignment: Alignment.center,
-                                                  width: 0.45 * _screenWidth,
-                                                  height: 0.05 * _screenHeight,
+                                                  width: 0.5 * _screenWidth,
+                                                  // height: 0.05 * _screenHeight,
                                                   child: Text(
                                                     'FINISH',
                                                     style: TextStyle(
@@ -676,9 +887,11 @@ class _MapScreenState extends State<MapScreen> {
                                           ],
                                         ),
                                       ),
-                                    )
-                                  : Container(
-                                      height: 0.08 * _screenHeight,
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Container(
+                                      //   height: 0.08 * _screenHeight,
                                       child: Center(
                                         child: InkWell(
                                           onTap: () {
@@ -686,14 +899,13 @@ class _MapScreenState extends State<MapScreen> {
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: Colors.red[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      0.02 * _screenHeight),
+                                              color: Color(0xFFC9CCD5),
+                                              // borderRadius: BorderRadius.circular(
+                                              //     0.02 * _screenHeight),
                                             ),
                                             alignment: Alignment.center,
-                                            width: 0.45 * _screenWidth,
-                                            height: 0.05 * _screenHeight,
+                                            width: _screenWidth,
+                                            //height: 0.05 * _screenHeight,
                                             child: Text(
                                               'PAUSE',
                                               style: TextStyle(
@@ -705,9 +917,9 @@ class _MapScreenState extends State<MapScreen> {
                                           ),
                                         ),
                                       ),
-                                    )
-                        ],
-                      ),
+                                    ),
+                                  )
+                      ],
                     ),
                   ),
                 ],
