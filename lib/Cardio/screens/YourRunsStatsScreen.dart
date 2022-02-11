@@ -154,7 +154,6 @@ class _YourRunsState extends State<YourRuns> {
                   // print(timeInHrs + " : " + timeInMins + " : " + tim);
                   return InkWell(
                     onTap: () {
-                      print("MUMYYYY");
                       print(runStats[i].altitude_list);
                       List<double> altitude_list = runStats[i].altitude_list;
                       List<double> pace_list = runStats[i].pace_list;
@@ -176,6 +175,7 @@ class _YourRunsState extends State<YourRuns> {
                           runStats[i].timeOfRunMin +
                           ':' +
                           runStats[i].timeOfRunSec;
+                          pass['use_case'] = 'personal';
 
                       Navigator.pushNamed(context, Additional_stats.routeName,
                           arguments: pass);

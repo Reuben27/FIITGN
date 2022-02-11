@@ -50,9 +50,14 @@ class _Additional_statsState extends State<Additional_stats> {
       ],
     );
   }
-  Widget createSmallMap(int index) {
+  Widget createSmallMap(int index,String use_case) {
     final runStatsProvider = Provider.of<RunDataProvider>(context);
-    final List<RunModel> runStats = runStatsProvider.yourRunsList;
+    List<RunModel> runStats = [];
+    if(use_case == 'personal'){
+     runStats = runStatsProvider.yourRunsList;
+    }else if (use_case == 'community'){
+      runStats = runStatsProvider.communityRuns;
+    }
     final double initialLatitude = runStats[index].initialLatitude;
     final double initialLongitude = runStats[index].initialLongitude;
     List<dynamic> listOfCoordinates = runStats[index].listOfLatLng;
@@ -107,6 +112,7 @@ class _Additional_statsState extends State<Additional_stats> {
     String av_pace = routeArgs['average_pace'];
     String time = routeArgs['time'];
     int index = routeArgs['index'];
+    String use_case = routeArgs['use_case'];
     print("PACE LIST IS ");
     print(pace_list);
     print("ELEVATION LIST IS ");
@@ -145,7 +151,7 @@ class _Additional_statsState extends State<Additional_stats> {
                           child: index == -1?
                           createSmallMap2(routeArgs)
                           :
-                          createSmallMap(index),
+                          createSmallMap(index,use_case),
                         ),
                         //SizedBox(height: 30),
                         Container(

@@ -11,24 +11,28 @@ class NutritionScreen extends StatefulWidget {
 class _NutritionScreenState extends State {
   List<NutritionData> items = List<NutritionData>.empty();
   bool isLoading = true;
-  @override
-  void initState() {
-    super.initState();
-    if (NutritionData.nutrition_list_static.length == 0) {
-      getData();
+  var isInit = true;
 
-      // print(items);
+ @override
+  void didChangeDependencies() async {
+    if (NutritionData.nutrition_list_static.length == 0) {
+      await getData();
+      NutritionData.nutrition_list_static = items;
     } else {
       items = NutritionData.nutrition_list_static;
       getIndices(items);
-      setState(() {
+       setState(() {
         this.items = items;
         isLoading = false;
       });
     }
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    isInit = false;
   }
 
-  void getData() async {
+
+  getData() async {
     items = await getNutritionData();
     // items = nutri_data;
     getIndices(items);

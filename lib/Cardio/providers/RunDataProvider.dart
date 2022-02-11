@@ -1,5 +1,6 @@
 // import 'package:provider/provider.dart';
 import 'package:fiitgn/Cardio/screens/Community_Stats.dart';
+import 'package:fiitgn/Profile/utils/user_data.dart';
 import 'package:flutter/material.dart';
 import './RunModel.dart';
 import 'package:http/http.dart' as http;
@@ -255,7 +256,7 @@ class RunDataProvider with ChangeNotifier {
     return [..._community_runs_list];
   }
 
-  Future<void> addNewRunData(
+  Future<void> addNewRunData (
     // uid through the Data Provider
     String user_name,
     String activity_name,
@@ -272,8 +273,14 @@ class RunDataProvider with ChangeNotifier {
     double initialLongitude,
     List<double> pace_list,
     List<double> altitude_list,
-  ) {
-    // print("The Uid Is " + _uid);
+  )  {
+    // if(is_private == "true"){
+    //   await editRuns(0, 1, Data_Provider().uid);
+    // } else {
+    //   await editRuns(1, 1, Data_Provider().uid);
+    // }
+    
+
     String _uid = Data_Provider().uid;
     // print("Run Data Provider fetching uid --> " + _uid);
     final url = 'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunData.json';
@@ -304,6 +311,7 @@ class RunDataProvider with ChangeNotifier {
         .then(
       (response) {
         var databaseId = json.decode(response.body)['name'];
+        print(databaseId);
         _yourRunsList.insert(
           0,
           RunModel(
@@ -326,6 +334,7 @@ class RunDataProvider with ChangeNotifier {
             pace_list: pace_list,
           ),
         );
+        print("Activity saved successfully");
         notifyListeners();
       },
     ).catchError((error) {

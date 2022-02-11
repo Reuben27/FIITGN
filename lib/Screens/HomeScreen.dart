@@ -49,6 +49,7 @@ import '../Screens/stopwatch.dart';
 import '../Profile/screens/profile_page.dart';
 
 import '../QuickLinks/QuickLinks.dart';
+import '../Profile/utils/user_data.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -59,6 +60,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int shared_runs = 0;
+  int total_runs = 0;
+
   insideInIt() async {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
     final workoutDataProvider =
@@ -67,12 +71,22 @@ class _HomeScreenState extends State<HomeScreen> {
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }
 
+  initialize() async {
+    List temp = await getUserData(Data_Provider().uid);
+    setState(() {
+      total_runs = temp[3];
+      shared_runs = temp[4];
+    });
+    print(shared_runs);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero).then((e) async {
       await insideInIt();
+      await initialize();
     });
   }
 
@@ -103,6 +117,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List homeScreenList = [
     {
+      'title': 'Allocation',
+      'url': 'assets/alloc.png',
+      'routeName': Sports.routeName,
+      'description':
+          'This section is under construction. Check back in later to view some exciting new stuff!',
+      'heroID': 8,
+    },
+    {
       'title': 'Cardio',
       'url': 'assets/act.png',
       'routeName': MapScreen.routeName,
@@ -119,22 +141,22 @@ class _HomeScreenState extends State<HomeScreen> {
       'heroID': 1,
     },
     {
-      'title': 'Community',
+      'title': 'IITGN runners',
       'url': 'assets/stats.png',
       'routeName': CommunityRuns.routeName,
       'description':
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    {
-      'title': 'Contacts',
-      'url': 'assets/twerkout.png',
-      'routeName': ImportantContacts.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 7,
-    },
-    
+    // {
+    //   'title': 'Contacts',
+    //   'url': 'assets/twerkout.png',
+    //   'routeName': ImportantContacts.routeName,
+    //   'description':
+    //       'This section is under construction. Check back in later to view some exciting new stuff!',
+    //   'heroID': 7,
+    // },
+
     // {
     //   'title': 'Workouts',
     //   'url': 'assets/twerkout.png',
@@ -151,14 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //       'This section is under construction. Check back in later to view some exciting new stuff!',
     //   'heroID': 7,
     // },
-    {
-      'title': 'Allocation',
-      'url': 'assets/alloc.png',
-      'routeName': Sports.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 8,
-    },
+
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',
@@ -183,14 +198,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
-    {
-      'title': 'Developers',
-      'url': 'assets/admin.png',
-      'routeName': Developer.routeName,
-      'description':
-          'This section is under construction. Check back in later to view some exciting new stuff!',
-      'heroID': 9,
-    },
+    // {
+    //   'title': 'Developers',
+    //   'url': 'assets/admin.png',
+    //   'routeName': Developer.routeName,
+    //   'description':
+    //       'This section is under construction. Check back in later to view some exciting new stuff!',
+    //   'heroID': 9,
+    // },
   ];
 
   Widget build(BuildContext context) {
@@ -253,10 +268,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: Text(
-                      "Quick Links",
+                      "Feedbacks/Bugs",
                       style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.03 * _screenHeight),
+                          fontFamily: 'Gilroy', fontSize: 0.03 * _screenHeight),
                     ),
                   ),
                 ),
@@ -272,8 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(
                       "Contacts",
                       style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.03 * _screenHeight),
+                          fontFamily: 'Gilroy', fontSize: 0.03 * _screenHeight),
                     ),
                   ),
                 ),
@@ -333,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.black, width: 0.0025 * _screenHeight),
+                        color: Colors.black, width: 0.0025 * _screenHeight),
                     image: DecorationImage(
                       image: NetworkImage(Data_Provider().user_display),
                       fit: BoxFit.fitHeight,
@@ -343,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 10.0),
                 Center(
                   child: Text(
-                    'Reuben Devanesan',
+                    Data_Provider().name,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 24,
@@ -361,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(FontAwesomeIcons.running),
                     SizedBox(width: 5.0),
                     Text(
-                      '20' + ' runs recorded.',
+                      '$total_runs' + ' runs recorded.',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -378,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icon(Icons.cloud_upload_outlined),
                     SizedBox(width: 5.0),
                     Text(
-                      '30' + ' runs shared with community!.',
+                      '$shared_runs' + ' runs shared with community!.',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -386,7 +399,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                
                 SizedBox(height: 25.0),
               ],
             ),

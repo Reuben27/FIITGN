@@ -143,9 +143,32 @@ class _CommunityRunsState extends State<CommunityRuns> {
                           .toStringAsFixed(0);
                   return InkWell(
                     onTap: () {
-                      Navigator.pushNamed(
-                          context, YourRunPolyLineScreen.routeName,
-                          arguments: i);
+
+                      print(runStats[i].altitude_list);
+                      List<double> altitude_list = runStats[i].altitude_list;
+                      List<double> pace_list = runStats[i].pace_list;
+                      Map<String, dynamic> pass = {};
+                      pass['altitude_list'] = altitude_list;
+                      pass['pace_list'] = pace_list;
+                      pass['distance'] = distance;
+                      double max_elevation = 0.0;
+                      for (double elevation in altitude_list) {
+                        if (elevation > max_elevation) {
+                          max_elevation = elevation;
+                        }
+                      }
+                      pass['index'] = i;
+                      pass['max_elevation'] = max_elevation.toStringAsFixed(1);
+                      pass['average_pace'] = av_pace;
+                      pass['time'] = runStats[i].timeOfRunHrs +
+                          ':' +
+                          runStats[i].timeOfRunMin +
+                          ':' +
+                          runStats[i].timeOfRunSec;
+                           pass['use_case'] = 'community';
+
+                      Navigator.pushNamed(context, Additional_stats.routeName,
+                          arguments: pass);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

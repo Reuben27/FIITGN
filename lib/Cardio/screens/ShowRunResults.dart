@@ -428,6 +428,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                 });
                                 pass['max_elevation'] =
                                     max_elevation.toStringAsFixed(2);
+                                pass['use_case'] = 'null';
                                 pass['average_pace'] = show_av_pace_string;
                                 pass['time'] = duration_hours +
                                     ':' +
