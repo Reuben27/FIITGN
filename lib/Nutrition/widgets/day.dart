@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../data/nutrition.dart';
-import 'package:data_table_2/data_table_2.dart';
 
 class Meal {
   String dishName;

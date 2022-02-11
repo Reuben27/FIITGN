@@ -11,7 +11,7 @@ Future<void> notiRemove(String tokenid, String workoutName) async {
   if (documentSnapshot.exists) {
     timemap = await documentSnapshot['TimeMap'];
     tokenID = await documentSnapshot['TokenID'];
-    print(timemap);
+    // print(timemap);
     numberofnoti = await documentSnapshot['numberofnoti'];
     var flag = 0;
     for (var i = 1; i <= numberofnoti; i++) {
@@ -27,8 +27,8 @@ Future<void> notiRemove(String tokenid, String workoutName) async {
     numberofnoti -= 1;
     await notify.doc(tokenid).update(
         {'TimeMap': timemap, 'numberofnoti': numberofnoti, 'TokenID': tokenID});
-    print(timemap);
+    // print(timemap);
   } else {
-    print("There is some error.");
+    // print("There is some error.");
   }
 }

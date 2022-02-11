@@ -26,7 +26,6 @@ class _NutritionScreenState extends State {
         isLoading = false;
       });
     }
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     isInit = false;
   }
@@ -34,7 +33,6 @@ class _NutritionScreenState extends State {
 
   getData() async {
     items = await getNutritionData();
-    // items = nutri_data;
     getIndices(items);
     setState(() {
       this.items = items;
@@ -47,7 +45,6 @@ class _NutritionScreenState extends State {
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
-    var _screenWidth = MediaQuery.of(context).size.width;
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(
         textScaleFactor: 0.8,
@@ -56,7 +53,6 @@ class _NutritionScreenState extends State {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            //centerTitle: true,
             backgroundColor: Color(0xFF93B5C6),
             bottom: TabBar(
               indicatorWeight: 0.002 * _screenHeight,
@@ -101,12 +97,8 @@ class _NutritionScreenState extends State {
               : TabBarView(
                   physics: NeverScrollableScrollPhysics(),
                   children: [
-                    // SizedBox(height: 26),
-
                     getDay(context, items, DateTime.now().weekday),
-
                     getDay(context, items, DateTime.now().weekday + 1),
-                    // SizedBox(height: 26),
                   ],
                 ),
         ),

@@ -26,7 +26,6 @@ class Time_BarChartWidget extends StatelessWidget {
   }
 
   List pace_list = [
-
     6.31,
   ];
 

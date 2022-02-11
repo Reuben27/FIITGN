@@ -11,7 +11,7 @@ Future<void> notiAdd(
   if (documentSnapshot.exists) {
     timemap = await documentSnapshot['TimeMap'];
     tokenID = await documentSnapshot['TokenID'];
-    print(timemap);
+    // print(timemap);
     numberofnoti = await documentSnapshot['numberofnoti'];
     numberofnoti += 1;
     timemap[numberofnoti.toString()] = {
@@ -20,7 +20,7 @@ Future<void> notiAdd(
     };
     await notify.doc(tokenid).update(
         {'TimeMap': timemap, 'numberofnoti': numberofnoti, 'TokenID': tokenID});
-    print("Updated");
+    // print("Updated");
   } else {
     notify.doc(tokenid).set({
       'TokenID': tokenid,
@@ -35,6 +35,6 @@ Future<void> notiAdd(
       },
       'numberofnoti': 1,
     });
-    print("New doc added");
+    // print("New doc added");
   }
 }

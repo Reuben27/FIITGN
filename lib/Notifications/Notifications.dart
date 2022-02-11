@@ -36,7 +36,7 @@ class _NotificationsState extends State<Notifications> {
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message.data != null) {
         final routeName = message.data["route"];
-        print(routeName);
+        // print(routeName);
         // Navigator.of(context).pushNamed(routeName);
       }
     });
@@ -44,8 +44,8 @@ class _NotificationsState extends State<Notifications> {
     //When Open.
     FirebaseMessaging.onMessage.listen((message) {
       if (message.notification != null) {
-        print(message.notification.title);
-        print(message.notification.body);
+        // print(message.notification.title);
+        // print(message.notification.body);
       }
       LocalNotificationService.display(message);
     });
@@ -53,7 +53,7 @@ class _NotificationsState extends State<Notifications> {
     //When in bg but not killed
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       final routeName = message.data["route"];
-      print(routeName);
+      // print(routeName);
       // Navigator.of(context).pushNamed(routeName);
     });
   }
@@ -149,9 +149,9 @@ class _NotificationsState extends State<Notifications> {
             heightFactor: 2,
             child: RaisedButton(
               onPressed: () async {
-                print("Daily Notification 1");
-                print(selectedTime.hour);
-                print(selectedTime.minute);
+                // print("Daily Notification 1");
+                // print(selectedTime.hour);
+                // print(selectedTime.minute);
                 notiAdd(token, selectedTime.hour, selectedTime.minute, '5');
                 showAlertDialog(context, selectedTime);
               },
@@ -165,9 +165,9 @@ class _NotificationsState extends State<Notifications> {
             heightFactor: 2,
             child: RaisedButton(
               onPressed: () async {
-                print("Daily Notification 2");
-                print(selectedTime.hour);
-                print(selectedTime.minute);
+                // print("Daily Notification 2");
+                // print(selectedTime.hour);
+                // print(selectedTime.minute);
                 notiAdd(token, selectedTime.hour, selectedTime.minute, '6');
                 showAlertDialog(context, selectedTime);
               },

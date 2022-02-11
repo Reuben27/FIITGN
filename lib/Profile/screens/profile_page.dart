@@ -1,12 +1,10 @@
 import 'package:fiitgn/Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
-
 import '../utils/user_data.dart';
 
 class Profile extends StatefulWidget {
   static const routeName = '\ProfilePage';
   const Profile({Key key}) : super(key: key);
-
   @override
   _ProfileState createState() => _ProfileState();
 }

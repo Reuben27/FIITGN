@@ -256,9 +256,4 @@ void getIndices(List<NutritionData> data) {
       dinnerIndex = i;
     }
   }
-  // print(data.length);
-  // print(breakfastIndex);
-  // print(lunchIndex);
-  // print(snacksIndex);
-  // print(dinnerIndex);
 }

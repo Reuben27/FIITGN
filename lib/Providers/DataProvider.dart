@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Data_Provider with ChangeNotifier {
   static String _uid;
@@ -9,7 +8,7 @@ class Data_Provider with ChangeNotifier {
   static String _userDisplay;
   static String _notificationToken;
 
-// getters
+  // getters
   // void setToken(String token) {
   //   _auth_token = token;
   //   notifyListeners();
@@ -40,7 +39,7 @@ class Data_Provider with ChangeNotifier {
     notifyListeners();
   }
 
-// getters
+  // getters
   String get name {
     return _name;
   }
