@@ -47,7 +47,6 @@ import '../Screens/stopwatch.dart';
 
 //// PROFILE
 import '../Profile/screens/profile_page.dart';
-
 import '../QuickLinks/QuickLinks.dart';
 import '../Profile/utils/user_data.dart';
 
@@ -82,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero).then((e) async {
       await insideInIt();
@@ -148,14 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-    // {
-    //   'title': 'Contacts',
-    //   'url': 'assets/twerkout.png',
-    //   'routeName': ImportantContacts.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 7,
-    // },
 
     // {
     //   'title': 'Workouts',
@@ -198,14 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'This section is under construction. Check back in later to view some exciting new stuff!',
       'heroID': 9,
     },
-    // {
-    //   'title': 'Developers',
-    //   'url': 'assets/admin.png',
-    //   'routeName': Developer.routeName,
-    //   'description':
-    //       'This section is under construction. Check back in later to view some exciting new stuff!',
-    //   'heroID': 9,
-    // },
   ];
 
   Widget build(BuildContext context) {
