@@ -47,40 +47,74 @@ class _ImportantContactsState extends State<ImportantContacts> {
                   "Sports Secretary",
                   style: TextStyle(color: Colors.grey[700], fontSize: 24)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://8168901281');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://gaurav.sharma@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://8168901281');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
                 contentPadding: EdgeInsets.only(top: 6, left: 16, bottom: 6),
                 title: Text(
-                  "Dinesh Patel",
+                  "Dinesh Parmer",
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Senior PTI",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://9898754279');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://dparmar@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://9898754279');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
@@ -90,20 +124,37 @@ class _ImportantContactsState extends State<ImportantContacts> {
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Sports Management Trainee",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://8160179606');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://harsh.m@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://8160179606');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
@@ -113,43 +164,77 @@ class _ImportantContactsState extends State<ImportantContacts> {
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Sports Management Trainee",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://7802067849');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://payalvaniya@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://7802067849');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
                 contentPadding: EdgeInsets.only(top: 6, left: 16, bottom: 6),
                 title: Text(
-                  "Bharti",
+                  "Bharti Makwana",
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Sports Management Trainee",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://6353021576');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://makwana.bharti@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://6353021576');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
@@ -159,66 +244,117 @@ class _ImportantContactsState extends State<ImportantContacts> {
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Sports Management Trainee",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://9723342580');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://rahul.g@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://9723342580');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
                 contentPadding: EdgeInsets.only(top: 6, left: 16, bottom: 6),
                 title: Text(
-                  "Ratnesh",
+                  "Ratnesh Singh",
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Assistant PTI",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://9838906287');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://ratnesh.singh@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://9838906287');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
                 contentPadding: EdgeInsets.only(top: 6, left: 16, bottom: 6),
                 title: Text(
-                  "Santhosh",
+                  "Santhosh Joshi",
                   style: TextStyle(color: Colors.black, fontSize: 28),
                 ),
                 subtitle: Text(
-                  "sharma.gaurav@iitgn.ac.in",
+                  "Assistant PTI",
                   style: TextStyle(color: Colors.black, fontSize: 25)
                 ),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
-                    onTap: () {
-                      launch('tel://7668043117');
-                    },
-                    child: Icon(
-                      Icons.phone_outlined,
-                      size: 28,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('mailto://santhosh.joshi@iitgn.ac.in');
+                        },
+                        child: Icon(
+                          Icons.email,
+                          size: 28,
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24),
+                      child: GestureDetector(
+                        onTap: () {
+                          launch('tel://7668043117');
+                        },
+                        child: Icon(
+                          Icons.phone_outlined,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

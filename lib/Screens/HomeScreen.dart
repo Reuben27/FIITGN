@@ -213,7 +213,72 @@ class _HomeScreenState extends State<HomeScreen> {
           drawer: Drawer(
             child: ListView(
               children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 5.0, 15.0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF93B5C6),
+                  ),
+                  child: Text(
+                    'Fitness \nSimplified!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 ListTile(
+                  leading: Icon(Icons.people),
+                  title: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          Developer.routeName,
+                        );
+                      },
+                      child: Text(
+                        "Developers",
+                        style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 0.03 * _screenHeight),
+                      )),
+                ),
+                ListTile(
+                  leading: Icon(Icons.bolt),
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        QuickLinks.routeName,
+                      );
+                    },
+                    child: Text(
+                      "Quick Links",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.03 * _screenHeight),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.phone),
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        ImportantContacts.routeName,
+                      );
+                    },
+                    child: Text(
+                      "Contacts",
+                      style: TextStyle(
+                          fontFamily: 'Gilroy',
+                          fontSize: 0.03 * _screenHeight),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout),
                   title: InkWell(
                       onTap: () {
                         showDialog(
@@ -257,40 +322,72 @@ class _HomeScreenState extends State<HomeScreen> {
                         "Logout",
                         style: TextStyle(
                             fontFamily: 'Gilroy',
-                            fontSize: 0.025 * _screenHeight),
+                            fontSize: 0.03 * _screenHeight),
                       )),
                 ),
-                ListTile(
-                  title: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Developer.routeName,
-                        );
-                      },
-                      child: Text(
-                        "Developers",
-                        style: TextStyle(
-                            fontFamily: 'Gilroy',
-                            fontSize: 0.025 * _screenHeight),
-                      )),
-                ),
-                ListTile(
-                  title: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        QuickLinks.routeName,
-                      );
-                    },
-                    child: Text(
-                      "Quick Links",
-                      style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.025 * _screenHeight),
+                SizedBox(height: 0.4 * _screenHeight),
+                Container(
+                  alignment: Alignment.center,
+                  height: 0.15 * _screenHeight,
+                  width: 0.15 * _screenHeight,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.black, width: 0.0025 * _screenHeight),
+                    image: DecorationImage(
+                      image: NetworkImage(Data_Provider().user_display),
+                      fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
+                SizedBox(height: 10.0),
+                Center(
+                  child: Text(
+                    'Reuben Devanesan',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(FontAwesomeIcons.running),
+                    SizedBox(width: 5.0),
+                    Text(
+                      '20' + ' runs recorded.',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.cloud_upload_outlined),
+                    SizedBox(width: 5.0),
+                    Text(
+                      '30' + ' runs shared with community!.',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                
+                SizedBox(height: 25.0),
               ],
             ),
           ),
