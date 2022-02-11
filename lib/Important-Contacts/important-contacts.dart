@@ -14,7 +14,6 @@ class _ImportantContactsState extends State<ImportantContacts> {
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
-    var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(
@@ -54,7 +53,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://gaurav.sharma@iitgn.ac.in');
+                          launch('mailto:gaurav.sharma@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -94,7 +93,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://dparmar@iitgn.ac.in');
+                          launch('mailto:dparmar@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -134,7 +133,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://harsh.m@iitgn.ac.in');
+                          launch('mailto:harsh.m@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -174,7 +173,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://payalvaniya@iitgn.ac.in');
+                          launch('mailto:payalvaniya@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -214,7 +213,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://makwana.bharti@iitgn.ac.in');
+                          launch('mailto:makwana.bharti@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -254,7 +253,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://rahul.g@iitgn.ac.in');
+                          launch('mailto:rahul.g@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -294,7 +293,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://ratnesh.singh@iitgn.ac.in');
+                          launch('mailto:ratnesh.singh@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -334,7 +333,7 @@ class _ImportantContactsState extends State<ImportantContacts> {
                       padding: const EdgeInsets.only(right: 24),
                       child: GestureDetector(
                         onTap: () {
-                          launch('mailto://santhosh.joshi@iitgn.ac.in');
+                          launch('mailto:santhosh.joshi@iitgn.ac.in');
                         },
                         child: Icon(
                           Icons.email,
@@ -358,7 +357,8 @@ class _ImportantContactsState extends State<ImportantContacts> {
                 ),
               ),
             ],
-          )),
+          ),
+        ),
     );
   }
 }

@@ -14,7 +14,6 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
   final isHours = true;
   @override
   void dispose() {
-    // TODO: implement dispose
     stopWatchTimer.dispose();
     super.dispose();
   }

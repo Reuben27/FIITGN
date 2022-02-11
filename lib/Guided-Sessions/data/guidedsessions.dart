@@ -49,13 +49,12 @@ List<GuidedSessions> upcomingSessions(List<GuidedSessions> data){
   for(int i = 0; i < data.length; i++){
     String startDate = data[i].startdate.trim();
     DateTime sD = DateTime.parse(startDate);
-    print(sD);
     if(sD.isAfter(now)){
       list.add(data[i]);
     } 
   }
 
-  print(list);
+  // print(list);
   return list;
 }
 
@@ -65,13 +64,12 @@ List<GuidedSessions> completedSessions(List<GuidedSessions> data){
   for(int i = 0; i < data.length; i++){
     String endDate = data[i].enddate.trim();
     DateTime eD = DateTime.parse(endDate);
-    print(eD);
     if(eD.isBefore(now)){
       list.add(data[i]);
     } 
   }
 
-  print(list);
+  // print(list);
   return list;
 }
 
@@ -81,15 +79,15 @@ List<GuidedSessions> ongoingSessions(List<GuidedSessions> data){
   for(int i = 0; i < data.length; i++){
     String startDate = data[i].startdate.trim();
     DateTime sD = DateTime.parse(startDate);
-    print(sD);
+    // print(sD);
     String endDate = data[i].enddate.trim();
     DateTime eD = DateTime.parse(endDate);
-    print(eD);
+    // print(eD);
     if(eD.isAfter(now) && sD.isBefore(now)){
       list.add(data[i]);
     } 
   }
 
-  print(list);
+  // print(list);
   return list;
 }

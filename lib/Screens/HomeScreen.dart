@@ -3,33 +3,19 @@ import 'package:fiitgn/Cardio/screens/YourRunsStatsScreen.dart';
 import 'package:fiitgn/Important-Contacts/important-contacts.dart';
 import 'package:fiitgn/QuickLinks/QuickLinks.dart';
 import 'package:fiitgn/Screens/developers_page.dart';
-import 'package:fiitgn/Workouts/screens/workout_plans_home.dart';
-import 'package:googleapis/chat/v1.dart';
-import 'package:flutter/src/widgets/image.dart' as img;
 
 import '../Allocation/screens/sports.dart';
 import '../Providers/DataProvider.dart';
 import '../Cardio/screens/RunScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../Cardio/screens/CycleScreen.dart';
 import '../Widgets/HomeScreenItem.dart';
 import 'package:flutter/services.dart';
-import '../Screens/StatsScreen.dart';
-import '../Cardio/providers/CycleDataProvider.dart';
-import '../Cardio/providers/RunDataProvider.dart';
 import 'package:provider/provider.dart';
 import 'GAuth.dart';
-import '../Calendar-Schedule/schedueCalendar.dart';
-import '../Calendar-Schedule/calendar_try_screen.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-//import 'package:image/image.dart' as Image;
 
 //// WORKOUTS
-import '../Workouts/screens/workouts-home.dart';
 import '../Workouts/models/Admin_db_model.dart';
-import '../Workouts/models/Exercise_db_model.dart';
 import '../Workouts/models/Workout_provider.dart';
 
 //// NUTRITION
@@ -40,10 +26,6 @@ import '../Sports-Activities/screens/activity_screens.dart';
 
 //// ADMIN
 import 'package:fiitgn/Admin/screens/admin_home.dart';
-
-//// Temp Expansion Panel
-import './expansion_list.dart';
-import '../Screens/stopwatch.dart';
 
 //// PROFILE
 import '../Profile/screens/profile_page.dart';
@@ -64,8 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   insideInIt() async {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
-    final workoutDataProvider =
-        Provider.of<Workouts_Provider>(context, listen: false);
+    final workoutDataProvider = Provider.of<Workouts_Provider>(context, listen: false);
     print("Home Screen Inside init has succesfully run");
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }
@@ -100,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return AlertDialog(
             title: Text('Exit App?'),
             actions: [
-              FlatButton(
+              ElevatedButton(
                 onPressed: () {
                   // Navigator.of(ctx).pop(true);
                   print('Exiting App');
@@ -146,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
           'Running can be accessed from here. Get out there and get those legs working!',
       'heroID': 1,
     },
-
     // {
     //   'title': 'Workouts',
     //   'url': 'assets/twerkout.png',
@@ -163,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
     //       'This section is under construction. Check back in later to view some exciting new stuff!',
     //   'heroID': 7,
     // },
-
     {
       'title': 'Nutrition',
       'url': 'assets/food.png',
@@ -199,7 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
-    var _screenRatio = (_screenHeight / _screenWidth);
     final MediaQueryData data = MediaQuery.of(context);
     print(data);
     return MediaQuery(
@@ -416,21 +394,8 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
             backgroundColor: Color(0xFFE4D8DC),
-            //  centerTitle: true,
             elevation: 0,
-            // title: Text(
-            //   "FIITGN",
-            //   style: TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 0.08 * _screenHeight,
-            //       fontFamily: 'Gilroy',
-            //       fontWeight: FontWeight.bold),
-            // ),
-            // Allows the user to reveal the app bar if they begin scrolling
-            // back up the list of items.
-
-            // Display a placeholder widget to visualize the shrinking size.
-          ), // Make the initial height of the SliverAppBar larger than normal.
+          ),
           body: ListView(
             physics: ScrollPhysics(),
             children: [
@@ -455,12 +420,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 0.035 * _screenHeight,
                           fontFamily: 'Gilroy'),
                     ),
-                    //  Text(
-                    // "What would you like to do today?",
-                    //   style: TextStyle(
-                    //       fontSize: 0.035 * _screenHeight,
-                    //       fontFamily: 'Gilroy'),
-                    // ),
                   ],
                 ),
               ),

@@ -2,11 +2,9 @@ import 'package:fiitgn/Providers/DataProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'HomeScreen.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'SplashScreen.dart';
 
 // ignore: must_be_immutable
@@ -45,31 +43,30 @@ class SignInClass {
   static var authHeaders;
 
   signIn() async {
-    print("Sign In Function was called");
+    // print("Sign In Function was called");
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    print("%%%%%%%%%%%%%%%%%%%%");
+    // print("%%%%%%%%%%%%%%%%%%%%");
     authHeaders = await googleSignIn.currentUser.authHeaders;
     // googleSignIn.currentUser.
-    print("***************");
-    print(authHeaders);
-    print("***************");
-    print("x");
-    GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+    // print("***************");
+    // print(authHeaders);
+    // print("***************");
+    // print("x");
+    GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
     AuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleSignInAuthentication.idToken,
         accessToken: googleSignInAuthentication.accessToken);
-    print("y");
+    // print("y");
     UserCredential result = await _auth.signInWithCredential(credential);
-    print("z");
+    // print("z");
     User user = _auth.currentUser;
-    print(user.uid);
+    // print(user.uid);
     final idTOKEN = await user.getIdToken();
     String uid = user.uid;
-    print("alpha");
+    // print("alpha");
     // String token = idTOKEN.token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("range 1");
+    // print("range 1");
     prefs.setString('uid', uid);
     prefs.setString('email', user.email);
     prefs.setString('name', user.displayName);
@@ -83,16 +80,15 @@ class SignInClass {
     data_provider.setEmailId(email);
     data_provider.setDisplay(userDisplay);
     data_provider.setName(name);
-    print("range 2");
-    print("Uids and tokens are set");
+    // print("range 2");
+    // print("Uids and tokens are set");
     // prefs.setString('token', token);
     // SignInGoogle().isSignedIn = true;
     // isSignedInPrivate = true;
     // print(SignInGoogle().isSignedIn);
-    print("Sign In Successful");
-    print("/////////////////////////");
-    Navigator.pushReplacementNamed(
-        context, SplashScreen.routeName); // return true
+    // print("Sign In Successful");
+    // print("/////////////////////////");
+    Navigator.pushReplacementNamed(context, SplashScreen.routeName); // return true
   }
 
   logoutUser() async {
@@ -106,9 +102,7 @@ class _SignInGoogleState extends State<SignInGoogle> {
   @override
   Widget build(BuildContext context) {
     var _screenHeight = MediaQuery.of(context).size.height;
-
     var _screenWidth = MediaQuery.of(context).size.width;
-    var _screenRatio = (_screenHeight / _screenWidth);
     final MediaQueryData data = MediaQuery.of(context);
     var key = new GlobalKey<ScaffoldState>();
 
@@ -175,10 +169,6 @@ class _SignInGoogleState extends State<SignInGoogle> {
                           icon: Icons.email,
                           onPressed: () async {
                             await SignInClass(context: context).signIn();
-
-                            // if (outCome == false) {
-                            //   // _showSnackBar();
-                            // }
                           },
                           backgroundColor: Color(0xFF3F7B70),
                         ),

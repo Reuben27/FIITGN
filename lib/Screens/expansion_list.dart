@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../Providers/expansion_panel_model.dart';
-// import 'package:flutter_expansion_panel_demo/model/expnasion_panel_model.dart';
 
 class ExpansionPanelDemo extends StatefulWidget {
   static const routeName = '\expansion_panel';

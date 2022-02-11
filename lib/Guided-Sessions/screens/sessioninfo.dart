@@ -28,7 +28,7 @@ class _SessionInfoState extends State<SessionInfo> {
             ),
           ],
         ),
-      ),      
+      ),
     );
   }
 }
