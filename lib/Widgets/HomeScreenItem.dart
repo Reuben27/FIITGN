@@ -20,7 +20,6 @@ class HomeScreenItem extends StatelessWidget {
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
-    var _screenRatio = (_screenHeight / _screenWidth);
     return Column(
       children: <Widget>[
         InkWell(
@@ -28,7 +27,7 @@ class HomeScreenItem extends StatelessWidget {
             if (routeName != '')
               {
                 Navigator.pushNamed(context, routeName),
-              } //IMAGE ADD KARO WITH Image.asset url and text is the title. description bhi add karo alag se.
+              } 
           },
           child: Container(
             decoration: BoxDecoration(
@@ -42,10 +41,8 @@ class HomeScreenItem extends StatelessWidget {
               left: 0.03 * _screenWidth,
               right: 0.03 * _screenWidth,
             ),
-            //   height: MediaQuery.of(context).size.height / 5,
             width: MediaQuery.of(context).size.width,
             child: ClipRRect(
-              //   borderRadius: BorderRadius.circular(20.0),
               child: Image.asset(url, fit: BoxFit.fitWidth),
             ),
           ),
@@ -55,7 +52,7 @@ class HomeScreenItem extends StatelessWidget {
             if (routeName != '')
               {
                 Navigator.pushNamed(context, routeName),
-              } //IMAGE ADD KARO WITH Image.asset url and text is the title. description bhi add karo alag se.
+              } 
           },
           child: Container(
             width: MediaQuery.of(context).size.width,

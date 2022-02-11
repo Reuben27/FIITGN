@@ -1,4 +1,3 @@
-// import 'package:fiitgn/Widgets/stickynote.dart';
 import 'package:flutter/material.dart';
 import '../data/activity_data.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,14 +40,12 @@ class _Activity_ScreenState extends State<Activity_Screen> {
         isLoading = false;
       });
     }
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     isInit = false;
   }
 
   inInIt() async {
     activities = await getActivityData();
-    // activities = activities_data;
     print("activities loaded");
     setState(() {
       print(isLoading);
@@ -58,12 +55,10 @@ class _Activity_ScreenState extends State<Activity_Screen> {
   }
 
   Widget build(BuildContext context) {
-    // print(activities[1].link);
     var _screenHeight = MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
-    var _screenRatio = (_screenHeight / _screenWidth);
     MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(
@@ -111,7 +106,6 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                           color: Color(0xFFC9CCD5),
                         ),
                         width: MediaQuery.of(context).size.width,
-                        //  height: MediaQuery.of(context).size.height / 3.5,
                         child: Container(
                           margin: EdgeInsets.only(
                             top: 0.0125 * _screenHeight,
@@ -123,7 +117,6 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                //width: MediaQuery.of(context).size.width / 1.2,
                                 child: Text(
                                   activities[i].activities.toUpperCase(),
                                   style: TextStyle(
@@ -137,7 +130,6 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                                 height: 0.004 * _screenHeight,
                               ),
                               Container(
-                                //  width: MediaQuery.of(context).size.width / 1.5,
                                 child: Text(
                                   "with " +
                                       activities[i].instructors.toUpperCase(),
@@ -209,7 +201,6 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                               ),
                             ],
                           ),
-                          //add here
                         ),
                       ),
                     );

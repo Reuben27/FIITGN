@@ -27,7 +27,6 @@ class _QuickLinksState extends State<QuickLinks> {
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
-    var _screenRatio = (_screenHeight / _screenWidth);
     final MediaQueryData data = MediaQuery.of(context);
     return MediaQuery(
       data: data.copyWith(
@@ -44,7 +43,6 @@ class _QuickLinksState extends State<QuickLinks> {
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-          //centerTitle: true,
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -72,10 +70,8 @@ class _QuickLinksState extends State<QuickLinks> {
                           left: 0.03 * _screenWidth,
                           right: 0.03 * _screenWidth,
                         ),
-                        //   height: MediaQuery.of(context).size.height / 5,
                         width: MediaQuery.of(context).size.width,
                         child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset('assets/suggest.png',
                               fit: BoxFit.fitWidth),
                         ),
@@ -142,10 +138,8 @@ class _QuickLinksState extends State<QuickLinks> {
                           left: 0.03 * _screenWidth,
                           right: 0.03 * _screenWidth,
                         ),
-                        //   height: MediaQuery.of(context).size.height / 5,
                         width: MediaQuery.of(context).size.width,
                         child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset('assets/report.png',
                               fit: BoxFit.fitWidth),
                         ),
@@ -212,10 +206,8 @@ class _QuickLinksState extends State<QuickLinks> {
                           left: 0.03 * _screenWidth,
                           right: 0.03 * _screenWidth,
                         ),
-                        //   height: MediaQuery.of(context).size.height / 5,
                         width: MediaQuery.of(context).size.width,
                         child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(20.0),
                           child: Image.asset('assets/suggest.png',
                               fit: BoxFit.fitWidth),
                         ),
@@ -271,7 +263,6 @@ class _QuickLinksState extends State<QuickLinks> {
     );
   }
 }
-
 // https://forms.gle/yYyhxgojSYhcxWij7
 // https://forms.gle/oi7XDmGK8VWaHvPZ9
 // https://forms.gle/yi3r8PP7VNo1XvrR7
