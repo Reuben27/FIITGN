@@ -338,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 0.03 * _screenHeight),
                       )),
                 ),
-                SizedBox(height: 0.4 * _screenHeight),
+                SizedBox(height: 0.3 * _screenHeight),
                 Container(
                   alignment: Alignment.center,
                   height: 0.15 * _screenHeight,
