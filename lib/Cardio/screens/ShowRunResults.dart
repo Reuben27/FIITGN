@@ -182,12 +182,12 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.55 * _screenHeight,
+                      height: 0.53 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
                     Container(
-                      height: 0.45 * _screenHeight,
+                      height: 0.47 * _screenHeight,
                       width: _screenWidth,
                       decoration: BoxDecoration(
                           // color: Color(0xFF93B5C6),
@@ -502,7 +502,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                           builder: (ctx) {
                                             print("show dialog initialized");
                                             return Container(
-                                              color: Color(0xFF93B5C6),
+                                              color: Color(0xFFC9CCD5),
                                               child: Container(
                                                 margin: EdgeInsets.only(
                                                   top: 0.03 * _screenHeight,
@@ -542,6 +542,10 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                     ),
                                                     Column(
                                                       children: [
+                                                        SizedBox(
+                                                          height: 0.05 *
+                                                              _screenHeight,
+                                                        ),
                                                         Container(
                                                           width: 0.3 *
                                                               _screenWidth,
@@ -553,8 +557,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                               children: [
                                                                 Text(
                                                                   "Public",
-                                                                  textScaleFactor:
-                                                                      0.8,
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           'Gilroy',

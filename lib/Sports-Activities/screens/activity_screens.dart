@@ -131,7 +131,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                               ),
                               Container(
                                 child: Text(
-                                  "with " +
+                                  // "with " +
                                       activities[i].instructors.toUpperCase(),
                                   style: TextStyle(
                                       fontFamily: 'Gilroy',

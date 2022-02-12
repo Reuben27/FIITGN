@@ -61,7 +61,8 @@ class RunDataProvider with ChangeNotifier {
   Future<void> getCommunityStatsFromDb() async {
     String _uid = Data_Provider().uid;
     // print("Run Data Provider uid --> " + _uid);
-    final url = 'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunDataCommunity.json';
+    final url =
+        'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunDataCommunity.json';
     try {
       // print("entered the try block");
       final response = await http.get(Uri.parse(url));
@@ -110,7 +111,7 @@ class RunDataProvider with ChangeNotifier {
           }
           String user_name = Data_Provider().name;
           String r_user_name = statVal['user_name'];
-          if(r_user_name != null){
+          if (r_user_name != null) {
             user_name = r_user_name;
           }
           // print(altitude_list);
@@ -211,7 +212,7 @@ class RunDataProvider with ChangeNotifier {
 
           String user_name = Data_Provider().name;
           String r_user_name = statVal['user_name'];
-          if(r_user_name != null){
+          if (r_user_name != null) {
             user_name = r_user_name;
           }
           // print(altitude_list);
@@ -261,10 +262,7 @@ class RunDataProvider with ChangeNotifier {
     return [..._community_runs_list];
   }
 
-
-
-
-  Future<void> addNewRunData (
+  Future<void> addNewRunData(
     // uid through the Data Provider
     String user_name,
     String activity_name,
@@ -281,13 +279,8 @@ class RunDataProvider with ChangeNotifier {
     double initialLongitude,
     List<double> pace_list,
     List<double> altitude_list,
-  )  {
-    // if(is_private == "true"){
-    //   await editRuns(0, 1, Data_Provider().uid);
-    // } else {
-    //   await editRuns(1, 1, Data_Provider().uid);
-    // }
-    
+  ) async {
+    await editRuns(0, 1, Data_Provider().uid);
 
     String _uid = Data_Provider().uid;
     // print("Run Data Provider fetching uid --> " + _uid);
@@ -297,7 +290,7 @@ class RunDataProvider with ChangeNotifier {
       Uri.parse(url),
       body: json.encode(
         {
-          'user_name':user_name,
+          'user_name': user_name,
           'uid': _uid,
           'dateOfRun': dateOfRun,
           'avgSpeed': avgSpeed,
@@ -351,8 +344,7 @@ class RunDataProvider with ChangeNotifier {
     });
   }
 
-
-  Future<void> addNewRunDataPublic (
+  Future<void> addNewRunDataPublic(
     // uid through the Data Provider
     String user_name,
     String activity_name,
@@ -369,23 +361,24 @@ class RunDataProvider with ChangeNotifier {
     double initialLongitude,
     List<double> pace_list,
     List<double> altitude_list,
-  )  {
+  ) async {
     // if(is_private == "true"){
     //   await editRuns(0, 1, Data_Provider().uid);
     // } else {
     //   await editRuns(1, 1, Data_Provider().uid);
     // }
-    
+    await editRuns(1, 0, Data_Provider().uid);
 
     String _uid = Data_Provider().uid;
     // print("Run Data Provider fetching uid --> " + _uid);
-    final url = 'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunDataCommunity.json';
+    final url =
+        'https://fiitgn-6aee7-default-rtdb.firebaseio.com/RunDataCommunity.json';
     return http
         .post(
       Uri.parse(url),
       body: json.encode(
         {
-          'user_name':user_name,
+          'user_name': user_name,
           'uid': _uid,
           'dateOfRun': dateOfRun,
           'avgSpeed': avgSpeed,
