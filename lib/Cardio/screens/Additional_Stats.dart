@@ -122,7 +122,9 @@ class _Additional_statsState extends State<Additional_stats> {
         textScaleFactor: 0.8,
       ),
       child: Scaffold(
-          appBar: AppBar(
+          appBar: AppBar( iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
             backgroundColor: Color(0xFF93B5C6),
             title: Text(
               'CARDIO DETAILS',

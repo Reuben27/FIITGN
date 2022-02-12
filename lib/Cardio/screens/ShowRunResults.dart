@@ -156,7 +156,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     return MediaQuery(
       data: data.copyWith(textScaleFactor: 0.8),
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar( iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
           title: InkWell(

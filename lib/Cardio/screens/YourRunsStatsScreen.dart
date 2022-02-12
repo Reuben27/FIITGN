@@ -94,7 +94,9 @@ class _YourRunsState extends State<YourRuns> {
     // final temp = runStatsProvider.getRunStatsFromDb();
     return runStats.length == 0
         ? Scaffold(
-            appBar: AppBar(
+            appBar: AppBar( iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
               // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(

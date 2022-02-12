@@ -66,6 +66,9 @@ class _Activity_ScreenState extends State<Activity_Screen> {
       ),
       child: Scaffold(
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
             backgroundColor: Color(0xFF93B5C6),
             centerTitle: true,
             title: Text(
@@ -132,7 +135,7 @@ class _Activity_ScreenState extends State<Activity_Screen> {
                               Container(
                                 child: Text(
                                   // "with " +
-                                      activities[i].instructors.toUpperCase(),
+                                  activities[i].instructors.toUpperCase(),
                                   style: TextStyle(
                                       fontFamily: 'Gilroy',
                                       fontSize: 0.026 * _screenHeight),

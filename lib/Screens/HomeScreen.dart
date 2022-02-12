@@ -244,15 +244,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SizedBox(height: 0.035 * _screenHeight,),
+                      SizedBox(
+                        height: 0.035 * _screenHeight,
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         //mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(width: 0.04 * _screenWidth,),
+                          SizedBox(
+                            width: 0.04 * _screenWidth,
+                          ),
                           Icon(FontAwesomeIcons.running),
-                           SizedBox(width: 0.015 * _screenWidth,),
+                          SizedBox(
+                            width: 0.015 * _screenWidth,
+                          ),
                           Text(
                             '$total_runs' + ' runs recorded.',
                             style: TextStyle(
@@ -269,20 +275,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         //mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(width: 0.04 * _screenWidth,),
+                          SizedBox(
+                            width: 0.04 * _screenWidth,
+                          ),
                           Icon(Icons.cloud_upload_outlined),
-                          SizedBox(width: 0.015 * _screenWidth,),
+                          SizedBox(
+                            width: 0.015 * _screenWidth,
+                          ),
                           Text(
                             '$shared_runs' + ' runs shared with community!',
                             style: TextStyle(
                               fontFamily: 'Gilroy',
-                             fontSize: 0.022 * _screenHeight,
+                              fontSize: 0.022 * _screenHeight,
                               color: Colors.black,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 0.025 * _screenHeight,),
+                      SizedBox(
+                        height: 0.025 * _screenHeight,
+                      ),
                     ],
                   ),
                 ),
@@ -298,7 +310,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Text(
                         "Developers",
                         style: TextStyle(
-                          
                             fontFamily: 'Gilroy',
                             fontSize: 0.03 * _screenHeight),
                       )),
@@ -389,6 +400,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
             actions: [
               Padding(
                 padding: EdgeInsets.symmetric(

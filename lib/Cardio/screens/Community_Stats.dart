@@ -90,6 +90,9 @@ class _CommunityRunsState extends State<CommunityRuns> {
     return runStats.length == 0
         ? Scaffold(
             appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.black,
+              ),
               // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
@@ -117,6 +120,9 @@ class _CommunityRunsState extends State<CommunityRuns> {
             ),
             child: Scaffold(
               appBar: AppBar(
+                iconTheme: IconThemeData(
+                  color: Colors.black,
+                ),
                 // centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
@@ -129,7 +135,7 @@ class _CommunityRunsState extends State<CommunityRuns> {
                 ),
               ),
               body: ListView.separated(
-                  separatorBuilder: (ctx, i) => Divider(),
+                separatorBuilder: (ctx, i) => Divider(),
                 itemBuilder: (ctx, i) {
                   String distance = runStats[i].distanceCovered;
                   // String avgSpeed = runStats[i].avgSpeed;
@@ -143,7 +149,6 @@ class _CommunityRunsState extends State<CommunityRuns> {
                           .toStringAsFixed(0);
                   return InkWell(
                     onTap: () {
-
                       print(runStats[i].altitude_list);
                       List<double> altitude_list = runStats[i].altitude_list;
                       List<double> pace_list = runStats[i].pace_list;
@@ -165,7 +170,7 @@ class _CommunityRunsState extends State<CommunityRuns> {
                           runStats[i].timeOfRunMin +
                           ':' +
                           runStats[i].timeOfRunSec;
-                           pass['use_case'] = 'community';
+                      pass['use_case'] = 'community';
 
                       Navigator.pushNamed(context, Additional_stats.routeName,
                           arguments: pass);
@@ -238,7 +243,6 @@ class _CommunityRunsState extends State<CommunityRuns> {
                                 ),
                         ),
 
-
                         Container(
                           // margin: EdgeInsets.only(
                           //   left: 0.02 * _screenWidth,
@@ -254,8 +258,6 @@ class _CommunityRunsState extends State<CommunityRuns> {
                               },
                               child: createSmallMap(i)),
                         ),
-
-
 
                         Container(
                           // margin: EdgeInsets.only(
@@ -436,10 +438,6 @@ class _CommunityRunsState extends State<CommunityRuns> {
                             ],
                           ),
                         ),
-
-
-
-
 
                         // Container(
                         //   height: 0.06 * _screenHeight,

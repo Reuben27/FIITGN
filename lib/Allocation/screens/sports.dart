@@ -30,10 +30,13 @@ class _SportsState extends State<Sports> {
       ),
       child: DefaultTabController(
         length: 1, //make this 2 when adding tabs
-        
+
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor:  Color(0xFF93B5C6),
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+            backgroundColor: Color(0xFF93B5C6),
             //centerTitle: true,
             title: Text(
               "SPORTS",
@@ -144,7 +147,7 @@ class _DisplayRoomDataState extends State<DisplayRoomData> {
                         left: 0.0125 * _screenWidth,
                         right: 0.0125 * _screenWidth),
                     decoration: BoxDecoration(
-                         color: Color(0xFFC9CCD5),
+                        color: Color(0xFFC9CCD5),
                         borderRadius:
                             BorderRadius.circular(0.025 * _screenHeight)),
                     child: Column(
