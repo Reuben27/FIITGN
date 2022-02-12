@@ -572,7 +572,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                 )
                                                               ],
                                                             ),
-                                                            onPressed: () {
+                                                            onPressed:
+                                                                () async {
                                                               is_private =
                                                                   "false";
                                                               if (activity_name_controller
@@ -584,30 +585,47 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .text
                                                                         .trim();
                                                               }
-
-                                                              runStatsProvider
-                                                                  .addNewRunData(
-                                                                Data_Provider()
-                                                                    .name,
-                                                                activity_name,
-                                                                is_private,
-                                                                dateOfRun,
-                                                                av_pace_string,
-                                                                distanceString,
-                                                                startTime,
-                                                                duration_hours,
-                                                                duration_minutes,
-                                                                duration_seconds,
-                                                                listOfLatLng,
-                                                                initialLat,
-                                                                initialLong,
-                                                                pace_list,
-                                                                altitude_list,
-                                                              )
-                                                                  .catchError(
-                                                                      (error) {
-                                                                print(error);
-                                                                return showDialog<
+                                                              try {
+                                                                await runStatsProvider
+                                                                    .addNewRunData(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                                await runStatsProvider
+                                                                    .addNewRunDataPublic(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                              } catch (error) {
+                                                                showDialog<
                                                                     Null>(
                                                                   context:
                                                                       context,
@@ -628,18 +646,17 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                     ],
                                                                   ),
                                                                 );
-                                                              }).then(
-                                                                (_) {
-                                                                  setState(() {
-                                                                    _isLoading =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pushReplacementNamed(
+                                                              }
+
+                                                              setState(() {
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                              Navigator
+                                                                  .pushReplacementNamed(
                                                                       context,
                                                                       HomeScreen
                                                                           .routeName);
-                                                                },
-                                                              );
                                                             },
                                                           ),
                                                         ),
