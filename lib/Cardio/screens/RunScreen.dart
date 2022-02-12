@@ -55,6 +55,7 @@ class _MapScreenState extends State<MapScreen> {
 
   String current_pace_string = "0:0";
   List<double> altitude_list = [];
+  double elevation = 0.0;
 
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
@@ -123,6 +124,7 @@ class _MapScreenState extends State<MapScreen> {
     int setState_counter = 0;
     bLoc.BackgroundLocation.getLocationUpdates(
       (location) {
+        altitude_flip += 1;
         print("code entered the BACKGROUND stream");
         if (flip == 0) {
           print("flip reached 0");
@@ -141,13 +143,8 @@ class _MapScreenState extends State<MapScreen> {
             );
             updateMarkerAndCircle(location.latitude, location.longitude);
             flip += 1;
-            altitude_flip += 1;
           }
         } else {
-          if (altitude_flip == 25) {
-            altitude_list.add(location.altitude);
-            altitude_flip = 0;
-          }
           if (flip == 10) {
             flip = 0;
 
@@ -157,15 +154,21 @@ class _MapScreenState extends State<MapScreen> {
             flip += 1;
           }
         }
+        if (altitude_flip == 10) {
+          print("altitude value changed to -->" + location.altitude.toString());
+          altitude_list.add(location.altitude);
+          altitude_flip = 0;
+        }
         setState_counter += 1;
         if (setState_counter % 4 == 0) {
+          elevation = location.altitude;
           setState(() {});
         }
         finalLatitude = location.latitude;
         finalLongitude = location.longitude;
         double av_pace_double = double.parse(pace_string);
         // Changing the form of av pace
-        if(av_pace_double.isFinite) {
+        if (av_pace_double.isFinite) {
           show_av_pace_string = (av_pace_double.floor()).toStringAsFixed(0) +
               ":" +
               ((av_pace_double - av_pace_double.floor()) * 60)
@@ -540,7 +543,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'AVG PACE',
+                                            'AVG PACE /km',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -638,7 +641,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            current_pace_string,
+                                            elevation.toStringAsFixed(1),
                                             style: TextStyle(
                                                 fontFamily: 'Gilroy',
                                                 fontSize: 0.07 * _screenHeight,
@@ -650,7 +653,7 @@ class _MapScreenState extends State<MapScreen> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            'CURR PACE',
+                                            'ELEVATION',
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
