@@ -130,7 +130,7 @@ class _SignInGoogleState extends State<SignInGoogle> {
                   child: Container(
                     width: _screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: Color(0xFFC9CCD5),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(0.05 * _screenHeight),
                         topRight: Radius.circular(0.05 * _screenHeight),
@@ -144,7 +144,7 @@ class _SignInGoogleState extends State<SignInGoogle> {
                           child: Container(
                             height: 0.2 * _screenHeight,
                             child: Image.asset(
-                              "assets/iitgnlogo-emblem.png",
+                              "assets/icon.png",
                               fit: BoxFit.contain,
                             ),
                           ),
