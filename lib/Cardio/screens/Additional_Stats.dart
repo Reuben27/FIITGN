@@ -50,12 +50,13 @@ class _Additional_statsState extends State<Additional_stats> {
       ],
     );
   }
-  Widget createSmallMap(int index,String use_case) {
+
+  Widget createSmallMap(int index, String use_case) {
     final runStatsProvider = Provider.of<RunDataProvider>(context);
     List<RunModel> runStats = [];
-    if(use_case == 'personal'){
-     runStats = runStatsProvider.yourRunsList;
-    }else if (use_case == 'community'){
+    if (use_case == 'personal') {
+      runStats = runStatsProvider.yourRunsList;
+    } else if (use_case == 'community') {
       runStats = runStatsProvider.communityRuns;
     }
     final double initialLatitude = runStats[index].initialLatitude;
@@ -122,18 +123,18 @@ class _Additional_statsState extends State<Additional_stats> {
         textScaleFactor: 0.8,
       ),
       child: Scaffold(
-          appBar: AppBar( iconTheme: IconThemeData(
+          appBar: AppBar(
+            iconTheme: IconThemeData(
               color: Colors.black,
             ),
             backgroundColor: Color(0xFF93B5C6),
             title: Text(
               'CARDIO DETAILS',
               style: TextStyle(
-                fontFamily: 'Gilroy',
-                fontSize: 0.04 * _screenHeight,
-                color: Colors.black,
-                fontWeight: FontWeight.bold
-              ),
+                  fontFamily: 'Gilroy',
+                  fontSize: 0.04 * _screenHeight,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           body: //(pace_list.length == 0 && altitude_list.length == 0)
@@ -150,10 +151,9 @@ class _Additional_statsState extends State<Additional_stats> {
                           // ),
                           height: 0.45 * _screenHeight,
                           width: _screenWidth,
-                          child: index == -1?
-                          createSmallMap2(routeArgs)
-                          :
-                          createSmallMap(index,use_case),
+                          child: index == -1
+                              ? createSmallMap2(routeArgs)
+                              : createSmallMap(index, use_case),
                         ),
                         //SizedBox(height: 30),
                         Container(
@@ -288,6 +288,17 @@ class _Additional_statsState extends State<Additional_stats> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
+                                      Container(
+                                        child: Center(
+                                          child: Text(
+                                            "DURATION",
+                                            style: TextStyle(
+                                                fontSize: 0.018 * _screenHeight,
+                                                //      color: Colors.white,
+                                                fontFamily: 'Gilroy'),
+                                          ),
+                                        ),
+                                      ),
 
                                       // Container(
                                       //   child: Center(
@@ -336,7 +347,7 @@ class _Additional_statsState extends State<Additional_stats> {
                                       Container(
                                         child: Center(
                                           child: Text(
-                                            "ELEVATION",
+                                            " MAX ELEVATION",
                                             style: TextStyle(
                                                 fontSize: 0.018 * _screenHeight,
                                                 //      color: Colors.white,
@@ -499,6 +510,20 @@ class ElevationWidget extends StatelessWidget {
     @required this.max_alt,
   });
 
+  List<double> sampled_list(List<double> altitude_list) {
+    List<double> sampled_list = [];
+    if(altitude_list  == null || altitude_list.length <=20){
+      return altitude_list;
+    }
+    int num_of_points = 20;
+    for (int i = 0; i < altitude_list.length; i++) {
+      if (i % num_of_points == 0) {
+        sampled_list.add(altitude_list[i]);
+      }
+    }
+    return sampled_list;
+  }
+
   List<FlSpot> get_spots(List<double> altitude_list) {
     List<FlSpot> spots = [];
     for (int i = 0; i < altitude_list.length; i++) {
@@ -576,7 +601,7 @@ class ElevationWidget extends StatelessWidget {
     double max_altitude = double.parse(max_alt) + 2;
     double min_altitude = 0.0;
     // Use this in real
-    List<FlSpot> spots = get_spots(altitude_list);
+    List<FlSpot> spots = get_spots(sampled_list(altitude_list));
     // This is for testing
     // List<FlSpot> spots = dummy_data;
     return LineChart(
