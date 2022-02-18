@@ -522,7 +522,7 @@ class ElevationWidget extends StatelessWidget {
       }
     }
     return sampled_list;
-  }
+  } 
 
   List<FlSpot> get_spots(List<double> altitude_list) {
     List<FlSpot> spots = [];

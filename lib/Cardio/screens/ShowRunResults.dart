@@ -156,9 +156,10 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     return MediaQuery(
       data: data.copyWith(textScaleFactor: 0.8),
       child: Scaffold(
-        appBar: AppBar( iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
           title: InkWell(
@@ -590,6 +591,11 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .trim();
                                                               }
                                                               try {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                print(
+                                                                    "came after pop statements");
                                                                 await runStatsProvider
                                                                     .addNewRunData(
                                                                   Data_Provider()
@@ -694,7 +700,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                 )
                                                               ],
                                                             ),
-                                                            onPressed: () {
+                                                            onPressed:
+                                                                () async {
                                                               is_private =
                                                                   "true";
 
@@ -707,30 +714,33 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .text
                                                                         .trim();
                                                               }
-
-                                                              runStatsProvider
-                                                                  .addNewRunData(
-                                                                Data_Provider()
-                                                                    .name,
-                                                                activity_name,
-                                                                is_private,
-                                                                dateOfRun,
-                                                                av_pace_string,
-                                                                distanceString,
-                                                                startTime,
-                                                                duration_hours,
-                                                                duration_minutes,
-                                                                duration_seconds,
-                                                                listOfLatLng,
-                                                                initialLat,
-                                                                initialLong,
-                                                                pace_list,
-                                                                altitude_list,
-                                                              )
-                                                                  .catchError(
-                                                                      (error) {
-                                                                print(error);
-                                                                return showDialog<
+                                                              try {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                print(
+                                                                    "came after pop statements");
+                                                                await runStatsProvider
+                                                                    .addNewRunData(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                              } catch (error) {
+                                                                showDialog<
                                                                     Null>(
                                                                   context:
                                                                       context,
@@ -751,18 +761,17 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                     ],
                                                                   ),
                                                                 );
-                                                              }).then(
-                                                                (_) {
-                                                                  setState(() {
-                                                                    _isLoading =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pushReplacementNamed(
+                                                              }
+
+                                                              setState(() {
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                              Navigator
+                                                                  .pushReplacementNamed(
                                                                       context,
                                                                       HomeScreen
                                                                           .routeName);
-                                                                },
-                                                              );
                                                             },
                                                           ),
                                                         ),
