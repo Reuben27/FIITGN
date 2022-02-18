@@ -33,6 +33,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     return paces;
   }
 
+  bool saving_flag = false;
+
   final primaryColorThisScreen = Color(0XFF6D3FFF);
 
   final accentColorThisScreen = Color(0XFF233C63);
@@ -162,16 +164,21 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
           ),
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
-          title: InkWell(
-            onTap: goToStatsScreen,
-            child: Text(
-              'SUMMARY',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 0.04 * _screenHeight,
-                  fontFamily: 'Gilroy'),
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'SUMMARY',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 0.04 * _screenHeight,
+                    fontFamily: 'Gilroy'),
+              ),
+              saving_flag==true ?
+              CircularProgressIndicator()
+              :Container()
+            ],
           ),
         ),
         body: _isLoading
@@ -192,13 +199,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                     Container(
                       height: 0.47 * _screenHeight,
                       width: _screenWidth,
-                      decoration: BoxDecoration(
-                          // color: Color(0xFF93B5C6),
-                          // borderRadius: BorderRadius.only(
-                          //   topLeft: Radius.circular(0.05 * _screenHeight),
-                          //   topRight: Radius.circular(0.05 * _screenHeight),
-                          // ),
-                          ),
+                      decoration: BoxDecoration(),
                       child: Column(
                         children: [
                           Container(
@@ -250,41 +251,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                               ),
                             ),
                           ),
-                          //Divider(height: 0.01 * _screenHeight),
-                          // InkWell(
-                          //   onTap: () {
-                          //     Map pass = Map();
-                          //     pass['altitude_list'] = altitude_list;
-                          //     pass['pace_list'] = pace_list;
-                          //     pass['distance'] = distanceString;
-                          //     pass['initialLat'] = initialLat;
-                          //     pass['initialLong'] = initialLong;
-                          //     pass['listOfLatLng'] = listOfLatLng;
-                          //     pass['index'] = -1;
-
-                          //     double max_elevation = 0.0;
-                          //     altitude_list.forEach((element) {
-                          //       if (element > max_elevation) {
-                          //         max_elevation = element;
-                          //       }
-                          //     });
-                          //     pass['max_elevation'] =
-                          //         max_elevation.toStringAsFixed(2);
-                          //     pass['average_pace'] = show_av_pace_string;
-                          //     pass['time'] = duration_hours +
-                          //         ':' +
-                          //         duration_minutes +
-                          //         ':' +
-                          //         duration_seconds;
-
-                          //     Navigator.pushNamed(
-                          //         context, Additional_stats.routeName,
-                          //         arguments: pass);
-                          //   },
-                          //   child: Container(
-                          //     child: Text('Detailed Stats'),
-                          //   ),
-                          // ),
                           Container(
                             height: 0.165 * _screenHeight,
                             child: Row(
@@ -590,7 +556,11 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .text
                                                                         .trim();
                                                               }
+                                                              
                                                               try {
+                                                                setState(() {
+                                                                saving_flag = true;
+                                                              });
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -635,6 +605,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                   altitude_list,
                                                                 );
                                                               } catch (error) {
+                                                                setState(() {
+                                                                saving_flag = false;
+                                                              });
                                                                 showDialog<
                                                                     Null>(
                                                                   context:
@@ -715,6 +688,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .trim();
                                                               }
                                                               try {
+                                                                setState(() {
+                                                                saving_flag = true;
+                                                              });
                                                                 Navigator.of(
                                                                         context)
                                                                     .pop();
@@ -740,6 +716,9 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                   altitude_list,
                                                                 );
                                                               } catch (error) {
+                                                                setState(() {
+                                                                saving_flag = false;
+                                                              });
                                                                 showDialog<
                                                                     Null>(
                                                                   context:
