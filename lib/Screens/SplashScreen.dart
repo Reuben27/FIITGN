@@ -96,10 +96,17 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Container(
+              //   height: 0.2 * _screenHeight,
+              //   child: Image.asset(
+              //     "assets/iitgnlogo-emblem.png",
+              //     fit: BoxFit.contain,
+              //   ),
+              // ),
               Container(
                 height: 0.2 * _screenHeight,
                 child: Image.asset(
-                  "assets/iitgnlogo-emblem.png",
+                  "assets/icon.png",
                   fit: BoxFit.contain,
                 ),
               ),
@@ -119,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   // print("Tap Event");
                 },
                 text: [
-                  'good things take time to load',
+                  'loading fitness.',
                 ],
                 textStyle: TextStyle(
                     fontSize: 0.025 * _screenHeight,

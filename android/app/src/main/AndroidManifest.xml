@@ -17,8 +17,8 @@
     </queries>
    <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="fiitgn"
-        android:icon="@mipmap/ic_launcher">
+        android:label="FIITGN"
+        android:icon="@mipmap/icon">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCAcr9DXbuRJ3InGIkI7p2iM3k-zxgzPxo"/>
