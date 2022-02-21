@@ -67,6 +67,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -161,6 +168,7 @@ flutter:
     - assets/following.png
     - assets/report.png
     - assets/suggest.png
+    - assets/icon.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

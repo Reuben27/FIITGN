@@ -22,7 +22,10 @@ class _RoomsState extends State<Rooms> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor:  Color(0xFF93B5C6),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'ROOMS',
             style: TextStyle(
@@ -31,7 +34,7 @@ class _RoomsState extends State<Rooms> {
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-         // centerTitle: true,
+          // centerTitle: true,
         ),
         body: DisplayData(),
       ),
@@ -52,7 +55,8 @@ class _DisplayDataState extends State<DisplayData> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
-    CollectionReference rooms = FirebaseFirestore.instance.collection(sportroomid);
+    CollectionReference rooms =
+        FirebaseFirestore.instance.collection(sportroomid);
 
     return StreamBuilder<QuerySnapshot>(
       stream: rooms.snapshots(),

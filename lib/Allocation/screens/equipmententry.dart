@@ -76,7 +76,10 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor:  Color(0xFF93B5C6),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             "CHOOSE SLOT (EQUIPMENTS)",
             style: TextStyle(
@@ -108,73 +111,79 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
             ),
           ),
         ),
-        body: Container(margin: EdgeInsets.only(left: 0.02 * _screenWidth,right: 0.02 * _screenWidth,top: 0.02*_screenHeight, ),
-                  child: GridView.builder(  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: _screenHeight/_screenWidth,
-              crossAxisSpacing: 0.01*_screenHeight,
-              mainAxisSpacing: 0.03 * _screenWidth
-              //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
-            ),
-                   
+        body: Container(
+          margin: EdgeInsets.only(
+            left: 0.02 * _screenWidth,
+            right: 0.02 * _screenWidth,
+            top: 0.02 * _screenHeight,
+          ),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: _screenHeight / _screenWidth,
+                crossAxisSpacing: 0.01 * _screenHeight,
+                mainAxisSpacing: 0.03 * _screenWidth
+                //  mainAxisSpacing: MediaQuery.of(context).size.width / 30,
+                ),
             itemCount: timeofDay.length,
-            itemBuilder: (context, timeindex) =>  GestureDetector(
-                onTap: () {
-                  if (numberofslotschoosen == 0) {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      setState(() {
-                        print(colorList[timeindex]);
-                        colorList[timeindex] = Colors.green;
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      });
-                      numberofslotschoosen += 1;
-                    }
-                  } else {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      setState(() {
-                        colorList[chosentimeindex] = Colors.grey[300];
-                        colorList[timeindex] = Colors.green;
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      }); 
-                    } else {
-                      setState(() {
-                        colorList[timeindex] = Colors.grey[300];
-                        chosentimeindex = -1;
-                      });
-                      numberofslotschoosen -= 1;
-                    }
+            itemBuilder: (context, timeindex) => GestureDetector(
+              onTap: () {
+                if (numberofslotschoosen == 0) {
+                  if (colorList[timeindex] == Colors.grey[300]) {
+                    setState(() {
+                      print(colorList[timeindex]);
+                      colorList[timeindex] = Colors.green;
+                      chosentimeindex = timeindex;
+                      print(colorList);
+                    });
+                    numberofslotschoosen += 1;
                   }
-                },
-                child: Container(
-                  child: Center(
-                    child: Text(
-                      timeofDay[timeindex] + ":00",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 0.045 * _screenHeight,
-                      ),
+                } else {
+                  if (colorList[timeindex] == Colors.grey[300]) {
+                    setState(() {
+                      colorList[chosentimeindex] = Colors.grey[300];
+                      colorList[timeindex] = Colors.green;
+                      chosentimeindex = timeindex;
+                      print(colorList);
+                    });
+                  } else {
+                    setState(() {
+                      colorList[timeindex] = Colors.grey[300];
+                      chosentimeindex = -1;
+                    });
+                    numberofslotschoosen -= 1;
+                  }
+                }
+              },
+              child: Container(
+                child: Center(
+                  child: Text(
+                    timeofDay[timeindex] + ":00",
+                    style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 0.045 * _screenHeight,
                     ),
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0.02 * _screenHeight),
-                    color: colorList[timeindex], 
-                  ),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0.02 * _screenHeight),
+                  color: colorList[timeindex],
                 ),
               ),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor:  Color(0xFF93B5C6),
+          backgroundColor: Color(0xFF93B5C6),
           onPressed: () async {
             print(chosentimeindex);
 
             //edge case
-            if (chosentimeindex == 23) {              
+            if (chosentimeindex == 23) {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
               endtime = endtime + " " + timeofDay[0] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
@@ -183,8 +192,10 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
             } else {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
-              endtime = endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              endtime =
+                  endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
               print(starttime);
@@ -192,7 +203,7 @@ class _EquipmentEntryState extends State<EquipmentEntry> {
             }
 
             print(reflag);
-            if(reflag == 0){
+            if (reflag == 0) {
               print(sportequipmentid);
               int go = await getName(sportequipmentid);
               if (go == 1) {
@@ -250,10 +261,10 @@ Future<int> makeCounters() async {
 }
 
 //Function to make the list of value of sliders for the equiments.dart
-Future<int> makeSliders() async{
+Future<int> makeSliders() async {
   sliders = [];
 
-  for(var i = 0; i < numberofequipments; i++){
+  for (var i = 0; i < numberofequipments; i++) {
     sliders.add(0.0);
   }
 

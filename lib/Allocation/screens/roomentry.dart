@@ -92,7 +92,10 @@ class _RoomEntryState extends State<RoomEntry> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor:  Color(0xFF93B5C6),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             "SLOTS",
             style: TextStyle(
@@ -136,105 +139,106 @@ class _RoomEntryState extends State<RoomEntry> {
                   Text(
                     "$selectedroomname",
                     style: TextStyle(
-                      fontSize: 0.03 * _screenHeight,
-                      fontFamily: 'Gilroy'
-                    ),
+                        fontSize: 0.03 * _screenHeight, fontFamily: 'Gilroy'),
                   )
                 ],
               ),
             ),
           ),
         ),
-        body: loading ? Center(child: CircularProgressIndicator()) : Container(
-          margin: EdgeInsets.only(
-            left: 0.02 * _screenWidth,
-            right: 0.02 * _screenWidth,
-            top: 0.02 * _screenHeight,
-          ),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: _screenHeight / _screenWidth,
-              crossAxisSpacing: 0.01 * _screenHeight,
-              mainAxisSpacing: 0.03 * _screenWidth
-            ),
-            itemCount: timeofDay.length,
-            itemBuilder: (context, timeindex) => GestureDetector(
-              onTap: () {
-                if (bookedornot[day][timeindex] == 0) {
-                  if (numberofslotschoosen == 0) {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      print("Hey");
-                      setState(() {
-                        print(colorList[timeindex]);
-                        colorList[timeindex] = Color(0xFF93B5C6);
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      });
-                      numberofslotschoosen += 1;
-                    }
-                  } else {
-                    if (colorList[timeindex] == Colors.grey[300]) {
-                      setState(() {
-                        colorList[chosentimeindex] = Colors.grey[300];
-                        colorList[timeindex] = Color(0xFF93B5C6);
-                        chosentimeindex = timeindex;
-                        print(colorList);
-                      });
-                    } else {
-                      setState(() {
-                        colorList[timeindex] = Colors.grey[300];
-                        chosentimeindex = -1;
-                      });
-                      numberofslotschoosen -= 1;
-                    }
-                  }
-                } else {
-                  print('Room already booked');
-                  return showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Row(
-                        children: [
-                          Text(
-                            "Slot not available!",
-                            style: TextStyle(fontFamily: "Gilroy"),
-                          )
-                        ],
+        body: loading
+            ? Center(child: CircularProgressIndicator())
+            : Container(
+                margin: EdgeInsets.only(
+                  left: 0.02 * _screenWidth,
+                  right: 0.02 * _screenWidth,
+                  top: 0.02 * _screenHeight,
+                ),
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: _screenHeight / _screenWidth,
+                      crossAxisSpacing: 0.01 * _screenHeight,
+                      mainAxisSpacing: 0.03 * _screenWidth),
+                  itemCount: timeofDay.length,
+                  itemBuilder: (context, timeindex) => GestureDetector(
+                    onTap: () {
+                      if (bookedornot[day][timeindex] == 0) {
+                        if (numberofslotschoosen == 0) {
+                          if (colorList[timeindex] == Colors.grey[300]) {
+                            print("Hey");
+                            setState(() {
+                              print(colorList[timeindex]);
+                              colorList[timeindex] = Color(0xFF93B5C6);
+                              chosentimeindex = timeindex;
+                              print(colorList);
+                            });
+                            numberofslotschoosen += 1;
+                          }
+                        } else {
+                          if (colorList[timeindex] == Colors.grey[300]) {
+                            setState(() {
+                              colorList[chosentimeindex] = Colors.grey[300];
+                              colorList[timeindex] = Color(0xFF93B5C6);
+                              chosentimeindex = timeindex;
+                              print(colorList);
+                            });
+                          } else {
+                            setState(() {
+                              colorList[timeindex] = Colors.grey[300];
+                              chosentimeindex = -1;
+                            });
+                            numberofslotschoosen -= 1;
+                          }
+                        }
+                      } else {
+                        print('Room already booked');
+                        return showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Row(
+                              children: [
+                                Text(
+                                  "Slot not available!",
+                                  style: TextStyle(fontFamily: "Gilroy"),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      child: Center(
+                        child: Text(
+                          timeofDay[timeindex] + ":00",
+                          style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 0.045 * _screenHeight,
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                }
-              },
-              child: Container(
-                child: Center(
-                  child: Text(
-                    timeofDay[timeindex] + ":00",
-                    style: TextStyle(
-                      fontFamily: 'Gilroy',
-                      fontSize: 0.045 * _screenHeight,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(0.02 * _screenHeight),
+                        color: bookedornot[day][timeindex] == 0
+                            ? colorList[timeindex]
+                            : Colors.red[200],
+                      ),
                     ),
                   ),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(0.02 * _screenHeight),
-                  color: bookedornot[day][timeindex] == 0
-                      ? colorList[timeindex]
-                      : Colors.red[200],
-                ),
               ),
-            ),
-          ),
-        ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor:  Color(0xFF93B5C6),
+          backgroundColor: Color(0xFF93B5C6),
           onPressed: () async {
             print(chosentimeindex);
             //edge case
             if (chosentimeindex == 23) {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
               endtime = endtime + " " + timeofDay[0] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
@@ -243,8 +247,10 @@ class _RoomEntryState extends State<RoomEntry> {
             } else {
               starttime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
               endtime = DateFormat('yyyy-MM-dd').format(chosendate).trim();
-              starttime = starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
-              endtime = endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
+              starttime =
+                  starttime + " " + timeofDay[chosentimeindex] + ":00:00.000";
+              endtime =
+                  endtime + " " + timeofDay[chosentimeindex + 1] + ":00:00.000";
               starttime = starttime.trim();
               endtime = endtime.trim();
               print(starttime);
@@ -265,72 +271,72 @@ class _RoomEntryState extends State<RoomEntry> {
                 }
               }
               return showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Row(
-                    children: [
-                      Text(
-                        "Booking Successful",
-                        style: TextStyle(fontFamily: "Gilroy",fontSize: 0.025 * _screenHeight),
-                      ),
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green[300],
-                      ),
-                    ],
-                  ),
-                  content: Container(
-                   height: 0.1 * _screenHeight,
-                    child: Column(
-                      children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: Color(0xFF93B5C6)),
-                          ),
-                          child: Text(
-                            "Home",
+                  context: context,
+                  builder: (context) => AlertDialog(
+                      title: Row(
+                        children: [
+                          Text(
+                            "Booking Successful",
                             style: TextStyle(
                                 fontFamily: "Gilroy",
-                                color: Colors.black,
-                               fontSize: 0.025 * _screenHeight),
+                                fontSize: 0.025 * _screenHeight),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomeScreen(),
+                          Icon(
+                            Icons.check_circle,
+                            color: Colors.green[300],
+                          ),
+                        ],
+                      ),
+                      content: Container(
+                        height: 0.1 * _screenHeight,
+                        child: Column(
+                          children: [
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: BorderSide(color: Color(0xFF93B5C6)),
                               ),
-                            );
-                          },
+                              child: Text(
+                                "Home",
+                                style: TextStyle(
+                                    fontFamily: "Gilroy",
+                                    color: Colors.black,
+                                    fontSize: 0.025 * _screenHeight),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(),
+                                  ),
+                                );
+                              },
+                            ),
+                            // OutlinedButton(
+                            //   style: OutlinedButton.styleFrom(
+                            //     side: BorderSide(
+                            //       color: Colors.deepOrange[300],
+                            //     ),
+                            //   ),
+                            //   child: Text(
+                            //     'Book Equipment',
+                            //     style: TextStyle(
+                            //         fontFamily: "Gilroy",
+                            //         color: Colors.black,
+                            //        fontSize: 0.025 * _screenHeight),
+                            //   ),
+                            //   onPressed: () {
+                            //     reflag = 0;
+                            //     Navigator.pushReplacement(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) => EquipmentEntry(),
+                            //       ),
+                            //     );
+                            //   },
+                            // )
+                          ],
                         ),
-                        // OutlinedButton(
-                        //   style: OutlinedButton.styleFrom(
-                        //     side: BorderSide(
-                        //       color: Colors.deepOrange[300],
-                        //     ),
-                        //   ),
-                        //   child: Text(
-                        //     'Book Equipment',
-                        //     style: TextStyle(
-                        //         fontFamily: "Gilroy",
-                        //         color: Colors.black,
-                        //        fontSize: 0.025 * _screenHeight),
-                        //   ),
-                        //   onPressed: () {
-                        //     reflag = 0;
-                        //     Navigator.pushReplacement(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => EquipmentEntry(),
-                        //       ),
-                        //     );
-                        //   },
-                        // )
-                      ],
-                    ),
-                  )
-                )
-              );
+                      )));
             }
           },
           tooltip: 'Show me the value!',

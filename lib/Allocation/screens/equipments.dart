@@ -14,7 +14,8 @@ import '../utils/equipmentupdater.dart';
 
 // ignore: must_be_immutable
 class Equipments extends StatelessWidget {
-  String date = DateFormat('yyyy-MM-dd').format(DateTime.parse(starttime)).trim();
+  String date =
+      DateFormat('yyyy-MM-dd').format(DateTime.parse(starttime)).trim();
   String sslot = DateTime.parse(starttime).hour.toString() + ":00";
   String eslot = DateTime.parse(endtime).hour.toString() + ":00";
 
@@ -31,6 +32,9 @@ class Equipments extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
           bottom: PreferredSize(
             preferredSize: Size(_screenWidth, 0.08 * _screenHeight),
             child: Container(
@@ -82,76 +86,76 @@ class Equipments extends StatelessWidget {
             print(orders);
             await infogetter();
             return showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Row(
-                  children: [
-                    Text(
-                      "Booking Successful",
-                      style: TextStyle(fontFamily: "Gilroy",fontSize: 0.025 * _screenHeight),
-                    ),
-                    Icon(
-                      Icons.check_circle,
-                      color: Colors.green[300],
-                    ),
-                  ],
-                ),
-                content: Container(
-                 height: 0.15 * _screenHeight,
-                  child: Column(
-                    children: [
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: Color(0xFF93B5C6),),
-                        ),
-                        child: Text(
-                          "Home",
+                context: context,
+                builder: (context) => AlertDialog(
+                    title: Row(
+                      children: [
+                        Text(
+                          "Booking Successful",
                           style: TextStyle(
                               fontFamily: "Gilroy",
-                              color: Colors.black,
-                              fontSize:
-                                   0.025 * _screenHeight),
+                              fontSize: 0.025 * _screenHeight),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: Colors.deepOrange[300],
-                          ),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.green[300],
                         ),
-                        child: Text(
-                          'Book Room',
-                          style: TextStyle(
-                              fontFamily: "Gilroy",
-                              color: Colors.black,
-                              fontSize:
-                                  0.025 * _screenHeight),
-                        ),
-                        onPressed: () {
-                          if (reflag == 0) {
-                            reflag = 1;
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Rooms(),
+                      ],
+                    ),
+                    content: Container(
+                      height: 0.15 * _screenHeight,
+                      child: Column(
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Color(0xFF93B5C6),
                               ),
-                            );
-                          }
-                        },
-                      )
-                    ],
-                  ),
-                )
-              )
-            );
+                            ),
+                            child: Text(
+                              "Home",
+                              style: TextStyle(
+                                  fontFamily: "Gilroy",
+                                  color: Colors.black,
+                                  fontSize: 0.025 * _screenHeight),
+                            ),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Colors.deepOrange[300],
+                              ),
+                            ),
+                            child: Text(
+                              'Book Room',
+                              style: TextStyle(
+                                  fontFamily: "Gilroy",
+                                  color: Colors.black,
+                                  fontSize: 0.025 * _screenHeight),
+                            ),
+                            onPressed: () {
+                              if (reflag == 0) {
+                                reflag = 1;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Rooms(),
+                                  ),
+                                );
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    )));
           },
           tooltip: 'Show me the value!',
           child: Icon(
@@ -171,7 +175,6 @@ class DisplayData extends StatefulWidget {
 }
 
 class _DisplayDataState extends State<DisplayData> {
-  
   @override
   Widget build(BuildContext context) {
     var _screenHeight = MediaQuery.of(context).size.height -
@@ -179,7 +182,8 @@ class _DisplayDataState extends State<DisplayData> {
         kToolbarHeight;
     var _screenWidth = MediaQuery.of(context).size.width;
     final MediaQueryData data = MediaQuery.of(context);
-    CollectionReference equipments = FirebaseFirestore.instance.collection(sportequipmentid);
+    CollectionReference equipments =
+        FirebaseFirestore.instance.collection(sportequipmentid);
 
     return MediaQuery(
       data: data.copyWith(
@@ -252,7 +256,7 @@ class _DisplayDataState extends State<DisplayData> {
                         //     ),
                         //   ],
                         // ),
-                        EquipCounter(counterint: document['availabilityindex'] ),
+                        EquipCounter(counterint: document['availabilityindex']),
                       ],
                     ),
                   ),
@@ -269,7 +273,7 @@ class _DisplayDataState extends State<DisplayData> {
 //Custom Sliders
 class EquipSlider extends StatefulWidget {
   final int sliderint;
-  const EquipSlider({ Key key, this.sliderint }) : super(key: key);
+  const EquipSlider({Key key, this.sliderint}) : super(key: key);
 
   @override
   _EquipSliderState createState() => _EquipSliderState();
@@ -281,11 +285,11 @@ class _EquipSliderState extends State<EquipSlider> {
     return Slider(
       value: double.parse(sliders[widget.sliderint].toString()),
       min: 0,
-      max:  double.parse(availability[widget.sliderint].toString()),
+      max: double.parse(availability[widget.sliderint].toString()),
       divisions: availability[widget.sliderint],
       label: sliders[widget.sliderint].toString(),
       onChanged: (double value) {
-        setState((){
+        setState(() {
           sliders[widget.sliderint] = value;
         });
       },
@@ -296,7 +300,7 @@ class _EquipSliderState extends State<EquipSlider> {
 //Custom Counters
 class EquipCounter extends StatefulWidget {
   final int counterint;
-  const EquipCounter({ Key key, this.counterint }) : super(key: key);
+  const EquipCounter({Key key, this.counterint}) : super(key: key);
 
   @override
   _EquipCounterState createState() => _EquipCounterState();

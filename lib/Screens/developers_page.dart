@@ -17,7 +17,10 @@ class Developer extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blueGrey[300],
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Color(0xFF93B5C6),
           title: Text(
             'DEVELOPERS',
             style: TextStyle(
@@ -26,7 +29,7 @@ class Developer extends StatelessWidget {
                 fontSize: 0.04 * _screenHeight,
                 fontFamily: 'Gilroy'),
           ),
-          centerTitle: true,
+          //centerTitle: true,
         ),
         body: ListView(
           children: [
@@ -41,7 +44,7 @@ class Developer extends StatelessWidget {
               width: _screenWidth,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(
                     0.03 * _screenHeight,
                   ),
@@ -71,7 +74,7 @@ class Developer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "GAUTAM VASHISHTHA",
+                            "Gautam Vashishtha",
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.bold,
@@ -101,7 +104,7 @@ class Developer extends StatelessWidget {
               width: _screenWidth,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(
                     0.03 * _screenHeight,
                   ),
@@ -131,7 +134,7 @@ class Developer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "REUBEN DEVANESAN",
+                            "Reuben Devanesan",
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.bold,
@@ -161,7 +164,7 @@ class Developer extends StatelessWidget {
               width: _screenWidth,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(
                     0.03 * _screenHeight,
                   ),
@@ -191,7 +194,7 @@ class Developer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "ADITYA SHEKHAR",
+                            "Aditya Shekhar",
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.bold,
@@ -221,7 +224,7 @@ class Developer extends StatelessWidget {
               width: _screenWidth,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(
                     0.03 * _screenHeight,
                   ),
@@ -251,7 +254,7 @@ class Developer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "RISHABH GUPTA",
+                            "Rishabh Gupta",
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.bold,
@@ -281,7 +284,7 @@ class Developer extends StatelessWidget {
               width: _screenWidth,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[350],
+                  color: Color(0xFFC9CCD5),
                   borderRadius: BorderRadius.circular(
                     0.03 * _screenHeight,
                   ),
@@ -311,7 +314,7 @@ class Developer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "ABHIRAM GEDDAM",
+                            "Abhiram Geddam",
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.bold,

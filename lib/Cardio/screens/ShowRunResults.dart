@@ -33,6 +33,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
     return paces;
   }
 
+  bool saving_flag = false;
+
   final primaryColorThisScreen = Color(0XFF6D3FFF);
 
   final accentColorThisScreen = Color(0XFF233C63);
@@ -157,18 +159,26 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
       data: data.copyWith(textScaleFactor: 0.8),
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
-          title: InkWell(
-            onTap: goToStatsScreen,
-            child: Text(
-              'SUMMARY',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 0.04 * _screenHeight,
-                  fontFamily: 'Gilroy'),
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'SUMMARY',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 0.04 * _screenHeight,
+                    fontFamily: 'Gilroy'),
+              ),
+              saving_flag==true ?
+              CircularProgressIndicator()
+              :Container()
+            ],
           ),
         ),
         body: _isLoading
@@ -182,20 +192,14 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 0.55 * _screenHeight,
+                      height: 0.53 * _screenHeight,
                       color: Colors.black,
                       child: createSmallMap(routeArgs),
                     ),
                     Container(
-                      height: 0.45 * _screenHeight,
+                      height: 0.47 * _screenHeight,
                       width: _screenWidth,
-                      decoration: BoxDecoration(
-                          // color: Color(0xFF93B5C6),
-                          // borderRadius: BorderRadius.only(
-                          //   topLeft: Radius.circular(0.05 * _screenHeight),
-                          //   topRight: Radius.circular(0.05 * _screenHeight),
-                          // ),
-                          ),
+                      decoration: BoxDecoration(),
                       child: Column(
                         children: [
                           Container(
@@ -247,41 +251,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                               ),
                             ),
                           ),
-                          //Divider(height: 0.01 * _screenHeight),
-                          // InkWell(
-                          //   onTap: () {
-                          //     Map pass = Map();
-                          //     pass['altitude_list'] = altitude_list;
-                          //     pass['pace_list'] = pace_list;
-                          //     pass['distance'] = distanceString;
-                          //     pass['initialLat'] = initialLat;
-                          //     pass['initialLong'] = initialLong;
-                          //     pass['listOfLatLng'] = listOfLatLng;
-                          //     pass['index'] = -1;
-
-                          //     double max_elevation = 0.0;
-                          //     altitude_list.forEach((element) {
-                          //       if (element > max_elevation) {
-                          //         max_elevation = element;
-                          //       }
-                          //     });
-                          //     pass['max_elevation'] =
-                          //         max_elevation.toStringAsFixed(2);
-                          //     pass['average_pace'] = show_av_pace_string;
-                          //     pass['time'] = duration_hours +
-                          //         ':' +
-                          //         duration_minutes +
-                          //         ':' +
-                          //         duration_seconds;
-
-                          //     Navigator.pushNamed(
-                          //         context, Additional_stats.routeName,
-                          //         arguments: pass);
-                          //   },
-                          //   child: Container(
-                          //     child: Text('Detailed Stats'),
-                          //   ),
-                          // ),
                           Container(
                             height: 0.165 * _screenHeight,
                             child: Row(
@@ -502,7 +471,7 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                           builder: (ctx) {
                                             print("show dialog initialized");
                                             return Container(
-                                              color: Color(0xFF93B5C6),
+                                              color: Color(0xFFC9CCD5),
                                               child: Container(
                                                 margin: EdgeInsets.only(
                                                   top: 0.03 * _screenHeight,
@@ -542,6 +511,10 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                     ),
                                                     Column(
                                                       children: [
+                                                        SizedBox(
+                                                          height: 0.05 *
+                                                              _screenHeight,
+                                                        ),
                                                         Container(
                                                           width: 0.3 *
                                                               _screenWidth,
@@ -553,8 +526,6 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                               children: [
                                                                 Text(
                                                                   "Public",
-                                                                  textScaleFactor:
-                                                                      0.8,
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           'Gilroy',
@@ -572,7 +543,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                 )
                                                               ],
                                                             ),
-                                                            onPressed: () {
+                                                            onPressed:
+                                                                () async {
                                                               is_private =
                                                                   "false";
                                                               if (activity_name_controller
@@ -584,30 +556,59 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .text
                                                                         .trim();
                                                               }
-
-                                                              runStatsProvider
-                                                                  .addNewRunData(
-                                                                Data_Provider()
-                                                                    .name,
-                                                                activity_name,
-                                                                is_private,
-                                                                dateOfRun,
-                                                                av_pace_string,
-                                                                distanceString,
-                                                                startTime,
-                                                                duration_hours,
-                                                                duration_minutes,
-                                                                duration_seconds,
-                                                                listOfLatLng,
-                                                                initialLat,
-                                                                initialLong,
-                                                                pace_list,
-                                                                altitude_list,
-                                                              )
-                                                                  .catchError(
-                                                                      (error) {
-                                                                print(error);
-                                                                return showDialog<
+                                                              
+                                                              try {
+                                                                setState(() {
+                                                                saving_flag = true;
+                                                              });
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                print(
+                                                                    "came after pop statements");
+                                                                await runStatsProvider
+                                                                    .addNewRunData(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                                await runStatsProvider
+                                                                    .addNewRunDataPublic(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                              } catch (error) {
+                                                                setState(() {
+                                                                saving_flag = false;
+                                                              });
+                                                                showDialog<
                                                                     Null>(
                                                                   context:
                                                                       context,
@@ -628,18 +629,17 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                     ],
                                                                   ),
                                                                 );
-                                                              }).then(
-                                                                (_) {
-                                                                  setState(() {
-                                                                    _isLoading =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pushReplacementNamed(
+                                                              }
+
+                                                              setState(() {
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                              Navigator
+                                                                  .pushReplacementNamed(
                                                                       context,
                                                                       HomeScreen
                                                                           .routeName);
-                                                                },
-                                                              );
                                                             },
                                                           ),
                                                         ),
@@ -673,7 +673,8 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                 )
                                                               ],
                                                             ),
-                                                            onPressed: () {
+                                                            onPressed:
+                                                                () async {
                                                               is_private =
                                                                   "true";
 
@@ -686,30 +687,39 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                         .text
                                                                         .trim();
                                                               }
-
-                                                              runStatsProvider
-                                                                  .addNewRunData(
-                                                                Data_Provider()
-                                                                    .name,
-                                                                activity_name,
-                                                                is_private,
-                                                                dateOfRun,
-                                                                av_pace_string,
-                                                                distanceString,
-                                                                startTime,
-                                                                duration_hours,
-                                                                duration_minutes,
-                                                                duration_seconds,
-                                                                listOfLatLng,
-                                                                initialLat,
-                                                                initialLong,
-                                                                pace_list,
-                                                                altitude_list,
-                                                              )
-                                                                  .catchError(
-                                                                      (error) {
-                                                                print(error);
-                                                                return showDialog<
+                                                              try {
+                                                                setState(() {
+                                                                saving_flag = true;
+                                                              });
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                print(
+                                                                    "came after pop statements");
+                                                                await runStatsProvider
+                                                                    .addNewRunData(
+                                                                  Data_Provider()
+                                                                      .name,
+                                                                  activity_name,
+                                                                  is_private,
+                                                                  dateOfRun,
+                                                                  av_pace_string,
+                                                                  distanceString,
+                                                                  startTime,
+                                                                  duration_hours,
+                                                                  duration_minutes,
+                                                                  duration_seconds,
+                                                                  listOfLatLng,
+                                                                  initialLat,
+                                                                  initialLong,
+                                                                  pace_list,
+                                                                  altitude_list,
+                                                                );
+                                                              } catch (error) {
+                                                                setState(() {
+                                                                saving_flag = false;
+                                                              });
+                                                                showDialog<
                                                                     Null>(
                                                                   context:
                                                                       context,
@@ -730,18 +740,17 @@ class _ShowResultsScreenState extends State<ShowResultsScreen> {
                                                                     ],
                                                                   ),
                                                                 );
-                                                              }).then(
-                                                                (_) {
-                                                                  setState(() {
-                                                                    _isLoading =
-                                                                        false;
-                                                                  });
-                                                                  Navigator.pushReplacementNamed(
+                                                              }
+
+                                                              setState(() {
+                                                                _isLoading =
+                                                                    false;
+                                                              });
+                                                              Navigator
+                                                                  .pushReplacementNamed(
                                                                       context,
                                                                       HomeScreen
                                                                           .routeName);
-                                                                },
-                                                              );
                                                             },
                                                           ),
                                                         ),

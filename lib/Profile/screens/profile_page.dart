@@ -21,6 +21,7 @@ class _ProfileState extends State<Profile> {
     height = temp[0];
     weight = temp[1];
     bmi = temp[2];
+    setState(() {});
   }
 
   @override
@@ -53,7 +54,7 @@ class _ProfileState extends State<Profile> {
               fontFamily: 'Gilroy',
             ),
           ),
-         // centerTitle: true,
+          // centerTitle: true,
         ),
         body: ListView(
           children: [
@@ -270,11 +271,10 @@ class _ProfileState extends State<Profile> {
                       child: Text(
                         bmi.toStringAsFixed(2),
                         style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Gilroy',
-                          fontSize: 0.1 * _screenHeight,
-                          fontWeight: FontWeight.bold
-                        ),
+                            color: Colors.black,
+                            fontFamily: 'Gilroy',
+                            fontSize: 0.1 * _screenHeight,
+                            fontWeight: FontWeight.bold),
                       ),
                     )
                   ],

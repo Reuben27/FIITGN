@@ -46,7 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   insideInIt() async {
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
-    final workoutDataProvider = Provider.of<Workouts_Provider>(context, listen: false);
+    final workoutDataProvider =
+        Provider.of<Workouts_Provider>(context, listen: false);
     print("Home Screen Inside init has succesfully run");
     // TO IMPROVISE SECURITY TOKEN WILL BE SET LATER
   }
@@ -189,17 +190,112 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView(
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 5.0, 15.0),
+                  padding: EdgeInsets.only(
+                    left: 0.04 * _screenWidth,
+                    top: 0.05 * _screenHeight,
+                    bottom: 0.01 * _screenHeight,
+                  ),
                   decoration: BoxDecoration(
                     color: Color(0xFF93B5C6),
                   ),
                   child: Text(
                     'Fitness \nSimplified!',
                     style: TextStyle(
+                      fontFamily: 'Gilroy',
                       color: Colors.white,
-                      fontSize: 28,
+                      fontSize: 0.04 * _screenHeight,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+                Container(
+                  color: Color(0xFFC9CCD5),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 0.025 * _screenHeight,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 0.075 * _screenHeight,
+                        width: 0.075 * _screenHeight,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: Colors.black,
+                              width: 0.0025 * _screenHeight),
+                          image: DecorationImage(
+                            image: NetworkImage(Data_Provider().user_display),
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Center(
+                        child: Text(
+                          Data_Provider().name,
+                          style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 0.03 * _screenHeight,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 0.035 * _screenHeight,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        //mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 0.04 * _screenWidth,
+                          ),
+                          Icon(FontAwesomeIcons.running),
+                          SizedBox(
+                            width: 0.015 * _screenWidth,
+                          ),
+                          Text(
+                            '$total_runs' + ' runs recorded.',
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.022 * _screenHeight,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.0),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        //mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 0.04 * _screenWidth,
+                          ),
+                          Icon(Icons.cloud_upload_outlined),
+                          SizedBox(
+                            width: 0.015 * _screenWidth,
+                          ),
+                          Text(
+                            '$shared_runs' + ' runs shared with community!',
+                            style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontSize: 0.022 * _screenHeight,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 0.025 * _screenHeight,
+                      ),
+                    ],
                   ),
                 ),
                 ListTile(
@@ -298,73 +394,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 0.03 * _screenHeight),
                       )),
                 ),
-                SizedBox(height: 0.3 * _screenHeight),
-                Container(
-                  alignment: Alignment.center,
-                  height: 0.15 * _screenHeight,
-                  width: 0.15 * _screenHeight,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        color: Colors.black, width: 0.0025 * _screenHeight),
-                    image: DecorationImage(
-                      image: NetworkImage(Data_Provider().user_display),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Center(
-                  child: Text(
-                    Data_Provider().name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(FontAwesomeIcons.running),
-                    SizedBox(width: 5.0),
-                    Text(
-                      '$total_runs' + ' runs recorded.',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.0),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.cloud_upload_outlined),
-                    SizedBox(width: 5.0),
-                    Text(
-                      '$shared_runs' + ' runs shared with community!.',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 25.0),
+                // SizedBox(height: 0.3 * _screenHeight),
               ],
             ),
           ),
 
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
             actions: [
               Padding(
                 padding: EdgeInsets.symmetric(

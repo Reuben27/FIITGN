@@ -52,7 +52,9 @@ class _NutritionScreenState extends State {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
-          appBar: AppBar(
+          appBar: AppBar( iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
             backgroundColor: Color(0xFF93B5C6),
             bottom: TabBar(
               indicatorWeight: 0.002 * _screenHeight,
