@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "412626335176",
+    "firebase_url": "https://fiitgn-6aee7-default-rtdb.firebaseio.com",
     "project_id": "fiitgn-6aee7",
     "storage_bucket": "fiitgn-6aee7.appspot.com"
   },
@@ -14,11 +15,99 @@
       },
       "oauth_client": [
         {
+          "client_id": "412626335176-1pda533vf7egfhnc4u70q1ln0u3os7ro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "19bc96800731a49da62d3fecd8fc65150e2767ee"
+          }
+        },
+        {
           "client_id": "412626335176-3dqcsk01jb6fjh7q9ibgjuasphn4rodr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iitgn.fiitgn",
             "certificate_hash": "a1c05e4c4bbd97d746b5c3ffdb68ec5102c7da56"
+          }
+        },
+        {
+          "client_id": "412626335176-3gsijc8hebu71800ljempahk8mvvtsod.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "6f9ee832328801d3836b9d365716ace95923b755"
+          }
+        },
+        {
+          "client_id": "412626335176-fgaqoo6uooijdmdtvj88s59rjls4jfjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "7f3df7eb7e6e2c5713ebac1957cf6cc05f7d90b0"
+          }
+        },
+        {
+          "client_id": "412626335176-h7j1h02k7dpikck2lb04rk9o7agn053d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "511e543453312f50fadbe7b84ef28f0d218871e9"
+          }
+        },
+        {
+          "client_id": "412626335176-i42hrbha1leofsnep76g4ue9rhl8na8r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "8d95516a54ec4593e0cdf18dd43ff77e31156759"
+          }
+        },
+        {
+          "client_id": "412626335176-im9sb6glj7748rhdliphmgg6tqp9t24s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "db6788aae722bc970e12e95d03459baf8633796d"
+          }
+        },
+        {
+          "client_id": "412626335176-lps05oh9h6ji1inhpn0gosdfhi1v880b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "df2ee54016c858baabb8079458d8a53c3f03ad22"
+          }
+        },
+        {
+          "client_id": "412626335176-madmvcc29cnjdq8m0if1qud4gt2udogj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "0b3ef8d37e763d8ace62a78f2018370e4405d08c"
+          }
+        },
+        {
+          "client_id": "412626335176-mm9ev10abgldhsr5aafhflhhpunet4ga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "f409f432948e8a68542137a27115c76e86e09ad8"
+          }
+        },
+        {
+          "client_id": "412626335176-nl15jq1aa0sdmhucuvfgku04de8pvjm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "b47c3697d939ca9ae021b5377d6a3ada7bda6db5"
+          }
+        },
+        {
+          "client_id": "412626335176-qv91dm5ud4u8sdbr5nhnnrgkbh6of5oc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iitgn.fiitgn",
+            "certificate_hash": "b4182e12a8916a265f183a4d6fb8018207c73719"
           }
         },
         {
@@ -37,6 +126,13 @@
             {
               "client_id": "412626335176-ajdk6n3vmpvi9106j9nahghal8cjceai.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "412626335176-guj1naoo5kssime5f7n1cd6gj58k27kk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.iitgn.fiitgn"
+              }
             }
           ]
         }
