@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CycleDataProvider with ChangeNotifier {
-  // String _uid;
+  // String _uid;   
   // String _token;
 
   List<CycleModel> _yourCycleList = [
