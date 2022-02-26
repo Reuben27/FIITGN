@@ -12,6 +12,7 @@ import 'dart:math';
 import 'ShowRunResults.dart';
 import 'package:background_location/background_location.dart' as bLoc;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = 'NewMapScreen';
@@ -22,6 +23,24 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final StopWatchTimer stopWatchTimer = StopWatchTimer();
   final isHours = true;
+  bool is_first_run = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // Obtain shared preferences.
+    in_init();
+
+    super.initState();
+  }
+
+  void in_init() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('is_first_run')) {
+      is_first_run = prefs.getBool('is_first_run');
+    }
+    // setState(() {});
+  }
 
   final GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   int finishFlag = 0; // flag to check if finish should be showed or no
@@ -81,7 +100,36 @@ class _MapScreenState extends State<MapScreen> {
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  pause_run() async {
+  // ignore: non_constant_identifier_names
+  generate_community_alert_box(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Location permission"),
+      content: Text(
+        "To provide a better user experience, FIITGN collects location data to enable fitness tracking even when the app is closed. This data is only used for usage statistics.",
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  pause_run(BuildContext ctx) async {
     print("Pausing RUN");
     await bLoc.BackgroundLocation.stopLocationService();
     // await bLoc.BackgroundLocation.stopLocationService();
@@ -92,17 +140,18 @@ class _MapScreenState extends State<MapScreen> {
     print("run has been paused");
   }
 
-  resume_run() async {
+  resume_run(BuildContext ctx) async {
     print("RESUMING RUN");
     // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     setState(() {
       resume_end_flag = 0;
     });
-    start_run();
+    start_run(ctx);
   }
 
-  start_run() async {
+  start_run(BuildContext ctx) async {
     print("starting RUN");
+
     await bLoc.BackgroundLocation.startLocationService();
     if (Platform.isAndroid) {
       await bLoc.BackgroundLocation.setAndroidNotification(
@@ -310,7 +359,7 @@ class _MapScreenState extends State<MapScreen> {
     return (distance);
   }
 
-  void getCurrentLocation() async {
+  void getCurrentLocation(BuildContext ctx) async {
     print("RUNNING HAS STARTED");
     try {
       loc.LocationData location = await _locationTracker.getLocation();
@@ -352,7 +401,7 @@ class _MapScreenState extends State<MapScreen> {
 
       ///////%%%%%%%%%%%%%%%%%%
       // STARTING stopwatch
-      start_run();
+      start_run(ctx);
     } on PlatformException catch (e) {
       print("error");
       print(e.toString());
@@ -404,9 +453,10 @@ class _MapScreenState extends State<MapScreen> {
         textScaleFactor: 0.8,
       ),
       child: (Scaffold(
-        appBar: AppBar( iconTheme: IconThemeData(
-              color: Colors.black,
-            ),
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
           backgroundColor: Color(0xFF93B5C6),
           //centerTitle: true,
           title: Text(
@@ -425,7 +475,7 @@ class _MapScreenState extends State<MapScreen> {
               Navigator.pushReplacementNamed(context, HomeScreen.routeName);
             } else {
               _showSnackBar();
-              pause_run();
+              pause_run(context);
             }
 
             // return _onBackPressed();
@@ -721,8 +771,18 @@ class _MapScreenState extends State<MapScreen> {
                                       child: InkWell(
                                         // print("%%%%%%%%%%%%%%%%%");
                                         // print("starting the run");
-                                        onTap: () {
-                                          getCurrentLocation();
+                                        onTap: () async {
+                                          if (is_first_run) {
+                                            await generate_community_alert_box(
+                                                context);
+                                            final prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            prefs.setBool(
+                                                'is_first_run', false);
+                                            is_first_run = false;
+                                          } else
+                                            getCurrentLocation(context);
                                           // getCurrentLocation().then((value) {
                                           //   print("entered run block");
                                           //   start_run();
@@ -762,7 +822,7 @@ class _MapScreenState extends State<MapScreen> {
                                             Container(
                                               child: InkWell(
                                                 onTap: () {
-                                                  resume_run();
+                                                  resume_run(context);
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
@@ -900,7 +960,7 @@ class _MapScreenState extends State<MapScreen> {
                                       child: Center(
                                         child: InkWell(
                                           onTap: () {
-                                            pause_run();
+                                            pause_run(context);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
