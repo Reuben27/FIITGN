@@ -100,7 +100,7 @@ class _YourRunsState extends State<YourRuns> {
               // centerTitle: true,
               backgroundColor: Color(0xFF93B5C6),
               title: Text(
-                'YOUR ACTIVTIES',
+                'YOUR ACTIVITIES',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -127,7 +127,7 @@ class _YourRunsState extends State<YourRuns> {
                 // centerTitle: true,
                 backgroundColor: Color(0xFF93B5C6),
                 title: Text(
-                  'YOUR ACTIVTIES',
+                  'YOUR ACTIVITIES',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,

@@ -446,29 +446,29 @@ class _Additional_statsState extends State<Additional_stats> {
                         //   ],
                         // ),
                         // SizedBox(height: 40),
-                        pace_list.length > 0
-                            ? Center(
-                                child: Text(
-                                'PACE',
-                                style: TextStyle(
-                                  fontFamily: 'Gilroy',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 0.05 * _screenHeight,
-                                ),
-                                textAlign: TextAlign.center,
-                              ))
-                            : Container(),
-                        pace_list.length > 0
-                            ? SizedBox(
-                                width: _screenWidth,
-                                height: 0.4 * _screenHeight,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 0.05 * _screenWidth,
-                                      vertical: 0.01 * _screenHeight),
-                                  child: PaceChartWidget(pace_list: pace_list),
-                                ))
-                            : Container(),
+                        // pace_list.length > 0
+                        //     ? Center(
+                        //         child: Text(
+                        //         'PACE',
+                        //         style: TextStyle(
+                        //           fontFamily: 'Gilroy',
+                        //           fontWeight: FontWeight.bold,
+                        //           fontSize: 0.05 * _screenHeight,
+                        //         ),
+                        //         textAlign: TextAlign.center,
+                        //       ))
+                        //     : Container(),
+                        // pace_list.length > 0
+                        //     ? SizedBox(
+                        //         width: _screenWidth,
+                        //         height: 0.4 * _screenHeight,
+                        //         child: Padding(
+                        //           padding: EdgeInsets.symmetric(
+                        //               horizontal: 0.05 * _screenWidth,
+                        //               vertical: 0.01 * _screenHeight),
+                        //           child: PaceChartWidget(pace_list: pace_list),
+                        //         ))
+                        //     : Container(),
                         altitude_list.length > 0
                             ? Center(
                                 child: Text(
