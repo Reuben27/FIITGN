@@ -96,7 +96,7 @@ class _MapScreenState extends State<MapScreen> {
   // Average speed per kilometer
   double currentKmsCovered = 0.0;
   List<int> timePerKm = []; // in seconds
-  List<double> speedPerKm = []; // in m/s
+  // List<double> speedPerKm = []; // in m/s
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,7 +150,15 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   start_run(BuildContext ctx) async {
-    print("starting RUN");
+    // List timeList = displayTime.split(":");
+    // int duration_hours_int = int.parse(timeList[0]);
+    // int duration_minutes_int = int.parse(timeList[1]);
+    // int duration_seconds_int = int.parse(timeList[2]);
+    // print("THE TIMES ARE AS FOLLOWS");
+    // print(duration_seconds_int);
+    // print(duration_minutes_int);
+    // print(duration_hours_int);
+    // print("starting RUN");
 
     await bLoc.BackgroundLocation.startLocationService();
     if (Platform.isAndroid) {
@@ -229,12 +237,8 @@ class _MapScreenState extends State<MapScreen> {
         // } else {
 
         // adding "if check" to make the initial distance jump go away
-        if (distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                finalLongitude) <
-            0.1) {
-          distance = distance +
-              distanceCovered(initialLatitude, initialLongitude, finalLatitude,
-                  finalLongitude);
+        if (distanceCovered(initialLatitude, initialLongitude, finalLatitude, finalLongitude) < 0.1) {
+          distance = distance + distanceCovered(initialLatitude, initialLongitude, finalLatitude, finalLongitude);
           if (distance == 0.00) {
             pace_string = "0.0";
           }
@@ -255,37 +259,37 @@ class _MapScreenState extends State<MapScreen> {
                 }
                 int timeForCurrentKm = totalTime - preceeding_sum;
                 timePerKm.add(timeForCurrentKm);
-                double speedForCurrentKm =
-                    (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
-                speedPerKm.add(
-                  double.parse(
-                    speedForCurrentKm.toStringAsFixed(2),
-                  ),
-                );
+                // double speedForCurrentKm =
+                //     (1000 + 0.0) / timeForCurrentKm; // speed is in m/s
+                // speedPerKm.add(
+                //   double.parse(
+                //     speedForCurrentKm.toStringAsFixed(2),
+                //   ),
+                // );
               } else {
                 timePerKm.add(totalTime); // total time in seconds is stored
                 // should be converted to hrs, mins, secs when displaying using timePerKmcomps()
-                double speedForCurrentKm = (1000 + 0.0) / totalTime;
-                speedPerKm.add(
-                  double.parse(
-                    speedForCurrentKm.toStringAsFixed(2),
-                  ),
-                );
+                // double speedForCurrentKm = (1000 + 0.0) / totalTime;
+                // speedPerKm.add(
+                //   double.parse(
+                //     speedForCurrentKm.toStringAsFixed(2),
+                //   ),
+                // );
               }
               currentKmsCovered += 1;
             }
           }
         }
         // print("Distance is $dist metres");
-        double speed = location.speed;
-        if (speed > 0.0 && speed.isFinite) {
-          double current_pace = (1 / speed) * (100 / 6);
-          current_pace_string = (current_pace.floor()).toStringAsFixed(0) +
-              ":" +
-              ((current_pace - current_pace.floor()) * 60).toStringAsFixed(0);
-        } else {
-          current_pace_string = '0:0';
-        }
+        // double speed = location.speed;
+        // if (speed > 0.0 && speed.isFinite) {
+        //   double current_pace = (1 / speed) * (100 / 6);
+        //   current_pace_string = (current_pace.floor()).toStringAsFixed(0) +
+        //       ":" +
+        //       ((current_pace - current_pace.floor()) * 60).toStringAsFixed(0);
+        // } else {
+        //   current_pace_string = '0:0';
+        // }
         // speedString = speed.toStringAsFixed(1);
         // double pace = (1 / speed) * (100.0 / 6);
         List t_list = displayTime.split(":");
@@ -658,17 +662,6 @@ class _MapScreenState extends State<MapScreen> {
                                           },
                                         ),
                                       ),
-                                      // Container(
-                                      //   child: Center(
-                                      //     child: Text(
-                                      //       'DURATION',
-                                      //       style: TextStyle(
-                                      //           fontSize: 0.018 * _screenHeight,
-                                      //           //      color: Colors.white,
-                                      //           fontFamily: 'Gilroy'),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -720,48 +713,6 @@ class _MapScreenState extends State<MapScreen> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   height: 0.15 * _screenHeight,
-                        //   child: Column(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       Container(
-                        //         alignment: Alignment.center,
-                        //         child: StreamBuilder<int>(
-                        //           stream: stopWatchTimer.rawTime,
-                        //           initialData: stopWatchTimer.rawTime.value,
-                        //           builder: (context, snapshot) {
-                        //             final value = snapshot.data;
-                        //             displayTime = StopWatchTimer.getDisplayTime(
-                        //                 value,
-                        //                 hours: isHours,
-                        //                 milliSecond: false);
-                        //             return Text(
-                        //               displayTime,
-                        //               style: TextStyle(
-                        //                   fontFamily: 'Gilroy',
-                        //                   fontSize: 0.07 * _screenHeight,
-                        //                   // color: Colors.white,
-                        //                   fontWeight: FontWeight.bold),
-                        //             );
-                        //           },
-                        //         ),
-                        //       ),
-                        //       Container(
-                        //         child: Center(
-                        //           child: Text(
-                        //             'DURATION',
-                        //             style: TextStyle(
-                        //                 fontSize: 0.018 * _screenHeight,
-                        //                 //      color: Colors.white,
-                        //                 fontFamily: 'Gilroy'),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-
                         pauseFlag == 0
                             ? Expanded(
                                 child: Container(

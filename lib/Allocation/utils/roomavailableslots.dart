@@ -30,13 +30,15 @@ List<String> timeofDay = [
   "23"
 ];
 
+int numberofdaysinadvance = 2;
+
 Future<void> getslots() async {
   CollectionReference currentroom = FirebaseFirestore.instance.collection(sportroomid);
   DocumentSnapshot documentSnapshot = await currentroom.doc(selectedroomid).get();
   var bookedslots, numberofslots;
   bookedornot = [];
 
-  for(int i = 0; i < 8; i++){
+  for(int i = 0; i < numberofdaysinadvance; i++){
     bookedornot.add(List.filled(24, 0));
   }
 
@@ -45,17 +47,22 @@ Future<void> getslots() async {
   if (documentSnapshot.exists) {
     bookedslots = await documentSnapshot['bookedslots'];
     numberofslots = await documentSnapshot['numberofbookedslots'];
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < numberofdaysinadvance; i++){
       for(int j = 0; j < 24; j++){
-        String today = DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: i))).trim();
-        today = today + " " + timeofDay[j] + ":00:00.000";
-        //print("today" + today);
         int flag = 0;
-        for(int k = 0; k < numberofslots; k++){
-          //print(bookedslots[k.toString()][0]);         
-          if(bookedslots[k.toString()][0] == today){
-            flag = 1;
-            break;
+        if(j < 6 || (j > 10 && j < 18) || j > 22){
+          flag = 1;
+        }
+        else{
+          String today = DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: i))).trim();
+          today = today + " " + timeofDay[j] + ":00:00.000";
+          //print("today" + today);
+          for(int k = 0; k < numberofslots; k++){
+            //print(bookedslots[k.toString()][0]);         
+            if(bookedslots[k.toString()][0] == today){
+              flag = 1;
+              break;
+            }
           }
         }
         bookedornot[i][j] = flag;

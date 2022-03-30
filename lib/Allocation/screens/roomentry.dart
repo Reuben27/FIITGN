@@ -116,7 +116,7 @@ class _RoomEntryState extends State<RoomEntry> {
                     height: 0.15 * _screenHeight,
                     child: CupertinoDatePicker(
                       minimumDate: DateTime.now(),
-                      maximumDate: DateTime.now().add(Duration(days: 7)),
+                      maximumDate: DateTime.now().add(Duration(days: 1)),
                       mode: CupertinoDatePickerMode.date,
                       initialDateTime: DateTime.now(),
                       onDateTimeChanged: (DateTime newDateTime) {
