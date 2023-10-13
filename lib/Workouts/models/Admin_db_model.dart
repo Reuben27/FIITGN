@@ -34,14 +34,23 @@ class GetAdminDataFromGoogleSheetProvider with ChangeNotifier {
   static const url =
       "https://script.google.com/macros/s/AKfycbx57muC0PlTGKmlkLTfrKP4Om9QJn1pjtVShNxc0Hxv7F5z9Sx5JB1xxhxGyiwchOw/exec";
   getListOfAdmins() async {
-    await http.get(Uri.parse(url)).then((response) {
-      var jsonFeedback = convert.jsonDecode(response.body) as List;
-      print(jsonFeedback);
-      _listAdmin =
-          jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
+    print("hello");
+    var jsonFeedback = {{
+      'email id': "reuben.sd@iitgn.ac.in",
+      'name': "Reuben Devanesan",
+      'unique id': "reuben.sd@iitgn.ac.in",
+    }};
+    _listAdmin = jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
 
-      notifyListeners();
-    });
+    notifyListeners();
+    // await http.get(Uri.parse(url)).then((response) {
+    //   var jsonFeedback = convert.jsonDecode(response.body) as List;
+    //   print(jsonFeedback);
+    //   _listAdmin =
+    //       jsonFeedback.map((json) => AdminDbModel.fromJson(json)).toList();
+
+    //   notifyListeners();
+    // });
     return null;
   }
 

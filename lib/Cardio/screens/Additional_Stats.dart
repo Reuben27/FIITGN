@@ -3,8 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import '../providers/RunModel.dart';
 import 'package:provider/provider.dart';
 import '../providers/RunDataProvider.dart';
-
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 import 'package:flutter_map/flutter_map.dart';
 
 class Additional_stats extends StatefulWidget {
@@ -612,27 +611,25 @@ class ElevationWidget extends StatelessWidget {
         maxY: max_altitude,
         clipData: FlClipData.all(),
         titlesData: FlTitlesData(
-          rightTitles: SideTitles(showTitles: false),
-          topTitles: SideTitles(showTitles: false),
-          bottomTitles: SideTitles(showTitles: false),
-          leftTitles: SideTitles(
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: AxisTitles(sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40,
-            margin: 8,
             interval: 2,
-            getTitles: (value) {
-              return (value.toInt().toString() + 'm');
+            getTitlesWidget: (double value, TitleMeta meta) {
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                child: Text(value.toInt().toString() + 'm'),
+              );
             },
+            // getTitles: (value) {
+            //   return (value.toInt().toString() + 'm');
+            // },
+          )
           ),
         ),
-        axisTitleData: FlAxisTitleData(
-            bottomTitle: AxisTitle(
-                showTitle: true,
-                titleText: 'Distance',
-                textStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                ))),
         gridData: FlGridData(
             show: true,
             getDrawingHorizontalLine: (value) =>
@@ -645,15 +642,11 @@ class ElevationWidget extends StatelessWidget {
           LineChartBarData(
               spots: spots,
               isCurved: true,
-              colors: gradientColors,
+              color: const Color(0xff23b6e6),
               barWidth: 5,
               belowBarData: BarAreaData(
                 show: true,
-                colors: gradientColors
-                    .map(
-                      (color) => color.withOpacity(0.3),
-                    )
-                    .toList(),
+                color: const Color(0xff23b6e6),
               )),
         ],
       ),
@@ -750,25 +743,37 @@ class PaceChartWidget extends StatelessWidget {
         maxY: max_pace,
         clipData: FlClipData.all(),
         titlesData: FlTitlesData(
-          rightTitles: SideTitles(showTitles: false),
-          topTitles: SideTitles(showTitles: false),
-          bottomTitles: SideTitles(
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles:AxisTitles(sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40,
-            margin: 8,
             interval: 1,
-            getTitles: (value) {
-              return (value.toInt().toString() + 'km');
+            getTitlesWidget: (double value, TitleMeta meta) {
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                child: Text(value.toInt().toString() + 'km'),
+              );
             },
+            // getTitles: (value) {
+            //   return (value.toInt().toString() + 'm');
+            // },
+          )
           ),
-          leftTitles: SideTitles(
+          leftTitles: AxisTitles(sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 50,
-            margin: 8,
+            reservedSize: 40,
             interval: 2,
-            getTitles: (value) {
-              return (value.toInt().toString() + 'min');
+            getTitlesWidget: (double value, TitleMeta meta) {
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                child: Text(value.toInt().toString() + 'm'),
+              );
             },
+            // getTitles: (value) {
+            //   return (value.toInt().toString() + 'm');
+            // },
+          )
           ),
         ),
         gridData: FlGridData(
@@ -783,16 +788,13 @@ class PaceChartWidget extends StatelessWidget {
           LineChartBarData(
               spots: spots,
               isCurved: true,
-              colors: gradientColors,
+              color: const Color(0xff23b6e6),
               barWidth: 5,
               belowBarData: BarAreaData(
                 show: true,
-                colors: gradientColors
-                    .map(
-                      (color) => color.withOpacity(0.3),
-                    )
-                    .toList(),
-              )),
+                color: const Color(0xff23b6e6),
+              )
+          )
         ],
       ),
     );

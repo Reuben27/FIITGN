@@ -34,7 +34,7 @@ class SignInClass {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn(
-    hostedDomain: 'iitgn.ac.in',
+    // hostedDomain: 'iitgn.ac.in',
   );
   //     scopes: <String>[
   //   'email',
@@ -164,7 +164,7 @@ class _SignInGoogleState extends State<SignInGoogle> {
                         SignInButtonBuilder(
                           height: 0.06 * _screenHeight,
                           width: 0.5 * _screenWidth,
-                          text: 'Login with IITGN ID',
+                          text: 'Login with Gmail ID',
                           fontSize: 0.02 * _screenHeight,
                           icon: Icons.email,
                           onPressed: () async {

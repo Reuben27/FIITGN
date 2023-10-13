@@ -16,7 +16,7 @@
         <!--  -->   
     </queries>
    <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:label="FIITGN"
         android:icon="@mipmap/ic_launcher">
         <meta-data
@@ -24,6 +24,7 @@
             android:value="AIzaSyCAcr9DXbuRJ3InGIkI7p2iM3k-zxgzPxo"/>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -48,24 +49,24 @@
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
               android:resource="@drawable/launch_background"
               />
-
+            
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" android:exported="true"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
             <intent-filter>
-                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" android:exported="true"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
 
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
-		<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" android:exported="true"/>
+		<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:exported="true">
 			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" android:exported="true"/>
+				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" android:exported="true"/>
 			</intent-filter>
 		</receiver>
         <!-- Don't delete the meta-data below.

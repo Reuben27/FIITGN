@@ -15,9 +15,9 @@ class Time_BarChartWidget extends StatelessWidget {
       ret.add(
         BarChartGroupData(x: i + 1, barRods: [
           BarChartRodData(
-            y: time_per_km[i] + 0.0,
+            fromY: time_per_km[i] + 0.0,
             width: 20,
-            colors: [Colors.amber],
+            color: Colors.amber,
             // borderRadius:
           )
         ]),
@@ -41,8 +41,8 @@ class Time_BarChartWidget extends StatelessWidget {
           x: key,
           barRods: [
             BarChartRodData(
-                y: value,
-                colors: [Colors.amber],
+                fromY: value,
+                color: Colors.amber,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(6),
                 )),

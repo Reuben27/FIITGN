@@ -3,32 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
-  static final FlutterLocalNotificationsPlugin notificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static void initializeSetting(BuildContext context) async {
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     await notificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String route) async {
-      if (route != null) {
-        print(route);
-        // Navigator.of(context).pushNamed(route);
-      }
-    });
+        onDidReceiveNotificationResponse : (void route) async { });
   }
 
   static void display(RemoteMessage message) async {
     try {
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'Notifications', 'Notifications channel', 'To be used for Workouts',
+          'Notifications', 'Notifications channel',
           importance: Importance.max,
           priority: Priority.high,
           ticker: 'ticker');
-      var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+      var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
       var platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
           iOS: iOSPlatformChannelSpecifics);
