@@ -1,4 +1,4 @@
-package com.iitgn.fiitgn
+package dev.reuben.fiitgn
 
 import io.flutter.embedding.android.FlutterActivity
 
