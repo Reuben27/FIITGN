@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'SplashScreen.dart';
 
+var anonymous = false;
+
 // ignore: must_be_immutable
 class SignInGoogle extends StatefulWidget {
   static const routeName = '\SignInScreen';
@@ -20,11 +22,15 @@ class SignInGoogle extends StatefulWidget {
 }
 
 logoutUser() async {
-  final GoogleSignIn googleSignInObject = GoogleSignIn();
-  // FirebaseUser fireBaseUser;
-  // final FirebaseAuth fireBaseAuth = FirebaseAuth.instance;
-  print('Logging Out');
-  await googleSignInObject.signOut();
+  if(anonymous == false){
+    final GoogleSignIn googleSignInObject = GoogleSignIn();
+    // FirebaseUser fireBaseUser;
+    // final FirebaseAuth fireBaseAuth = FirebaseAuth.instance;
+    print('Logging Out');
+    await googleSignInObject.signOut();
+  }
+
+  anonymous = false;
   await FirebaseAuth.instance.signOut();
 }
 
@@ -42,52 +48,92 @@ class SignInClass {
   // ]);
   static var authHeaders;
 
-  signIn() async {
-    // print("Sign In Function was called");
-    GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    // print("%%%%%%%%%%%%%%%%%%%%");
-    authHeaders = await googleSignIn.currentUser.authHeaders;
-    // googleSignIn.currentUser.
-    // print("***************");
-    // print(authHeaders);
-    // print("***************");
-    // print("x");
-    GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-    AuthCredential credential = GoogleAuthProvider.credential(
-        idToken: googleSignInAuthentication.idToken,
-        accessToken: googleSignInAuthentication.accessToken);
-    // print("y");
-    UserCredential result = await _auth.signInWithCredential(credential);
-    // print("z");
-    User user = _auth.currentUser;
-    // print(user.uid);
-    final idTOKEN = await user.getIdToken();
-    String uid = user.uid;
-    // print("alpha");
-    // String token = idTOKEN.token;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print("range 1");
-    prefs.setString('uid', uid);
-    prefs.setString('email', user.email);
-    prefs.setString('name', user.displayName);
-    prefs.setString('userDisplay', user.photoURL);
-    // String uid = prefs.getString('uid');
-    String email = user.email;
-    String name = user.displayName;
-    String userDisplay = user.photoURL;
-    final data_provider = Provider.of<Data_Provider>(context, listen: false);
-    data_provider.setUid(uid);
-    data_provider.setEmailId(email);
-    data_provider.setDisplay(userDisplay);
-    data_provider.setName(name);
-    // print("range 2");
-    // print("Uids and tokens are set");
-    // prefs.setString('token', token);
-    // SignInGoogle().isSignedIn = true;
-    // isSignedInPrivate = true;
-    // print(SignInGoogle().isSignedIn);
-    // print("Sign In Successful");
-    // print("/////////////////////////");
+  signIn(var fl) async {
+    if(fl == 1){
+      // print("Sign In Function was called");
+      GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      // print("%%%%%%%%%%%%%%%%%%%%");
+      authHeaders = await googleSignIn.currentUser.authHeaders;
+      // googleSignIn.currentUser.
+      // print("***************");
+      // print(authHeaders);
+      // print("***************");
+      // print("x");
+      GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+      // print("y");
+      UserCredential result = await _auth.signInWithCredential(credential);
+      // print("z");
+      User user = _auth.currentUser;
+      // print(user.uid);
+      final idTOKEN = await user.getIdToken();
+      String uid = user.uid;
+      // print("alpha");
+      // String token = idTOKEN.token;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // print("range 1");
+      prefs.setString('uid', uid);
+      prefs.setString('email', user.email);
+      prefs.setString('name', user.displayName);
+      prefs.setString('userDisplay', user.photoURL);
+      // String uid = prefs.getString('uid');
+      String email = user.email;
+      String name = user.displayName;
+      String userDisplay = user.photoURL;
+      final data_provider = Provider.of<Data_Provider>(context, listen: false);
+      data_provider.setUid(uid);
+      data_provider.setEmailId(email);
+      data_provider.setDisplay(userDisplay);
+      data_provider.setName(name);
+      // print("range 2");
+      // print("Uids and tokens are set");
+      // prefs.setString('token', token);
+      // SignInGoogle().isSignedIn = true;
+      // isSignedInPrivate = true;
+      // print(SignInGoogle().isSignedIn);
+      // print("Sign In Successful");
+      // print("/////////////////////////");
+      anonymous = false;
+    } else if (fl == 2) {
+      UserCredential result = await _auth.signInAnonymously();
+      print("heyyy 1");
+      User user = _auth.currentUser;
+      print("heyyy");
+      // final idTOKEN = await user.getIdToken();
+      String uid = user.uid;
+      print(uid);
+      print("heyyy");
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("heyyy");
+      prefs.setString('uid', uid);
+      print("heyyy");
+      prefs.setString('email', 'anonymous@anonymous.com');
+      print("heyyy");
+      prefs.setString('name', 'Guest User');
+      print("heyyy");
+      prefs.setString('userDisplay', 'https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png');
+      print("heyyy");
+      String email = 'anonymous@anonymous.com';
+      print("heyyy");
+      String name = 'Guest User';
+      print("heyyy");
+      String userDisplay = 'https://cdn1.iconfinder.com/data/icons/social-black-buttons/512/anonymous-512.png';
+      print("heyyy");
+      final data_provider = Provider.of<Data_Provider>(context, listen: false);
+      print("heyyy");
+      data_provider.setUid(uid);
+      print("heyyy");
+      data_provider.setEmailId(email);
+      print("heyyy");
+      data_provider.setDisplay(userDisplay);
+      print("heyyy 33");
+      data_provider.setName(name);
+      print("heyyy 22");
+      anonymous = true;
+    }
+    
     Navigator.pushReplacementNamed(context, SplashScreen.routeName); // return true
   }
 
@@ -164,11 +210,23 @@ class _SignInGoogleState extends State<SignInGoogle> {
                         SignInButtonBuilder(
                           height: 0.06 * _screenHeight,
                           width: 0.5 * _screenWidth,
-                          text: 'Login with Gmail ID',
+                          text: 'Login with Google',
                           fontSize: 0.02 * _screenHeight,
                           icon: Icons.email,
                           onPressed: () async {
-                            await SignInClass(context: context).signIn();
+                            await SignInClass(context: context).signIn(1);
+                          },
+                          backgroundColor: Color(0xFF3F7B70),
+                        ),
+                        SizedBox(height: 20),
+                        SignInButtonBuilder(
+                          height: 0.06 * _screenHeight,
+                          width: 0.5 * _screenWidth,
+                          text: 'Login as Guest',
+                          fontSize: 0.02 * _screenHeight,
+                          icon: Icons.account_circle,
+                          onPressed: () async {
+                            await SignInClass(context: context).signIn(2);
                           },
                           backgroundColor: Color(0xFF3F7B70),
                         ),

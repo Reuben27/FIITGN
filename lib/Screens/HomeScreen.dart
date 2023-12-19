@@ -45,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int total_runs = 0;
 
   insideInIt() async {
+    print("helloe 2");
     final data_provider = Provider.of<Data_Provider>(context, listen: false);
+    print("helloe 1");
     final workoutDataProvider =
         Provider.of<Workouts_Provider>(context, listen: false);
     print("Home Screen Inside init has succesfully run");
@@ -53,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   initialize() async {
+    print("helloe 4");
     List temp = await getUserData(Data_Provider().uid);
+    print("helloe 3");
     setState(() {
       total_runs = temp[3];
       shared_runs = temp[4];
@@ -64,9 +68,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+     print("helloe 0");
     Future.delayed(Duration.zero).then((e) async {
       await insideInIt();
+       print("helloe 222");
       await initialize();
+       print("helloe 3333");
     });
   }
 

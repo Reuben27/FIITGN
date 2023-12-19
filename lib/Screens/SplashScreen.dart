@@ -10,6 +10,7 @@ import 'GAuth.dart';
 import 'HomeScreen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = 'splashScreen';
@@ -23,7 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(Duration.zero).then((_) async {
       final GoogleSignIn googleSignIn = GoogleSignIn();
-      bool isUserSignedIn = await googleSignIn.isSignedIn();
+      
+      bool isUserSignedIn;
+      if(anonymous == true){
+        isUserSignedIn = true;
+      } else {
+        isUserSignedIn = await googleSignIn.isSignedIn();
+      }
+
       // final prefs = await SharedPreferences.getInstance();
       // final signedInStatus = prefs.getBool('signedInStatus');
       if (isUserSignedIn == null || isUserSignedIn == false) {
